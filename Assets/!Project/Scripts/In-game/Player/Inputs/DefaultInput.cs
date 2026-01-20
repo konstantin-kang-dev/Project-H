@@ -8,12 +8,14 @@ public class DefaultInput : IInput
     public Vector2 CurrentMoveInput => GetInputMove();
     public Vector2 CurrentLookInput => GetInputLook();
 
+
     PlayerControls _playerControls;
 
     public DefaultInput()
     {
         _playerControls = new PlayerControls();
         _playerControls.Enable();
+
     }
     
     Vector2 GetInputMove()
@@ -23,5 +25,9 @@ public class DefaultInput : IInput
     Vector2 GetInputLook()
     {
         return _playerControls.Player.Look.ReadValue<Vector2>();
+    }
+    public bool IsSprinting()
+    {
+        return _playerControls.Player.Sprint.IsPressed();
     }
 }

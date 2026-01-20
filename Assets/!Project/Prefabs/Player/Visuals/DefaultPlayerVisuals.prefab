@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ee82911b8afd5479de0d663452d786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
+  _playerModelPrefab: {fileID: 4558873925194433394, guid: 6de47503b7fda664b9ed4a1d26dc0b8e, type: 3}
+  AnimatorController: {fileID: 0}

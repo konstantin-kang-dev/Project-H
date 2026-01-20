@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9f407cca7a44524b93b48c0fc3f8ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementService
+  _sprintSpeedMultiplier: 3
+  _acceleration: 0.05

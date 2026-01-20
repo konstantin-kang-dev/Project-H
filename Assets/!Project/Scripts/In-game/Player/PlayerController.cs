@@ -5,7 +5,6 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody _rb;
     CapsuleCollider _capsuleCollider;
-    Camera _camera;
 
     [SerializeField] PlayerStatsData _playerStatsData;
     PlayerStats _playerStats;
@@ -27,18 +26,22 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
-        _camera = GetComponentInChildren<Camera>();
 
         _playerStats = new PlayerStats(_playerStatsData);
 
+        _cameraController = Instantiate(_cameraControllerPrefab, transform);
+        _cameraController.Init();
+
         _playerVisuals = Instantiate(_playerVisualsPrefab, transform);
+        _playerVisuals.Init();
+        _cameraController.OnLookPositionUpdate += _playerVisuals.AnimatorController.SetLookPosition;
 
         _playerMovementService = Instantiate(_playerMovementServicePrefab, transform);
         _playerMovementService.Init(_playerStats, _rb, _capsuleCollider);
-        
-        _cameraController = Instantiate(_cameraControllerPrefab, transform);
-        _cameraController.Init(_camera);
+        _playerMovementService.OnWalkStart += _playerVisuals.HandleWalk;
+        _playerMovementService.OnWalkUpdate += _playerVisuals.HandleWalk;
 
-        
+        _cameraController.OnRotationUpdate += _playerMovementService.Rotate;
     }
+
 }

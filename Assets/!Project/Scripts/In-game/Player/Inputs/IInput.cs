@@ -6,4 +6,6 @@ public interface IInput
 {
     public Vector2 CurrentMoveInput { get;}
     public Vector2 CurrentLookInput { get;}
+
+    public bool IsSprinting();
 }
