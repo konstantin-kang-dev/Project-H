@@ -17,9 +17,10 @@ public class LocationManager : MonoBehaviour
 
     public Transform GetRandomClosestPoint(Vector3 point)
     {
-        int randomValidPoints = 3;
 
         List<Transform> points = LocationEnemyKeyPoints.OrderBy((x)=> Vector3.Distance(x.position, point)).ToList();
+
+        int randomValidPoints = points.Count < 3 ? points.Count : 3;
         points = points.GetRange(0, randomValidPoints);
 
         int randomKey = Random.Range(0, points.Count);

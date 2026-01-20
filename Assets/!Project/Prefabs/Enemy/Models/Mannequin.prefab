@@ -416,31 +416,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.362
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.50000006
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.189
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.9969228
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.07839078
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 351.008
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -461,6 +461,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0361bb13eb2191148b906e2e03360934, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -475,6 +483,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7847039606318137769}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3969174125987887119}
   m_SourcePrefab: {fileID: 100100000, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
 --- !u!1 &2757465139822477297 stripped
 GameObject:
@@ -493,6 +504,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc851100a4bc2b47a552a1c8bd0cd1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyModel
+--- !u!114 &3969174125987887119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2757465139822477297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a012ea5b2e80844afef976dbf43036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimatorController
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _animatorStates
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[AnimatorState, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[AnimatorState, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 1
+      Data: Idle
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 1
+      Data: Walk
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 1
+      Data: Run
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!4 &4624038243543498881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7687346004530709025, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}

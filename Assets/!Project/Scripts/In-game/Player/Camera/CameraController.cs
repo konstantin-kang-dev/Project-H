@@ -60,11 +60,4 @@ public class CameraController : MonoBehaviour
         OnRotationUpdate?.Invoke(_currentRotation);
     }
 
-    private void OnDrawGizmos()
-    {
-        if(!IsInitialized) return;
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(_lookPosition, 0.2f);
-    }
 }
