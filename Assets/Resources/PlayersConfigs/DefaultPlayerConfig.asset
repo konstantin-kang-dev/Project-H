@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DefaultPlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsData
   Health: 100
-  MoveSpeed: 10
+  MoveSpeed: 2
   JumpPower: 5
