@@ -11,18 +11,15 @@ public class LobbyManager : NetworkBehaviour
     public static LobbyManager Instance { get; private set; }
     [SerializeField] private NetworkManager _networkManager;
 
-    [SerializeField] private GameObject _lobbyPlayerPrefab;
-    private List<LobbyPlayer> _players = new();
-
-    [SerializeField] private List<Transform> _lobbySpawnPoints = new();
-
     private void Awake()
     {
         Instance = this;
     }
+
     public void StartHost()
     {
         _networkManager.ServerManager.StartConnection();
+
         _networkManager.ClientManager.StartConnection();
         Debug.Log("Host started");
     }
@@ -36,34 +33,43 @@ public class LobbyManager : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
+        SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
-        ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+        SceneManager.OnClientLoadedStartScenes -= OnClientLoadedStartScenes;
     }
 
-    private void OnRemoteConnectionState(NetworkConnection conn, FishNet.Transporting.RemoteConnectionStateArgs args)
+    public override void OnStartClient()
     {
-        if (args.ConnectionState == FishNet.Transporting.RemoteConnectionState.Started)
+        base.OnStartClient();
+
+        _networkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
+    }
+
+    private void OnClientLoadedStartScenes(NetworkConnection conn, bool asServer)
+    {
+        if (!asServer)
         {
-            SpawnLobbyPlayer(conn);
+            SceneLoadData sld = new SceneLoadData("Menu");
+            sld.ReplaceScenes = ReplaceOption.None;
+            _networkManager.SceneManager.LoadGlobalScenes(sld);
         }
+
+        Debug.Log($"Client {conn.ClientId} loaded start scenes");
     }
 
-    [Server]
-    private void SpawnLobbyPlayer(NetworkConnection conn)
+    void OnClientConnectionStateChange(ClientConnectionStateArgs args)
     {
-        NetworkObject nob = Instantiate(_lobbyPlayerPrefab).GetComponent<NetworkObject>();
-        ServerManager.Spawn(nob, conn);
 
-        _players.Add(nob.GetComponent<LobbyPlayer>());
-
-        Transform spawnPoint = _lobbySpawnPoints[_players.Count - 1];
-        nob.transform.position = spawnPoint.position;
-
-        Debug.Log($"Spawned lobby player for connection {conn.ClientId}");
+        Debug.Log($"[LobbyManager] Updated connection state: {args.ConnectionState}");
     }
 }
