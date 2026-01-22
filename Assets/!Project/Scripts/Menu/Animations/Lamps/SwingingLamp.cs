@@ -21,7 +21,6 @@ public class SwingingLamp : MonoBehaviour
             .SetEase(Ease.InOutQuad);
 
         sequence.Append(backwardTween);
-        sequence.Append(forwardTween);
 
         sequence.SetLoops(-1);
 
