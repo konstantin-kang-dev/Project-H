@@ -81,7 +81,7 @@ public class AggroController : MonoBehaviour
 
     void CheckForAggro()
     {
-        List<Player> allPlayers = GameManager.Instance.Players.ToList();
+        List<Player> allPlayers = GameManager.Instance.Players.Values.ToList();
 
         allPlayers = allPlayers.OrderBy((x)=> Vector3.Distance(transform.position, x.transform.position)).ToList();
 

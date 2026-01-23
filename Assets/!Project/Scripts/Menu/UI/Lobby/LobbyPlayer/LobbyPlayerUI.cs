@@ -10,6 +10,7 @@ public class LobbyPlayerUI : MonoBehaviour
 {
     [SerializeField] List<Button> _playerModelChangeBtns = new List<Button>();
     [SerializeField] TextMeshProUGUI _nicknameTmp;
+    [SerializeField] Image _readyIcon;
 
     public void BindActionsToModelChangeButtons(UnityAction leftBtnAction, UnityAction rightBtnAction)
     {
@@ -28,5 +29,10 @@ public class LobbyPlayerUI : MonoBehaviour
     public void SetNicknameText(string nickname)
     {
         _nicknameTmp.text = nickname;
+    }
+
+    public void SetReadyIconVisibility(bool visible)
+    {
+        _readyIcon.gameObject.SetActive(visible);
     }
 }

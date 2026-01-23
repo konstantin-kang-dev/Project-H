@@ -1,9 +1,13 @@
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 public class MenuManager : MonoBehaviour
 {
+    [Inject] MenuPageNavigator _menuPageNavigator;
+
     [SerializeField] MainMenuUI _menuUI;
+    [SerializeField] LobbyUI _lobbyUI;
     void Start()
     {
         Init();
@@ -14,40 +18,60 @@ public class MenuManager : MonoBehaviour
         _menuUI.BindActionToMenuButton(MenuButtonType.CreateLobby, HandleCreateLobbyButton);
         _menuUI.BindActionToMenuButton(MenuButtonType.JoinLobby, HandleJoinLobbyButton);
 
-        MenuPageNavigator.Instance.OnWindowOpened += HandleMainMenuWindowOpen;
-        MenuPageNavigator.Instance.OnWindowOpened += HandleLobbyWindowOpen;
+        _lobbyUI.BindActionToBackBtn(HandleLobbyBackBtn);
+        _lobbyUI.BindActionToStartBtn(HandleLobbyStartBtn);
+
+        _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
     }
 
     void HandleCreateLobbyButton()
     {
         LobbyManager.Instance.StartHost();
 
-        MenuPageNavigator.Instance.OpenWindow(MenuWindowType.Lobby);
+        _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
     }
     void HandleJoinLobbyButton()
     {
         LobbyManager.Instance.StartClient();
 
-        MenuPageNavigator.Instance.OpenWindow(MenuWindowType.Lobby);
+        _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
     }
 
-    void HandleMainMenuWindowOpen(MenuWindowType windowType)
+    void HandleLobbyBackBtn()
     {
-        if (windowType != MenuWindowType.MainMenu) return;
-
-        Vector3 startRot = Camera.main.transform.eulerAngles;
-        Camera.main.transform.DORotate(new Vector3(startRot.x, 0f, startRot.z), 0.3f).SetUpdate(UpdateType.Late);
+        _menuPageNavigator.OpenWindow(MenuWindowType.MainMenu);
     }
-    void HandleLobbyWindowOpen(MenuWindowType windowType)
+    void HandleLobbyStartBtn()
     {
-        if (windowType != MenuWindowType.Lobby) return;
+        LobbyManager.Instance.StartGame();
+    }
 
+    void HandleMenuWindowOpen(MenuWindowType windowType)
+    {
         Vector3 startRot = Camera.main.transform.eulerAngles;
-        Camera.main.transform.DORotate(new Vector3(startRot.x, 180f, startRot.z), 0.3f).SetUpdate(UpdateType.Late);
+
+        switch (windowType)
+        {
+            case MenuWindowType.MainMenu:
+                Camera.main.transform.DORotate(new Vector3(startRot.x, 0f, startRot.z), 0.6f).SetUpdate(UpdateType.Late).SetEase(Ease.OutQuart);
+                break;
+            case MenuWindowType.Lobby:
+                Camera.main.transform.DORotate(new Vector3(startRot.x, 180f, startRot.z), 0.6f).SetUpdate(UpdateType.Late).SetEase(Ease.OutQuart);
+                break;
+            default:
+                break;
+        }
+
     }
 
     void Update()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+
+        _menuPageNavigator.OnWindowOpened -= HandleMenuWindowOpen;
     }
 }

@@ -14,11 +14,12 @@ public class PlayerVisuals: MonoBehaviour
 
     [SerializeField] ParticleSystem _modelChangeVfx;
 
-    public event Action<PlayerModel> OnPlayerModelChanged;
+    public event Action<PlayerModel, AnimatorController> OnPlayerModelChanged;
     public bool IsInitialized { get; private set; } = false;
-    public void Init()
+    public void Init(int modelKey)
     {
-        
+        ChangePlayerModel(modelKey);
+        IsInitialized = true;
     }
 
     public void ChangePlayerModel(int key)
@@ -35,7 +36,8 @@ public class PlayerVisuals: MonoBehaviour
         AnimatorController.Init();
 
         _modelChangeVfx.Play();
-        OnPlayerModelChanged?.Invoke(_playerModel);
+        OnPlayerModelChanged?.Invoke(_playerModel, AnimatorController);
+        Debug.Log($"[PlayerVisuals] Changed model to: {key}");
     }
 
     public int GetRandomModelKey()

@@ -65,6 +65,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4558873925194433394}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7851667686720150502}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
 --- !u!1 &1076831995053657763 stripped
 GameObject:
@@ -88,16 +94,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig6:Hips'\n\tTransform 'mixamorig6:LeftHandIndex1'\n\tTransform
-    'mixamorig6:RightForeArm'\n\tTransform 'mixamorig6:Neck'\n\tTransform 'RightHandThumb3'\n\tTransform
-    'mixamorig6:RightHandMiddle2'\n\tTransform 'mixamorig6:RightToeBase'\n\tTransform
-    'mixamorig6:RightHandMiddle3'\n\tTransform 'mixamorig6:LeftHandPinky2'\n\tTransform
-    'mixamorig6:LeftToeBase'\n\tand more ...\n\tFrom animation clip 'Idle'\n\tFrom
-    animation clip 'Run_F2'\n\tFrom animation clip 'Walk_F'\n\tFrom animation clip
-    'Walk_R'\n\tFrom animation clip 'Walk_L'\n\tFrom animation clip 'Walk_B'\n\tFrom
-    animation clip 'Idle'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -115,14 +112,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScriptedAnimatorController
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 01010f0000005f0061006e0069006d00610074006f0072005300740061007400650073002f00000000016d000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b0041006e0069006d00610074006f007200530074006100740065002c00200041007300730065006d0062006c0079002d004300530068006100720070005d002c005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000000000001010800000063006f006d00700061007200650072002f01000000015d000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e0045006e0075006d0045007100750061006c0069007400790043006f006d0070006100720065007200600031005b005b0041006e0069006d00610074006f007200530074006100740065002c00200041007300730065006d0062006c0079002d004300530068006100720070005d005d002c0020006d00730063006f0072006c0069006200010000000600000000000000000705060200000000000000042e1d010200000024006b000000000000000000270102000000240076000104000000490064006c00650005042e1d010200000024006b000100000000000000270102000000240076000104000000570061006c006b00050705
+    SerializedFormat: 2
+    SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _animatorStates
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[AnimatorState, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[AnimatorState, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 1
+      Data: Idle
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 1
+      Data: Walk
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  Animator: {fileID: 0}
 --- !u!114 &4558873925194433394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +183,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5be9e71419317d409a78182d870c2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
+--- !u!114 &7851667686720150502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076831995053657763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
+  IgnoredParameters: []
+  _animator: {fileID: 1388969976459925402}
+  _synchronizeWhenDisabled: 0
+  _smoothFloats: 1
+  _interpolation: 2
+  _clientAuthoritative: 1
+  _sendToOwner: 0

@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+[RequireComponent(typeof(Button))]
+public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+    Button _btn;
+    [SerializeField] Transform _container;
     [SerializeField] Image _backgroundImage;
     [SerializeField] Image _borderImage;
 
@@ -16,6 +19,7 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] float _hoverAnimationDuration = 0.15f;
     void Awake()
     {
+        _btn = GetComponent<Button>();
         _initialTmpColor = _tmp.color;
     }
 
@@ -23,13 +27,29 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
 
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        if (!_btn.interactable) return;
+
+        Sequence pointerDownAnim = DOTween.Sequence();
+
+        Tween scaleTween = _container.DOScale(new Vector3(0.9f, 0.9f, 1), _hoverAnimationDuration);
+        pointerDownAnim.Join(scaleTween);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Sequence pointerUpAnim = DOTween.Sequence();
+
+        Tween scaleTween = _container.DOScale(new Vector3(1f, 1f, 1), _hoverAnimationDuration);
+        pointerUpAnim.Join(scaleTween);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!_btn.interactable) return;
+
         Sequence hoverEnterAnim = DOTween.Sequence();
 
         Tween backgroundFadeTween = _backgroundImage.DOFade(1f, _hoverAnimationDuration);
@@ -49,4 +69,5 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
         Tween tmpColorFade = _tmp.DOColor(_initialTmpColor, _hoverAnimationDuration);
         hoverExitAnim.Join(tmpColorFade);
     }
+
 }

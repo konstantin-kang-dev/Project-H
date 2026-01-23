@@ -65,6 +65,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a8a86e9e6b09c947903c1949432f9ca, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8355201991550726187}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a8a86e9e6b09c947903c1949432f9ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 519471765759664961}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4a8a86e9e6b09c947903c1949432f9ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4a8a86e9e6b09c947903c1949432f9ca, type: 3}
 --- !u!1 &671666653560124741 stripped
 GameObject:
@@ -88,16 +94,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig6:Hips'\n\tTransform 'mixamorig6:LeftHandIndex1'\n\tTransform
-    'mixamorig6:RightForeArm'\n\tTransform 'mixamorig6:Neck'\n\tTransform 'RightHandThumb3'\n\tTransform
-    'mixamorig6:RightHandMiddle2'\n\tTransform 'mixamorig6:RightToeBase'\n\tTransform
-    'mixamorig6:RightHandMiddle3'\n\tTransform 'mixamorig6:LeftHandPinky2'\n\tTransform
-    'mixamorig6:LeftToeBase'\n\tand more ...\n\tFrom animation clip 'Idle'\n\tFrom
-    animation clip 'Run_F2'\n\tFrom animation clip 'Walk_F'\n\tFrom animation clip
-    'Walk_R'\n\tFrom animation clip 'Walk_L'\n\tFrom animation clip 'Walk_B'\n\tFrom
-    animation clip 'Idle'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -173,6 +170,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  Animator: {fileID: 0}
 --- !u!114 &8355201991550726187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,3 +183,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5be9e71419317d409a78182d870c2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
+--- !u!114 &519471765759664961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671666653560124741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
+  IgnoredParameters: []
+  _animator: {fileID: 4888261620495132513}
+  _synchronizeWhenDisabled: 0
+  _smoothFloats: 1
+  _interpolation: 2
+  _clientAuthoritative: 1
+  _sendToOwner: 0

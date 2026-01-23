@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MenuPageNavigator : SerializedMonoBehaviour
 {
-    public static MenuPageNavigator Instance {  get; private set; }
-
     [SerializeField] GameObject _inputBlocker;
 
     [SerializeField] Dictionary<MenuWindowType, IMenuWindow> _menuWindows = new Dictionary<MenuWindowType, IMenuWindow>();
@@ -15,7 +13,7 @@ public class MenuPageNavigator : SerializedMonoBehaviour
     public event Action<MenuWindowType> OnWindowOpened;
     private void Awake()
     {
-        Instance = this;
+
     }
 
     void Start()

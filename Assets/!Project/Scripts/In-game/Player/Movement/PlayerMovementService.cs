@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovementService : MonoBehaviour
 {
+    Player _player;
+
     IInput _input;
 
     Rigidbody _rb;
@@ -14,9 +16,13 @@ public class PlayerMovementService : MonoBehaviour
     [SerializeField] float _sprintSpeedMultiplier = 1.5f;
     [SerializeField] float _acceleration = 1f;
     bool _isWalking = false;
+    bool _isSprinting = false;
     Vector2 _currentInputs = Vector2.zero;
 
-    bool _isSprinting => !IsInitialized ? false : _input.IsSprinting();
+    float _currentRotationY = 0f;
+    float _targetRotationY = 0f;
+    float _rotationYVelocity = 0f;
+
 
     public event Action<Vector2> OnWalkStart;
     public event Action<Vector2> OnWalkUpdate;
@@ -28,20 +34,25 @@ public class PlayerMovementService : MonoBehaviour
         
     }
 
-    public void Init(PlayerStats playerStats, Rigidbody rb, CapsuleCollider capsuleCollider)
+    public void Init(Player player, PlayerStats playerStats, Rigidbody rb, CapsuleCollider capsuleCollider)
     {
-        _playerStats = playerStats;
+        _player = player;
 
-        _input = new DefaultInput();
+        _playerStats = playerStats;
 
         _rb = rb;
         _capsuleCollider = capsuleCollider;
 
-        IsInitialized = true;
+        if(_player.IsOwner)
+        {
+            _input = new DefaultInput();
+            IsInitialized = true;
+        }
     }
 
     private void Update()
     {
+        Rotate(_targetRotationY);
         if (!IsInitialized) return;
 
         Move(_input.CurrentMoveInput);
@@ -66,7 +77,8 @@ public class PlayerMovementService : MonoBehaviour
         _rb.AddForce(velDiff * 10f, ForceMode.Force);
 
         bool prevWalkState = _isWalking;
-        _isWalking = _currentInputs.x != 0 && _currentInputs.y != 0;
+        SetWalkingState(_currentInputs.x != 0 && _currentInputs.y != 0);
+        SetSprintState(_input.IsSprinting());
 
         if (!prevWalkState && _isWalking)
         {
@@ -76,9 +88,50 @@ public class PlayerMovementService : MonoBehaviour
         OnWalkUpdate?.Invoke(_currentInputs);
     }
     
-    public void Rotate(Vector2 rotations)
+    public void Rotate(float rotationY)
     {
-        _rb.transform.rotation = Quaternion.Euler(0, rotations.y, 0);
+        if (_player.IsOwner)
+        {
+            _rb.transform.rotation = Quaternion.Euler(0, rotationY, 0);
+        }
+        else
+        {
+            float smoothSpeed = 3.5f;
+            if(_isWalking && !_isSprinting)
+            {
+                smoothSpeed = 6f;
+            }else if (_isSprinting)
+            {
+                smoothSpeed = 10f;
+            }
+            _currentRotationY = Mathf.Lerp(_currentRotationY, rotationY, smoothSpeed * Time.deltaTime);
+
+            _rb.transform.rotation = Quaternion.Euler(0, _currentRotationY, 0);
+        }
+
     }
 
+    public void UpdateRotation(Vector2 rotations)
+    {
+        _targetRotationY = rotations.y;
+    }
+
+    public void SetWalkingState(bool isWalking)
+    {
+        _isWalking = isWalking;
+
+        if (_player.IsOwner)
+        {
+            _player.RPC_RequestSetWalkingState(_isWalking);
+        }
+    }
+    public void SetSprintState(bool isSprinting)
+    {
+        _isSprinting = isSprinting;
+
+        if (_player.IsOwner)
+        {
+            _player.RPC_RequestSetSprintingState(_isSprinting);
+        }
+    }
 }

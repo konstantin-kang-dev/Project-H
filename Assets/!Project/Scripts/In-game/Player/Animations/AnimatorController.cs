@@ -1,4 +1,5 @@
 ﻿
+using FishNet.Component.Animating;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,14 @@ using UnityEngine;
 
 public class AnimatorController : SerializedMonoBehaviour
 {
-    Animator _animator;
+    public Animator Animator;
+    NetworkAnimator _networkAnimator;
 
     [SerializeField] Dictionary<AnimatorState, string> _animatorStates = new Dictionary<AnimatorState, string>();
 
     Vector3 _worldLookPos = Vector3.zero;
     Vector3 _currentLookPos = Vector3.zero;
+    Vector3 _lookPosVelocity = Vector3.zero;
 
     public event Action<Vector3> OnLookPositionUpdate;
     public AnimatorState CurrentState { get; private set; } = AnimatorState.None;
@@ -20,7 +23,11 @@ public class AnimatorController : SerializedMonoBehaviour
     public bool IsInitialized { get; private set; } = false;
     public void Init()
     {
-        _animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
+        _networkAnimator = GetComponent<NetworkAnimator>();
+        _networkAnimator.SetAnimator(Animator);
+        _networkAnimator.SetController(Animator.runtimeAnimatorController);
+        //SOMEHOW I NEED TO SPAWN NETWORK OBJECT
 
         IsInitialized = true;
         PlayAnimation(AnimatorState.Idle);
@@ -30,7 +37,7 @@ public class AnimatorController : SerializedMonoBehaviour
     {
         if (!IsInitialized) return;
 
-        _currentLookPos = Vector3.MoveTowards(_currentLookPos, _worldLookPos, 15f * Time.deltaTime);
+        _currentLookPos = Vector3.Lerp(_currentLookPos, _worldLookPos, 10f * Time.deltaTime);
     }
 
     public void PlayAnimation(AnimatorState state)
@@ -44,12 +51,12 @@ public class AnimatorController : SerializedMonoBehaviour
         CurrentState = state;
         string targetAnimationKey = _animatorStates[state];
 
-        _animator.CrossFadeInFixedTime(targetAnimationKey, 0.25f);
+        _networkAnimator.CrossFadeInFixedTime(targetAnimationKey, 0.25f, 0);
     }
 
     public void SetFloat(string key, float value)
     {
-        _animator.SetFloat(key, value);
+        Animator.SetFloat(key, value);
     }
 
     public void HandleWalk(Vector2 inputs)
@@ -76,9 +83,9 @@ public class AnimatorController : SerializedMonoBehaviour
 
     void OnAnimatorIK(int layerIndex)
     {
-        if(_animator == null) return;
+        if(Animator == null) return;
 
-        _animator.SetLookAtWeight(
+        Animator.SetLookAtWeight(
             1f,
             0f,
             0.8f,
@@ -86,7 +93,7 @@ public class AnimatorController : SerializedMonoBehaviour
             0.5f
         );
 
-        _animator.SetLookAtPosition(_currentLookPos);
+        Animator.SetLookAtPosition(_currentLookPos);
     }
 
     private void OnDrawGizmos()

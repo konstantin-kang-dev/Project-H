@@ -1,12 +1,17 @@
-﻿using FishNet.Object;
+﻿using FishNet.Connection;
+using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using Zenject;
 
 public class LobbyPlayer : NetworkBehaviour
 {
     private readonly SyncVar<string> _playerName = new SyncVar<string>("Player");
+    public string PlayerName => _playerName.Value;
+
     private readonly SyncVar<bool> _isReady = new SyncVar<bool>(false);
     private readonly SyncVar<int> _modelKey = new SyncVar<int>(0);
+    public int ModelKey => _modelKey.Value;
 
     [SerializeField] PlayerVisuals _playerVisuals;
 
@@ -20,23 +25,33 @@ public class LobbyPlayer : NetworkBehaviour
         int myClientId = base.IsClientStarted ? ClientManager.Connection.ClientId : -1;
         Debug.Log($"[CLIENT {myClientId}] LobbyPlayer spawned. Owner: {Owner.ClientId}, IsOwner: {base.IsOwner}, Scene: {gameObject.scene.name}");
 
-        _modelKey.OnChange += OnPlayerModelChanged;
+        _modelKey.OnChange += CLIENT_OnPlayerModelChanged;
+        _isReady.OnChange += CLIENT_OnPlayerReadyChanged;
 
-        _playerVisuals.Init();
+        _playerVisuals.Init(ModelKey);
 
         if (IsOwner)
         {
+            LobbyManager.Instance.RegisterLocalLobbyPlayer(this);
+            
             _lobbyPlayerUI.BindActionsToModelChangeButtons(() =>
             {
-                ChangePlayerModel(false);
+                int modelKey = _playerVisuals.GetNextModelKey(_modelKey.Value, false);
+                RPC_RequestChangePlayerModel(modelKey);
             }, () =>
             {
-                ChangePlayerModel(true);
+                int modelKey = _playerVisuals.GetNextModelKey(_modelKey.Value, true);
+                RPC_RequestChangePlayerModel(modelKey);
             });
         }
         else
         {
             _lobbyPlayerUI.SetButtonsVisibility(false);
+        }
+
+        if (IsServerStarted)
+        {
+            LobbyManager.Instance.RegisterLobbyPlayer(this);
         }
 
          _lobbyPlayerUI.SetNicknameText(_playerName.Value);
@@ -50,29 +65,71 @@ public class LobbyPlayer : NetworkBehaviour
         _isReady.Value = false;
         _modelKey.Value = _playerVisuals.GetRandomModelKey();
 
+        NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
+        networkPlayerData.ModelKey = _modelKey.Value;
+        LobbyManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
     }
 
     [ServerRpc]
-    void ChangePlayerModel(bool goForward)
+    void RPC_RequestChangePlayerModel(int modelKey)
     {
-        _modelKey.Value = _playerVisuals.GetNextModelKey(_modelKey.Value, goForward);
+        _modelKey.Value = modelKey;
     }
 
     [Client]
-    void OnPlayerModelChanged(int prev, int next, bool asServer)
+    void CLIENT_OnPlayerModelChanged(int prev, int next, bool asServer)
     {
         _playerVisuals.ChangePlayerModel(next);
+
+        if(asServer)
+        {
+            NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
+            networkPlayerData.ModelKey = _modelKey.Value;
+            LobbyManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+            Debug.Log($"[LobbyPlayer] Changed model key to: {networkPlayerData.ModelKey}");
+        }
     }
 
     [ServerRpc]
-    public void SetReadyServerRpc(bool ready)
+    public void RPC_RequestSetReady(bool ready)
+    {
+        SERVER_SetReady(ready);
+    }
+    [Server]
+    public void SERVER_SetReady(bool ready)
     {
         _isReady.Value = ready;
+        Debug.Log($"[LobbyPlayer] Changed ready state to: {ready}");
+    }
+    [Client] 
+    void CLIENT_OnPlayerReadyChanged(bool prev, bool next, bool asServer)
+    {
+        _lobbyPlayerUI.SetReadyIconVisibility(next);
+
+        if (IsServerStarted)
+        {
+            LobbyManager.Instance.SERVER_HandlePlayerReadyStateChange();
+        }
     }
 
     [ServerRpc]
     public void SetNameServerRpc(string name)
     {
         _playerName.Value = name;
+    }
+
+    public override void OnDespawnServer(NetworkConnection connection)
+    {
+        base.OnDespawnServer(connection);
+
+        if (IsServerStarted)
+        {
+            LobbyManager.Instance.UnregisterLobbyPlayer(this);
+        }
+
+        if (IsOwner)
+        {
+            LobbyManager.Instance.UnregisterLocalLobbyPlayer();
+        }
     }
 }
