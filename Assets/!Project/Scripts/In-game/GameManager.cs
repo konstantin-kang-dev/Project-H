@@ -6,16 +6,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using Zenject.Asteroids;
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance {  get; private set; }
+
+    readonly SyncVar<GameState> _gameState = new SyncVar<GameState>();
+    public GameState GameState => _gameState.Value;
 
     [SerializeField] Player _playerPrefab;
     [SerializeField] List<Transform> _spawnPoints = new List<Transform>();
 
     readonly SyncVar<Dictionary<int, bool>> _playersReadyToStart = new SyncVar<Dictionary<int, bool>>();
     public event Action OnAllPlayersReadyToStart;
+
+    Player _localPlayer;
 
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Player> Players => _players;
@@ -34,19 +40,50 @@ public class GameManager : NetworkBehaviour
     {
         base.OnStartClient();
 
-        if (!IsServerStarted)
-        {
-            OnAllPlayersReadyToStart += Init;
-        }
+        Init();
+
+        _gameState.OnChange += HandleGameStateChange;
+
         RPC_RequestSetReadyToStart(ClientManager.Connection.ClientId);
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        _gameState.Value = GameState.PreparingToStart;
         _playersReadyToStart.Value = new Dictionary<int, bool>();
-        OnAllPlayersReadyToStart += Init;
+        OnAllPlayersReadyToStart += SERVER_StartGame;
+        
+    }
+
+    public void Init()
+    {
+        if (IsServerStarted)
+        {
+            //SetupPlayers();
+
+        }
+        else
+        {
+
+        }
+
+        Debug.Log($"[GameManager] Initialized");
+    }
+
+    [Server]
+    public void SERVER_StartGame()
+    {
         SpawnPlayers();
+
+        foreach (var playerBlock in _players)
+        {
+            Player player = playerBlock.Value;
+            player.SERVER_SetReadyToInit(true);
+        }
+
+        _gameState.Value = GameState.Started;
     }
 
     [Server]
@@ -72,6 +109,9 @@ public class GameManager : NetworkBehaviour
             Player player = Instantiate(_playerPrefab);
             Spawn(player, connection);
 
+            player.SERVER_SetPlayerName(networkPlayerData.PlayerName);
+            player.SERVER_SetModelKey(networkPlayerData.ModelKey);
+
             Transform spawnPoint = _spawnPoints[key];
             player.transform.position = spawnPoint.position;
 
@@ -81,39 +121,12 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Server]
-    void SetupPlayers()
+    [Client]
+    public void RegisterLocalPlayer(Player player)
     {
-        Dictionary<int, NetworkPlayerData> playersData = LobbyManager.Instance.ConnectedPlayers;
-
-        foreach (var playerDataBlock in playersData)
-        {
-            if (!_players.ContainsKey(playerDataBlock.Key)) continue;
-            NetworkPlayerData networkPlayerData = playerDataBlock.Value;
-            Debug.Log($"[GameManager] Set up player for: {networkPlayerData.ClientId}");
-
-            Player player = _players[playerDataBlock.Key];
-
-            player.SERVER_SetPlayerName(networkPlayerData.PlayerName);
-            player.SERVER_SetModelKey(networkPlayerData.ModelKey);
-
-        }
+        _localPlayer = player;
     }
 
-    public void Init()
-    {
-        if (IsServerStarted)
-        {
-            SetupPlayers();
-
-        }
-        else
-        {
-
-        }
-
-        Debug.Log($"[GameManager] Initialized");
-    }
 
     [ServerRpc(RequireOwnership = false)]
     public void RPC_RequestSetReadyToStart(int clientId)
@@ -123,6 +136,22 @@ public class GameManager : NetworkBehaviour
         if(_playersReadyToStart.Value.Count == LobbyManager.Instance.ConnectedPlayers.Count)
         {
             OnAllPlayersReadyToStart?.Invoke();
+        }
+
+        Debug.Log($"[GameManager] Player {clientId} is ready to start game. Total {_playersReadyToStart.Value.Count}/{LobbyManager.Instance.ConnectedPlayers.Count}");
+    }
+
+    [Client]
+    void HandleGameStateChange(GameState prev, GameState next, bool asServer)
+    {
+        switch (next)
+        {
+            case GameState.PreparingToStart:
+                break;
+            case GameState.Started:
+                break;
+            case GameState.Ended:
+                break;
         }
     }
 

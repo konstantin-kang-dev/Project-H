@@ -65,12 +65,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4558873925194433394}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7851667686720150502}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
 --- !u!1 &1076831995053657763 stripped
 GameObject:
@@ -171,6 +165,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Animator: {fileID: 0}
+  NetworkAnimator: {fileID: 0}
 --- !u!114 &4558873925194433394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,25 +178,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5be9e71419317d409a78182d870c2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
---- !u!114 &7851667686720150502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076831995053657763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 0}
-  _networkObjectCache: {fileID: 0}
-  IgnoredParameters: []
-  _animator: {fileID: 1388969976459925402}
-  _synchronizeWhenDisabled: 0
-  _smoothFloats: 1
-  _interpolation: 2
-  _clientAuthoritative: 1
-  _sendToOwner: 0

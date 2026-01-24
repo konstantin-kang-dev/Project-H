@@ -28,8 +28,6 @@ public class LobbyPlayer : NetworkBehaviour
         _modelKey.OnChange += CLIENT_OnPlayerModelChanged;
         _isReady.OnChange += CLIENT_OnPlayerReadyChanged;
 
-        _playerVisuals.Init(ModelKey);
-
         if (IsOwner)
         {
             LobbyManager.Instance.RegisterLocalLobbyPlayer(this);
@@ -86,7 +84,6 @@ public class LobbyPlayer : NetworkBehaviour
             NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
             networkPlayerData.ModelKey = _modelKey.Value;
             LobbyManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
-            Debug.Log($"[LobbyPlayer] Changed model key to: {networkPlayerData.ModelKey}");
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using FishNet.Component.Animating;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,8 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerStatsData _playerStatsData;
     PlayerStats _playerStats;
 
-    [SerializeField] PlayerVisuals _playerVisualsPrefab;
-    PlayerVisuals _playerVisuals;
+    [SerializeField] PlayerVisuals _playerVisuals;
 
     [SerializeField] PlayerMovementService _playerMovementServicePrefab;
     PlayerMovementService _playerMovementService;
@@ -40,9 +40,7 @@ public class PlayerController : MonoBehaviour
             _cameraController = Instantiate(_cameraControllerPrefab, transform);
             _cameraController.Init();
         }
-
-        _playerVisuals = Instantiate(_playerVisualsPrefab, transform);
-        _playerVisuals.Init(player.ModelKey);
+        _playerVisuals.Init(_player.ModelKey);
 
         _playerMovementService = Instantiate(_playerMovementServicePrefab, transform);
         _playerMovementService.Init(_player, _playerStats, _rb, _capsuleCollider);
@@ -60,13 +58,6 @@ public class PlayerController : MonoBehaviour
         }
 
         IsInitialized = true;
-    }
-
-    public void ChangePlayerModel(int modelKey)
-    {
-        if (!IsInitialized) return;
-
-        _playerVisuals.ChangePlayerModel(modelKey);
     }
 
     public void SetLookPosition(Vector3 lookPosition)
@@ -95,5 +86,5 @@ public class PlayerController : MonoBehaviour
 
         _playerMovementService.SetSprintState(isSprinting);
     }
-
+     
 }

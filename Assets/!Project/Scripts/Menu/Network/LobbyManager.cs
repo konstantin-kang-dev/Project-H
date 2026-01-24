@@ -44,6 +44,7 @@ public class LobbyManager : NetworkBehaviour
     {
         _networkManager.ServerManager.StartConnection();
 
+
         _networkManager.ClientManager.StartConnection();
         Debug.Log("Host started");
     }
@@ -54,12 +55,13 @@ public class LobbyManager : NetworkBehaviour
         Debug.Log($"Client connecting to {ip}");
     }
 
+    
     public override void OnStartServer()
     {
-        base.OnStartServer();
-
-        SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
         ServerManager.OnRemoteConnectionState += OnRemoteConnectionStateChange;
+        SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
+
+        base.OnStartServer();
 
         _connectedPlayers.Value = new Dictionary<int, NetworkPlayerData>();
         _lobbySlots.Value = new List<LobbySlot>()
@@ -87,6 +89,7 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnStopServer();
         SceneManager.OnClientLoadedStartScenes -= OnClientLoadedStartScenes;
+        ServerManager.OnRemoteConnectionState -= OnRemoteConnectionStateChange;
     }
 
     public override void OnStartClient()
@@ -106,6 +109,8 @@ public class LobbyManager : NetworkBehaviour
     {
         if (asServer)
         {
+            Debug.Log($"[LobbyManager] Player[{conn.ClientId}] loaded start scenes.");
+
             SceneManager.AddConnectionToScene(conn, gameObject.scene);
 
             LobbySlot availableSlot = _lobbySlots.Value.First((x) => !x.IsOccupied);
@@ -147,7 +152,8 @@ public class LobbyManager : NetworkBehaviour
             {
                 ClientId = conn.ClientId,
             });
-        }else if(args.ConnectionState == RemoteConnectionState.Stopped)
+        }
+        else if(args.ConnectionState == RemoteConnectionState.Stopped)
         {
             _connectedPlayers.Value.Remove(conn.ClientId);
         }

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
+    readonly SyncVar<bool> _isReadyToInit = new SyncVar<bool>();
+    public bool IsReadyToInit => _isReadyToInit.Value;
+
     readonly SyncVar<string> _playerName = new SyncVar<string>();
     public string PlayerName => _playerName.Value;
 
@@ -38,8 +41,12 @@ public class Player : NetworkBehaviour
     {
         base.OnStartClient();
 
-        Init();
-        _modelKey.OnChange += HandleModelKeyChange;
+        if (IsOwner)
+        {
+            GameManager.Instance.RegisterLocalPlayer(this);
+        }
+        _isReadyToInit.OnChange += HandleIsReadyToInitChange;
+
         _lookPosition.OnChange += HandleLookPositionChange;
         _characterRotationY.OnChange += HandleCharacterRotationChange;
         _isWalking.OnChange += HandleWalkingStateChange;
@@ -49,6 +56,9 @@ public class Player : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        _modelKey.Value = -1;
+        _isReadyToInit.Value = false;
     }
 
     public void Init()
@@ -56,6 +66,20 @@ public class Player : NetworkBehaviour
         _playerController.Init(this);
 
         IsInitialized = true;
+    }
+    [Server]
+    public void SERVER_SetReadyToInit(bool value)
+    {
+        _isReadyToInit.Value = value;
+    }
+
+    [Client]
+    void HandleIsReadyToInitChange(bool prev, bool next, bool asServer)
+    {
+        if (next)
+        {
+            Init();
+        }
     }
 
     [Server]
@@ -68,12 +92,6 @@ public class Player : NetworkBehaviour
     public void SERVER_SetPlayerName(string playerName)
     {
         _playerName.Value = playerName;
-    }
-
-    [Client]
-    void HandleModelKeyChange(int prev, int next, bool asServer)
-    {
-        _playerController.ChangePlayerModel(next);
     }
 
     [ServerRpc]
