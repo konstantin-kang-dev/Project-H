@@ -9,14 +9,13 @@ using UnityEngine;
 public class AnimatorController : SerializedMonoBehaviour
 {
     public Animator Animator;
-    NetworkAnimator _networkAnimator;
 
     [SerializeField] Dictionary<AnimatorState, string> _animatorStates = new Dictionary<AnimatorState, string>();
 
     Vector3 _worldLookPos = Vector3.zero;
     Vector3 _currentLookPos = Vector3.zero;
-    Vector3 _lookPosVelocity = Vector3.zero;
 
+    public event Action<AnimatorState> OnAnimatorStateChanged;
     public event Action<Vector3> OnLookPositionUpdate;
     public AnimatorState CurrentState { get; private set; } = AnimatorState.None;
 
@@ -24,10 +23,6 @@ public class AnimatorController : SerializedMonoBehaviour
     public void Init()
     {
         Animator = GetComponent<Animator>();
-        _networkAnimator = GetComponent<NetworkAnimator>();
-        _networkAnimator.SetAnimator(Animator);
-        _networkAnimator.SetController(Animator.runtimeAnimatorController);
-        //SOMEHOW I NEED TO SPAWN NETWORK OBJECT
 
         IsInitialized = true;
         PlayAnimation(AnimatorState.Idle);
@@ -51,7 +46,9 @@ public class AnimatorController : SerializedMonoBehaviour
         CurrentState = state;
         string targetAnimationKey = _animatorStates[state];
 
-        _networkAnimator.CrossFadeInFixedTime(targetAnimationKey, 0.25f, 0);
+        OnAnimatorStateChanged?.Invoke(CurrentState);
+        Animator.CrossFadeInFixedTime(targetAnimationKey, 0.25f, 0);
+
     }
 
     public void SetFloat(string key, float value)
@@ -79,6 +76,13 @@ public class AnimatorController : SerializedMonoBehaviour
         _worldLookPos = worldPos;
 
         OnLookPositionUpdate?.Invoke(_worldLookPos);
+    }
+
+    public void ResetController()
+    {
+        OnAnimatorStateChanged = null;
+        CurrentState = AnimatorState.None;
+        IsInitialized = false;
     }
 
     void OnAnimatorIK(int layerIndex)

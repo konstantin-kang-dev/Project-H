@@ -9534,6 +9534,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2001634869}
     m_Modifications:
+    - target: {fileID: 469034228362416774, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: SceneId
+      value: 2675965949
+      objectReference: {fileID: 0}
     - target: {fileID: 5264206906230583483, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9573,6 +9577,10 @@ PrefabInstance:
     - target: {fileID: 5264206906230583483, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694093934906687385, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: SceneId
+      value: 2678062847
       objectReference: {fileID: 0}
     - target: {fileID: 8577812439118143054, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
       propertyPath: m_Name
@@ -9910,10 +9918,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3857501994084673686, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: SceneId
+      value: 2147352573
+      objectReference: {fileID: 0}
+    - target: {fileID: 6470590944106513801, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: SceneId
+      value: 3210608637
+      objectReference: {fileID: 0}
     - target: {fileID: 6704838341988911114, guid: 3969479a52a98e341a878e6d32188649, type: 3}
       propertyPath: _addedNetworkObject
       value: 
       objectReference: {fileID: 57610828}
+    - target: {fileID: 6704838341988911114, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6726171413656429062, guid: 3969479a52a98e341a878e6d32188649, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9922,10 +9942,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6790547747705251169, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 7816989849202451815}
+    - target: {fileID: 7043568386663190156, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7043568386663190156, guid: 3969479a52a98e341a878e6d32188649, type: 3}
     - target: {fileID: 7235787358179426330, guid: 3969479a52a98e341a878e6d32188649, type: 3}
       propertyPath: _addedNetworkObject
       value: 
       objectReference: {fileID: 57610828}
+    - target: {fileID: 7235787358179426330, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7555667797083150817, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7555667797083150817, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+    - target: {fileID: 7808052638361697240, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7808052638361697240, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+    - target: {fileID: 8692531207571714081, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8692531207571714081, guid: 3969479a52a98e341a878e6d32188649, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9939,6 +9983,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2422351274812146237, guid: 3969479a52a98e341a878e6d32188649, type: 3}
   m_PrefabInstance: {fileID: 7816989849202451813}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7816989849202451815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6470590944106513801, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+  m_PrefabInstance: {fileID: 7816989849202451813}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!1001 &7821307679811646372
 PrefabInstance:
   m_ObjectHideFlags: 0

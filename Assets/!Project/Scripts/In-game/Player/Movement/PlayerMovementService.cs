@@ -99,10 +99,10 @@ public class PlayerMovementService : MonoBehaviour
             float smoothSpeed = 3.5f;
             if(_isWalking && !_isSprinting)
             {
-                smoothSpeed = 6f;
+                smoothSpeed = 10f;
             }else if (_isSprinting)
             {
-                smoothSpeed = 10f;
+                smoothSpeed = 15f;
             }
             _currentRotationY = Mathf.Lerp(_currentRotationY, rotationY, smoothSpeed * Time.deltaTime);
 

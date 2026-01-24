@@ -1,21 +1,34 @@
 ﻿
+using FishNet.Component.Animating;
+using FishNet.Object;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlayerVisuals: MonoBehaviour
+public class PlayerVisuals: NetworkBehaviour
 {
-    [SerializeField] List<PlayerModel> _playerModelPrefabs = new List<PlayerModel>();
-    PlayerModel _playerModel;
+    [SerializeField] List<PlayerModel> _playerModels = new List<PlayerModel>();
+    PlayerModel _playerModel = null;
 
     public AnimatorController AnimatorController;
+    Vector2 _targetMovementInputs = Vector2.zero;
+    Vector2 _currentMovementInputs = Vector2.zero;
 
     [SerializeField] ParticleSystem _modelChangeVfx;
 
     public event Action<PlayerModel, AnimatorController> OnPlayerModelChanged;
     public bool IsInitialized { get; private set; } = false;
+
+    private void Awake()
+    {
+        foreach (var playerModel in _playerModels)
+        {
+            playerModel.gameObject.SetActive(false);
+        }
+    }
+
     public void Init(int modelKey)
     {
         ChangePlayerModel(modelKey);
@@ -24,25 +37,45 @@ public class PlayerVisuals: MonoBehaviour
 
     public void ChangePlayerModel(int key)
     {
+        if (key < 0) return;
+
         if(_playerModel != null)
         {
-            Destroy(_playerModel.gameObject);
+            AnimatorController.ResetController();
+            _playerModel.gameObject.SetActive(false);
         }
 
-        PlayerModel newPrefab = _playerModelPrefabs[key];
-        _playerModel = Instantiate(newPrefab, transform);
+        _playerModel = _playerModels[key];
+        _playerModel.gameObject.SetActive(true);
 
         AnimatorController = _playerModel.GetComponent<AnimatorController>();
+
+        if (IsOwner)
+        {
+            AnimatorController.OnAnimatorStateChanged += RPC_RequestUpdateAnimatorState;
+        }
+
         AnimatorController.Init();
 
         _modelChangeVfx.Play();
         OnPlayerModelChanged?.Invoke(_playerModel, AnimatorController);
-        Debug.Log($"[PlayerVisuals] Changed model to: {key}");
+        Debug.Log($"[PlayerVisuals | {Owner.ClientId}] Changed model to: {key}");
+    }
+
+    private void Update()
+    {
+        if(!IsInitialized) return;
+
+        if (!IsOwner)
+        {
+            _currentMovementInputs = Vector2.Lerp(_currentMovementInputs, _targetMovementInputs, 10f * Time.deltaTime);
+            HandleWalk(_currentMovementInputs);
+        }
     }
 
     public int GetRandomModelKey()
     {
-        return Random.Range(0, _playerModelPrefabs.Count);
+        return Random.Range(0, _playerModels.Count);
     }
 
     public int GetNextModelKey(int prevKey, bool goForward)
@@ -51,12 +84,12 @@ public class PlayerVisuals: MonoBehaviour
         if (goForward)
         {
             modelKey += 1;
-            if (modelKey > _playerModelPrefabs.Count - 1) modelKey = 0;
+            if (modelKey > _playerModels.Count - 1) modelKey = 0;
         }
         else
         {
             modelKey -= 1;
-            if (modelKey < 0) modelKey = _playerModelPrefabs.Count - 1;
+            if (modelKey < 0) modelKey = _playerModels.Count - 1;
         }
 
         return modelKey;
@@ -66,5 +99,35 @@ public class PlayerVisuals: MonoBehaviour
     {
         if (AnimatorController == null) return;
         AnimatorController.HandleWalk(inputs);
+        if(IsOwner)
+        {
+            RPC_RequestUpdateAnimatorMovement(inputs);
+        }
+    }
+
+    [ServerRpc]
+    public void RPC_RequestUpdateAnimatorState(AnimatorState state)
+    {
+        RPC_HandleObserversUpdateAnimatorState(state);
+        //Debug.Log($"[PlayerVisuals | SERVER | {Owner.ClientId}] Updated animator state: {state}");
+    }
+
+    [ObserversRpc]
+    void RPC_HandleObserversUpdateAnimatorState(AnimatorState state)
+    {
+        if (IsOwner) return;
+        AnimatorController.PlayAnimation(state);
+    }
+    [ServerRpc]
+    public void RPC_RequestUpdateAnimatorMovement(Vector2 inputs)
+    {
+        RPC_HandleObserversUpdateAnimatorMovement(inputs);
+    }
+
+    [ObserversRpc]
+    void RPC_HandleObserversUpdateAnimatorMovement(Vector2 inputs)
+    {
+        if (IsOwner) return;
+        _targetMovementInputs = inputs;
     }
 }
