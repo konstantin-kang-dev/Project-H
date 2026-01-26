@@ -35,15 +35,24 @@ public class LobbyManager : NetworkBehaviour
     public event Action OnLocalPlayerRegister;
     public event Action OnLocalPlayerUnregister;
     public event Action<bool> OnPlayersReady;
+
+    public event Action OnClientConnectionLost;
     private void Awake()
     {
         Instance = this;
+
+        _networkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
+    }
+
+    private void OnDestroy()
+    {
+
+        _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
     }
 
     public void StartHost()
     {
         _networkManager.ServerManager.StartConnection();
-
 
         _networkManager.ClientManager.StartConnection();
         Debug.Log("Host started");
@@ -54,8 +63,37 @@ public class LobbyManager : NetworkBehaviour
         _networkManager.ClientManager.StartConnection(ip);
         Debug.Log($"Client connecting to {ip}");
     }
+    public void StopConnection()
+    {
+        bool isServerActive = _networkManager.ServerManager.Started;
 
-    
+        bool isClientActive = _networkManager.ClientManager.Started;
+
+        bool isHost = _networkManager.IsServerStarted && _networkManager.IsClientStarted;
+
+        if (isHost)
+        {
+            StopHost();
+        }
+        else if(isClientActive)
+        {
+            StopClient();
+        }
+    }
+    public void StopHost()
+    {
+        _networkManager.ClientManager.StopConnection();
+
+        _networkManager.ServerManager.StopConnection(true);
+        Debug.Log("Host stoped");
+    }
+
+    public void StopClient()
+    {
+        _networkManager.ClientManager.StopConnection();
+        Debug.Log($"Client stoped");
+    }
+
     public override void OnStartServer()
     {
         ServerManager.OnRemoteConnectionState += OnRemoteConnectionStateChange;
@@ -96,13 +134,11 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnStartClient();
 
-        _networkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
     }
 
     public override void OnStopClient()
     {
         base.OnStopClient();
-        _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
     }
 
     private void OnClientLoadedStartScenes(NetworkConnection conn, bool asServer)
@@ -119,10 +155,8 @@ public class LobbyManager : NetworkBehaviour
 
             Transform slotPoint = _lobbySlotsPoints[availableSlot.SlotKey];
 
-            LobbyPlayer lobbyPlayer = Instantiate(_lobbyPlayerPrefab, transform);
+            LobbyPlayer lobbyPlayer = Instantiate(_lobbyPlayerPrefab, slotPoint.position, Quaternion.identity);
             Spawn(lobbyPlayer, conn);
-
-            lobbyPlayer.transform.position = slotPoint.position;
 
             Debug.Log($"[LobbyManager] Added player[{conn.ClientId}] to slot: {availableSlot.SlotKey} and spawned lobby player object.");
         }
@@ -139,12 +173,15 @@ public class LobbyManager : NetworkBehaviour
         if(args.ConnectionState == LocalConnectionState.Started)
         {
 
+        }else if(args.ConnectionState == LocalConnectionState.Stopped)
+        {
+            OnClientConnectionLost?.Invoke();
         }
-        Debug.Log($"[LobbyManager] Updated connection state: {args.ConnectionState}");
+        Debug.Log($"[LobbyManager] Updated client connection state: {args.ConnectionState}");
     }
     void OnRemoteConnectionStateChange(NetworkConnection conn, RemoteConnectionStateArgs args)
     {
-        Debug.Log($"[LobbyManager] Updated {conn.ClientId} connection state: {args.ConnectionState}");
+        Debug.Log($"[LobbyManager] Updated {conn.ClientId} remote connection state: {args.ConnectionState}");
 
         if (args.ConnectionState == RemoteConnectionState.Started)
         {
@@ -156,6 +193,11 @@ public class LobbyManager : NetworkBehaviour
         else if(args.ConnectionState == RemoteConnectionState.Stopped)
         {
             _connectedPlayers.Value.Remove(conn.ClientId);
+            LobbySlot lobbySlot = _lobbySlots.Value.FirstOrDefault((x)=> x.ClientId == conn.ClientId);
+            if(lobbySlot != null)
+            {
+                lobbySlot.ResetData();
+            }
         }
     }
 

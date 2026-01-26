@@ -21,6 +21,8 @@ public class MenuManager : MonoBehaviour
         _lobbyUI.BindActionToBackBtn(HandleLobbyBackBtn);
         _lobbyUI.BindActionToStartBtn(HandleLobbyStartBtn);
 
+        LobbyManager.Instance.OnClientConnectionLost += HandleLobbyBackBtn;
+
         _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
     }
 
@@ -39,6 +41,7 @@ public class MenuManager : MonoBehaviour
 
     void HandleLobbyBackBtn()
     {
+        LobbyManager.Instance.StopConnection();
         _menuPageNavigator.OpenWindow(MenuWindowType.MainMenu);
     }
     void HandleLobbyStartBtn()
@@ -73,5 +76,7 @@ public class MenuManager : MonoBehaviour
     {
 
         _menuPageNavigator.OnWindowOpened -= HandleMenuWindowOpen;
+
+        LobbyManager.Instance.OnClientConnectionLost -= HandleLobbyBackBtn;
     }
 }

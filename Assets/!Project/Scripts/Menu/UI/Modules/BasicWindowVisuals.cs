@@ -9,7 +9,9 @@ public class BasicWindowVisuals : MonoBehaviour
     [SerializeField] WindowAnimationType _inAnimationType;
     [SerializeField] WindowAnimationType _outAnimationType;
     [SerializeField] float _inAnimationDuration = 0.3f;
+    [SerializeField] float _inAnimationDelay = 0f;
     [SerializeField] float _outAnimationDuration = 0.3f;
+    [SerializeField] float _outAnimationDelay = 0f;
 
     private void Awake()
     {
@@ -18,6 +20,8 @@ public class BasicWindowVisuals : MonoBehaviour
     public void ProcessInAnimation(bool doInstantly = false)
     {
         Sequence sequence = GetSequence(_inAnimationType, WindowAnimationDirection.In);
+        sequence.SetDelay(_inAnimationDelay);
+
         sequence.Play(); 
         if (doInstantly)
         {
@@ -28,6 +32,8 @@ public class BasicWindowVisuals : MonoBehaviour
     public void ProcessOutAnimation(bool doInstantly = false)
     {
         Sequence sequence = GetSequence(_outAnimationType, WindowAnimationDirection.Out);
+        sequence.SetDelay(_outAnimationDelay);
+
         sequence.Play();
         if(doInstantly)
         {

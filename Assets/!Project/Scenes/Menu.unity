@@ -3894,6 +3894,7 @@ Transform:
   - {fileID: 402373325}
   - {fileID: 1695477248}
   - {fileID: 339641274}
+  - {fileID: 2040409769}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &425433145
@@ -7270,7 +7271,7 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 0.49521583, b: 0, a: 1}
-  m_Intensity: 388.31793
+  m_Intensity: 1452.8004
   m_Range: 10
   m_SpotAngle: 153.03519
   m_InnerSpotAngle: 21.80208
@@ -8939,7 +8940,9 @@ MonoBehaviour:
   _inAnimationType: 2
   _outAnimationType: 1
   _inAnimationDuration: 0.3
+  _inAnimationDelay: 0
   _outAnimationDuration: 0.3
+  _outAnimationDelay: 0
 --- !u!1001 &1102520133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9356,8 +9359,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicWindowVisuals
   _inAnimationType: 1
   _outAnimationType: 2
-  _inAnimationDuration: 0.3
+  _inAnimationDuration: 0.5
+  _inAnimationDelay: 3
   _outAnimationDuration: 0.3
+  _outAnimationDelay: 0
 --- !u!225 &1142322510
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -17496,12 +17501,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2040409766}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.23, y: 1.22, z: -11.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 410464612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2040409770
 MonoBehaviour:
@@ -19325,7 +19330,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2040409769}
   - {fileID: 1525133466}
   - {fileID: 1726865175}
   - {fileID: 593216288}
