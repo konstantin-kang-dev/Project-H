@@ -1054,6 +1054,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5451838870998125105, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5451838870998125105, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+    - target: {fileID: 5959680283802776732, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5959680283802776732, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+    - target: {fileID: 6616313767211983857, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6616313767211983857, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+    - target: {fileID: 6868278620978414024, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6868278620978414024, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+    - target: {fileID: 7694093934906687385, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8577812439118143054, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
       propertyPath: m_Name
       value: DefaultPlayerVisuals

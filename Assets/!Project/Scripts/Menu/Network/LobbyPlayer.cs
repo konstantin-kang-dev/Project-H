@@ -2,6 +2,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 public class LobbyPlayer : NetworkBehaviour
@@ -12,6 +13,8 @@ public class LobbyPlayer : NetworkBehaviour
     private readonly SyncVar<bool> _isReady = new SyncVar<bool>(false);
     private readonly SyncVar<int> _modelKey = new SyncVar<int>(0);
     public int ModelKey => _modelKey.Value;
+    private readonly SyncVar<Vector3> _lookPosition = new SyncVar<Vector3>();
+    public Vector3 LookPosition => _lookPosition.Value;
 
     [SerializeField] PlayerVisuals _playerVisuals;
 
@@ -27,6 +30,7 @@ public class LobbyPlayer : NetworkBehaviour
 
         _modelKey.OnChange += CLIENT_OnPlayerModelChanged;
         _isReady.OnChange += CLIENT_OnPlayerReadyChanged;
+        _lookPosition.OnChange += CLIENT_OnLookPositionUpdated;
 
         if (IsOwner)
         {
@@ -66,6 +70,28 @@ public class LobbyPlayer : NetworkBehaviour
         NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
         networkPlayerData.ModelKey = _modelKey.Value;
         LobbyManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+    }
+
+    private void Update()
+    {
+        if (IsOwner)
+        {
+            HandleMouseMove();
+        }
+    }
+
+    void HandleMouseMove()
+    {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 hitPoint = hit.point;
+            hitPoint.z = transform.position.z + 1.4f;
+            _playerVisuals.AnimatorController.SetLookPosition(hitPoint);
+            RPC_RequestSetLookPosition(hitPoint);
+        }
     }
 
     [ServerRpc]
@@ -113,6 +139,19 @@ public class LobbyPlayer : NetworkBehaviour
     public void SetNameServerRpc(string name)
     {
         _playerName.Value = name;
+    }
+    [ServerRpc]
+    public void RPC_RequestSetLookPosition(Vector3 lookPosition)
+    {
+        _lookPosition.Value = lookPosition;
+    }
+    [Client]
+    void CLIENT_OnLookPositionUpdated(Vector3 prev, Vector3 next, bool asServer)
+    {
+        if(_playerVisuals != null && _playerVisuals.AnimatorController != null)
+        {
+            _playerVisuals.AnimatorController.SetLookPosition(next);
+        }
     }
 
     public override void OnDespawnServer(NetworkConnection connection)

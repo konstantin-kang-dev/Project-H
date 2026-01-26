@@ -14,6 +14,7 @@ public class AnimatorController : SerializedMonoBehaviour
 
     Vector3 _worldLookPos = Vector3.zero;
     Vector3 _currentLookPos = Vector3.zero;
+    [SerializeField] Transform _headAimTarget;
 
     public event Action<AnimatorState> OnAnimatorStateChanged;
     public event Action<Vector3> OnLookPositionUpdate;
@@ -33,6 +34,8 @@ public class AnimatorController : SerializedMonoBehaviour
         if (!IsInitialized) return;
 
         _currentLookPos = Vector3.Lerp(_currentLookPos, _worldLookPos, 10f * Time.deltaTime);
+
+        _headAimTarget.transform.position = _currentLookPos;
     }
 
     public void PlayAnimation(AnimatorState state)
@@ -83,21 +86,6 @@ public class AnimatorController : SerializedMonoBehaviour
         OnAnimatorStateChanged = null;
         CurrentState = AnimatorState.None;
         IsInitialized = false;
-    }
-
-    void OnAnimatorIK(int layerIndex)
-    {
-        if(Animator == null) return;
-
-        Animator.SetLookAtWeight(
-            1f,
-            0f,
-            0.8f,
-            0f,
-            0.5f
-        );
-
-        Animator.SetLookAtPosition(_currentLookPos);
     }
 
     private void OnDrawGizmos()

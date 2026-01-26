@@ -65,6 +65,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4558873925194433394}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 314381756757804980}
   m_SourcePrefab: {fileID: 100100000, guid: afccef1d89a7ca540bd597bf90140cbb, type: 3}
 --- !u!1 &1076831995053657763 stripped
 GameObject:
@@ -165,7 +168,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   Animator: {fileID: 0}
-  NetworkAnimator: {fileID: 0}
 --- !u!114 &4558873925194433394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +180,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5be9e71419317d409a78182d870c2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModel
+--- !u!114 &314381756757804980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076831995053657763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.RigBuilder
+  m_RigLayers:
+  - m_Rig: {fileID: 0}
+    m_Active: 1
+  m_Effectors: []
