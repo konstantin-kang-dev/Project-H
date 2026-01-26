@@ -53,10 +53,10 @@ public class MenuManager : MonoBehaviour
         switch (windowType)
         {
             case MenuWindowType.MainMenu:
-                Camera.main.transform.DORotate(new Vector3(startRot.x, 0f, startRot.z), 0.6f).SetUpdate(UpdateType.Late).SetEase(Ease.OutQuart);
+                Camera.main.transform.DORotate(new Vector3(startRot.x, 0f, startRot.z), 1.5f).SetUpdate(UpdateType.Late).SetEase(Ease.OutQuart);
                 break;
             case MenuWindowType.Lobby:
-                Camera.main.transform.DORotate(new Vector3(startRot.x, 180f, startRot.z), 0.6f).SetUpdate(UpdateType.Late).SetEase(Ease.OutQuart);
+                Camera.main.transform.DORotate(new Vector3(startRot.x, 180f, startRot.z), 3.5f).SetUpdate(UpdateType.Late).SetEase(Ease.InOutSine);
                 break;
             default:
                 break;
