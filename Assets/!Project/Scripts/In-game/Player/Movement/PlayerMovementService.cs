@@ -11,7 +11,7 @@ public class PlayerMovementService : MonoBehaviour
     Rigidbody _rb;
     CapsuleCollider _capsuleCollider;
 
-    PlayerStats _playerStats;
+    PlayerStatsConfig _playerStats;
 
     [SerializeField] float _sprintSpeedMultiplier = 1.5f;
     [SerializeField] float _acceleration = 1f;
@@ -34,7 +34,7 @@ public class PlayerMovementService : MonoBehaviour
         
     }
 
-    public void Init(Player player, PlayerStats playerStats, Rigidbody rb, CapsuleCollider capsuleCollider)
+    public void Init(Player player, PlayerStatsConfig playerStats, Rigidbody rb, CapsuleCollider capsuleCollider)
     {
         _player = player;
 

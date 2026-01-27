@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AggroController : MonoBehaviour
 {
-    EnemyStats _enemyStats;
+    EnemyStatsConfig _enemyStats;
 
     Player _aggroPlayer;
 
@@ -18,7 +18,7 @@ public class AggroController : MonoBehaviour
     public event Action OnAggroRelease;
     public bool IsInitialized { get; private set; } = false;
 
-    public void Init(EnemyStats enemyStats)
+    public void Init(EnemyStatsConfig enemyStats)
     {
         _enemyStats = enemyStats;
 

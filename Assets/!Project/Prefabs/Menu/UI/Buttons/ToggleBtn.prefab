@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 246.67499, y: -32.5}
-  m_SizeDelta: {x: 204.45, y: 65}
+  m_AnchoredPosition: {x: 216.67499, y: -32.5}
+  m_SizeDelta: {x: 144.45, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6133307224228842633
 CanvasRenderer:
@@ -303,13 +303,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6975513603857798359}
-  - {fileID: 2693070718866670507}
   m_Father: {fileID: 7438711271067116781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 102.225, y: -32.5}
-  m_SizeDelta: {x: 204.45, y: 65}
+  m_AnchoredPosition: {x: 72.225, y: -32.5}
+  m_SizeDelta: {x: 144.45, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7936545654905875589
 CanvasRenderer:
@@ -377,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
   m_Padding:
     m_Left: 0
-    m_Right: 20
+    m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
@@ -389,81 +388,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &5067817582446938992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2693070718866670507}
-  - component: {fileID: 230505873743778243}
-  - component: {fileID: 3100915254592743343}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2693070718866670507
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5067817582446938992}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5503653614380398686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 164.45, y: -32.5}
-  m_SizeDelta: {x: 40, y: 40}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &230505873743778243
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5067817582446938992}
-  m_CullTransparentMesh: 1
---- !u!114 &3100915254592743343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5067817582446938992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.09665048, g: 1, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6327446df445a6b44bb30b242c595461, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1001 &1290664146556613706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3041341699714950308, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 65
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3041341699714950308, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -543,6 +467,34 @@ PrefabInstance:
     - target: {fileID: 3453224368268182920, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -32.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6129734091212704487}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerToggleClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ToggleButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5090684967174767522, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5271346458480782405, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
       propertyPath: m_text
@@ -687,6 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToggleButton
   _activeVisuals: {fileID: 287267244099397115}
   _inactiveVisuals: {fileID: 8183412011143459863}
+  _toggleOnClick: 1
 --- !u!1 &8183412011143459863 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6951321341455237213, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}

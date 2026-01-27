@@ -9,17 +9,17 @@ public class PlayerController : MonoBehaviour
     Rigidbody _rb;
     CapsuleCollider _capsuleCollider;
 
-    [SerializeField] PlayerStatsData _playerStatsData;
-    PlayerStats _playerStats;
+    PlayerStatsConfig _playerStatsConfig;
 
-    [SerializeField] PlayerVisuals _playerVisuals;
+    [field: SerializeField] public PlayerVisuals PlayerVisuals { get; private set; }
 
     [SerializeField] PlayerMovementService _playerMovementServicePrefab;
     PlayerMovementService _playerMovementService;
 
     [SerializeField] CameraController _cameraControllerPrefab;
-    CameraController _cameraController;
+    public CameraController CameraController { get; private set; }
 
+    [field: SerializeField] public PlayerInventory PlayerInventory { get; private set; }
     public bool IsInitialized { get; private set; } = false;
     private void Start()
     {
@@ -33,28 +33,33 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
 
-        _playerStats = new PlayerStats(_playerStatsData);
+        GameDifficultyConfig difficultyConfig = GameDifficultyManager.Instance.SelectedConfig;
+        _playerStatsConfig = difficultyConfig.PlayersStats.Clone();
 
         if (_player.IsOwner)
         {
-            _cameraController = Instantiate(_cameraControllerPrefab, transform);
-            _cameraController.Init();
+            CameraController = Instantiate(_cameraControllerPrefab, transform);
+            CameraController.Init();
+
+            PlayerInventory.Init(_player);
+            CameraController.OnRaycast += PlayerInventory.HandleRaycast;
         }
-        _playerVisuals.Init(_player.ModelKey);
+
+        PlayerVisuals.Init(_player.ModelKey);
 
         _playerMovementService = Instantiate(_playerMovementServicePrefab, transform);
-        _playerMovementService.Init(_player, _playerStats, _rb, _capsuleCollider);
+        _playerMovementService.Init(_player, _playerStatsConfig, _rb, _capsuleCollider);
 
         if (_player.IsOwner)
         {
-            _cameraController.OnLookPositionUpdate += _playerVisuals.AnimatorController.SetLookPosition;
-            _cameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
+            CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
+            CameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
 
-            _playerMovementService.OnWalkStart += _playerVisuals.HandleWalk;
-            _playerMovementService.OnWalkUpdate += _playerVisuals.HandleWalk;
+            _playerMovementService.OnWalkStart += PlayerVisuals.HandleWalk;
+            _playerMovementService.OnWalkUpdate += PlayerVisuals.HandleWalk;
 
-            _cameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
-            _cameraController.OnRotationUpdate += _player.RPC_RequestSetCharacterRotation;
+            CameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
+            CameraController.OnRotationUpdate += _player.RPC_RequestSetCharacterRotation;
         }
 
         IsInitialized = true;
@@ -64,7 +69,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsInitialized) return;
 
-        _playerVisuals.AnimatorController.SetLookPosition(lookPosition);
+        PlayerVisuals.AnimatorController.SetLookPosition(lookPosition);
     }
     public void SetCharacterRotation(float rotationY)
     {

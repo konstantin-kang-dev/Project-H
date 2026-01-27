@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyMovementService : MonoBehaviour
 {
-    EnemyStats _enemyStats;
+    EnemyStatsConfig _enemyStats;
     NavMeshAgent _navMeshAgent;
 
     Transform _target;
@@ -13,7 +13,7 @@ public class EnemyMovementService : MonoBehaviour
 
     public event Action<bool, Transform> OnMove;
     public bool IsInitialized { get; private set; } = false;
-    public void Init(EnemyStats enemyStats)
+    public void Init(EnemyStatsConfig enemyStats)
     {
         _enemyStats = enemyStats;
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
