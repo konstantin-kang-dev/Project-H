@@ -24,6 +24,8 @@ public class MenuManager : MonoBehaviour
         LobbyManager.Instance.OnClientConnectionLost += HandleLobbyBackBtn;
 
         _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
+
+        GameDifficultyManager.Instance.Init();
     }
 
     void HandleCreateLobbyButton()

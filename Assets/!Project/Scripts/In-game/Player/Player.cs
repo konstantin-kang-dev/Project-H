@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour
     public bool IsSprinting => _isSprinting.Value;
 
     public bool IsInvincible = false;
-    [SerializeField] PlayerController _playerController;
+    [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [field: SerializeField] public bool IsInitialized { get; private set; } = false;
     private void Awake()
     {
@@ -63,7 +63,7 @@ public class Player : NetworkBehaviour
 
     public void Init()
     {
-        _playerController.Init(this);
+        PlayerController.Init(this);
 
         IsInitialized = true;
     }
@@ -103,7 +103,7 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleLookPositionChange(Vector3 prev, Vector3 next, bool asServer)
     {
-        _playerController.SetLookPosition(next);
+        PlayerController.SetLookPosition(next);
     }
 
     [ServerRpc]
@@ -115,7 +115,7 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleCharacterRotationChange(float prev, float next, bool asServer)
     {
-        _playerController.SetCharacterRotation(next);
+        PlayerController.SetCharacterRotation(next);
     }
 
     [ServerRpc]
@@ -127,7 +127,7 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleWalkingStateChange(bool prev, bool next, bool asServer)
     {
-        _playerController.SetWalkingState(next);
+        PlayerController.SetWalkingState(next);
     }
 
     [ServerRpc]
@@ -139,7 +139,7 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleSprintingStateChange(bool prev, bool next, bool asServer)
     {
-        _playerController.SetSprintingState(next);
+        PlayerController.SetSprintingState(next);
     }
 
     void Update()

@@ -81,6 +81,11 @@ public class AnimatorController : SerializedMonoBehaviour
         OnLookPositionUpdate?.Invoke(_worldLookPos);
     }
 
+    public void SetItemInHand(IPickable item)
+    {
+        //item.Transform.parent
+    }
+
     public void ResetController()
     {
         OnAnimatorStateChanged = null;

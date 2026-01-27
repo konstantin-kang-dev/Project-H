@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] EnemyStats _enemyStats;
+    [SerializeField] EnemyStatsConfig _enemyStats;
 
     [SerializeField] EnemyMovementService _enemyMovementServicePrefab;
     EnemyMovementService _enemyMovementService;

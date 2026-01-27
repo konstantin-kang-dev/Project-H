@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +8,21 @@ public class ToggleButton : MonoBehaviour
     [SerializeField] GameObject _activeVisuals;
     [SerializeField] GameObject _inactiveVisuals;
     bool _state = false;
+    public bool State => _state;
+
+    [SerializeField] bool _toggleOnClick = true;
+
+    public event Action<ToggleButton> OnToggle;
 
     public Button Button { get; private set; }
 
     private void Awake()
     {
         Button = GetComponent<Button>();
+        if (_toggleOnClick)
+        {
+            Button.onClick.AddListener(Toggle);
+        }
     }
 
     public void Toggle()
@@ -39,5 +49,7 @@ public class ToggleButton : MonoBehaviour
             _activeVisuals.SetActive(false);
             _inactiveVisuals.SetActive(true);
         }
+
+        OnToggle?.Invoke(this);
     }
 }

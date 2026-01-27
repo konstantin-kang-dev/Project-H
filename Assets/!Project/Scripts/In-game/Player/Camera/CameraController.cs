@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
 
     public event Action<Vector3> OnLookPositionUpdate;
     public event Action<Vector2> OnRotationUpdate;
+    public event Action<Collider> OnRaycast;
     public bool IsInitialized { get; private set; } = false;
     void Start()
     {
@@ -32,6 +33,8 @@ public class CameraController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        GameCanvas.Instance.SetCamera(_camera);
          
         IsInitialized = true;
     }
@@ -41,6 +44,13 @@ public class CameraController : MonoBehaviour
         if (!IsInitialized) return;
 
         Rotate(_input.CurrentLookInput);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsInitialized) return;
+
+        CheckForCollider();
     }
 
     void Rotate(Vector2 moveDelta)
@@ -60,4 +70,18 @@ public class CameraController : MonoBehaviour
         OnRotationUpdate?.Invoke(_currentRotation);
     }
 
+    Collider CheckForCollider()
+    {
+        Collider collider = null;
+        Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = _camera.ScreenPointToRay(screenCenter);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            collider = hitInfo.collider;
+        }
+
+        OnRaycast?.Invoke(collider);
+        return collider;
+    }
 }

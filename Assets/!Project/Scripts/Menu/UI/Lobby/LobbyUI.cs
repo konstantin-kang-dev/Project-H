@@ -1,4 +1,5 @@
 using FishNet.Managing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
 {
     [field: SerializeField] public MenuWindowType WindowType { get; private set; }
     [SerializeField] BasicWindowVisuals _visuals;
+
+    [SerializeField] ToggleGroup _difficultyToggleGroup;
 
     [SerializeField] Button _backBtn;
     [SerializeField] ToggleButton _readyBtn;
@@ -20,6 +23,9 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
 
     public void Init()
     {
+        _difficultyToggleGroup.OnToggle += HandleDifficultyToggle;
+        _difficultyToggleGroup.ResetValues();
+
         SetStartBtnVisibility(LobbyManager.Instance.IsServerStarted);
         SetStartBtnInteractable(false);
 
@@ -28,7 +34,16 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
             LobbyManager.Instance.OnPlayersReady += HandlePlayersReadyChange;
         }
 
-        BindActionToReadyBtn(HandleClickReadyBtn);
+        _readyBtn.OnToggle += HandleClickReadyBtn;
+    }
+
+    void HandleDifficultyToggle(int value)
+    {
+        GameDifficultyConfig selectedConfig = GameDifficultyManager.Instance.GetConfigByIndex(value);
+        if (selectedConfig != null)
+        {
+            GameDifficultyManager.Instance.SelectConfig(selectedConfig.DifficultyName);
+        }
     }
 
     public void BindActionToBackBtn(UnityAction action)
@@ -37,13 +52,12 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
     }
     public void BindActionToReadyBtn(UnityAction action)
     {
-        _readyBtn.Button.onClick.AddListener(action);
+        
     }
-    void HandleClickReadyBtn()
+    void HandleClickReadyBtn(ToggleButton toggleButton)
     {
-        bool readyState = !LobbyManager.Instance.LocalPlayerReadyState;
+        bool readyState = toggleButton.State;
         LobbyManager.Instance.ChangeReadyState(readyState);
-        _readyBtn.SetState(readyState);
     }
     public void BindActionToStartBtn(UnityAction action)
     {
