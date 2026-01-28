@@ -4,6 +4,10 @@ public class GameCanvas : MonoBehaviour
 {
     public static GameCanvas Instance { get; private set; }
     Canvas _canvas;
+
+    [SerializeField] InventoryUI _inventoryUI;
+
+    public bool IsInitialized { get; private set; } = false;
     void Awake()
     {
         _canvas = GetComponent<Canvas>();
@@ -16,7 +20,12 @@ public class GameCanvas : MonoBehaviour
         _canvas.worldCamera = camera;
     }
 
-    // Update is called once per frame
+    public void Init()
+    {
+        _inventoryUI.Init();
+
+        IsInitialized = true;
+    }
     void Update()
     {
         

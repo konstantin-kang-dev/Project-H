@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameDifficultyConfig", menuName = "GameData/GameDifficultyConfig")]
-public class GameDifficultyConfig : ScriptableObject
+public class GameDifficultyConfig : SerializedScriptableObject
 {
     public string DifficultyName = "";
     public PlayerStatsConfig PlayersStats;
@@ -11,7 +12,7 @@ public class GameDifficultyConfig : ScriptableObject
 
     public GameDifficultyConfig Clone()
     {
-        GameDifficultyConfig config = ScriptableObject.CreateInstance<GameDifficultyConfig>();
+        GameDifficultyConfig config = CreateInstance<GameDifficultyConfig>();
         config.DifficultyName = DifficultyName;
         config.PlayersStats = PlayersStats.Clone();
         config.EnemyStats = EnemyStats.Clone();

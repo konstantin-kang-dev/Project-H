@@ -1,4 +1,5 @@
-﻿using FishNet.Connection;
+﻿using Cysharp.Threading.Tasks;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
@@ -21,7 +22,7 @@ public class GameManager : NetworkBehaviour
     readonly SyncVar<Dictionary<int, bool>> _playersReadyToStart = new SyncVar<Dictionary<int, bool>>();
     public event Action OnAllPlayersReadyToStart;
 
-    Player _localPlayer;
+    [field: SerializeField] public Player LocalPlayer { get; private set; }
 
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Player> Players => _players;
@@ -73,7 +74,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
-    public void SERVER_StartGame()
+    public async void SERVER_StartGame()
     {
         SpawnPlayers();
 
@@ -82,6 +83,8 @@ public class GameManager : NetworkBehaviour
             Player player = playerBlock.Value;
             player.SERVER_SetReadyToInit(true);
         }
+
+        await UniTask.WaitForSeconds(3);
 
         _gameState.Value = GameState.Started;
     }
@@ -124,7 +127,7 @@ public class GameManager : NetworkBehaviour
     [Client]
     public void RegisterLocalPlayer(Player player)
     {
-        _localPlayer = player;
+        LocalPlayer = player;
     }
 
 
@@ -149,10 +152,16 @@ public class GameManager : NetworkBehaviour
             case GameState.PreparingToStart:
                 break;
             case GameState.Started:
+                InitLocation();
                 break;
             case GameState.Ended:
                 break;
         }
+    }
+
+    void InitLocation()
+    {
+        GameCanvas.Instance.Init();
     }
 
     void Update()

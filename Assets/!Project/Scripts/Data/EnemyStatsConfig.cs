@@ -1,8 +1,9 @@
-﻿using UnityEditor;
+﻿using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyStatsConfig", menuName = "GameData/EnemyStatsConfig")]
-public class EnemyStatsConfig : ScriptableObject
+public class EnemyStatsConfig : SerializedScriptableObject
 {
     public float MoveSpeed = 2f;
     public float SprintSpeed = 2f;

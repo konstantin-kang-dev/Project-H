@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IPickable
 {
-    string Name { get; }
+    ItemConfig ItemConfig { get; }
     Transform Transform { get; }
     void PickUp(int playerObjectId);
     void Drop();

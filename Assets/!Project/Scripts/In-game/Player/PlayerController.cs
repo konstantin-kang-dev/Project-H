@@ -44,6 +44,11 @@ public class PlayerController : MonoBehaviour
             PlayerInventory.Init(_player);
             CameraController.OnRaycast += PlayerInventory.HandleRaycast;
         }
+        else
+        {
+            _rb.isKinematic = true;
+
+        }
 
         PlayerVisuals.Init(_player.ModelKey);
 
@@ -52,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
         if (_player.IsOwner)
         {
+            PlayerVisuals.AnimatorController.SetHeadVisibility(false);
             CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
             CameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
 

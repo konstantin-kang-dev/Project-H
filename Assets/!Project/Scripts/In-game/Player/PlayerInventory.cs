@@ -1,21 +1,28 @@
 ﻿using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 public class PlayerInventory : NetworkBehaviour
 {
     Player _player;
-    [SerializeField] int _capacity = 3;
+    [SerializeField] int _capacity = 5;
     [SerializeField] float _interactionRange = 3f;
     [SerializeField] LayerMask _interactionLayer;
 
     IInput _input;
     
-    List<IPickable> _items = new List<IPickable>();
+    Dictionary<int, IPickable> _items = new Dictionary<int, IPickable>();
+    public Dictionary<int, IPickable> Items => _items;
+
+    int _selectedItemIndex = 0;
     IPickable _selectedItem = null;
     public IPickable SelectedItem => _selectedItem;
+    public event Action<int> OnSelectedItem;
+
     IPickable _hoveredPickable = null;
     IInteractable _hoveredInteractable = null;
 
@@ -33,8 +40,20 @@ public class PlayerInventory : NetworkBehaviour
     public void Init(Player player)
     {
         _player = player;
+
+        _items.Clear();
+        for (int i = 0; i < _capacity; i++)
+        {
+            _items[i] = null;
+        }
+
         _input = new DefaultInput();
         _input.OnInteract += HandleInteractInput;
+        _input.OnDrop += HandleDropInput;
+        _input.OnNextInventorySlot += HandleNextInventorySlotInput;
+        _input.OnPreviousInventorySlot += HandlePreviousInventorySlotInput;
+
+        SelectItem(0);
 
         IsInitialized = true;
     }
@@ -53,30 +72,50 @@ public class PlayerInventory : NetworkBehaviour
     {
         if (_items.Count >= _capacity) return;
 
-        Debug.Log($"[PlayerInventory] Picked up item: {item.Name}");
+        Debug.Log($"[PlayerInventory] Picked up item: {item.ItemConfig.Type}");
 
         item.PickUp(_player.ObjectId);
 
-        _items.Add(item);
+        int chosenIndex = 0;
+        if(_selectedItem == null)
+        {
+            chosenIndex = _selectedItemIndex;
+            _items[chosenIndex] = item;
+        }
+        else
+        {
+            chosenIndex = GetFreeItemIndex();
+            _items[chosenIndex] = item;
+        }
+
+        SelectItem(chosenIndex);
     }
 
     void Drop()
     {
         if(_selectedItem == null) return;
         _selectedItem.Drop();
+
+        Debug.Log($"[PlayerInventory] Droped up item: {_selectedItem.ItemConfig.Type}");
+
+        _items[_selectedItemIndex] = null;
     }
     
     void DropAll()
     {
         foreach (var item in _items)
         {
-            item.Drop();
+            if(item.Value != null)
+            {
+                item.Value.Drop();
+            }
+            
         }
     }
 
     public void SelectItem(bool goForward)
     {
-        int index = _items.IndexOf(_selectedItem);
+        int index = _selectedItemIndex;
         if (goForward)
         {
             if (index >= _items.Count - 1)
@@ -107,16 +146,16 @@ public class PlayerInventory : NetworkBehaviour
     {
         if(index < 0 || index >= _items.Count)
         {
-            throw new System.Exception($"[PlayerInventory] Index of item is out of range.");
+            throw new System.Exception($"[PlayerInventory] Index ({index}) of item is out of range.");
         }
 
         _selectedItem = _items[index];
+        _selectedItemIndex = index;
+        OnSelectedItem?.Invoke(index);
     }
 
     void HandleInteractInput()
     {
-        Debug.Log($"[PlayerInventory] Interact");
-
         if (_hoveredPickable != null)
         {
             PickUp(_hoveredPickable);
@@ -127,6 +166,21 @@ public class PlayerInventory : NetworkBehaviour
         {
             _hoveredInteractable.Interact();
         }
+    }
+    void HandleDropInput()
+    {
+
+        if (_selectedItem == null) return;
+
+        Drop();
+    }
+    void HandleNextInventorySlotInput()
+    {
+        SelectItem(true);
+    }
+    void HandlePreviousInventorySlotInput()
+    {
+        SelectItem(false);
     }
     public void HandleRaycast(Collider collider)
     {
@@ -163,7 +217,36 @@ public class PlayerInventory : NetworkBehaviour
         return interactable;
     }
 
+    bool IsFullfilled()
+    {
+        bool result = true;
 
+        foreach(var item in _items)
+        {
+            if(item.Value == null)
+            {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+    int GetFreeItemIndex()
+    {
+        int freeIndex = 0;
+
+        foreach (var item in _items)
+        {
+            if(item.Value == null)
+            {
+                break;
+            }
+
+            freeIndex++;
+        }
+
+        return freeIndex;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other == null) return;
