@@ -10,6 +10,8 @@ public class ItemConfig : SerializedScriptableObject
     public Vector3 HandHoldingPosition;
     public Vector3 HandHoldingRotation;
 
+    public Sprite InventoryIcon;
+
     public ItemConfig Clone()
     {
         return (ItemConfig)MemberwiseClone();

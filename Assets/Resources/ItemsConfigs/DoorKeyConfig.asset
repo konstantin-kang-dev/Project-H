@@ -24,3 +24,4 @@ MonoBehaviour:
   Type: 0
   HandHoldingPosition: {x: 0.24, y: 0.3, z: 0.3}
   HandHoldingRotation: {x: 0, y: -90, z: -90}
+  InventoryIcon: {fileID: 21300000, guid: cde8800466cc6834d805d9d8d1536337, type: 3}

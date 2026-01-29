@@ -10,6 +10,8 @@ public class InventorySlotUI : MonoBehaviour
 
     Sequence _selectAnim;
     Sequence _deselectAnim;
+
+    IPickable _item;
     private void Awake()
     {
         _selectAnim = DOTween.Sequence();
@@ -42,5 +44,20 @@ public class InventorySlotUI : MonoBehaviour
     public void Deselect()
     {
         _deselectAnim.Restart();
+    }
+
+    public void SetItem(IPickable item)
+    {
+        _item = item;
+        _itemImage.sprite = _item.ItemConfig.InventoryIcon;
+        _itemImage.gameObject.SetActive(true);
+    }
+
+    public void Clear()
+    {
+        _item = null;
+
+        _itemImage.sprite = null;
+        _itemImage.gameObject.SetActive(false);
     }
 }

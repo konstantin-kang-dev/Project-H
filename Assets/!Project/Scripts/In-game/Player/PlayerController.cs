@@ -38,15 +38,14 @@ public class PlayerController : MonoBehaviour
 
         if (_player.IsOwner)
         {
+            _rb.isKinematic = false;
             CameraController = Instantiate(_cameraControllerPrefab, transform);
             CameraController.Init();
 
-            PlayerInventory.Init(_player);
             CameraController.OnRaycast += PlayerInventory.HandleRaycast;
         }
         else
         {
-            _rb.isKinematic = true;
 
         }
 
@@ -68,7 +67,14 @@ public class PlayerController : MonoBehaviour
             CameraController.OnRotationUpdate += _player.RPC_RequestSetCharacterRotation;
         }
 
+        PlayerInventory.Init(_player);
+
         IsInitialized = true;
+
+        if (_player.IsOwner)
+        {
+            Debug.Log($"[PlayerController] Initialized.");
+        }
     }
 
     public void SetLookPosition(Vector3 lookPosition)

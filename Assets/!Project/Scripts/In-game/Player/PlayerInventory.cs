@@ -1,4 +1,5 @@
-﻿using FishNet.Object;
+﻿using FishNet.Connection;
+using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,12 @@ using UnityEngine;
 
 public class PlayerInventory : NetworkBehaviour
 {
+    public struct InventorySelection
+    {
+        public int ObjectId;
+        public int InventoryIndex;
+    }
+
     Player _player;
     [SerializeField] int _capacity = 5;
     [SerializeField] float _interactionRange = 3f;
@@ -20,8 +27,12 @@ public class PlayerInventory : NetworkBehaviour
 
     int _selectedItemIndex = 0;
     IPickable _selectedItem = null;
+    readonly SyncVar<InventorySelection> _inventorySelection = new SyncVar<InventorySelection>();
     public IPickable SelectedItem => _selectedItem;
-    public event Action<int> OnSelectedItem;
+
+    public event Action<IPickable, int> OnItemPickUp;
+    public event Action<IPickable, int> OnItemDrop;
+    public event Action<IPickable, int> OnSelectedItem;
 
     IPickable _hoveredPickable = null;
     IInteractable _hoveredInteractable = null;
@@ -30,11 +41,18 @@ public class PlayerInventory : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        _inventorySelection.Value = new InventorySelection()
+        {
+            InventoryIndex = 0,
+            ObjectId = -1,
+        };
     }
 
     public void Init(Player player)
@@ -47,13 +65,19 @@ public class PlayerInventory : NetworkBehaviour
             _items[i] = null;
         }
 
-        _input = new DefaultInput();
-        _input.OnInteract += HandleInteractInput;
-        _input.OnDrop += HandleDropInput;
-        _input.OnNextInventorySlot += HandleNextInventorySlotInput;
-        _input.OnPreviousInventorySlot += HandlePreviousInventorySlotInput;
+        _inventorySelection.OnChange += HandleSelectItem;
 
-        SelectItem(0);
+        if (IsOwner)
+        {
+            _input = new DefaultInput();
+            _input.OnInteract += HandleInteractInput;
+            _input.OnDrop += HandleDropInput;
+            _input.OnNextInventorySlot += HandleNextInventorySlotInput;
+            _input.OnPreviousInventorySlot += HandlePreviousInventorySlotInput;
+
+            SelectItem(0);
+        }
+
 
         IsInitialized = true;
     }
@@ -70,9 +94,7 @@ public class PlayerInventory : NetworkBehaviour
 
     void PickUp(IPickable item)
     {
-        if (_items.Count >= _capacity) return;
-
-        Debug.Log($"[PlayerInventory] Picked up item: {item.ItemConfig.Type}");
+        if (IsFullfilled()) return;
 
         item.PickUp(_player.ObjectId);
 
@@ -88,15 +110,27 @@ public class PlayerInventory : NetworkBehaviour
             _items[chosenIndex] = item;
         }
 
+        Debug.Log($"[PlayerInventory] Picked up item: {item.ItemConfig.Type} in slot: {chosenIndex}");
+
+        OnItemPickUp?.Invoke(item, chosenIndex);
         SelectItem(chosenIndex);
     }
 
     void Drop()
     {
         if(_selectedItem == null) return;
+
+        Debug.Log($"[PlayerInventory] Droped item: {_selectedItem.ItemConfig.Type}");
+
+        RPC_RequestSelectItem(new InventorySelection()
+        {
+            ObjectId = -1,
+            InventoryIndex = _selectedItemIndex,
+        });
+
         _selectedItem.Drop();
 
-        Debug.Log($"[PlayerInventory] Droped up item: {_selectedItem.ItemConfig.Type}");
+        OnItemDrop?.Invoke(_selectedItem, _selectedItemIndex);
 
         _items[_selectedItemIndex] = null;
     }
@@ -109,7 +143,6 @@ public class PlayerInventory : NetworkBehaviour
             {
                 item.Value.Drop();
             }
-            
         }
     }
 
@@ -149,9 +182,59 @@ public class PlayerInventory : NetworkBehaviour
             throw new System.Exception($"[PlayerInventory] Index ({index}) of item is out of range.");
         }
 
-        _selectedItem = _items[index];
-        _selectedItemIndex = index;
-        OnSelectedItem?.Invoke(index);
+
+        InventorySelection inventorySelection = new InventorySelection()
+        {
+            InventoryIndex = index,
+        };
+
+        IPickable selectedItem = _items[index];
+
+        if(selectedItem == null)
+        {
+            RPC_RequestSelectItem(inventorySelection);
+        }
+        else
+        {
+            inventorySelection.ObjectId = selectedItem.ItemObjectId;
+            RPC_RequestSelectItem(inventorySelection);
+        }
+    }
+
+    [ServerRpc]
+    void RPC_RequestSelectItem(InventorySelection inventorySelection)
+    {
+        _inventorySelection.Value = inventorySelection;
+    }
+
+    [Client]
+    void HandleSelectItem(InventorySelection prev, InventorySelection next, bool asServer)
+    {
+        if (_selectedItem != null)
+        {
+            _selectedItem.SetVisibility(false);
+            _player.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(_selectedItem, false);
+            //Debug.Log($"[PlayerInventory] Deselected item: {_selectedItem}");
+        }
+
+        IPickable selectedItem = null;
+
+        if (ClientManager.Objects.Spawned.TryGetValue(next.ObjectId, out NetworkObject networkObject))
+        {
+            selectedItem = networkObject.GetComponent<IPickable>();
+
+            selectedItem.SetHighlight(false);
+            selectedItem.SetVisibility(true);
+
+            _player.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(selectedItem, true);
+
+        }
+
+        _selectedItemIndex = next.InventoryIndex;
+        _selectedItem = selectedItem;
+
+        //Debug.Log($"[PlayerInventory] Selected item: {_selectedItem} in slot: {_selectedItemIndex}");
+        OnSelectedItem?.Invoke(_selectedItem, next.InventoryIndex);
     }
 
     void HandleInteractInput()
@@ -169,7 +252,6 @@ public class PlayerInventory : NetworkBehaviour
     }
     void HandleDropInput()
     {
-
         if (_selectedItem == null) return;
 
         Drop();
@@ -256,7 +338,7 @@ public class PlayerInventory : NetworkBehaviour
             if (pickable == null) return;
             
             pickable.SetHighlight(true);
-            Debug.Log($"[PlayerInventory] OnTriggerEnter {other.gameObject.name}");
+            //Debug.Log($"[PlayerInventory] OnTriggerEnter {other.gameObject.name}");
         }
     }
     private void OnTriggerExit(Collider other)
@@ -268,7 +350,17 @@ public class PlayerInventory : NetworkBehaviour
             if (pickable == null) return;
             
             pickable.SetHighlight(false);
-            Debug.Log($"[PlayerInventory] OnTriggerExit {other.gameObject.name}");
+            //Debug.Log($"[PlayerInventory] OnTriggerExit {other.gameObject.name}");
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if (IsOwner)
+        {
+            DropAll();
         }
     }
 }

@@ -8,6 +8,8 @@ public class DefaultInput : IInput
     public Vector2 CurrentMoveInput => GetInputMove();
     public Vector2 CurrentLookInput => GetInputLook();
 
+    private float _lastInventoryInteraction = 0f;
+    private const float INVENTORY_INTERACTION_COOLDOWN = 0.03f;
     #region INPUT_EVENTS
     public event Action OnInteract;
     public event Action OnDrop;
@@ -46,13 +48,21 @@ public class DefaultInput : IInput
     {
         OnDrop?.Invoke();
     }
-    void HandleNextInventorySlotTrigger(InputAction.CallbackContext context)
+    private void HandleNextInventorySlotTrigger(InputAction.CallbackContext context)
     {
-        OnNextInventorySlot?.Invoke();
+        if (Time.time - _lastInventoryInteraction >= INVENTORY_INTERACTION_COOLDOWN)
+        {
+            _lastInventoryInteraction = Time.time;
+            OnNextInventorySlot?.Invoke();
+        }
     }
-    void HandlePreviousInventorySlotTrigger(InputAction.CallbackContext context)
+    private void HandlePreviousInventorySlotTrigger(InputAction.CallbackContext context)
     {
-        OnPreviousInventorySlot?.Invoke();
+        if (Time.time - _lastInventoryInteraction >= INVENTORY_INTERACTION_COOLDOWN)
+        {
+            _lastInventoryInteraction = Time.time;
+            OnPreviousInventorySlot?.Invoke();
+        }
     }
     #endregion
 

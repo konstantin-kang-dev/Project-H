@@ -9,7 +9,9 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
 {
     [field: SerializeField] public ItemConfig ItemConfig { get; private set; }
     public Transform Transform { get; private set; }
+    public int ItemObjectId { get; private set; } = -1;
 
+    [SerializeField] GameObject _container;
     protected NetworkTransform _netTransform;
     protected Rigidbody _rb;
     protected Collider _collider;
@@ -40,6 +42,10 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         base.OnStartClient();
 
         _picker.OnChange += HandlePickerChange;
+        ItemObjectId = ObjectId;
+
+        _rb.isKinematic = true;
+        _collider.enabled = true;
     }
 
     public override void OnStartServer()
@@ -48,6 +54,10 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
 
         _isPickedUp.Value = false;
         _picker.Value = -1;
+
+        _rb.isKinematic = false;
+        _collider.enabled = true;
+        _netTransform.enabled = true;
     }
 
     void Update()
@@ -71,31 +81,23 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         _rb.isKinematic = true;
         _collider.enabled = false;
         _netTransform.enabled = false;
-
         Debug.Log($"[BasicPickableItem] Picked up by: {_picker.Value}");
     }
 
     protected virtual void HandlePickerChange(int prev, int next, bool asServer)
     {
-        if(ClientManager.Objects.Spawned.TryGetValue(next, out NetworkObject networkObject))
+        if (ClientManager.Objects.Spawned.TryGetValue(Picker, out NetworkObject networkObject))
         {
             _lastPicker = networkObject.GetComponent<Player>();
             if (_lastPicker == null) return;
 
-            _rb.isKinematic = true;
             _collider.enabled = false;
-            _netTransform.enabled = false;
             SetHighlight(false);
-
-            _lastPicker.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(this, true);
         }
-        else if(_lastPicker != null) 
+        else if(_lastPicker != null)
         {
-            _lastPicker.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(this, false);
-
-            _rb.isKinematic = false;
+            SetVisibility(true);
             _collider.enabled = true;
-            _netTransform.enabled = true;
         }
     }
 
@@ -121,5 +123,9 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         {
             outline.enabled = value;
         }
+    }
+    public virtual void SetVisibility(bool value)
+    {
+        _container.SetActive(value);
     }
 }

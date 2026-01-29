@@ -74,7 +74,7 @@ public class PlayerMovementService : MonoBehaviour
         Vector3 currentVel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
         Vector3 velDiff = targetVel - currentVel;
 
-        _rb.AddForce(velDiff * 10f, ForceMode.Force);
+        _rb.AddForce(velDiff * 500f, ForceMode.Force);
 
         bool prevWalkState = _isWalking;
         SetWalkingState(_currentInputs.x != 0 && _currentInputs.y != 0);

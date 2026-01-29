@@ -18,13 +18,24 @@ public class InventoryUI : MonoBehaviour
 
         Player localPlayer = GameManager.Instance.LocalPlayer;
         localPlayer.PlayerController.PlayerInventory.OnSelectedItem += HandleSelectItem;
+        localPlayer.PlayerController.PlayerInventory.OnItemPickUp += HandlePickUpItem;
+        localPlayer.PlayerController.PlayerInventory.OnItemDrop += HandleDropItem;
 
         IsInitialized = true;
 
         Debug.Log($"[InventoryUI] Initialized");
     }
 
-    void HandleSelectItem(int index)
+    void HandlePickUpItem(IPickable pickable, int index)
+    {
+        _inventorySlots[index].SetItem(pickable);
+    }
+    void HandleDropItem(IPickable pickable, int index)
+    {
+        _inventorySlots[index].Clear();
+    }
+
+    void HandleSelectItem(IPickable pickable, int index)
     {
         if(index > _inventorySlots.Count - 1)
         {
