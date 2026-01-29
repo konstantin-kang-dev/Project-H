@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class PlayerVisuals: NetworkBehaviour
@@ -16,7 +17,7 @@ public class PlayerVisuals: NetworkBehaviour
     Vector2 _targetMovementInputs = Vector2.zero;
     Vector2 _currentMovementInputs = Vector2.zero;
 
-    [SerializeField] ParticleSystem _modelChangeVfx;
+    [SerializeField] VisualEffect _modelChangeVfx;
 
     public event Action<PlayerModel, AnimatorController> OnPlayerModelChanged;
     public bool IsInitialized { get; private set; } = false;
