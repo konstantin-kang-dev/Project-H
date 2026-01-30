@@ -247,7 +247,7 @@ public class PlayerInventory : NetworkBehaviour
 
         if(_hoveredInteractable != null)
         {
-            _hoveredInteractable.Interact();
+            _hoveredInteractable.Interact(_player, _selectedItem);
         }
     }
     void HandleDropInput()

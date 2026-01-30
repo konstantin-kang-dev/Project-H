@@ -7,7 +7,12 @@ public class LaggingLamp : MonoBehaviour
     [SerializeField] bool _enableToggle = false;
     [SerializeField] float _minToggleInterval = 0.5f;
     [SerializeField] float _maxToggleInterval = 2f;
-    [SerializeField] float _lagInterval = 0.1f;
+
+    [SerializeField] float _minLagInterval = 0.1f;
+    [SerializeField] float _maxLagInterval = 0.1f;
+
+    [SerializeField] float _minLagIntensity = 1f;
+    [SerializeField] float _maxLagIntensity  = 1f;
 
     float _toggleTimer = 0;
     float _nextToggleInterval = 0;
@@ -16,6 +21,7 @@ public class LaggingLamp : MonoBehaviour
 
     float _lagTimer = 0;
     bool _lightLagState = false;
+    float _nextLagInterval = 0;
 
     float _initialIntensity = 0;
     void Awake()
@@ -41,9 +47,11 @@ public class LaggingLamp : MonoBehaviour
         {
             _lagTimer += Time.fixedDeltaTime;
 
-            if (_lagTimer >= _lagInterval)
+            if (_lagTimer >= _nextLagInterval)
             {
                 _lagTimer = 0;
+                _nextLagInterval = Random.Range(_minLagInterval, _maxLagInterval);
+
                 ToggleLag();
             }
         }
@@ -62,7 +70,8 @@ public class LaggingLamp : MonoBehaviour
 
         if (_lightLagState)
         {
-            SetLightIntensity(0.85f);
+            float intensity = Random.Range(_minLagIntensity, _maxLagIntensity);
+            SetLightIntensity(intensity);
         }
         else
         {

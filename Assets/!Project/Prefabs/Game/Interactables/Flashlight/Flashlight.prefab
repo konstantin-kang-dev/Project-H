@@ -157,10 +157,10 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1054.8971
-  m_Range: 10
-  m_SpotAngle: 63.962578
-  m_InnerSpotAngle: 37.78642
+  m_Intensity: 4304.7646
+  m_Range: 6
+  m_SpotAngle: 27.939863
+  m_InnerSpotAngle: 14.996528
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 1
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_ShapeRadius: 0.025
   m_SoftnessScale: 1
   m_UseCustomSpotLightShadowCone: 0
-  m_CustomSpotLightShadowCone: 28.140205
+  m_CustomSpotLightShadowCone: 22.79376
   m_MaxSmoothness: 0.99
   m_ApplyRangeAttenuation: 1
   m_DisplayAreaLightEmissiveMesh: 0

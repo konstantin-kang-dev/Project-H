@@ -14,7 +14,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
     [SerializeField] GameObject _container;
     protected NetworkTransform _netTransform;
     protected Rigidbody _rb;
-    protected Collider _collider;
+    [SerializeField] protected Collider _physicsCollider;
+    [SerializeField] protected Collider _triggerCollider;
 
     protected readonly SyncVar<bool> _isPickedUp = new SyncVar<bool>();
     public bool IsPickedUp => _isPickedUp.Value;
@@ -33,7 +34,6 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         ItemConfig = ItemConfig.Clone();
         Transform = transform;
         _rb = GetComponent<Rigidbody>();
-        _collider = GetComponent<Collider>();
         _netTransform = GetComponent<NetworkTransform>();
     }
 
@@ -45,7 +45,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         ItemObjectId = ObjectId;
 
         _rb.isKinematic = true;
-        _collider.enabled = true;
+        _physicsCollider.enabled = true;
+        _triggerCollider.enabled = true;
     }
 
     public override void OnStartServer()
@@ -56,7 +57,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         _picker.Value = -1;
 
         _rb.isKinematic = false;
-        _collider.enabled = true;
+        _physicsCollider.enabled = true;
+        _triggerCollider.enabled = true;
         _netTransform.enabled = true;
     }
 
@@ -79,7 +81,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         _picker.Value = playerObjectId;
 
         _rb.isKinematic = true;
-        _collider.enabled = false;
+        _physicsCollider.enabled = false;
+        _triggerCollider.enabled = false;
         _netTransform.enabled = false;
         Debug.Log($"[BasicPickableItem] Picked up by: {_picker.Value}");
     }
@@ -91,13 +94,15 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
             _lastPicker = networkObject.GetComponent<Player>();
             if (_lastPicker == null) return;
 
-            _collider.enabled = false;
+            _physicsCollider.enabled = false;
+            _triggerCollider.enabled = false;
             SetHighlight(false);
         }
         else if(_lastPicker != null)
         {
             SetVisibility(true);
-            _collider.enabled = true;
+            _physicsCollider.enabled = true;
+            _triggerCollider.enabled = true;
         }
     }
 
@@ -113,8 +118,11 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         _picker.Value = -1;
 
         _rb.isKinematic = false;
-        _collider.enabled = true;
+        _physicsCollider.enabled = true;
+        _triggerCollider.enabled = true;
         _netTransform.enabled = true;
+        
+        _rb.AddForce(_rb.transform.forward * 100f);
     }
 
     public virtual void SetHighlight(bool value)

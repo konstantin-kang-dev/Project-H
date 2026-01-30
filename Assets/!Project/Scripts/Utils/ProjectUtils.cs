@@ -27,20 +27,21 @@ public static class ProjectUtils
     {
         direction.Normalize();
 
-        // Создаём right вектор
         Vector3 right = Vector3.Cross(direction, Vector3.up);
         if (right.sqrMagnitude < 0.001f)
             right = Vector3.Cross(direction, Vector3.right);
         right.Normalize();
 
-        // Создаём up вектор
         Vector3 up = Vector3.Cross(right, direction);
 
-        // Случайные смещения
         float randomX = Random.Range(-width * 0.5f, width * 0.5f);
         float randomY = Random.Range(-height * 0.5f, height * 0.5f);
 
-        // Позиция = origin + центр прямоугольника + смещения
         return origin + direction * distance + right * randomX + up * randomY;
+    }
+    public static int GetRandomExcluding(int a, int b, int exc)
+    {
+        int result = Random.Range(a, b - 1);
+        return result >= exc ? result + 1 : result;
     }
 }
