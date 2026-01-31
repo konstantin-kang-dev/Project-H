@@ -210,6 +210,8 @@ public class PlayerInventory : NetworkBehaviour
     [Client]
     void HandleSelectItem(InventorySelection prev, InventorySelection next, bool asServer)
     {
+        if (asServer) return;
+
         if (_selectedItem != null)
         {
             _selectedItem.SetVisibility(false);

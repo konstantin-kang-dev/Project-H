@@ -103,9 +103,11 @@ public class LobbyPlayer : NetworkBehaviour
     [Client]
     void CLIENT_OnPlayerModelChanged(int prev, int next, bool asServer)
     {
+        if (asServer) return;
+
         _playerVisuals.ChangePlayerModel(next);
 
-        if(asServer)
+        if(IsServerStarted)
         {
             NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
             networkPlayerData.ModelKey = _modelKey.Value;
@@ -127,6 +129,8 @@ public class LobbyPlayer : NetworkBehaviour
     [Client] 
     void CLIENT_OnPlayerReadyChanged(bool prev, bool next, bool asServer)
     {
+        if (asServer) return;
+
         _lobbyPlayerUI.SetReadyIconVisibility(next);
 
         if (IsServerStarted)
@@ -148,7 +152,9 @@ public class LobbyPlayer : NetworkBehaviour
     [Client]
     void CLIENT_OnLookPositionUpdated(Vector3 prev, Vector3 next, bool asServer)
     {
-        if(_playerVisuals != null && _playerVisuals.AnimatorController != null)
+        if (asServer) return;
+
+        if (_playerVisuals != null && _playerVisuals.AnimatorController != null)
         {
             _playerVisuals.AnimatorController.SetLookPosition(next);
         }

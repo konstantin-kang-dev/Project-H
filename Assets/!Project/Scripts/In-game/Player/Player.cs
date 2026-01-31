@@ -76,6 +76,8 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleIsReadyToInitChange(bool prev, bool next, bool asServer)
     {
+        if (asServer) return;
+
         if (next)
         {
             Init();
@@ -103,6 +105,8 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleLookPositionChange(Vector3 prev, Vector3 next, bool asServer)
     {
+        if (asServer) return;
+
         PlayerController.SetLookPosition(next);
     }
 
@@ -115,6 +119,8 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleCharacterRotationChange(float prev, float next, bool asServer)
     {
+        if (asServer) return;
+
         PlayerController.SetCharacterRotation(next);
     }
 
@@ -127,6 +133,8 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleWalkingStateChange(bool prev, bool next, bool asServer)
     {
+        if (asServer) return;
+
         PlayerController.SetWalkingState(next);
     }
 
@@ -139,6 +147,8 @@ public class Player : NetworkBehaviour
     [Client]
     void HandleSprintingStateChange(bool prev, bool next, bool asServer)
     {
+        if (asServer) return;
+
         PlayerController.SetSprintingState(next);
     }
 

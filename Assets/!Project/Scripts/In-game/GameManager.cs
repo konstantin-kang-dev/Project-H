@@ -22,6 +22,9 @@ public class GameManager : NetworkBehaviour
     readonly SyncVar<Dictionary<int, bool>> _playersReadyToStart = new SyncVar<Dictionary<int, bool>>();
     public event Action OnAllPlayersReadyToStart;
 
+    readonly SyncVar<DifficultyType> _gameDifficulty = new SyncVar<DifficultyType>();
+    public DifficultyType GameDifficulty => _gameDifficulty.Value;
+
     [field: SerializeField] public Player LocalPlayer { get; private set; }
 
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
@@ -55,7 +58,8 @@ public class GameManager : NetworkBehaviour
         _gameState.Value = GameState.PreparingToStart;
         _playersReadyToStart.Value = new Dictionary<int, bool>();
         OnAllPlayersReadyToStart += SERVER_StartGame;
-        
+
+        _gameDifficulty.Value = GameDifficultyManager.Instance.SelectedConfig.DifficultyType;
     }
 
     public void Init()
@@ -63,7 +67,6 @@ public class GameManager : NetworkBehaviour
         if (IsServerStarted)
         {
             //SetupPlayers();
-
         }
         else
         {
@@ -147,6 +150,8 @@ public class GameManager : NetworkBehaviour
     [Client]
     void HandleGameStateChange(GameState prev, GameState next, bool asServer)
     {
+        if (asServer) return;
+
         switch (next)
         {
             case GameState.PreparingToStart:
@@ -162,6 +167,10 @@ public class GameManager : NetworkBehaviour
     void InitLocation()
     {
         GameCanvas.Instance.Init();
+        if (IsServerStarted)
+        {
+            ObjectivesManager.Instance.Init(GameDifficulty, LobbyManager.Instance.ConnectedPlayers.Count);
+        }
     }
 
     void Update()

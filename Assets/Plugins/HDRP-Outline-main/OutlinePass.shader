@@ -94,7 +94,7 @@ Shader "Hidden/Shader/OutlinePass"
             Name "Custom Pass 0"
 
             ZWrite Off
-            ZTest Always
+            ZTest LEqual
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Off
 

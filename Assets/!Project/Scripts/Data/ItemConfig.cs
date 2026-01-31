@@ -1,6 +1,13 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using UnityEditor;
 using UnityEngine;
+
+[Serializable]
+public enum ItemType
+{
+    DoorKey = 0,
+}
 
 [CreateAssetMenu(fileName = "ItemConfig", menuName = "GameData/ItemConfig")]
 public class ItemConfig : SerializedScriptableObject
