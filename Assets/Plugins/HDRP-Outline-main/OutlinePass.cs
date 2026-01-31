@@ -40,7 +40,7 @@ namespace Modules.Rendering.Outline
 
         protected override void Execute(CustomPassContext CTX)
         {
-            CoreUtils.SetRenderTarget(CTX.cmd, OutlineBuffer, ClearFlag.Color);
+            CoreUtils.SetRenderTarget(CTX.cmd, OutlineBuffer, CTX.cameraDepthBuffer, ClearFlag.Color);
 
             OutlineRenderers.ForEach((Renderer =>
             {
@@ -49,7 +49,7 @@ namespace Modules.Rendering.Outline
                     CTX.cmd.DrawRenderer(Renderer, Renderer.sharedMaterials[i], i);
                 }
             }));
-            
+
             CustomPassUtils.DrawRenderers(CTX, OutlineLayer);
 
 

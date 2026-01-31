@@ -3,17 +3,26 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+[Serializable]
+public enum DifficultyType
+{
+    FiftyPercent = 0,
+    HundredPercent = 1,
+    TwoHundredPercent = 2,
+    FourHundredPercent = 3,
+}
+
 [CreateAssetMenu(fileName = "GameDifficultyConfig", menuName = "GameData/GameDifficultyConfig")]
 public class GameDifficultyConfig : SerializedScriptableObject
 {
-    public string DifficultyName = "";
+    public DifficultyType DifficultyType;
     public PlayerStatsConfig PlayersStats;
     public EnemyStatsConfig EnemyStats;
 
     public GameDifficultyConfig Clone()
     {
         GameDifficultyConfig config = CreateInstance<GameDifficultyConfig>();
-        config.DifficultyName = DifficultyName;
+        config.DifficultyType = DifficultyType;
         config.PlayersStats = PlayersStats.Clone();
         config.EnemyStats = EnemyStats.Clone();
 

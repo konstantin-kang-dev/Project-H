@@ -89,6 +89,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
 
     protected virtual void HandlePickerChange(int prev, int next, bool asServer)
     {
+        if (asServer) return;
+
         if (ClientManager.Objects.Spawned.TryGetValue(Picker, out NetworkObject networkObject))
         {
             _lastPicker = networkObject.GetComponent<Player>();

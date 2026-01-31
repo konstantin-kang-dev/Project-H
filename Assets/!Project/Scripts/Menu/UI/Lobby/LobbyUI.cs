@@ -42,7 +42,7 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
         GameDifficultyConfig selectedConfig = GameDifficultyManager.Instance.GetConfigByIndex(value);
         if (selectedConfig != null)
         {
-            GameDifficultyManager.Instance.SelectConfig(selectedConfig.DifficultyName);
+            GameDifficultyManager.Instance.SelectConfig(selectedConfig.DifficultyType);
         }
     }
 

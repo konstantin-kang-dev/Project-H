@@ -1,0 +1,211 @@
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using static UnityEngine.Rendering.STP;
+using Random = UnityEngine.Random;
+
+public class ObjectivesManager : NetworkBehaviour
+{
+    public static ObjectivesManager Instance;
+    [SerializeField] List<ObjectiveConfig> _configs = new List<ObjectiveConfig>();
+    Dictionary<ObjectiveType, ObjectiveConfig> _cachedConfigs = new Dictionary<ObjectiveType, ObjectiveConfig>();
+
+    //ObjectiveConfig _chosenConfig;
+
+    readonly SyncVar<bool> _isInitialized = new SyncVar<bool>();
+
+    private readonly SyncDictionary<ObjectiveType, int> _objectives = new();
+    public IReadOnlyDictionary<ObjectiveType, int> Objectives => _objectives;
+
+    private readonly SyncDictionary<ObjectiveType, int> _completedObjectives = new();
+    public IReadOnlyDictionary<ObjectiveType, int> CompletedObjectives => _completedObjectives;
+
+    public event Action OnInitialize;
+    public event Action<ObjectiveType, int> OnObjectiveInitialized;
+    public event Action<ObjectiveType, string> OnObjectiveCollected;
+    public event Action<ObjectiveType> OnObjectiveCompleted;
+    public event Action OnAllObjectivesCollected;
+
+    private void Awake()
+    {
+        _cachedConfigs.Clear();
+        foreach (var config in _configs)
+        {
+            _cachedConfigs[config.Type] = config;
+        }
+        Instance = this;
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        _objectives.OnChange += OnObjectivesChanged;
+        _completedObjectives.OnChange += OnCompletedObjectivesChanged;
+        _isInitialized.OnChange += HandleInitialization;
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+    }
+
+    [Server]
+    public void Init(DifficultyType chosenDiff, int playersCount)
+    {
+        _completedObjectives.Clear();
+        _objectives.Clear();
+
+        List<ObjectiveConfig> configsCopy = new List<ObjectiveConfig>(_configs);
+
+        playersCount = 1; //MOK
+
+        for (int i = 0; i < playersCount; i++)
+        {
+            int randomConfigKey = Random.Range(0, configsCopy.Count);
+            ObjectiveConfig chosenConfig = configsCopy[randomConfigKey];
+            configsCopy.RemoveAt(randomConfigKey);
+
+            SpawnObjectives(chosenConfig, chosenDiff);
+        }
+        Debug.Log($"[ObjectivesManager] Initialized.");
+
+        _isInitialized.Value = true;
+    }
+
+    void SpawnObjectives(ObjectiveConfig objectiveConfig, DifficultyType diff)
+    {
+        int objectivesAmount = objectiveConfig.GetObjectivesAmountForDiff(diff);
+        _objectives[objectiveConfig.Type] = 0;
+        _completedObjectives[objectiveConfig.Type] = 0;
+
+        for (int i = 0; i < objectivesAmount; i++)
+        {
+            Transform freePoint = ObjectivesPointsManager.Instance.GetFreePoint();
+            if (freePoint == null)
+            {
+                Debug.LogError($"[ObjectivesManager] Not enough free points. Breaking spawn loop");
+                break;
+            }
+
+            BasicObjectiveItem objectiveItem = Instantiate(objectiveConfig.ObjectivePrefab, freePoint.position, freePoint.rotation).GetComponent<BasicObjectiveItem>();
+            NetworkObject networkObject = objectiveItem;
+
+            ServerManager.Spawn(networkObject);
+            networkObject.SetParent(this);
+
+            objectiveItem.ResetAll();
+            objectiveItem.SetObjectiveType(objectiveConfig.Type);
+            objectiveItem.OnObjectiveCollected += HandleObjectivesInteraction;
+            _objectives[objectiveConfig.Type] += 1;
+        }
+
+        Debug.Log($"[ObjectivesManager] Spawned ({objectivesAmount}) items for objective {objectiveConfig.Type}.");
+    }
+
+    void HandleObjectivesInteraction(BasicObjectiveItem basicObjective)
+    {
+        ObjectiveType objectiveType = basicObjective.ObjectiveType;
+        if (IsCompletedObjective(objectiveType)) return;
+
+        _completedObjectives[objectiveType] += 1;
+    }
+
+    void OnCompletedObjectivesChanged(SyncDictionaryOperation op, ObjectiveType key, int value, bool asServer)
+    {
+        if (asServer) return;
+
+        switch (op)
+        {
+            case SyncDictionaryOperation.Add:
+            case SyncDictionaryOperation.Set:
+                HandleObjectiveProgress(key, value);
+                break;
+        }
+    }
+
+    void HandleObjectiveProgress(ObjectiveType type, int completed)
+    {
+        if (!_objectives.ContainsKey(type)) return;
+
+        int total = _objectives[type];
+        ObjectiveConfig config = _cachedConfigs[type];
+
+        string description = $"{config.Description} ({completed}/{total})";
+        OnObjectiveCollected?.Invoke(type, description);
+
+        if (completed >= total)
+        {
+            OnObjectiveCompleted?.Invoke(type);
+
+            if (IsCompletedAllObjectives())
+            {
+                OnAllObjectivesCollected?.Invoke();
+            }
+        }
+    }
+    void OnObjectivesChanged(SyncDictionaryOperation op, ObjectiveType key, int value, bool asServer)
+    {
+        if (asServer) return;
+
+        switch (op)
+        {
+            case SyncDictionaryOperation.Add:
+                HandleObjectiveAdded(key, value);
+                break;
+            case SyncDictionaryOperation.Set:
+                break;
+        }
+    }
+
+    void HandleObjectiveAdded(ObjectiveType type, int amount)
+    {
+        if (!_objectives.ContainsKey(type)) return;
+
+        OnObjectiveInitialized?.Invoke(type, amount);
+    }
+
+    bool IsCompletedObjective(ObjectiveType objectiveType)
+    {
+        if(!CompletedObjectives.ContainsKey(objectiveType)) return false;
+        if(!Objectives.ContainsKey(objectiveType)) return false;
+
+        return CompletedObjectives[objectiveType] >= Objectives[objectiveType];
+    }
+
+    bool IsCompletedAllObjectives()
+    {
+        bool result = true;
+
+        foreach (var objectiveItems in Objectives)
+        {
+            if (CompletedObjectives[objectiveItems.Key] < objectiveItems.Value)
+            {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public ObjectiveConfig GetConfigByType(ObjectiveType type)
+    {
+        if (!_cachedConfigs.ContainsKey(type)) return null;
+        return _cachedConfigs[type];
+    }
+
+    void HandleInitialization(bool prev, bool next, bool asServer)
+    {
+        if (asServer) return;
+
+        if (next)
+        {
+            OnInitialize?.Invoke();
+        }
+    }
+}

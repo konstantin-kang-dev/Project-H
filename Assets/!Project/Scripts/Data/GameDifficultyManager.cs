@@ -9,7 +9,7 @@ public class GameDifficultyManager : SerializedMonoBehaviour
     public static GameDifficultyManager Instance { get; private set; }
     [SerializeField] string _configsPath;
 
-    Dictionary<string, GameDifficultyConfig> _difficultyConfigs = new Dictionary<string, GameDifficultyConfig>();
+    Dictionary<DifficultyType, GameDifficultyConfig> _difficultyConfigs = new Dictionary<DifficultyType, GameDifficultyConfig>();
 
     GameDifficultyConfig _selectedConfig = null;
     public GameDifficultyConfig SelectedConfig => _selectedConfig;
@@ -41,17 +41,17 @@ public class GameDifficultyManager : SerializedMonoBehaviour
 
         foreach (GameDifficultyConfig config in configs)
         {
-            _difficultyConfigs[config.DifficultyName] = config.Clone();
+            _difficultyConfigs[config.DifficultyType] = config.Clone();
         }
 
         Debug.Log($"[GameDifficultyManager] Loaded {configs.Length} configs.");
     }
 
-    public void SelectConfig(string difficultyName)
+    public void SelectConfig(DifficultyType difficultyType)
     {
-        if (!_difficultyConfigs.ContainsKey(difficultyName)) throw new System.Exception($"[GameDifficultyManager] Config with name {difficultyName} not found.");
+        if (!_difficultyConfigs.ContainsKey(difficultyType)) throw new System.Exception($"[GameDifficultyManager] Config with type {difficultyType} not found.");
 
-        _selectedConfig = _difficultyConfigs[difficultyName];
+        _selectedConfig = _difficultyConfigs[difficultyType];
     }
 
     public GameDifficultyConfig GetConfigByIndex(int index)

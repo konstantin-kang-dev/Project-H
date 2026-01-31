@@ -1,17 +1,34 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using Modules.Rendering.Outline;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class BasicInteractable : NetworkBehaviour, IInteractable
 {
+    [field: SerializeField] public InteractableConfig Config { get; private set; }
+    public Transform Transform { get; private set; }
+
+    [SerializeField] protected Transform _model;
     [field: SerializeField] public List<ItemType> RequiredItemsToInteract { get; private set; } = new List<ItemType>();
 
     protected readonly SyncVar<bool> _interactState = new SyncVar<bool>();
 
+    [SerializeField] protected bool _toggleInteractionState = true;
+
     [SerializeField] EnhancedAudio _interactionAS1;
     [SerializeField] EnhancedAudio _interactionAS2;
+
+    [SerializeField] List<OutlineComponent> _outlines = new List<OutlineComponent>();
+
+    public event Action<IInteractable, bool> OnInteractStateChange;
+
+    void Awake()
+    {
+        Transform = transform;
+    }
 
     public override void OnStartClient()
     {
@@ -55,7 +72,14 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
         {
             Player player = playerNetworkObject.GetComponent<Player>();
 
-            _interactState.Value = true;
+            if (_toggleInteractionState)
+            {
+                _interactState.Value = !_interactState.Value;
+            }
+            else
+            {
+                _interactState.Value = true;
+            }
         }
         else
         {
@@ -66,7 +90,11 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
     [Client]
     protected virtual void HandleInteractStateChange(bool prev, bool next, bool asServer)
     {
+        if (asServer) return;
+
         SetAppearance(next);
+
+        OnInteractStateChange?.Invoke(this, next);
     }
 
     
@@ -85,7 +113,10 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
 
     public virtual void SetHighlight(bool value)
     {
-        throw new System.NotImplementedException();
+        foreach (var outline in _outlines)
+        {
+            outline.enabled = value;
+        }
     }
 
     public virtual void SetAppearance(bool value)
@@ -111,15 +142,5 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
     public virtual void ResetAll()
     {
         _interactState.Value = false;
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 }

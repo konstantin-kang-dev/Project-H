@@ -6,6 +6,7 @@ public class GameCanvas : MonoBehaviour
     Canvas _canvas;
 
     [SerializeField] InventoryUI _inventoryUI;
+    [SerializeField] ObjectivesUI _objectivesUI;
 
     public bool IsInitialized { get; private set; } = false;
     void Awake()
@@ -23,6 +24,7 @@ public class GameCanvas : MonoBehaviour
     public void Init()
     {
         _inventoryUI.Init();
+        _objectivesUI.Init();
 
         IsInitialized = true;
     }
