@@ -146,7 +146,7 @@ VFXRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3463047702223363854}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -345,6 +345,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skinny Red Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1295910174885817817, guid: 109a2493fd7f1ce4998d85bf79295921, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1923089665918924643, guid: 109a2493fd7f1ce4998d85bf79295921, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -434,6 +438,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 928254980097918993, guid: 4d90d22c9c904a64aa9f9c52a37728f6, type: 3}
+    - target: {fileID: 1210962202956405478, guid: 4d90d22c9c904a64aa9f9c52a37728f6, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3856205937633124421, guid: 4d90d22c9c904a64aa9f9c52a37728f6, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
@@ -527,6 +535,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skinny Blue Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4672811051577349151, guid: 89d05d22fa233a44ab794f439aabc3a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5445687888999730853, guid: 89d05d22fa233a44ab794f439aabc3a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -611,6 +623,10 @@ PrefabInstance:
     - target: {fileID: 4876137240796782137, guid: cb6e1fd5be4a3244eb1f9daf98bfb48f, type: 3}
       propertyPath: m_Name
       value: Skinny Yellow Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4876137240796782137, guid: cb6e1fd5be4a3244eb1f9daf98bfb48f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5251289871494841475, guid: cb6e1fd5be4a3244eb1f9daf98bfb48f, type: 3}
       propertyPath: m_LocalPosition.x

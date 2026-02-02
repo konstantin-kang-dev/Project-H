@@ -13,8 +13,7 @@ public class CameraController : MonoBehaviour
 
     Vector2 _targetRotation = Vector2.zero;
     Vector2 _currentRotation = Vector2.zero;
-    float _rotationVelocityX = 0;
-    float _rotationVelocityY = 0;
+    Vector2 _rotationVelocity = Vector2.zero;
 
     Vector3 _lookPosition = Vector3.zero;
 
@@ -33,8 +32,6 @@ public class CameraController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        GameCanvas.Instance.SetCamera(_camera);
          
         IsInitialized = true;
     }
@@ -59,12 +56,14 @@ public class CameraController : MonoBehaviour
         _targetRotation.y += moveDelta.x * _sensitivity.x;
         _targetRotation.x = Mathf.Clamp(_targetRotation.x, -90f, 90f);
 
-        _currentRotation.x = Mathf.SmoothDamp(_currentRotation.x, _targetRotation.x, ref _rotationVelocityX, _smoothTime);
-        _currentRotation.y = Mathf.SmoothDamp(_currentRotation.y, _targetRotation.y, ref _rotationVelocityY, _smoothTime);
+        _currentRotation = Vector2.SmoothDamp(_currentRotation, _targetRotation, ref _rotationVelocity, _smoothTime);
 
         _cameraPoint.localRotation = Quaternion.Euler(_currentRotation.x, 0f, 0f);
 
-        _lookPosition = _cameraPoint.position + _cameraPoint.forward * 3f;
+        _lookPosition = _cameraPoint.position + _cameraPoint.forward.normalized * 3f;
+
+        //Debug.Log($"[CameraController] Updated rotation: {_currentRotation}/{_targetRotation} and look position: {_lookPosition} inputs: {moveDelta}", this);
+        //Debug.Log($"[CameraController] Updated look position: {_lookPosition} cameraPointPos: {_cameraPoint.position} cameraForward: {_cameraPoint.forward.normalized} inputs: {moveDelta}", this);
 
         OnLookPositionUpdate?.Invoke(_lookPosition);
         OnRotationUpdate?.Invoke(_currentRotation);

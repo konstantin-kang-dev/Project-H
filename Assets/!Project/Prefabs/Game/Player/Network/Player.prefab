@@ -98,7 +98,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 116
   m_CollisionDetection: 1
 --- !u!136 &8006255665438204828
 CapsuleCollider:
@@ -298,6 +298,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 6868278620978414024, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+    - target: {fileID: 7053018566516991219, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7694093934906687385, guid: 33df5ffcb4aae754ea47e6609e8a8ed0, type: 3}
       propertyPath: WasActiveDuringEdit
       value: 1

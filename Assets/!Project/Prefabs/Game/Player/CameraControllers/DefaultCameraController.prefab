@@ -483,7 +483,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 503
+    m_Bits: 1527
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -722,4 +722,4 @@ MonoBehaviour:
   _camera: {fileID: 5362730253100546093}
   _cameraPoint: {fileID: 8639303223546675120}
   _sensitivity: {x: 0.3, y: 0.3}
-  _smoothTime: 0.07
+  _smoothTime: 0.05

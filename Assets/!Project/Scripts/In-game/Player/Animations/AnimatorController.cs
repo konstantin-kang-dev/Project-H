@@ -92,9 +92,12 @@ public class AnimatorController : SerializedMonoBehaviour
         for (int i = 0; i < _headMeshGO.transform.childCount; i++)
         {
             GameObject child = _headMeshGO.transform.GetChild(i).gameObject;
-            child.layer = value ? LayerMask.NameToLayer("Default") : LayerMask.NameToLayer("MyHead");
+            Renderer renderer = child.GetComponent<Renderer>();
+            if(renderer != null)
+            {
+                renderer.shadowCastingMode = value ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            }
         }
-        _headMeshGO.layer = value ? LayerMask.NameToLayer("Default") : LayerMask.NameToLayer("MyHead");
     }
 
     public void SetLookPosition(Vector3 worldPos)
@@ -108,14 +111,18 @@ public class AnimatorController : SerializedMonoBehaviour
     {
         if (connect)
         {
+            _handItemPoint.localPosition = item.ItemConfig.HandItemPointPosition;
+            _handItemPoint.localEulerAngles = item.ItemConfig.HandItemPointRotation;
+
             item.Transform.parent = _handItemPoint;
+
             item.Transform.position = _handItemPoint.position;
             item.Transform.rotation = _handItemPoint.rotation;
 
-            _handConstraint.weight = 1;
+            _handItemTarget.localPosition = item.ItemConfig.HandPosition;
+            _handItemTarget.localEulerAngles = item.ItemConfig.HandRotation;
 
-            _handItemTarget.localPosition = item.ItemConfig.HandHoldingPosition;
-            _handItemTarget.localEulerAngles = item.ItemConfig.HandHoldingRotation;
+            _handConstraint.weight = 1;
         }
         else
         {

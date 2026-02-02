@@ -274,10 +274,10 @@ MonoBehaviour:
     m_Value: 0
   limitMin:
     m_OverrideState: 1
-    m_Value: 6.05993
+    m_Value: 3.5
   limitMax:
     m_OverrideState: 1
-    m_Value: 14
+    m_Value: 10
   curveMap:
     m_OverrideState: 1
     m_Value:
@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Sky and Fog Settings
+  m_Name: MainVolume
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.VolumeProfile
   components:
   - {fileID: 1209720430490107227}
@@ -574,7 +574,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 1
   directLightingStrength:
     m_OverrideState: 1
     m_Value: 0

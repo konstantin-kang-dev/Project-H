@@ -16,11 +16,6 @@ public class GameCanvas : MonoBehaviour
         Instance = this;
     }
 
-    public void SetCamera(Camera camera)
-    {
-        _canvas.worldCamera = camera;
-    }
-
     public void Init()
     {
         _inventoryUI.Init();

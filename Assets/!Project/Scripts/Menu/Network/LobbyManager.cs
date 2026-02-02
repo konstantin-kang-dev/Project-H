@@ -29,8 +29,8 @@ public class LobbyManager : NetworkBehaviour
     public bool IsLocalPlayerSet => _localLobbyPlayer != null;
     public bool LocalPlayerReadyState => IsLocalPlayerSet ? _localLobbyPlayer.IsReady : false;
 
-    readonly SyncVar<Dictionary<int, NetworkPlayerData>> _connectedPlayers = new SyncVar<Dictionary<int, NetworkPlayerData>>();
-    public Dictionary<int, NetworkPlayerData> ConnectedPlayers => _connectedPlayers.Value;
+    readonly SyncDictionary<int, NetworkPlayerData> _connectedPlayers = new SyncDictionary<int, NetworkPlayerData>();
+    public IReadOnlyDictionary<int, NetworkPlayerData> ConnectedPlayers => _connectedPlayers;
 
     public event Action OnLocalPlayerRegister;
     public event Action OnLocalPlayerUnregister;
@@ -101,7 +101,8 @@ public class LobbyManager : NetworkBehaviour
 
         base.OnStartServer();
 
-        _connectedPlayers.Value = new Dictionary<int, NetworkPlayerData>();
+        _connectedPlayers.Clear();
+
         _lobbySlots.Value = new List<LobbySlot>()
         {
             new LobbySlot()
@@ -185,14 +186,14 @@ public class LobbyManager : NetworkBehaviour
 
         if (args.ConnectionState == RemoteConnectionState.Started)
         {
-            _connectedPlayers.Value.Add(conn.ClientId, new NetworkPlayerData()
+            _connectedPlayers.Add(conn.ClientId, new NetworkPlayerData()
             {
                 ClientId = conn.ClientId,
             });
         }
         else if(args.ConnectionState == RemoteConnectionState.Stopped)
         {
-            _connectedPlayers.Value.Remove(conn.ClientId);
+            _connectedPlayers.Remove(conn.ClientId);
             LobbySlot lobbySlot = _lobbySlots.Value.FirstOrDefault((x)=> x.ClientId == conn.ClientId);
             if(lobbySlot != null)
             {
@@ -254,6 +255,6 @@ public class LobbyManager : NetworkBehaviour
     [Server]
     public void SERVER_UpdateNetworkPlayerData(int clientId, NetworkPlayerData playerData)
     {
-        _connectedPlayers.Value[clientId] = playerData;
+        _connectedPlayers[clientId] = playerData;
     }
 }
