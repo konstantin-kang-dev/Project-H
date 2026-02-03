@@ -17,10 +17,7 @@ public class PlayerInventory : NetworkBehaviour
 
     Player _player;
     [SerializeField] int _capacity = 5;
-    [SerializeField] float _interactionRange = 3f;
-    [SerializeField] LayerMask _interactionLayer;
 
-    IInput _input;
     
     Dictionary<int, IPickable> _items = new Dictionary<int, IPickable>();
     public Dictionary<int, IPickable> Items => _items;
@@ -33,9 +30,6 @@ public class PlayerInventory : NetworkBehaviour
     public event Action<IPickable, int> OnItemPickUp;
     public event Action<IPickable, int> OnItemDrop;
     public event Action<IPickable, int> OnSelectedItem;
-
-    IPickable _hoveredPickable = null;
-    IInteractable _hoveredInteractable = null;
 
     public bool IsInitialized { get; private set; } = false;
     public override void OnStartClient()
@@ -69,12 +63,6 @@ public class PlayerInventory : NetworkBehaviour
 
         if (IsOwner)
         {
-            _input = new DefaultInput();
-            _input.OnInteract += HandleInteractInput;
-            _input.OnDrop += HandleDropInput;
-            _input.OnNextInventorySlot += HandleNextInventorySlotInput;
-            _input.OnPreviousInventorySlot += HandlePreviousInventorySlotInput;
-
             SelectItem(0);
         }
 
@@ -96,10 +84,39 @@ public class PlayerInventory : NetworkBehaviour
     {
         if (IsFullfilled()) return;
 
-        item.PickUp(_player.ObjectId);
+        RPC_RequestPickUp(item.ItemObjectId);
+    }
 
+    [ServerRpc]
+    void RPC_RequestPickUp(int itemObjectId)
+    {
+        if (!ServerManager.Objects.Spawned.TryGetValue(itemObjectId, out var obj)) return;
+
+        var item = obj.GetComponent<IPickable>();
+        if (item == null || item.IsPickedUp) return;
+
+        item.SERVER_PickUp(_player.ObjectId);
+        RPC_ConfirmPickUp(itemObjectId, _player.ObjectId);
+    }
+
+    [ObserversRpc]
+    void RPC_ConfirmPickUp(int itemObjectId, int pickerObjectId)
+    {
+        var item = ClientManager.Objects.Spawned[itemObjectId].GetComponent<IPickable>();
+
+        item.SetHighlight(false);
+        item.SetColliders(false);
+
+        if(IsOwner && pickerObjectId == _player.ObjectId)
+        {
+            HandlePickUp(item);
+        }
+    }
+
+    public void HandlePickUp(IPickable item)
+    {
         int chosenIndex = 0;
-        if(_selectedItem == null)
+        if (_selectedItem == null)
         {
             chosenIndex = _selectedItemIndex;
             _items[chosenIndex] = item;
@@ -119,58 +136,65 @@ public class PlayerInventory : NetworkBehaviour
     void Drop()
     {
         if(_selectedItem == null) return;
+        RPC_RequestDropItem(_selectedItem.ItemObjectId);
+    }
 
-        Debug.Log($"[PlayerInventory] Droped item: {_selectedItem.ItemConfig.Type}");
+    [ServerRpc]
+    void RPC_RequestDropItem(int itemObjectId)
+    {
+        if (!ServerManager.Objects.Spawned.TryGetValue(itemObjectId, out var obj)) return;
 
-        RPC_RequestSelectItem(new InventorySelection()
+        IPickable item = obj.GetComponent<IPickable>();
+        if(item == null || !item.IsPickedUp) return;
+
+        item.SERVER_Drop();
+
+        _inventorySelection.Value = new InventorySelection()
         {
             ObjectId = -1,
-            InventoryIndex = _selectedItemIndex,
-        });
+            InventoryIndex = _inventorySelection.Value.InventoryIndex,
+        };
 
-        _selectedItem.Drop();
+        RPC_ConfirmDrop(itemObjectId);
+    }
+    [ObserversRpc]
+    void RPC_ConfirmDrop(int itemObjectId)
+    {
+        if (!ClientManager.Objects.Spawned.TryGetValue(itemObjectId, out var obj)) return;
+                
+        _selectedItem = null;
+        IPickable item = obj.GetComponent<IPickable>();
 
-        OnItemDrop?.Invoke(_selectedItem, _selectedItemIndex);
+        item.SetVisibility(true);
+        item.SetColliders(true);
+
+        _player.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(item, false);
+        Debug.Log($"[PlayerInventory] Dropped item: {item.ItemConfig.Type}");
 
         _items[_selectedItemIndex] = null;
+        HandleDropItem(item);
     }
-    
+
+    void HandleDropItem(IPickable item)
+    {
+
+        OnItemDrop?.Invoke(item, _selectedItemIndex);
+    }
+
     void DropAll()
     {
         foreach (var item in _items)
         {
             if(item.Value != null)
             {
-                item.Value.Drop();
+                item.Value.SERVER_Drop();
             }
         }
     }
 
     public void SelectItem(bool goForward)
     {
-        int index = _selectedItemIndex;
-        if (goForward)
-        {
-            if (index >= _items.Count - 1)
-            {
-                index = 0;
-            }
-            else
-            {
-                index++;
-            }
-        }
-        else
-        {
-            if(index == 0)
-            {
-                index = _items.Count - 1;
-            }
-            else
-            {
-                index--;
-            }
-        }
+        int index = ProjectUtils.GetNextIndex(_selectedItemIndex, _items.Count - 1, goForward);
 
         SelectItem(index);
     }
@@ -181,7 +205,6 @@ public class PlayerInventory : NetworkBehaviour
         {
             throw new System.Exception($"[PlayerInventory] Index ({index}) of item is out of range.");
         }
-
 
         InventorySelection inventorySelection = new InventorySelection()
         {
@@ -239,68 +262,28 @@ public class PlayerInventory : NetworkBehaviour
         OnSelectedItem?.Invoke(_selectedItem, next.InventoryIndex);
     }
 
-    void HandleInteractInput()
+    public void HandleInteractPickable(IPickable pickable)
     {
-        if (_hoveredPickable != null)
-        {
-            PickUp(_hoveredPickable);
-            return;
-        }
-
-        if(_hoveredInteractable != null)
-        {
-            _hoveredInteractable.Interact(_player, _selectedItem);
-        }
+        PickUp(pickable);
     }
-    void HandleDropInput()
-    {
-        if (_selectedItem == null) return;
 
+    public void HandleInteractInteractable(IInteractable interactable)
+    {
+        interactable.Interact(_player, _selectedItem);
+    }
+
+    public void HandleDropInput()
+    {
         Drop();
     }
-    void HandleNextInventorySlotInput()
+    public void HandleNextInventorySlotInput()
     {
         SelectItem(true);
     }
-    void HandlePreviousInventorySlotInput()
+    public void HandlePreviousInventorySlotInput()
     {
         SelectItem(false);
     }
-    public void HandleRaycast(Collider collider)
-    {
-        if (collider == null)
-        {
-            _hoveredPickable = null;
-            _hoveredInteractable = null;
-            return;
-        }
-
-        _hoveredPickable = CheckForPickable(collider);
-        _hoveredInteractable = CheckForInteractable(collider);
-    }
-
-
-    IPickable CheckForPickable(Collider collider)
-    {
-        IPickable pickable = null;
-
-        if (collider.TryGetComponent<IPickable>(out IPickable foundPickable))
-        {
-            pickable = foundPickable;
-        }
-        return pickable;
-    }
-    IInteractable CheckForInteractable(Collider collider)
-    {
-        IInteractable interactable = null;
-
-        if (collider.TryGetComponent<IInteractable>(out IInteractable foundInteractable))
-        {
-            interactable = foundInteractable;
-        }
-        return interactable;
-    }
-
     bool IsFullfilled()
     {
         bool result = true;
@@ -331,34 +314,12 @@ public class PlayerInventory : NetworkBehaviour
 
         return freeIndex;
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other == null) return;
-        if (_interactionLayer.Contains(other.gameObject.layer))
-        {
-            IPickable pickable = other.GetComponent<IPickable>();
-            if (pickable == null) return;
-            
-            pickable.SetHighlight(true);
-            //Debug.Log($"[PlayerInventory] OnTriggerEnter {other.gameObject.name}");
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other == null) return;
-        if (_interactionLayer.Contains(other.gameObject.layer))
-        {
-            IPickable pickable = other.GetComponent<IPickable>();
-            if (pickable == null) return;
-            
-            pickable.SetHighlight(false);
-            //Debug.Log($"[PlayerInventory] OnTriggerExit {other.gameObject.name}");
-        }
-    }
 
     public override void OnStopClient()
     {
         base.OnStopClient();
+
+        _inventorySelection.OnChange -= HandleSelectItem;
 
         if (IsOwner)
         {

@@ -1,6 +1,7 @@
 ﻿
 using FishNet.Component.Animating;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,6 +19,8 @@ public class PlayerVisuals: NetworkBehaviour
     Vector2 _currentMovementInputs = Vector2.zero;
 
     [SerializeField] VisualEffect _modelChangeVfx;
+
+    readonly SyncVar<AnimatorState> _currentAnimatorState = new SyncVar<AnimatorState>();
 
     public event Action<PlayerModel, AnimatorController> OnPlayerModelChanged;
     public bool IsInitialized { get; private set; } = false;
@@ -109,15 +112,15 @@ public class PlayerVisuals: NetworkBehaviour
     [ServerRpc]
     public void RPC_RequestUpdateAnimatorState(AnimatorState state)
     {
-        RPC_HandleObserversUpdateAnimatorState(state);
+        _currentAnimatorState.Value = state;
         //Debug.Log($"[PlayerVisuals | SERVER | {Owner.ClientId}] Updated animator state: {state}");
     }
 
-    [ObserversRpc]
-    void RPC_HandleObserversUpdateAnimatorState(AnimatorState state)
+    void HandleAnimatorStateChange(AnimatorState prev, AnimatorState next, bool asServer)
     {
+        if (asServer) return;
         if (IsOwner) return;
-        AnimatorController.PlayAnimation(state);
+        AnimatorController.PlayAnimation(next);
     }
     [ServerRpc]
     public void RPC_RequestUpdateAnimatorMovement(Vector2 inputs)

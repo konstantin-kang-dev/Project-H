@@ -41,12 +41,10 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
     {
         base.OnStartClient();
 
-        _picker.OnChange += HandlePickerChange;
         ItemObjectId = ObjectId;
 
         _rb.isKinematic = true;
-        _physicsCollider.enabled = true;
-        _triggerCollider.enabled = true;
+        SetColliders(true);
     }
 
     public override void OnStartServer()
@@ -57,8 +55,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         _picker.Value = -1;
 
         _rb.isKinematic = false;
-        _physicsCollider.enabled = true;
-        _triggerCollider.enabled = true;
+        SetColliders(true);
         _netTransform.enabled = true;
     }
 
@@ -67,13 +64,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
 
     }
 
-    public virtual void PickUp(int playerObjectId)
-    {
-        RPC_RequestPickUp(playerObjectId);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    protected virtual void RPC_RequestPickUp(int playerObjectId)
+    [Server]
+    public virtual void SERVER_PickUp(int playerObjectId)
     {
         if (!ServerManager.Objects.Spawned.TryGetValue(playerObjectId, out NetworkObject networkObject)) return;
 
@@ -81,49 +73,21 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         _picker.Value = playerObjectId;
 
         _rb.isKinematic = true;
-        _physicsCollider.enabled = false;
-        _triggerCollider.enabled = false;
+        SetColliders(false);
         _netTransform.enabled = false;
         Debug.Log($"[BasicPickableItem] Picked up by: {_picker.Value}");
     }
 
-    protected virtual void HandlePickerChange(int prev, int next, bool asServer)
-    {
-        if (asServer) return;
-
-        if (ClientManager.Objects.Spawned.TryGetValue(Picker, out NetworkObject networkObject))
-        {
-            _lastPicker = networkObject.GetComponent<Player>();
-            if (_lastPicker == null) return;
-
-            _physicsCollider.enabled = false;
-            _triggerCollider.enabled = false;
-            SetHighlight(false);
-        }
-        else if(_lastPicker != null)
-        {
-            SetVisibility(true);
-            _physicsCollider.enabled = true;
-            _triggerCollider.enabled = true;
-        }
-    }
-
-    public virtual void Drop()
-    {
-        RPC_RequestDrop();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    protected virtual void RPC_RequestDrop()
+    [Server]
+    public virtual void SERVER_Drop()
     {
         _isPickedUp.Value = false;
         _picker.Value = -1;
 
         _rb.isKinematic = false;
-        _physicsCollider.enabled = true;
-        _triggerCollider.enabled = true;
         _netTransform.enabled = true;
-        
+        SetColliders(true);
+
         _rb.AddForce(_rb.transform.forward * 100f);
     }
 
@@ -137,5 +101,11 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
     public virtual void SetVisibility(bool value)
     {
         _container.SetActive(value);
+    }
+
+    public virtual void SetColliders(bool value)
+    {
+        _physicsCollider.enabled = value;
+        _triggerCollider.enabled = value;
     }
 }

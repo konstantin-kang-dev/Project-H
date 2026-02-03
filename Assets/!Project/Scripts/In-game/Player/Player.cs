@@ -17,14 +17,6 @@ public class Player : NetworkBehaviour
     readonly SyncVar<Vector3> _lookPosition = new SyncVar<Vector3>();
     public Vector3 LookPosition => _lookPosition.Value;
 
-    readonly SyncVar<float> _characterRotationY = new SyncVar<float>();
-    public float CharacterRotationY => _characterRotationY.Value;
-
-    readonly SyncVar<bool> _isWalking = new SyncVar<bool>();
-    public bool IsWalking => _isWalking.Value;
-    readonly SyncVar<bool> _isSprinting = new SyncVar<bool>();
-    public bool IsSprinting => _isSprinting.Value;
-
     public bool IsInvincible = false;
     [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [field: SerializeField] public bool IsInitialized { get; private set; } = false;
@@ -48,9 +40,6 @@ public class Player : NetworkBehaviour
         _isReadyToInit.OnChange += HandleIsReadyToInitChange;
 
         _lookPosition.OnChange += HandleLookPositionChange;
-        _characterRotationY.OnChange += HandleCharacterRotationChange;
-        _isWalking.OnChange += HandleWalkingStateChange;
-        _isSprinting.OnChange += HandleSprintingStateChange;
     }
 
     public override void OnStartServer()
@@ -110,50 +99,17 @@ public class Player : NetworkBehaviour
         PlayerController.SetLookPosition(next);
     }
 
-    [ServerRpc]
-    public void RPC_RequestSetCharacterRotation(Vector2 rotations)
-    {
-        _characterRotationY.Value = rotations.y;
-    }
-
-    [Client]
-    void HandleCharacterRotationChange(float prev, float next, bool asServer)
-    {
-        if (asServer) return;
-
-        PlayerController.SetCharacterRotation(next);
-    }
-
-    [ServerRpc]
-    public void RPC_RequestSetWalkingState(bool value)
-    {
-        _isWalking.Value = value;
-    }
-
-    [Client]
-    void HandleWalkingStateChange(bool prev, bool next, bool asServer)
-    {
-        if (asServer) return;
-
-        PlayerController.SetWalkingState(next);
-    }
-
-    [ServerRpc]
-    public void RPC_RequestSetSprintingState(bool value)
-    {
-        _isSprinting.Value = value;
-    }
-
-    [Client]
-    void HandleSprintingStateChange(bool prev, bool next, bool asServer)
-    {
-        if (asServer) return;
-
-        PlayerController.SetSprintingState(next);
-    }
-
     void Update()
     {
         
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        _isReadyToInit.OnChange -= HandleIsReadyToInitChange;
+
+        _lookPosition.OnChange -= HandleLookPositionChange;
     }
 }

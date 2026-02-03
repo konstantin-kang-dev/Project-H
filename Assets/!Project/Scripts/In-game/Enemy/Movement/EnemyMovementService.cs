@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FishNet.Object;
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovementService : MonoBehaviour
+public class EnemyMovementService : NetworkBehaviour
 {
     EnemyStatsConfig _enemyStats;
     NavMeshAgent _navMeshAgent;
@@ -17,8 +18,15 @@ public class EnemyMovementService : MonoBehaviour
     {
         _enemyStats = enemyStats;
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
+        if (IsServerStarted)
+        {
+            UpdateSpeed(_enemyStats.MoveSpeed);
+        }
+        else
+        {
+            _navMeshAgent.enabled = false;
+        }
 
-        UpdateSpeed(_enemyStats.MoveSpeed);
         IsInitialized = true;
     }
 
@@ -26,12 +34,20 @@ public class EnemyMovementService : MonoBehaviour
     {
         if (!IsInitialized) return;
 
-        if(_target != null)
+        if (IsServerStarted)
+        {
+            UpdateDestination();
+        }
+    }
+
+    void UpdateDestination()
+    {
+        if (_target != null)
         {
             _navMeshAgent.SetDestination(_target.position);
         }
 
-        if(_navMeshAgent.velocity != Vector3.zero)
+        if (_navMeshAgent.velocity != Vector3.zero)
         {
             OnMove?.Invoke(_isFollowingPlayer, _target);
         }

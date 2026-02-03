@@ -226,7 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5264206906230583483}
   - component: {fileID: 7869511173299855217}
-  - component: {fileID: 7694093934906687385}
+  - component: {fileID: 2956046178924482248}
   m_Layer: 0
   m_Name: DefaultPlayerVisuals
   m_TagString: Untagged
@@ -265,8 +265,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 7694093934906687385}
-  _networkObjectCache: {fileID: 7694093934906687385}
+  _addedNetworkObject: {fileID: 2956046178924482248}
+  _networkObjectCache: {fileID: 0}
   _playerModels:
   - {fileID: 5380527119434190794}
   - {fileID: 8206811367907054197}
@@ -274,7 +274,7 @@ MonoBehaviour:
   - {fileID: 301344437203936321}
   AnimatorController: {fileID: 0}
   _modelChangeVfx: {fileID: 3412420354804353329}
---- !u!114 &7694093934906687385
+--- !u!114 &2956046178924482248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,14 +292,9 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: 7869511173299855217}
+  NetworkBehaviours: []
   InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
@@ -308,7 +303,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584323581867197524
+  _initializedTimestamp: 0
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -324,15 +319,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 65535
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16384745370292504016
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 1, y: 1, z: 1}
-    IsValid: 1
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1001 &646859050105698414
 PrefabInstance:
   m_ObjectHideFlags: 0

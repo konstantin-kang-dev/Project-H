@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using Zenject.Asteroids;
@@ -28,6 +29,8 @@ public class GameManager : NetworkBehaviour
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Player> Players => _players;
 
+    readonly SyncVar<float> _gameSpeed = new SyncVar<float>();
+
     public bool IsInitialized { get; private set; } = false;
     private void Awake()
     {
@@ -44,6 +47,7 @@ public class GameManager : NetworkBehaviour
 
         Init();
 
+        _gameSpeed.OnChange += HandleGameSpeedChange;
         _gameState.OnChange += HandleGameStateChange;
 
         RPC_RequestSetReadyToStart(ClientManager.Connection.ClientId);
@@ -53,6 +57,7 @@ public class GameManager : NetworkBehaviour
     {
         base.OnStartServer();
 
+        _gameSpeed.Value = 1;
         _gameState.Value = GameState.PreparingToStart;
         _playersReadyToStart.Clear();
         OnAllPlayersReadyToStart += SERVER_StartGame;
@@ -135,8 +140,63 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    [Server]
+    public void SERVER_SetGameSpeed(float speed)
+    {
+        _gameSpeed.Value = speed;
+    }
+
+    [Client]
+    void HandleGameSpeedChange(float prev, float next, bool asServer)
+    {
+        if (asServer) return;
+
+        Time.timeScale = next;
+    }
+
     void Update()
     {
 
     }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        _gameSpeed.OnChange -= HandleGameSpeedChange;
+        _gameState.OnChange -= HandleGameStateChange;
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+
+        OnAllPlayersReadyToStart -= SERVER_StartGame;
+    }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(GameManager))]
+public class GameManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        GameManager manager = (GameManager)target;
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Speed", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Set speed 0.2x"))
+            manager.SERVER_SetGameSpeed(0.2f);
+
+        if (GUILayout.Button("Set speed 0.5x"))
+            manager.SERVER_SetGameSpeed(0.5f);
+
+        if (GUILayout.Button("Set speed 1x"))
+            manager.SERVER_SetGameSpeed(1f);
+
+    }
+}
+#endif

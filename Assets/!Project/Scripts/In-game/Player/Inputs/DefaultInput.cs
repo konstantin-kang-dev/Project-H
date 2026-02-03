@@ -11,6 +11,9 @@ public class DefaultInput : IInput
     private float _lastInventoryInteraction = 0f;
     private const float INVENTORY_INTERACTION_COOLDOWN = 0.03f;
     #region INPUT_EVENTS
+    public event Action<Vector2> OnMove;
+    public event Action<Vector2> OnLook;
+    public event Action<bool> OnSprint;
     public event Action OnInteract;
     public event Action OnDrop;
     public event Action OnNextInventorySlot;
@@ -29,6 +32,16 @@ public class DefaultInput : IInput
 
         _playerControls.Player.NextInventorySlot.performed += HandleNextInventorySlotTrigger;
         _playerControls.Player.PreviousInventorySlot.performed += HandlePreviousInventorySlotTrigger;
+
+        _playerControls.Player.Sprint.performed += HandleSprintInput;
+        _playerControls.Player.Sprint.canceled += HandleSprintInput;
+
+        _playerControls.Player.Move.performed += HandleMoveInput;
+        _playerControls.Player.Move.canceled += HandleMoveInput;
+
+        _playerControls.Player.Look.performed += HandleLookInput;
+        _playerControls.Player.Look.canceled += HandleLookInput;
+
     }
 
     #region INPUT_HANDLERS
@@ -39,6 +52,20 @@ public class DefaultInput : IInput
     Vector2 GetInputLook()
     {
         return _playerControls.Player.Look.ReadValue<Vector2>();
+    }
+    void HandleMoveInput(InputAction.CallbackContext context)
+    {
+        Vector2 moveInput = context.ReadValue<Vector2>();
+        OnMove?.Invoke(moveInput);
+    }
+    void HandleLookInput(InputAction.CallbackContext context)
+    {
+        Vector2 lookInput = context.ReadValue<Vector2>();
+        OnLook?.Invoke(lookInput);
+    }
+    void HandleSprintInput(InputAction.CallbackContext context)
+    {
+        OnSprint?.Invoke(_playerControls.Player.Sprint.IsPressed());
     }
     void HandleInteractButtonClick(InputAction.CallbackContext context)
     {
@@ -66,13 +93,23 @@ public class DefaultInput : IInput
     }
     #endregion
 
-    public bool IsSprinting()
-    {
-        return _playerControls.Player.Sprint.IsPressed();
-    }
     public void Dispose()
     {
         _playerControls.Player.Interact.performed -= HandleInteractButtonClick;
+        _playerControls.Player.Drop.performed -= HandleDropButtonClick;
+
+        _playerControls.Player.NextInventorySlot.performed -= HandleNextInventorySlotTrigger;
+        _playerControls.Player.PreviousInventorySlot.performed -= HandlePreviousInventorySlotTrigger;
+
+        _playerControls.Player.Sprint.started -= HandleSprintInput;
+        _playerControls.Player.Sprint.canceled -= HandleSprintInput;
+
+        _playerControls.Player.Move.performed -= HandleMoveInput;
+        _playerControls.Player.Move.canceled -= HandleMoveInput;
+
+        _playerControls.Player.Look.performed -= HandleLookInput;
+        _playerControls.Player.Look.canceled -= HandleLookInput;
+
         _playerControls.Disable();
         _playerControls.Dispose();
     }

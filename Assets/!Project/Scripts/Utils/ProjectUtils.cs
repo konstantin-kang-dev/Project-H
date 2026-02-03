@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
 public static class ProjectUtils
 {
     public static Vector3 RandomPositionInCone(Vector3 direction, float distance, float coneAngle)
@@ -43,5 +45,34 @@ public static class ProjectUtils
     {
         int result = Random.Range(a, b - 1);
         return result >= exc ? result + 1 : result;
+    }
+
+    public static int GetNextIndex(int startIndex, int length, bool goForward)
+    {
+        int index = startIndex;
+        if (goForward)
+        {
+            if (index >= length)
+            {
+                index = 0;
+            }
+            else
+            {
+                index++;
+            }
+        }
+        else
+        {
+            if (index == 0)
+            {
+                index = length;
+            }
+            else
+            {
+                index--;
+            }
+        }
+
+        return index;
     }
 }

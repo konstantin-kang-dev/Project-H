@@ -1,12 +1,13 @@
+using FishNet.Object;
 using System;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : NetworkBehaviour
 {
     [SerializeField] EnemyStatsConfig _enemyStats;
 
-    [SerializeField] EnemyMovementService _enemyMovementServicePrefab;
-    EnemyMovementService _enemyMovementService;
+    [SerializeField] EnemyMovementService _enemyMovementService;
+
 
     [SerializeField] EnemyVisuals _enemyVisualsPrefab;
     EnemyVisuals _enemyVisuals;
@@ -25,7 +26,6 @@ public class EnemyController : MonoBehaviour
 
     public void Init()
     {
-        _enemyMovementService = Instantiate(_enemyMovementServicePrefab, transform);
         _enemyMovementService.Init(_enemyStats);
 
         _enemyVisuals = Instantiate(_enemyVisualsPrefab, transform);
@@ -36,13 +36,20 @@ public class EnemyController : MonoBehaviour
 
         _enemyMovementService.OnMove += _enemyVisuals.HandleEnemyMove;
 
-        _aggroController = Instantiate(_aggroControllerPrefab, transform);
-        _aggroController.OnAggroProceed += HandleAggroOnPlayer;
-        _aggroController.OnAggroRelease += HandleAggroOnPlayerRelease;
-        _aggroController.Init(_enemyStats);
+        if (IsServerStarted)
+        {
+            _aggroController = Instantiate(_aggroControllerPrefab, transform);
+            _aggroController.OnAggroProceed += HandleAggroOnPlayer;
+            _aggroController.OnAggroRelease += HandleAggroOnPlayerRelease;
+            _aggroController.Init(_enemyStats);
+        }
 
         IsInitialized = true;
-        SetState(EnemyState.Idle);
+
+        if (IsServerStarted)
+        {
+            SERVER_SetState(EnemyState.Idle);
+        }
     }
 
 
@@ -50,29 +57,34 @@ public class EnemyController : MonoBehaviour
     {
         if (!IsInitialized) return;
 
-        ProcessStateMachine();
+        if (IsServerStarted)
+        {
+            SERVER_ProcessStateMachine();
+        }
     }
 
-    public void SetState(EnemyState state)
+    [Server]
+    public void SERVER_SetState(EnemyState state)
     {
         if(state == _currentState) return;
 
         _currentState = state;
     }
 
-    void ProcessStateMachine()
+    [Server]
+    void SERVER_ProcessStateMachine()
     {
         switch (_currentState)
         {
             case EnemyState.Idle:
                 Transform randomKeyPoint = LocationManager.Instance.GetRandomClosestPoint(transform.position);
                 _enemyMovementService.SetTarget(randomKeyPoint);
-                SetState(EnemyState.Stranding);
+                SERVER_SetState(EnemyState.Stranding);
                 break;
             case EnemyState.Stranding:
                 if(_enemyMovementService.IsReachedTarget())
                 {
-                    SetState(EnemyState.Idle);
+                    SERVER_SetState(EnemyState.Idle);
                 }
                 break;
             case EnemyState.Following:
@@ -86,12 +98,12 @@ public class EnemyController : MonoBehaviour
 
     void HandleAggroOnPlayer(Player player)
     {
-        SetState(EnemyState.Following);
+        SERVER_SetState(EnemyState.Following);
         _enemyMovementService.SetTarget(player.transform);
     }
     void HandleAggroOnPlayerRelease()
     {
-        SetState(EnemyState.Idle);
+        SERVER_SetState(EnemyState.Idle);
     }
 
     void HandleLookPositionUpdate(Vector3 lookPosition)

@@ -4,12 +4,13 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    IInput _input;
     [SerializeField] Camera _camera;
     [SerializeField] Transform _cameraPoint;
 
     [SerializeField] Vector2 _sensitivity = Vector2.one;
     [SerializeField] float _smoothTime = 0.3f;
+
+    Vector2 _lookInput = Vector2.zero;
 
     Vector2 _targetRotation = Vector2.zero;
     Vector2 _currentRotation = Vector2.zero;
@@ -28,7 +29,6 @@ public class CameraController : MonoBehaviour
 
     public void Init()
     {
-        _input = new DefaultInput();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
     {
         if (!IsInitialized) return;
 
-        Rotate(_input.CurrentLookInput);
+        Rotate();
     }
 
     private void FixedUpdate()
@@ -50,10 +50,10 @@ public class CameraController : MonoBehaviour
         CheckForCollider();
     }
 
-    void Rotate(Vector2 moveDelta)
+    void Rotate()
     {
-        _targetRotation.x -= moveDelta.y * _sensitivity.y;
-        _targetRotation.y += moveDelta.x * _sensitivity.x;
+        _targetRotation.x -= _lookInput.y * _sensitivity.y;
+        _targetRotation.y += _lookInput.x * _sensitivity.x;
         _targetRotation.x = Mathf.Clamp(_targetRotation.x, -90f, 90f);
 
         _currentRotation = Vector2.SmoothDamp(_currentRotation, _targetRotation, ref _rotationVelocity, _smoothTime);
@@ -67,6 +67,11 @@ public class CameraController : MonoBehaviour
 
         OnLookPositionUpdate?.Invoke(_lookPosition);
         OnRotationUpdate?.Invoke(_currentRotation);
+    }
+
+    public void HandleLookInput(Vector2 lookInput)
+    {
+        _lookInput = lookInput;
     }
 
     Collider CheckForCollider()
