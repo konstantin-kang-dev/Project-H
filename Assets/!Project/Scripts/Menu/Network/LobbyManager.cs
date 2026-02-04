@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using FishNet;
 using FishNet.Object.Synchronizing;
+using Cysharp.Threading.Tasks;
 
 public class LobbyManager : NetworkBehaviour
 {
@@ -32,10 +33,15 @@ public class LobbyManager : NetworkBehaviour
     readonly SyncDictionary<int, NetworkPlayerData> _connectedPlayers = new SyncDictionary<int, NetworkPlayerData>();
     public IReadOnlyDictionary<int, NetworkPlayerData> ConnectedPlayers => _connectedPlayers;
 
+    readonly SyncVar<bool> _isGameStarted = new SyncVar<bool>();
+
     public event Action OnLocalPlayerRegister;
     public event Action OnLocalPlayerUnregister;
     public event Action<bool> OnPlayersReady;
 
+    public event Action OnJoinedLobby;
+    public event Action OnGameStarted;
+    public event Action OnClientConnected;
     public event Action OnClientConnectionLost;
     private void Awake()
     {
@@ -50,19 +56,22 @@ public class LobbyManager : NetworkBehaviour
         _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
     }
 
-    public void StartHost()
+    public async void StartHost()
     {
+        await UniTask.WaitForSeconds(2f);
         _networkManager.ServerManager.StartConnection();
 
         _networkManager.ClientManager.StartConnection();
         Debug.Log("Host started");
     }
 
-    public void StartClient(string ip = "127.0.0.1")
+    public async void StartClient(string ip = "127.0.0.1")
     {
+        await UniTask.WaitForSeconds(2f);
         _networkManager.ClientManager.StartConnection(ip);
         Debug.Log($"Client connecting to {ip}");
     }
+
     public void StopConnection()
     {
         bool isServerActive = _networkManager.ServerManager.Started;
@@ -101,6 +110,7 @@ public class LobbyManager : NetworkBehaviour
 
         base.OnStartServer();
 
+        _isGameStarted.Value = false;
         _connectedPlayers.Clear();
 
         _lobbySlots.Value = new List<LobbySlot>()
@@ -173,8 +183,10 @@ public class LobbyManager : NetworkBehaviour
     {
         if(args.ConnectionState == LocalConnectionState.Started)
         {
-
-        }else if(args.ConnectionState == LocalConnectionState.Stopped)
+            _isGameStarted.OnChange += HandleGameStarted;
+            OnClientConnected?.Invoke();
+        }
+        else if(args.ConnectionState == LocalConnectionState.Stopped)
         {
             OnClientConnectionLost?.Invoke();
         }
@@ -203,8 +215,12 @@ public class LobbyManager : NetworkBehaviour
     }
 
     [Server]
-    public void StartGame()
+    public async void StartGame()
     {
+        _isGameStarted.Value = true;
+
+        await UniTask.WaitForSeconds(0.5f);
+
         SceneLoadData sld = new SceneLoadData("GameScene")
         {
             ReplaceScenes = ReplaceOption.All,
@@ -212,7 +228,16 @@ public class LobbyManager : NetworkBehaviour
         InstanceFinder.SceneManager.LoadGlobalScenes(sld);
         Debug.Log($"[LobbyManager] Started game.");
     }
+    [Client]
+    void HandleGameStarted(bool prev, bool next, bool asServer)
+    {
+        if (asServer) return;
 
+        if (next)
+        {
+            OnGameStarted?.Invoke();
+        }
+    }
     [Client]
     public void RegisterLocalLobbyPlayer(LobbyPlayer player)
     {

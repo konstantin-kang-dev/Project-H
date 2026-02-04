@@ -30,7 +30,8 @@ public class PlayerInventory : NetworkBehaviour
     public event Action<IPickable, int> OnItemPickUp;
     public event Action<IPickable, int> OnItemDrop;
     public event Action<IPickable, int> OnSelectedItem;
-
+    public event Action<IPickable, int> OnDeselectedItem;
+         
     public bool IsInitialized { get; private set; } = false;
     public override void OnStartClient()
     {
@@ -238,7 +239,7 @@ public class PlayerInventory : NetworkBehaviour
         if (_selectedItem != null)
         {
             _selectedItem.SetVisibility(false);
-            _player.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(_selectedItem, false);
+            OnDeselectedItem?.Invoke(_selectedItem, prev.InventoryIndex);
             //Debug.Log($"[PlayerInventory] Deselected item: {_selectedItem}");
         }
 
@@ -250,9 +251,6 @@ public class PlayerInventory : NetworkBehaviour
 
             selectedItem.SetHighlight(false);
             selectedItem.SetVisibility(true);
-
-            _player.PlayerController.PlayerVisuals.AnimatorController.SetItemInHand(selectedItem, true);
-
         }
 
         _selectedItemIndex = next.InventoryIndex;

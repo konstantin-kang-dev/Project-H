@@ -39,6 +39,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         if (!IsInitialized) return;
+        if (GameManager.Instance.GameState != GameState.Started) return;
 
         Rotate();
     }

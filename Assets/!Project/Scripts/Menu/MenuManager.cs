@@ -8,6 +8,7 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] MainMenuUI _menuUI;
     [SerializeField] LobbyUI _lobbyUI;
+
     void Start()
     {
         Init();
@@ -21,6 +22,8 @@ public class MenuManager : MonoBehaviour
         _lobbyUI.BindActionToBackBtn(HandleLobbyBackBtn);
         _lobbyUI.BindActionToStartBtn(HandleLobbyStartBtn);
 
+        LobbyManager.Instance.OnClientConnected += HandleJoinLobby;
+        LobbyManager.Instance.OnGameStarted += HandleStartGame;
         LobbyManager.Instance.OnClientConnectionLost += HandleLobbyBackBtn;
 
         _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
@@ -30,15 +33,14 @@ public class MenuManager : MonoBehaviour
 
     void HandleCreateLobbyButton()
     {
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         LobbyManager.Instance.StartHost();
 
-        _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
     }
     void HandleJoinLobbyButton()
     {
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         LobbyManager.Instance.StartClient();
-
-        _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
     }
 
     void HandleLobbyBackBtn()
@@ -49,6 +51,19 @@ public class MenuManager : MonoBehaviour
     void HandleLobbyStartBtn()
     {
         LobbyManager.Instance.StartGame();
+    }
+
+    void HandleJoinLobby()
+    {
+        _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
+        LoadingManager.Instance.SetLoadingProgress(1f);
+        Debug.Log($"[MenuManager] Joined lobby!");
+    }
+
+    void HandleStartGame()
+    {
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen);
+        Debug.Log($"[MenuManager] Started game!");
     }
 
     void HandleMenuWindowOpen(MenuWindowType windowType)

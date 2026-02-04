@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c776ec272eca90b49abf034453ac063f, type: 3}
   m_Name: MannequinConfig
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  MoveSpeed: 2
-  SprintSpeed: 2
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  MoveSpeed: 1.2
+  SprintSpeed: 3
   BlindFollowDuration: 10
   RequiredPointsToAggro: 10

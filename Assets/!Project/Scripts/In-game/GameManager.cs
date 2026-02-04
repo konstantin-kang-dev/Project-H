@@ -50,6 +50,8 @@ public class GameManager : NetworkBehaviour
         _gameSpeed.OnChange += HandleGameSpeedChange;
         _gameState.OnChange += HandleGameStateChange;
 
+        LoadingManager.Instance.SetLoadingProgress(0.75f);
+
         RPC_RequestSetReadyToStart(ClientManager.Connection.ClientId);
     }
 
@@ -137,7 +139,10 @@ public class GameManager : NetworkBehaviour
         if (IsServerStarted)
         {
             ObjectivesManager.Instance.Init(GameDifficulty, LobbyManager.Instance.ConnectedPlayers.Count);
+            EnemiesManager.Instance.Init();
         }
+
+        LoadingManager.Instance.SetLoadingProgress(1f);
     }
 
     [Server]

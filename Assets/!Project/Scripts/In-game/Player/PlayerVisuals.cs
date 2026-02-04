@@ -35,6 +35,8 @@ public class PlayerVisuals: NetworkBehaviour
 
     public void Init(int modelKey)
     {
+        _currentAnimatorState.OnChange += HandleAnimatorStateChange;
+
         ChangePlayerModel(modelKey);
         IsInitialized = true;
     }
@@ -84,27 +86,31 @@ public class PlayerVisuals: NetworkBehaviour
 
     public int GetNextModelKey(int prevKey, bool goForward)
     {
-        int modelKey = prevKey;
-        if (goForward)
-        {
-            modelKey += 1;
-            if (modelKey > _playerModels.Count - 1) modelKey = 0;
-        }
-        else
-        {
-            modelKey -= 1;
-            if (modelKey < 0) modelKey = _playerModels.Count - 1;
-        }
+        int modelKey = ProjectUtils.GetNextIndex(prevKey, _playerModels.Count - 1, goForward);
 
         return modelKey;
+    }
+
+    public void HandleItemInHandSelect(IPickable item, int inventoryIndex)
+    {
+        if(item == null) return;
+        AnimatorController.SetItemInHand(item, true);
+    }
+
+    public void HandleItemInHandDeselect(IPickable item, int inventoryIndex)
+    {
+        if (item == null) return;
+        AnimatorController.SetItemInHand(item, false);
     }
 
     public void HandleWalk(Vector2 inputs)
     {
         if (AnimatorController == null) return;
-        AnimatorController.HandleWalk(inputs);
+
+        AnimatorController.SetMoveInputs(inputs);
         if(IsOwner)
         {
+            AnimatorController.HandleWalk(inputs);
             RPC_RequestUpdateAnimatorMovement(inputs);
         }
     }
@@ -122,6 +128,7 @@ public class PlayerVisuals: NetworkBehaviour
         if (IsOwner) return;
         AnimatorController.PlayAnimation(next);
     }
+
     [ServerRpc]
     public void RPC_RequestUpdateAnimatorMovement(Vector2 inputs)
     {

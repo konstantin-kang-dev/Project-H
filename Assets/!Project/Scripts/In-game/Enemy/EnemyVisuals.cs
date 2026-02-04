@@ -13,11 +13,14 @@ public class EnemyVisuals : NetworkBehaviour
     float _headRotationTimer = 0f;
     float _headRotationInterval = 2f;
 
+    readonly SyncVar<AnimatorState> _currentAnimatorState = new SyncVar<AnimatorState>();
+
     readonly SyncVar<Vector3> _lookPosition = new SyncVar<Vector3>();
     public void Init()
     {
         _enemyModel = Instantiate(_enemyModelPrefab, transform);
 
+        _currentAnimatorState.OnChange += HandleAnimatorStateChange;
         _lookPosition.OnChange += HandleLookPositionChange;
 
         AnimatorController = _enemyModel.GetComponent<AnimatorController>();
@@ -30,7 +33,7 @@ public class EnemyVisuals : NetworkBehaviour
         {
             if (isFollowingPlayer)
             {
-                AnimatorController.PlayAnimation(AnimatorState.Run);
+                SERVER_SetAnimatorState(AnimatorState.Run);
 
                 Vector3 lookPos = target.position;
                 lookPos.y += 1f;
@@ -38,7 +41,7 @@ public class EnemyVisuals : NetworkBehaviour
             }
             else
             {
-                AnimatorController.PlayAnimation(AnimatorState.Walk);
+                SERVER_SetAnimatorState(AnimatorState.Walk);
             }
         }
 
@@ -70,7 +73,7 @@ public class EnemyVisuals : NetworkBehaviour
     {
         _headRotationTimer = 0f;
 
-        Vector3 randomPosInCone = ProjectUtils.RandomPositionInRectangle(transform.position, transform.forward, 7f, 8f, 0.5f);
+        Vector3 randomPosInCone = ProjectUtils.RandomPositionInRectangle(transform.position, transform.forward, 7f, 13f, 0.5f);
         SERVER_SetLookPosition(randomPosInCone);
     }
 
@@ -84,5 +87,17 @@ public class EnemyVisuals : NetworkBehaviour
     void HandleLookPositionChange(Vector3 prev, Vector3 next, bool asServer)
     {
         AnimatorController.SetLookPosition(next);
+    }
+
+    [Server]
+    void SERVER_SetAnimatorState(AnimatorState state)
+    {
+        _currentAnimatorState.Value = state;
+    }
+
+    [Client]
+    void HandleAnimatorStateChange(AnimatorState prev, AnimatorState next, bool asServer)
+    {
+        AnimatorController.PlayAnimation(next);
     }
 }

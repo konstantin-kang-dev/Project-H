@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour
         }
 
         PlayerInventory.Init(_player);
+        PlayerInventory.OnSelectedItem += PlayerVisuals.HandleItemInHandSelect;
+        PlayerInventory.OnDeselectedItem += PlayerVisuals.HandleItemInHandDeselect;
         if (_player.IsOwner)
         {
             Input.OnNextInventorySlot += PlayerInventory.HandleNextInventorySlotInput;

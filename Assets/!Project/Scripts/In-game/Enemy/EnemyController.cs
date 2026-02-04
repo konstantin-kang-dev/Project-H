@@ -9,8 +9,7 @@ public class EnemyController : NetworkBehaviour
     [SerializeField] EnemyMovementService _enemyMovementService;
 
 
-    [SerializeField] EnemyVisuals _enemyVisualsPrefab;
-    EnemyVisuals _enemyVisuals;
+    [SerializeField] EnemyVisuals _enemyVisuals;
 
     [SerializeField] AggroController _aggroControllerPrefab;
     AggroController _aggroController;
@@ -28,9 +27,7 @@ public class EnemyController : NetworkBehaviour
     {
         _enemyMovementService.Init(_enemyStats);
 
-        _enemyVisuals = Instantiate(_enemyVisualsPrefab, transform);
         _enemyVisuals.Init();
-        _enemyVisuals.AnimatorController.OnLookPositionUpdate += HandleLookPositionUpdate;
 
         OnStateUpdate += _enemyVisuals.HandleStateUpdate;
 
@@ -42,6 +39,8 @@ public class EnemyController : NetworkBehaviour
             _aggroController.OnAggroProceed += HandleAggroOnPlayer;
             _aggroController.OnAggroRelease += HandleAggroOnPlayerRelease;
             _aggroController.Init(_enemyStats);
+
+            _enemyVisuals.AnimatorController.OnLookPositionUpdate += HandleLookPositionUpdate;
         }
 
         IsInitialized = true;

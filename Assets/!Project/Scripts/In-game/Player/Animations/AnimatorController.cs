@@ -30,7 +30,10 @@ public class AnimatorController : SerializedMonoBehaviour
     public bool IsInitialized { get; private set; } = false;
     private void Awake()
     {
-        _handItemPoint = _handItemTarget.Find("Point");
+        if(_handItemTarget != null)
+        {
+            _handItemPoint = _handItemTarget.Find("Point");
+        }
     }
     public void Init()
     {
@@ -51,6 +54,7 @@ public class AnimatorController : SerializedMonoBehaviour
 
     public void PlayAnimation(AnimatorState state)
     {
+        //Debug.Log($"[AnimatorController] Play animation: {state}", this);
         if (!IsInitialized) return;
 
         if (!_animatorStates.ContainsKey(state)) throw new System.Exception($"[ScriptedAnimatorController] State is not referenced! {state}");
@@ -70,11 +74,14 @@ public class AnimatorController : SerializedMonoBehaviour
         Animator.SetFloat(key, value);
     }
 
-    public void HandleWalk(Vector2 inputs)
+    public void SetMoveInputs(Vector2 inputs)
     {
         SetFloat("MoveX", inputs.x);
         SetFloat("MoveY", inputs.y);
+    }
 
+    public void HandleWalk(Vector2 inputs)
+    {
         if(inputs.x == 0f && inputs.y == 0f)
         {
             PlayAnimation(AnimatorState.Idle);
