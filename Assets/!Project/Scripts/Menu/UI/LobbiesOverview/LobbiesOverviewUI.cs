@@ -1,0 +1,91 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LobbiesOverviewUI : MonoBehaviour, IMenuWindow
+{
+    [field: SerializeField] public MenuWindowType WindowType { get; private set; }
+    [SerializeField] BasicWindowVisuals _visuals;
+    [SerializeField] Button _backBtn;
+
+    [SerializeField] Transform _scrollContainer;
+    [SerializeField] LobbyCardUI _lobbyCardPrefab;
+    [SerializeField] float _autoUpdateInterval = 1f;
+    float _timer = 0f;
+
+    bool _isVisible = false;
+
+    List<LobbyCardUI> _activeLobbyCardsUI = new List<LobbyCardUI>();
+
+    void Awake()
+    {
+        for (int i = 0; i < _scrollContainer.childCount; i++)
+        {
+            Destroy(_scrollContainer.GetChild(i).gameObject);
+        }
+    }
+
+    public void Init()
+    {
+        _backBtn.onClick.AddListener(HandleBackBtn);
+    }
+
+    public void SetVisibility(bool visible, bool doInstantly)
+    {
+        if (visible)
+        {
+            _visuals.ProcessInAnimation(doInstantly);
+            LoadLobbies();
+        }
+        else
+        {
+            _visuals.ProcessOutAnimation(doInstantly);
+        }
+
+        _timer = 0f;
+        _isVisible = visible;
+    }
+
+    void FixedUpdate()
+    {
+        if (_isVisible)
+        {
+            _timer += Time.fixedDeltaTime;
+            if(_timer >= _autoUpdateInterval)
+            {
+                _timer = 0f;
+                LoadLobbies();
+            }
+        }
+    }
+
+    void LoadLobbies()
+    {
+        FirebaseManager.Instance.LoadLobbies(HandleLoadLobbies);
+    }
+
+    void HandleLoadLobbies(List<LobbyData> lobbiesData)
+    {
+        foreach (var lobbyCardUI in _activeLobbyCardsUI)
+        {
+            Destroy(lobbyCardUI.gameObject);
+        }
+
+        foreach (var lobbyData in lobbiesData)
+        {
+            SpawnLobbyCard(lobbyData);
+        }
+    }
+
+    void SpawnLobbyCard(LobbyData lobbyData)
+    {
+        LobbyCardUI lobbyCardUI = Instantiate(_lobbyCardPrefab, _scrollContainer);
+        lobbyCardUI.Init(lobbyData);
+        _activeLobbyCardsUI.Add(lobbyCardUI);
+    }
+
+    void HandleBackBtn()
+    {
+        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+    }
+}

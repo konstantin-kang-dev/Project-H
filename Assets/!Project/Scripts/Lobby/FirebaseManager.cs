@@ -8,8 +8,15 @@ using UnityEngine;
 
 public class FirebaseManager : MonoBehaviour
 {
+    public static FirebaseManager Instance;
+
     private DatabaseReference _database;
     private bool _isInitialized = false;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -43,6 +50,7 @@ public class FirebaseManager : MonoBehaviour
             { "lobbyId", lobby.LobbyId },
             { "maxPlayers", lobby.MaxPlayers },
             { "currentPlayers", lobby.CurrentPlayers },
+            { "chosenDifficulty", (int)lobby.ChosenDifficulty},
             { "hostName", lobby.HostName },
             { "steamId", steamId },
             { "timestamp", ServerValue.Timestamp }
@@ -59,7 +67,7 @@ public class FirebaseManager : MonoBehaviour
             });
     }
 
-    public void GetLobbies(Action<List<LobbyData>> callback)
+    public void LoadLobbies(Action<List<LobbyData>> callback)
     {
         if (!_isInitialized) return;
 
@@ -75,26 +83,31 @@ public class FirebaseManager : MonoBehaviour
             DataSnapshot snapshot = task.Result;
             List<LobbyData> lobbies = new List<LobbyData>();
 
-            foreach (DataSnapshot lobbySnap in snapshot.Children)
+            if(snapshot.ChildrenCount > 0)
             {
-                try
+                foreach (DataSnapshot lobbySnap in snapshot.Children)
                 {
-                    LobbyData lobby = new LobbyData
+                    try
                     {
-                        LobbyId = int.Parse(lobbySnap.Child("lobbyId").Value.ToString()),
-                        MaxPlayers = int.Parse(lobbySnap.Child("maxPlayers").Value.ToString()),
-                        CurrentPlayers = int.Parse(lobbySnap.Child("currentPlayers").Value.ToString()),
-                        HostName = lobbySnap.Child("hostName").Value.ToString(),
-                        HostSteamId = ulong.Parse(lobbySnap.Child("steamId").Value.ToString())
-                    };
+                        LobbyData lobby = new LobbyData
+                        {
+                            LobbyId = int.Parse(lobbySnap.Child("lobbyId").Value.ToString()),
+                            MaxPlayers = int.Parse(lobbySnap.Child("maxPlayers").Value.ToString()),
+                            CurrentPlayers = int.Parse(lobbySnap.Child("currentPlayers").Value.ToString()),
+                            ChosenDifficulty = (DifficultyType)int.Parse(lobbySnap.Child("chosenDifficulty").Value.ToString()),
+                            HostName = lobbySnap.Child("hostName").Value.ToString(),
+                            HostSteamId = ulong.Parse(lobbySnap.Child("steamId").Value.ToString())
+                        };
 
-                    lobbies.Add(lobby);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning($"[FirebaseManager] Failed to parse lobby: {e.Message}");
+                        lobbies.Add(lobby);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning($"[FirebaseManager] Failed to parse lobby: {e.Message}");
+                    }
                 }
             }
+
 
             callback?.Invoke(lobbies);
         });
@@ -121,6 +134,7 @@ public struct LobbyData
     public int LobbyId;
     public int MaxPlayers;
     public int CurrentPlayers;
+    public DifficultyType ChosenDifficulty;
     public string HostName;
     public ulong HostSteamId;
 }

@@ -7,4 +7,5 @@ public enum MenuWindowType
 {
     MainMenu = 0,
     Lobby = 1,
+    LobbiesOverview = 2,
 }

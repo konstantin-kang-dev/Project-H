@@ -21,6 +21,30 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
         
     }
 
+    public void Init()
+    {
+        foreach (var buttonBlock in _menuButtons)
+        {
+            Button button = buttonBlock.Value;
+
+            switch (buttonBlock.Key)
+            {
+                case MenuButtonType.CreateLobby:
+                    button.onClick.AddListener(HandleCreateLobbyButton);
+                    break;
+                case MenuButtonType.JoinLobby:
+                    button.onClick.AddListener(HandleJoinLobbyButton);
+                    break;
+                case MenuButtonType.Contacts:
+                    break;
+                case MenuButtonType.Settings:
+                    break;
+                case MenuButtonType.Quit:
+                    break;
+            }
+        }
+    }
+
     void Update()
     {
         
@@ -38,22 +62,13 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
         }
     }
 
-    public void BindActionToMenuButton(MenuButtonType type, UnityAction action)
+    void HandleCreateLobbyButton()
     {
-        if (action == null) throw new Exception($"[MenuUI] Binding action is null");
-
-        if (!_menuButtons.ContainsKey(type)) throw new Exception($"[MenuUI] Menu button {type} not found");
-
-        Button button = _menuButtons[type];
-        button.onClick.AddListener(action);
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
+        NetworkLobbyManager.Instance.CreateLobby();
     }
-    public void UnbindActionToMenuButton(MenuButtonType type, UnityAction action)
+    void HandleJoinLobbyButton()
     {
-        if (action == null) throw new Exception($"[MenuUI] Binding action is null");
-
-        if (!_menuButtons.ContainsKey(type)) throw new Exception($"[MenuUI] Menu button {type} not found");
-
-        Button button = _menuButtons[type];
-        button.onClick.RemoveListener(action);
+        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.LobbiesOverview);
     }
 }

@@ -10,7 +10,6 @@ public class NetworkLobbyManager : MonoBehaviour
     public static NetworkLobbyManager Instance;
 
     [SerializeField] private FishNet.Managing.NetworkManager _nm;
-    [SerializeField] private FirebaseManager _firebaseLobby;
 
     private FishySteamworks.FishySteamworks _transport;
     private int _currentLobbyId;
@@ -47,7 +46,7 @@ public class NetworkLobbyManager : MonoBehaviour
 
         if (_nm.IsServerStarted && _currentLobbyId != 0)
         {
-            _firebaseLobby.RemoveLobby(_currentLobbyId);
+            FirebaseManager.Instance.RemoveLobby(_currentLobbyId);
         }
     }
 
@@ -64,7 +63,7 @@ public class NetworkLobbyManager : MonoBehaviour
 
     public void CreateLobby()
     {
-        _currentLobbyId = UnityEngine.Random.Range(1000, 9999);
+        _currentLobbyId = UnityEngine.Random.Range(0, 999999);
 
         _pendingLobby = new LobbyData
         {
@@ -76,8 +75,9 @@ public class NetworkLobbyManager : MonoBehaviour
 
         _waitingForHost = true;
 
-        //_nm.ServerManager.StartConnection();
-        //_nm.ClientManager.StartConnection();
+        _nm.ServerManager.StartConnection();
+
+        _nm.ClientManager.StartConnection();
 
         Debug.Log($"[NetworkLobbyManager] Create lobby");
     }
@@ -89,7 +89,7 @@ public class NetworkLobbyManager : MonoBehaviour
 
         _pendingLobby.HostSteamId = hostSteamId;
 
-        _firebaseLobby.CreateLobby(_pendingLobby, hostSteamId.ToString(), () =>
+        FirebaseManager.Instance.CreateLobby(_pendingLobby, hostSteamId.ToString(), () =>
         {
             Debug.Log($"[NetworkLobbyManager] Lobby registered! ID: {_currentLobbyId}, SteamID: {hostSteamId}");
         });
@@ -100,11 +100,11 @@ public class NetworkLobbyManager : MonoBehaviour
     {
         _transport.SetClientAddress(lobby.HostSteamId.ToString());
         _nm.ClientManager.StartConnection();
-        _firebaseLobby.UpdatePlayerCount(lobby.LobbyId, lobby.CurrentPlayers + 1);
+        FirebaseManager.Instance.UpdatePlayerCount(lobby.LobbyId, lobby.CurrentPlayers + 1);
     }
 
     public void RefreshLobbies(System.Action<List<LobbyData>> callback)
     {
-        _firebaseLobby.GetLobbies(callback);
+        FirebaseManager.Instance.LoadLobbies(callback);
     }
 }

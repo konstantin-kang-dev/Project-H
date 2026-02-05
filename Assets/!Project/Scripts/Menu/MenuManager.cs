@@ -6,10 +6,11 @@ using Zenject;
 
 public class MenuManager : MonoBehaviour
 {
-    [Inject] MenuPageNavigator _menuPageNavigator;
+    [Inject] MenuWindowNavigator _menuPageNavigator;
 
     [SerializeField] MainMenuUI _menuUI;
     [SerializeField] LobbyUI _lobbyUI;
+    [SerializeField] LobbiesOverviewUI _lobbiesOverviewUI;
 
     [SerializeField] TMP_InputField _playerNameInput;
 
@@ -22,41 +23,19 @@ public class MenuManager : MonoBehaviour
     {
         SaveManager.LoadAll();
 
+        _playerNameInput.text = SaveManager.GameData.PlayerName;
         _playerNameInput.onValueChanged.AddListener(HandlePlayerNameInput);
 
-        _menuUI.BindActionToMenuButton(MenuButtonType.CreateLobby, HandleCreateLobbyButton);
-        _menuUI.BindActionToMenuButton(MenuButtonType.JoinLobby, HandleJoinLobbyButton);
-
-        _lobbyUI.BindActionToBackBtn(HandleLobbyBackBtn);
-        _lobbyUI.BindActionToStartBtn(HandleLobbyStartBtn);
+        _menuUI.Init();
+        _lobbiesOverviewUI.Init();
 
         LobbyManager.Instance.OnClientConnected += HandleJoinLobby;
         LobbyManager.Instance.OnGameStarted += HandleStartGame;
-        LobbyManager.Instance.OnClientConnectionLost += HandleLobbyBackBtn;
+        LobbyManager.Instance.OnClientConnectionLost += HandleQuitLobby;
 
         _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
 
         GameDifficultyManager.Instance.Init();
-    }
-
-    void HandleCreateLobbyButton()
-    {
-        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
-        NetworkLobbyManager.Instance.CreateLobby();
-    }
-    void HandleJoinLobbyButton()
-    {
-        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
-    }
-
-    void HandleLobbyBackBtn()
-    {
-        LobbyManager.Instance.StopConnection();
-        _menuPageNavigator.OpenWindow(MenuWindowType.MainMenu);
-    }
-    void HandleLobbyStartBtn()
-    {
-        LobbyManager.Instance.StartGame();
     }
 
     void HandleJoinLobby()
@@ -64,6 +43,13 @@ public class MenuManager : MonoBehaviour
         _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
         LoadingManager.Instance.SetLoadingProgress(1f);
         Debug.Log($"[MenuManager] Joined lobby!");
+    }
+
+    void HandleQuitLobby()
+    {
+        LobbyManager.Instance.StopConnection();
+        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+        Debug.Log($"[MenuManager] Quit lobby");
     }
 
     void HandleStartGame()
@@ -108,7 +94,7 @@ public class MenuManager : MonoBehaviour
 
         LobbyManager.Instance.OnClientConnected -= HandleJoinLobby;
         LobbyManager.Instance.OnGameStarted -= HandleStartGame;
-        LobbyManager.Instance.OnClientConnectionLost -= HandleLobbyBackBtn;
+        LobbyManager.Instance.OnClientConnectionLost -= HandleQuitLobby;
 
         _playerNameInput.onValueChanged.RemoveListener(HandlePlayerNameInput);
     }
