@@ -47,10 +47,15 @@ public class BasicWindowVisuals : MonoBehaviour
         resultSequence.Pause();
 
         _canvasGroup.interactable = false;
+        _canvasGroup.blocksRaycasts = false;
 
         resultSequence.OnComplete(() =>
         {
-            _canvasGroup.interactable = true;
+            if(animationDirection == WindowAnimationDirection.In)
+            {
+                _canvasGroup.interactable = true;
+                _canvasGroup.blocksRaycasts = true;
+            }
         });
 
         switch (animationType)

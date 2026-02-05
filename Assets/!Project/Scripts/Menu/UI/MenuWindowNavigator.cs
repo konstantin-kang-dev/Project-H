@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuPageNavigator : SerializedMonoBehaviour
+public class MenuWindowNavigator : SerializedMonoBehaviour
 {
+    public static MenuWindowNavigator Instance;
+
     [SerializeField] GameObject _inputBlocker;
 
     [SerializeField] Dictionary<MenuWindowType, IMenuWindow> _menuWindows = new Dictionary<MenuWindowType, IMenuWindow>();
@@ -13,7 +15,7 @@ public class MenuPageNavigator : SerializedMonoBehaviour
     public event Action<MenuWindowType> OnWindowOpened;
     private void Awake()
     {
-
+        Instance = this;
     }
 
     void Start()

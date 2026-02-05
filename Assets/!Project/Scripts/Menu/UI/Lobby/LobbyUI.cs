@@ -35,6 +35,8 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
         }
 
         _readyBtn.OnToggle += HandleClickReadyBtn;
+        _backBtn.onClick.AddListener(HandleLobbyBackBtn);
+        _startBtn.onClick.AddListener(HandleLobbyStartBtn);
     }
 
     void HandleDifficultyToggle(int value)
@@ -46,22 +48,19 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
         }
     }
 
-    public void BindActionToBackBtn(UnityAction action)
-    {
-        _backBtn.onClick.AddListener(action);
-    }
-    public void BindActionToReadyBtn(UnityAction action)
-    {
-        
-    }
     void HandleClickReadyBtn(ToggleButton toggleButton)
     {
         bool readyState = toggleButton.State;
         LobbyManager.Instance.ChangeReadyState(readyState);
     }
-    public void BindActionToStartBtn(UnityAction action)
+    void HandleLobbyBackBtn()
     {
-        _startBtn.onClick.AddListener(action);
+        LobbyManager.Instance.StopConnection();
+        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+    }
+    void HandleLobbyStartBtn()
+    {
+        LobbyManager.Instance.StartGame();
     }
 
     public void SetVisibility(bool visible, bool doInstantly = false)
