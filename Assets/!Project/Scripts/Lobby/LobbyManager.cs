@@ -56,22 +56,6 @@ public class LobbyManager : NetworkBehaviour
         _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
     }
 
-    public async void StartHost()
-    {
-        await UniTask.WaitForSeconds(2f);
-        _networkManager.ServerManager.StartConnection();
-
-        _networkManager.ClientManager.StartConnection();
-        Debug.Log("Host started");
-    }
-
-    public async void StartClient(string ip = "127.0.0.1")
-    {
-        await UniTask.WaitForSeconds(2f);
-        _networkManager.ClientManager.StartConnection(ip);
-        Debug.Log($"Client connecting to {ip}");
-    }
-
     public void StopConnection()
     {
         bool isServerActive = _networkManager.ServerManager.Started;

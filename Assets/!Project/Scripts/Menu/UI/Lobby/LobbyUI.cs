@@ -102,7 +102,7 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
 
     void ResetEvents()
     {
-        if (LobbyManager.Instance.IsServerStarted)
+        if (LobbyManager.Instance != null && LobbyManager.Instance.IsServerStarted)
         {
             LobbyManager.Instance.OnPlayersReady -= HandlePlayersReadyChange;
         }

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1009404941586",
+    "firebase_url": "https://project-h-a2e49-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "project-h-a2e49",
+    "storage_bucket": "project-h-a2e49.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009404941586:android:86fccb5fcf698a6fdf4fcb",
+        "android_client_info": {
+          "package_name": "com.kang.projecth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxraK2xIRYmq22K5pDNb3nNxQ08ezfiP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

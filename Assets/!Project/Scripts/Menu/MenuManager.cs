@@ -1,5 +1,7 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Zenject;
 
 public class MenuManager : MonoBehaviour
@@ -9,6 +11,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] MainMenuUI _menuUI;
     [SerializeField] LobbyUI _lobbyUI;
 
+    [SerializeField] TMP_InputField _playerNameInput;
+
     void Start()
     {
         Init();
@@ -16,6 +20,10 @@ public class MenuManager : MonoBehaviour
 
     public void Init()
     {
+        SaveManager.LoadAll();
+
+        _playerNameInput.onValueChanged.AddListener(HandlePlayerNameInput);
+
         _menuUI.BindActionToMenuButton(MenuButtonType.CreateLobby, HandleCreateLobbyButton);
         _menuUI.BindActionToMenuButton(MenuButtonType.JoinLobby, HandleJoinLobbyButton);
 
@@ -34,13 +42,11 @@ public class MenuManager : MonoBehaviour
     void HandleCreateLobbyButton()
     {
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
-        LobbyManager.Instance.StartHost();
-
+        NetworkLobbyManager.Instance.CreateLobby();
     }
     void HandleJoinLobbyButton()
     {
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
-        LobbyManager.Instance.StartClient();
     }
 
     void HandleLobbyBackBtn()
@@ -64,6 +70,12 @@ public class MenuManager : MonoBehaviour
     {
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen);
         Debug.Log($"[MenuManager] Started game!");
+    }
+
+    void HandlePlayerNameInput(string value)
+    {
+        SaveManager.GameData.PlayerName = value;
+        SaveManager.SaveAll();
     }
 
     void HandleMenuWindowOpen(MenuWindowType windowType)
@@ -94,6 +106,10 @@ public class MenuManager : MonoBehaviour
 
         _menuPageNavigator.OnWindowOpened -= HandleMenuWindowOpen;
 
+        LobbyManager.Instance.OnClientConnected -= HandleJoinLobby;
+        LobbyManager.Instance.OnGameStarted -= HandleStartGame;
         LobbyManager.Instance.OnClientConnectionLost -= HandleLobbyBackBtn;
+
+        _playerNameInput.onValueChanged.RemoveListener(HandlePlayerNameInput);
     }
 }
