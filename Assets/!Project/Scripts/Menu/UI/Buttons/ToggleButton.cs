@@ -9,6 +9,7 @@ public class ToggleButton : MonoBehaviour
     [SerializeField] GameObject _inactiveVisuals;
     bool _state = false;
     public bool State => _state;
+    bool _isVisible = true;
 
     [SerializeField] bool _toggleOnClick = true;
 
@@ -37,17 +38,34 @@ public class ToggleButton : MonoBehaviour
         HandleStateChange(_state);
     }
 
-    void HandleStateChange(bool state)
+    public void SetVisibility(bool visible)
     {
-        if(_state)
+        _isVisible = visible;
+        if (visible)
         {
-            _activeVisuals.SetActive(true);
-            _inactiveVisuals.SetActive(false);
+            HandleStateChange(_state);
         }
         else
         {
             _activeVisuals.SetActive(false);
-            _inactiveVisuals.SetActive(true);
+            _inactiveVisuals.SetActive(false);
+        }
+    }
+
+    void HandleStateChange(bool state)
+    {
+        if (_isVisible)
+        {
+            if (_state)
+            {
+                _activeVisuals.SetActive(true);
+                _inactiveVisuals.SetActive(false);
+            }
+            else
+            {
+                _activeVisuals.SetActive(false);
+                _inactiveVisuals.SetActive(true);
+            }
         }
 
         OnToggle?.Invoke(this);

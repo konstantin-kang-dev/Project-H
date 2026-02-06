@@ -2,6 +2,7 @@
 using FishNet.Transporting;
 using FishySteamworks;
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +11,8 @@ public class NetworkLobbyManager : MonoBehaviour
     public static NetworkLobbyManager Instance;
 
     [SerializeField] private FishNet.Managing.NetworkManager _nm;
+    [SerializeField] TransportSwitcher _transportSwitcher;
 
-    private FishySteamworks.FishySteamworks _transport;
     private int _currentLobbyId;
     private bool _waitingForHost = false;
     private LobbyData _pendingLobby;
@@ -23,18 +24,18 @@ public class NetworkLobbyManager : MonoBehaviour
 
     void Start()
     {
-        _transport = _nm.TransportManager.GetTransport<FishySteamworks.FishySteamworks>();
-        _nm.ServerManager.OnServerConnectionState += OnServerConnectionState;
-
         if (!SteamAPI.Init())
         {
             Debug.LogError("[NetworkLobbyManager] SteamAPI.Init() failed");
             return;
         }
+        Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
 
         Debug.Log("[NetworkLobbyManager] SteamAPI initialized");
         Debug.Log($"[NetworkLobbyManager] Steam Name: {SteamFriends.GetPersonaName()}");
         Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
+
+        _nm.ServerManager.OnServerConnectionState += OnServerConnectionState;
     }
 
     void OnDestroy()
@@ -76,18 +77,24 @@ public class NetworkLobbyManager : MonoBehaviour
         _waitingForHost = true;
 
         _nm.ServerManager.StartConnection();
-
         _nm.ClientManager.StartConnection();
 
-        Debug.Log($"[NetworkLobbyManager] Create lobby");
+        LobbyManager.Instance.SERVER_InitLobby(_pendingLobby);
+        Debug.Log($"[NetworkLobbyManager] Create lobby.");
+
     }
 
     void RegisterLobbyInFirebase()
     {
+        ulong hostSteamId =  (ulong)_currentLobbyId;
+#if UNITY_EDITOR
+
+#else
         CSteamID steamId = SteamUser.GetSteamID();
         ulong hostSteamId = steamId.m_SteamID;
-
+        hostSteamIdString = hostSteamId.ToString();
         _pendingLobby.HostSteamId = hostSteamId;
+#endif
 
         FirebaseManager.Instance.CreateLobby(_pendingLobby, hostSteamId.ToString(), () =>
         {
@@ -98,9 +105,12 @@ public class NetworkLobbyManager : MonoBehaviour
 
     public void JoinLobby(LobbyData lobby)
     {
-        _transport.SetClientAddress(lobby.HostSteamId.ToString());
-        _nm.ClientManager.StartConnection();
-        FirebaseManager.Instance.UpdatePlayerCount(lobby.LobbyId, lobby.CurrentPlayers + 1);
+        if (!_transportSwitcher.IsLocalMode)
+        {
+            _transportSwitcher.SteamTransport.SetClientAddress(lobby.HostSteamId.ToString());
+        }
+
+        _nm.ClientManager.StartConnection(); 
     }
 
     public void RefreshLobbies(System.Action<List<LobbyData>> callback)

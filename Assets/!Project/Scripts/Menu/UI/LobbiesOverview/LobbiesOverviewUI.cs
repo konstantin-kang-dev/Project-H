@@ -62,6 +62,7 @@ public class LobbiesOverviewUI : MonoBehaviour, IMenuWindow
     void LoadLobbies()
     {
         FirebaseManager.Instance.LoadLobbies(HandleLoadLobbies);
+        Debug.Log($"[LobbiesOverview] Updated lobbies list({_activeLobbyCardsUI.Count}).");
     }
 
     void HandleLoadLobbies(List<LobbyData> lobbiesData)
@@ -70,6 +71,7 @@ public class LobbiesOverviewUI : MonoBehaviour, IMenuWindow
         {
             Destroy(lobbyCardUI.gameObject);
         }
+        _activeLobbyCardsUI.Clear();
 
         foreach (var lobbyData in lobbiesData)
         {

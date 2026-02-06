@@ -19,12 +19,20 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
     {
         LobbyManager.Instance.OnLocalPlayerRegister += Init;
         LobbyManager.Instance.OnLocalPlayerUnregister += ResetEvents;
+        LobbyManager.Instance.OnLobbyDataUpdated += HandleUpdateLobbyData;
     }
 
     public void Init()
     {
-        _difficultyToggleGroup.OnToggle += HandleDifficultyToggle;
-        _difficultyToggleGroup.ResetValues();
+        if (LobbyManager.Instance.IsServerStarted)
+        {
+            _difficultyToggleGroup.ResetValues();
+            _difficultyToggleGroup.OnToggle += HandleDifficultyToggle;
+        }
+        else
+        {
+            _difficultyToggleGroup.SetButtonsVisibility(false);
+        }
 
         SetStartBtnVisibility(LobbyManager.Instance.IsServerStarted);
         SetStartBtnInteractable(false);
@@ -45,6 +53,16 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
         if (selectedConfig != null)
         {
             GameDifficultyManager.Instance.SelectConfig(selectedConfig.DifficultyType);
+        }
+
+        LobbyManager.Instance.UpdateDifficulty((DifficultyType)value);
+    }
+
+    void HandleUpdateLobbyData(LobbyData lobbyData)
+    {
+        if(!LobbyManager.Instance.IsServerStarted)
+        {
+            _difficultyToggleGroup.SetValue((int)lobbyData.ChosenDifficulty);
         }
     }
 

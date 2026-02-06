@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d8eb257e7f7af46b5afba2e9c02973, type: 3}
   m_Name: GameDifficultyConfig 3
   m_EditorClassIdentifier: Assembly-CSharp::GameDifficultyConfig
-  DifficultyName: 400%
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  DifficultyType: 3
   PlayersStats: {fileID: 11400000, guid: 5f0c9e73dd9e80a498cf7b3d4b4795c8, type: 2}
   EnemyStats: {fileID: 11400000, guid: 888701159de601e4d8e1bcc116ba6c35, type: 2}

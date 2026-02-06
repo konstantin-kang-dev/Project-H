@@ -28,7 +28,15 @@ public class FirebaseManager : MonoBehaviour
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)
-            {
+            {                
+#if UNITY_EDITOR
+                bool isClone = UnityEditor.EditorApplication.applicationPath.Contains("_clone_");
+                if (isClone)
+                {
+                    FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+                }
+#endif
+
                 _database = FirebaseDatabase.DefaultInstance.RootReference;
                 _isInitialized = true;
                 Debug.Log("[FirebaseManager] Firebase initialized");
@@ -113,11 +121,21 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    public void UpdatePlayerCount(int lobbyId, int count)
+    public void UpdateLobbyData(LobbyData lobbyData)
     {
         if (!_isInitialized) return;
 
-        _database.Child("lobbies").Child(lobbyId.ToString()).Child("currentPlayers").SetValueAsync(count);
+        var lobbyDict = new Dictionary<string, object>
+        {
+            { "lobbyId", lobbyData.LobbyId },
+            { "maxPlayers", lobbyData.MaxPlayers },
+            { "currentPlayers", lobbyData.CurrentPlayers },
+            { "chosenDifficulty", (int)lobbyData.ChosenDifficulty},
+            { "hostName", lobbyData.HostName },
+            { "steamId", lobbyData.HostSteamId.ToString() },
+            { "timestamp", ServerValue.Timestamp }
+        };
+        _database.Child("lobbies").Child(lobbyData.LobbyId.ToString()).UpdateChildrenAsync(lobbyDict);
     }
 
     public void RemoveLobby(int lobbyId)
@@ -137,4 +155,5 @@ public struct LobbyData
     public DifficultyType ChosenDifficulty;
     public string HostName;
     public ulong HostSteamId;
+
 }

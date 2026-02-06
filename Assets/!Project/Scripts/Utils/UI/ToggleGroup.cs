@@ -47,6 +47,26 @@ public class ToggleGroup : SerializedMonoBehaviour
         _toggleButtons.Keys.ToList()[0].SetState(true);
     }
 
+    public void SetValue(int value)
+    {
+        if(value > _toggleButtons.Count - 1)
+        {
+            throw new System.Exception($"[ToggleGroup] Value is out of bounds.");
+        }
+
+        ToggleButton targetBtn = _toggleButtons.FirstOrDefault((x)=> x.Value == value).Key;
+        targetBtn.SetState(true);
+        HandleToggle(targetBtn);
+    }
+
+    public void SetButtonsVisibility(bool visible)
+    {
+        foreach (var button in _toggleButtons)
+        {
+            button.Key.SetVisibility(visible);
+        }
+    }
+
     void HandleToggle(ToggleButton toggleButton)
     {
         if (!IsInitialized) return;

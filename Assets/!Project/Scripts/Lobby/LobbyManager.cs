@@ -16,16 +16,12 @@ public class LobbyManager : NetworkBehaviour
     public static LobbyManager Instance;
     [SerializeField] private NetworkManager _networkManager;
     [SerializeField] List<Transform> _lobbySlotsPoints = new List<Transform>();
-
     readonly SyncVar<List<LobbySlot>> _lobbySlots = new SyncVar<List<LobbySlot>>();
-
-    int _maxPlayers = 4;
-
     [SerializeField] LobbyPlayer _lobbyPlayerPrefab;
 
-    List<LobbyPlayer> _lobbyPlayers = new List<LobbyPlayer>();
-    public List<LobbyPlayer> LobbyPlayers => _lobbyPlayers;
+    readonly SyncVar<LobbyData> _lobbyData = new SyncVar<LobbyData>();
 
+    List<LobbyPlayer> _lobbyPlayers = new List<LobbyPlayer>();
     LobbyPlayer _localLobbyPlayer;
     public bool IsLocalPlayerSet => _localLobbyPlayer != null;
     public bool LocalPlayerReadyState => IsLocalPlayerSet ? _localLobbyPlayer.IsReady : false;
@@ -38,6 +34,8 @@ public class LobbyManager : NetworkBehaviour
     public event Action OnLocalPlayerRegister;
     public event Action OnLocalPlayerUnregister;
     public event Action<bool> OnPlayersReady;
+
+    public event Action<LobbyData> OnLobbyDataUpdated;
 
     public event Action OnJoinedLobby;
     public event Action OnGameStarted;
@@ -54,6 +52,18 @@ public class LobbyManager : NetworkBehaviour
     {
 
         _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
+    }
+
+    [Server]
+    public void SERVER_InitLobby(LobbyData lobbyData)
+    {
+        _lobbyData.Value = lobbyData;
+    }
+
+    [Server]
+    public void CloseLobby()
+    {
+        FirebaseManager.Instance.RemoveLobby(_lobbyData.Value.LobbyId);
     }
 
     public void StopConnection()
@@ -168,10 +178,13 @@ public class LobbyManager : NetworkBehaviour
         if(args.ConnectionState == LocalConnectionState.Started)
         {
             _isGameStarted.OnChange += HandleGameStarted;
+            _lobbyData.OnChange += HandleLobbyDataChanged;
             OnClientConnected?.Invoke();
         }
         else if(args.ConnectionState == LocalConnectionState.Stopped)
         {
+            _isGameStarted.OnChange -= HandleGameStarted;
+            _lobbyData.OnChange -= HandleLobbyDataChanged;
             OnClientConnectionLost?.Invoke();
         }
         Debug.Log($"[LobbyManager] Updated client connection state: {args.ConnectionState}");
@@ -196,6 +209,18 @@ public class LobbyManager : NetworkBehaviour
                 lobbySlot.ResetData();
             }
         }
+
+        _lobbyData.Value = new LobbyData()
+        {
+            LobbyId = _lobbyData.Value.LobbyId,
+            MaxPlayers = _lobbyData.Value.MaxPlayers,
+            CurrentPlayers = _connectedPlayers.Count,
+            ChosenDifficulty = _lobbyData.Value.ChosenDifficulty,
+            HostName = _lobbyData.Value.HostName,
+            HostSteamId = _lobbyData.Value.HostSteamId,
+        };
+
+        FirebaseManager.Instance.UpdateLobbyData(_lobbyData.Value);
     }
 
     [Server]
@@ -215,12 +240,39 @@ public class LobbyManager : NetworkBehaviour
     [Client]
     void HandleGameStarted(bool prev, bool next, bool asServer)
     {
-        if (asServer) return;
+        if (asServer)
+        {
+            FirebaseManager.Instance.RemoveLobby(_lobbyData.Value.LobbyId);
+            return;
+        }
 
         if (next)
         {
             OnGameStarted?.Invoke();
         }
+    }
+    [Server]
+    public void UpdateDifficulty(DifficultyType type)
+    {
+        _lobbyData.Value = new LobbyData()
+        {
+            LobbyId = _lobbyData.Value.LobbyId,
+            MaxPlayers = _lobbyData.Value.MaxPlayers,
+            CurrentPlayers = _lobbyData.Value.CurrentPlayers,
+            ChosenDifficulty = type,
+            HostName = _lobbyData.Value.HostName,
+            HostSteamId = _lobbyData.Value.HostSteamId,
+        };
+
+        FirebaseManager.Instance.UpdateLobbyData(_lobbyData.Value);
+    }
+
+    [Client]
+    void HandleLobbyDataChanged(LobbyData prev, LobbyData next, bool asServer)
+    {
+        if (asServer) return;
+
+        OnLobbyDataUpdated?.Invoke(next);
     }
     [Client]
     public void RegisterLocalLobbyPlayer(LobbyPlayer player)
@@ -231,8 +283,8 @@ public class LobbyManager : NetworkBehaviour
     [Client]
     public void UnregisterLocalLobbyPlayer()
     {
-        _localLobbyPlayer = null;
         OnLocalPlayerUnregister?.Invoke();
+        _localLobbyPlayer = null;
     }
 
     [Server]
