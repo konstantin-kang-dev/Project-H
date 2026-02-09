@@ -12,6 +12,7 @@ public class EnemiesManager : NetworkBehaviour
     [SerializeField] List<Transform> _spawnPoints = new List<Transform>();
     List<EnemyController> _enemies = new List<EnemyController>();
 
+    [SerializeField] bool _safeMode = false;
     public bool IsInitialized { get; private set; } = false;
 
     private void Awake()
@@ -21,7 +22,11 @@ public class EnemiesManager : NetworkBehaviour
 
     public void Init()
     {
-        SpawnEnemies(1);
+        if (!_safeMode)
+        {
+            SpawnEnemies(1);
+        }
+
         IsInitialized = true;
     }
 

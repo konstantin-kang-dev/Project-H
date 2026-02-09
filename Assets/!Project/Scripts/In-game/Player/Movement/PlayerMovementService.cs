@@ -76,8 +76,10 @@ public class PlayerMovementService : NetworkBehaviour
     {
         Vector2 targetInput = _targetInputs;
 
-        float sprintSpeedMultiplier = (_isSprintingLocal && _targetInputs.y > 0 && _targetInputs.x == 0 ? _sprintSpeedMultiplier : 1f);
-        targetInput.y *= sprintSpeedMultiplier;
+        if (_isSprintingLocal && _targetInputs.y > 0)
+        {
+            targetInput *= _sprintSpeedMultiplier;
+        }
 
         _localInput = Vector2.MoveTowards(_localInput, targetInput, _acceleration * Time.deltaTime);
 

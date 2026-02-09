@@ -28,6 +28,7 @@ public class LobbyPlayer : NetworkBehaviour
         int myClientId = base.IsClientStarted ? ClientManager.Connection.ClientId : -1;
         Debug.Log($"[CLIENT {myClientId}] LobbyPlayer spawned. Owner: {Owner.ClientId}, IsOwner: {base.IsOwner}, Scene: {gameObject.scene.name}");
 
+        _playerName.OnChange += CLIENT_HandlePlayerNameChange;
         _modelKey.OnChange += CLIENT_OnPlayerModelChanged;
         _isReady.OnChange += CLIENT_OnPlayerReadyChanged;
         _lookPosition.OnChange += CLIENT_OnLookPositionUpdated;
@@ -45,6 +46,8 @@ public class LobbyPlayer : NetworkBehaviour
                 int modelKey = _playerVisuals.GetNextModelKey(_modelKey.Value, true);
                 RPC_RequestChangePlayerModel(modelKey);
             });
+
+            RPC_RequestSetPlayerName(SaveManager.GameData.PlayerName);
         }
         else
         {
@@ -55,8 +58,6 @@ public class LobbyPlayer : NetworkBehaviour
         {
             LobbyManager.Instance.RegisterLobbyPlayer(this);
         }
-
-         _lobbyPlayerUI.SetNicknameText(_playerName.Value);
     }
 
     public override void OnStartServer()
@@ -140,10 +141,17 @@ public class LobbyPlayer : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void SetNameServerRpc(string name)
+    public void RPC_RequestSetPlayerName(string name)
     {
         _playerName.Value = name;
     }
+    [Client]
+    void CLIENT_HandlePlayerNameChange(string prev, string next, bool asServer)
+    {
+        if (asServer) return;
+        _lobbyPlayerUI.SetNicknameText(next);
+    }
+
     [ServerRpc]
     public void RPC_RequestSetLookPosition(Vector3 lookPosition)
     {

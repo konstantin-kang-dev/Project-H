@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
@@ -7,9 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using Zenject.Asteroids;
 
 public class GameManager : NetworkBehaviour
 {

@@ -3919,7 +3919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkLobbyManager
   _nm: {fileID: 2130466218}
-  _transportSwitcher: {fileID: 2130466229}
+  _isLocalMode: 0
 --- !u!4 &175783140
 Transform:
   m_ObjectHideFlags: 0
@@ -45476,13 +45476,7 @@ PrefabInstance:
       addedObject: {fileID: 2130466222}
     - targetCorrespondingSourceObject: {fileID: 7443408887813606051, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2130466229}
-    - targetCorrespondingSourceObject: {fileID: 7443408887813606051, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2130466223}
-    - targetCorrespondingSourceObject: {fileID: 7443408887813606051, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2130466234}
     - targetCorrespondingSourceObject: {fileID: 7443408887813606051, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2130466233}
@@ -45532,7 +45526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e4a322dca349547989b14021da4e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Managing.Transporting.TransportManager
-  Transport: {fileID: 2130466234}
+  Transport: {fileID: 2130466233}
   _intermediateLayer: {fileID: 0}
   _latencySimulator:
     _enabled: 0
@@ -45545,23 +45539,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7443408887813606049, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
   m_PrefabInstance: {fileID: 2130466217}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2130466229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 391791835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54fabf6a9986d5e4a9b158089c973abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TransportSwitcher
-  _transportManager: {fileID: 2130466223}
-  _multipass: {fileID: 2130466234}
-  EditorTransport: {fileID: 2130466232}
-  SteamTransport: {fileID: 2130466233}
-  <IsLocalMode>k__BackingField: 1
 --- !u!114 &2130466232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45601,22 +45578,6 @@ MonoBehaviour:
   _maximumClients: 9001
   _peerToPeer: 1
   _clientAddress: 
---- !u!114 &2130466234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 391791835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 314b449d3505bd24487ba69b61c2fda5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Transporting.Multipass.Multipass
-  GlobalServerActions: 1
-  _transports:
-  - {fileID: 2130466233}
-  - {fileID: 2130466232}
 --- !u!1001 &2131895406
 PrefabInstance:
   m_ObjectHideFlags: 0

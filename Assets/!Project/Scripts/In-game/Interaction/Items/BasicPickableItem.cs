@@ -45,6 +45,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
 
         _rb.isKinematic = true;
         SetColliders(true);
+        SetHighlight(false);
     }
 
     public override void OnStartServer()

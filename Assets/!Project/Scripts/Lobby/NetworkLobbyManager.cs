@@ -11,7 +11,7 @@ public class NetworkLobbyManager : MonoBehaviour
     public static NetworkLobbyManager Instance;
 
     [SerializeField] private FishNet.Managing.NetworkManager _nm;
-    [SerializeField] TransportSwitcher _transportSwitcher;
+    [SerializeField] private bool _isLocalMode = false;
 
     private int _currentLobbyId;
     private bool _waitingForHost = false;
@@ -24,6 +24,7 @@ public class NetworkLobbyManager : MonoBehaviour
 
     void Start()
     {
+        
         if (!SteamAPI.Init())
         {
             Debug.LogError("[NetworkLobbyManager] SteamAPI.Init() failed");
@@ -36,6 +37,10 @@ public class NetworkLobbyManager : MonoBehaviour
         Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
 
         _nm.ServerManager.OnServerConnectionState += OnServerConnectionState;
+    }
+    void Update()
+    {
+        SteamAPI.RunCallbacks();
     }
 
     void OnDestroy()
@@ -76,6 +81,8 @@ public class NetworkLobbyManager : MonoBehaviour
 
         _waitingForHost = true;
 
+        Debug.Log($"[NetworkLobbyManager] Create lobby attempt. Active transport: {_nm.TransportManager.Transport}");
+
         _nm.ServerManager.StartConnection();
         _nm.ClientManager.StartConnection();
 
@@ -91,8 +98,7 @@ public class NetworkLobbyManager : MonoBehaviour
 
 #else
         CSteamID steamId = SteamUser.GetSteamID();
-        ulong hostSteamId = steamId.m_SteamID;
-        hostSteamIdString = hostSteamId.ToString();
+        hostSteamId = steamId.m_SteamID;
         _pendingLobby.HostSteamId = hostSteamId;
 #endif
 
@@ -105,11 +111,15 @@ public class NetworkLobbyManager : MonoBehaviour
 
     public void JoinLobby(LobbyData lobby)
     {
-        if (!_transportSwitcher.IsLocalMode)
+        Debug.Log($"[NetworkLobbyManager] Join attempt. Host SteamID: {lobby.HostSteamId}");
+        Debug.Log($"[NetworkLobbyManager] Active transport: {_nm.TransportManager.Transport}");
+
+        if (!_isLocalMode)
         {
-            _transportSwitcher.SteamTransport.SetClientAddress(lobby.HostSteamId.ToString());
+            _nm.TransportManager.Transport.SetClientAddress(lobby.HostSteamId.ToString());
         }
 
+        Debug.Log($"[NetworkLobbyManager] Join lobby, host steam id: {lobby.HostSteamId}");
         _nm.ClientManager.StartConnection(); 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -43,6 +44,7 @@ public class GameDifficultyManager : SerializedMonoBehaviour
         {
             _difficultyConfigs[config.DifficultyType] = config.Clone();
         }
+        _selectedConfig = _difficultyConfigs.Values.ToList()[0];
 
         Debug.Log($"[GameDifficultyManager] Loaded {configs.Length} configs.");
     }
