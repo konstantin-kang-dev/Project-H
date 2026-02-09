@@ -10,8 +10,6 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
 {
     [field: SerializeField] public InteractableConfig Config { get; private set; }
     public Transform Transform { get; private set; }
-
-    [SerializeField] protected Transform _model;
     [field: SerializeField] public List<ItemType> RequiredItemsToInteract { get; private set; } = new List<ItemType>();
 
     protected readonly SyncVar<bool> _interactState = new SyncVar<bool>();

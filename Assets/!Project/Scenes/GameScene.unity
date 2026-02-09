@@ -8949,6 +8949,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1146496590090188145, guid: 8f0ba3299cb10bc4e99a15e0def753e5, type: 3}
   m_PrefabInstance: {fileID: 409217403}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &409705997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 409705999}
+  - component: {fileID: 409705998}
+  m_Layer: 0
+  m_Name: DoubleShelf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &409705998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409705997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 1
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _localReconcileCorrectionType: 2
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+  SceneId: 2680029181
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
+--- !u!4 &409705999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409705997}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.157032, y: 0, z: -11.535001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1906937927}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &410739503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18409,6 +18496,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6280154532555633033, guid: b451467f4a8095143b3eaa6844058975, type: 3}
   m_PrefabInstance: {fileID: 916995816}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &918421521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 918421522}
+  - component: {fileID: 918421523}
+  m_Layer: 7
+  m_Name: TripleShelf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &918421522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918421521}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.809809, y: 0, z: -11.586928}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1287287960}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &918421523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918421521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 1
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _localReconcileCorrectionType: 2
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+  SceneId: 4292869887
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1001 &918889483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22555,7 +22729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1148918162
 Transform:
   m_ObjectHideFlags: 0
@@ -25083,6 +25257,260 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6280154532555633033, guid: b451467f4a8095143b3eaa6844058975, type: 3}
   m_PrefabInstance: {fileID: 1284506300}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1287287959
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 918421522}
+    m_Modifications:
+    - target: {fileID: 236468687300956013, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 422149011048845585, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Name
+      value: InteractableShelf3
+      objectReference: {fileID: 0}
+    - target: {fileID: 422149011048845585, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475143963478776661, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Name
+      value: InteractableShelf1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475143963478776661, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3748350897347611361, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289622706972862462, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Name
+      value: InteractiveFurniture_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709423208818811297, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Name
+      value: InteractableShelf2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709423208818811297, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092352158706627849, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1475143963478776661, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287287963}
+    - targetCorrespondingSourceObject: {fileID: 1475143963478776661, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287287962}
+    - targetCorrespondingSourceObject: {fileID: 5709423208818811297, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287287972}
+    - targetCorrespondingSourceObject: {fileID: 5709423208818811297, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287287971}
+    - targetCorrespondingSourceObject: {fileID: 422149011048845585, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287287970}
+    - targetCorrespondingSourceObject: {fileID: 422149011048845585, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287287969}
+  m_SourcePrefab: {fileID: 100100000, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+--- !u!4 &1287287960 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6121721045205367727, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1287287961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1475143963478776661, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1287287962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
+  _meshRenderer: {fileID: 1287287968}
+  _animationDuration: 0.5
+--- !u!114 &1287287963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3d83f64ed8364b91b56ac415a3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelf
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 918421523}
+  _networkObjectCache: {fileID: 0}
+  <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
+  <RequiredItemsToInteract>k__BackingField: 
+  _toggleInteractionState: 1
+  _interactionAS1: {fileID: 0}
+  _interactionAS2: {fileID: 0}
+  _outlines: []
+  _shelfVisuals: {fileID: 1287287962}
+--- !u!1 &1287287964 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 422149011048845585, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1287287965 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 422149011051106257, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1287287966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5709423208818811297, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1287287967 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5709423208821079905, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1287287968 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1475143963476510101, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+  m_PrefabInstance: {fileID: 1287287959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1287287969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
+  _meshRenderer: {fileID: 1287287965}
+  _animationDuration: 0.5
+--- !u!114 &1287287970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3d83f64ed8364b91b56ac415a3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelf
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 918421523}
+  _networkObjectCache: {fileID: 0}
+  <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
+  <RequiredItemsToInteract>k__BackingField: 
+  _toggleInteractionState: 1
+  _interactionAS1: {fileID: 0}
+  _interactionAS2: {fileID: 0}
+  _outlines: []
+  _shelfVisuals: {fileID: 1287287969}
+--- !u!114 &1287287971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
+  _meshRenderer: {fileID: 1287287967}
+  _animationDuration: 0.5
+--- !u!114 &1287287972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287287966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3d83f64ed8364b91b56ac415a3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelf
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 918421523}
+  _networkObjectCache: {fileID: 0}
+  <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
+  <RequiredItemsToInteract>k__BackingField: 
+  _toggleInteractionState: 1
+  _interactionAS1: {fileID: 0}
+  _interactionAS2: {fileID: 0}
+  _outlines: []
+  _shelfVisuals: {fileID: 1287287971}
 --- !u!1001 &1288487483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31898,7 +32326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1684209335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36926,6 +37354,188 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3813943395813302364, guid: 44b6e63d1bcffa644879cb5c57653b50, type: 3}
   m_PrefabInstance: {fileID: 1903786409}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1906937926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 409705999}
+    m_Modifications:
+    - target: {fileID: 6196416091334693452, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Name
+      value: InteractableShelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196416091334693452, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677960466081765012, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Name
+      value: InteractiveFurniture_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Name
+      value: InteractableShelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1906937935}
+    - targetCorrespondingSourceObject: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1906937934}
+    - targetCorrespondingSourceObject: {fileID: 6196416091334693452, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1906937933}
+    - targetCorrespondingSourceObject: {fileID: 6196416091334693452, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1906937932}
+  m_SourcePrefab: {fileID: 100100000, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+--- !u!4 &1906937927 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 1906937926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1906937928 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6196416091334693452, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 1906937926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1906937929 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6196416091336887436, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 1906937926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1906937930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 1906937926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1906937931 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7085162324741376572, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 1906937926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1906937932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906937928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
+  _meshRenderer: {fileID: 1906937929}
+  _animationDuration: 0.5
+--- !u!114 &1906937933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906937928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3d83f64ed8364b91b56ac415a3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelf
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 409705998}
+  _networkObjectCache: {fileID: 0}
+  <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
+  <RequiredItemsToInteract>k__BackingField: 
+  _toggleInteractionState: 1
+  _interactionAS1: {fileID: 0}
+  _interactionAS2: {fileID: 0}
+  _outlines: []
+  _shelfVisuals: {fileID: 1906937932}
+--- !u!114 &1906937934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906937930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
+  _meshRenderer: {fileID: 1906937931}
+  _animationDuration: 0.5
+--- !u!114 &1906937935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906937930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3d83f64ed8364b91b56ac415a3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableShelf
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 409705998}
+  _networkObjectCache: {fileID: 0}
+  <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
+  <RequiredItemsToInteract>k__BackingField: 
+  _toggleInteractionState: 1
+  _interactionAS1: {fileID: 0}
+  _interactionAS2: {fileID: 0}
+  _outlines: []
+  _shelfVisuals: {fileID: 1906937934}
 --- !u!1 &1907266201
 GameObject:
   m_ObjectHideFlags: 0
@@ -43218,3 +43828,5 @@ SceneRoots:
   - {fileID: 1467597253}
   - {fileID: 1508627309}
   - {fileID: 1553033973}
+  - {fileID: 918421522}
+  - {fileID: 409705999}

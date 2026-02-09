@@ -16,8 +16,8 @@ MonoBehaviour:
     supportShadowMask: 0
     supportSSR: 1
     supportSSRTransparent: 0
-    supportSSAO: 1
-    supportSSGI: 1
+    supportSSAO: 0
+    supportSSGI: 0
     supportSubsurfaceScattering: 1
     subsurfaceScatteringAttenuation: 1
     sssSampleBudget:

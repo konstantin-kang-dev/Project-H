@@ -5,6 +5,8 @@ using UnityEngine.VFX;
 public class BasicObjectiveItem : BasicInteractable
 {
     [SerializeField] VisualEffect _interactVfx;
+
+    [SerializeField] protected Transform _model;
     public ObjectiveType ObjectiveType { get; private set; }
 
     public event Action<BasicObjectiveItem> OnObjectiveCollected;
