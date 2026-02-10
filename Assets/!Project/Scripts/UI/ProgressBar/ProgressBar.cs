@@ -19,12 +19,12 @@ public class ProgressBar : MonoBehaviour
         }
     }
 
-    public void SetProgress(float progress)
+    public void SetProgress(float progress, bool doInstantly)
     {
         Progress = progress;
         OnProgressChanged?.Invoke(progress);
 
-        _progressBarVisuals?.UpdateProgress(progress, false);
+        _progressBarVisuals?.UpdateProgress(progress, doInstantly);
         if(Progress >= 1f)
         {
             OnFullFilled?.Invoke();

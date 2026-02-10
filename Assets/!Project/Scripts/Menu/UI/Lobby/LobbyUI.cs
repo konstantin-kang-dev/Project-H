@@ -10,6 +10,8 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
     [field: SerializeField] public MenuWindowType WindowType { get; private set; }
     [SerializeField] BasicWindowVisuals _visuals;
 
+    [SerializeField] ChatUI _lobbyChatUI;
+
     [SerializeField] ToggleGroup _difficultyToggleGroup;
 
     [SerializeField] Button _backBtn;
@@ -45,6 +47,8 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
         _readyBtn.OnToggle += HandleClickReadyBtn;
         _backBtn.onClick.AddListener(HandleLobbyBackBtn);
         _startBtn.onClick.AddListener(HandleLobbyStartBtn);
+
+        _lobbyChatUI.Init();
     }
 
     void HandleDifficultyToggle(int value)

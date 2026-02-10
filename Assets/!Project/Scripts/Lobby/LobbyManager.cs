@@ -14,7 +14,8 @@ using Cysharp.Threading.Tasks;
 public class LobbyManager : NetworkBehaviour
 {
     public static LobbyManager Instance;
-    [SerializeField] private NetworkManager _networkManager;
+    NetworkManager _networkManager;
+
     [SerializeField] List<Transform> _lobbySlotsPoints = new List<Transform>();
     readonly SyncVar<List<LobbySlot>> _lobbySlots = new SyncVar<List<LobbySlot>>();
     [SerializeField] LobbyPlayer _lobbyPlayerPrefab;
@@ -26,8 +27,6 @@ public class LobbyManager : NetworkBehaviour
     public bool IsLocalPlayerSet => _localLobbyPlayer != null;
     public bool LocalPlayerReadyState => IsLocalPlayerSet ? _localLobbyPlayer.IsReady : false;
 
-    readonly SyncDictionary<int, NetworkPlayerData> _connectedPlayers = new SyncDictionary<int, NetworkPlayerData>();
-    public IReadOnlyDictionary<int, NetworkPlayerData> ConnectedPlayers => _connectedPlayers;
 
     readonly SyncVar<bool> _isGameStarted = new SyncVar<bool>();
 
@@ -45,6 +44,7 @@ public class LobbyManager : NetworkBehaviour
     {
         Instance = this;
 
+        _networkManager = InstanceFinder.NetworkManager;
         _networkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
     }
 
@@ -57,7 +57,9 @@ public class LobbyManager : NetworkBehaviour
     [Server]
     public void SERVER_InitLobby(LobbyData lobbyData)
     {
+        Debug.Log($"[LobbyManager] Initialized lobby: {lobbyData} | {_lobbyData.Value}");
         _lobbyData.Value = lobbyData;
+
     }
 
     [Server]
@@ -105,7 +107,6 @@ public class LobbyManager : NetworkBehaviour
         base.OnStartServer();
 
         _isGameStarted.Value = false;
-        _connectedPlayers.Clear();
 
         _lobbySlots.Value = new List<LobbySlot>()
         {
@@ -195,14 +196,10 @@ public class LobbyManager : NetworkBehaviour
 
         if (args.ConnectionState == RemoteConnectionState.Started)
         {
-            _connectedPlayers.Add(conn.ClientId, new NetworkPlayerData()
-            {
-                ClientId = conn.ClientId,
-            });
+
         }
         else if(args.ConnectionState == RemoteConnectionState.Stopped)
         {
-            _connectedPlayers.Remove(conn.ClientId);
             LobbySlot lobbySlot = _lobbySlots.Value.FirstOrDefault((x)=> x.ClientId == conn.ClientId);
             if(lobbySlot != null)
             {
@@ -210,11 +207,15 @@ public class LobbyManager : NetworkBehaviour
             }
         }
 
+    }
+
+    public void UpdateLobbyData()
+    {
         _lobbyData.Value = new LobbyData()
         {
             LobbyId = _lobbyData.Value.LobbyId,
             MaxPlayers = _lobbyData.Value.MaxPlayers,
-            CurrentPlayers = _connectedPlayers.Count,
+            CurrentPlayers = RoomManager.Instance.ConnectedPlayersCount,
             ChosenDifficulty = _lobbyData.Value.ChosenDifficulty,
             HostName = _lobbyData.Value.HostName,
             HostSteamId = _lobbyData.Value.HostSteamId,
@@ -311,11 +312,5 @@ public class LobbyManager : NetworkBehaviour
         bool allPlayersReady = _lobbyPlayers.All((x) => x.IsReady);
 
         OnPlayersReady?.Invoke(allPlayersReady);
-    }
-
-    [Server]
-    public void SERVER_UpdateNetworkPlayerData(int clientId, NetworkPlayerData playerData)
-    {
-        _connectedPlayers[clientId] = playerData;
     }
 }

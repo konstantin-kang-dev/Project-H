@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using ModestTree;
 
 [Serializable]
 public enum LoadingWindowType
@@ -31,7 +32,7 @@ public class LoadingManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ShowLoading(LoadingWindowType type)
+    public void ShowLoading(LoadingWindowType type, string message = "")
     {
         switch (type)
         {
@@ -40,6 +41,7 @@ public class LoadingManager : MonoBehaviour
                 break;
             case LoadingWindowType.Screen:
                 _loadingScreen.SetVisibility(true);
+                _loadingScreen.SetMessage(message);
                 break;
             default:
                 break;
@@ -48,7 +50,7 @@ public class LoadingManager : MonoBehaviour
         _openedLoadingWindow = type;
     }
 
-    public void SetLoadingProgress(float progress)
+    public void SetLoadingProgress(float progress, bool doInstantly = false)
     {
         switch (_openedLoadingWindow)
         {
@@ -59,7 +61,7 @@ public class LoadingManager : MonoBehaviour
                 }
                 break;
             case LoadingWindowType.Screen:
-                _loadingScreen.SetLoadingProgress(progress);
+                _loadingScreen.SetLoadingProgress(progress, doInstantly);
                 break;
             default:
                 break;

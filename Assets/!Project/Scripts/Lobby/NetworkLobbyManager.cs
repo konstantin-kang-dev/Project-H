@@ -1,4 +1,6 @@
-﻿using FishNet.Managing;
+﻿using Cysharp.Threading.Tasks;
+using FishNet.Managing;
+using FishNet.Managing.Scened;
 using FishNet.Transporting;
 using FishySteamworks;
 using Steamworks;
@@ -24,17 +26,6 @@ public class NetworkLobbyManager : MonoBehaviour
 
     void Start()
     {
-        
-        if (!SteamAPI.Init())
-        {
-            Debug.LogError("[NetworkLobbyManager] SteamAPI.Init() failed");
-            return;
-        }
-        Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
-
-        Debug.Log("[NetworkLobbyManager] SteamAPI initialized");
-        Debug.Log($"[NetworkLobbyManager] Steam Name: {SteamFriends.GetPersonaName()}");
-        Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
 
         _nm.ServerManager.OnServerConnectionState += OnServerConnectionState;
     }
@@ -45,15 +36,13 @@ public class NetworkLobbyManager : MonoBehaviour
 
     void OnDestroy()
     {
-        if (_nm != null && _nm.ServerManager != null)
-        {
-            _nm.ServerManager.OnServerConnectionState -= OnServerConnectionState;
-        }
+        Cleanup();
 
-        if (_nm.IsServerStarted && _currentLobbyId != 0)
-        {
-            FirebaseManager.Instance.RemoveLobby(_currentLobbyId);
-        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        Cleanup();
     }
 
     void OnServerConnectionState(ServerConnectionStateArgs args)
@@ -67,7 +56,7 @@ public class NetworkLobbyManager : MonoBehaviour
         }
     }
 
-    public void CreateLobby()
+    public async void CreateLobby()
     {
         _currentLobbyId = UnityEngine.Random.Range(0, 999999);
 
@@ -84,6 +73,14 @@ public class NetworkLobbyManager : MonoBehaviour
         Debug.Log($"[NetworkLobbyManager] Create lobby attempt. Active transport: {_nm.TransportManager.Transport}");
 
         _nm.ServerManager.StartConnection();
+
+        SceneLoadData sld = new SceneLoadData("Menu")
+        {
+            ReplaceScenes = ReplaceOption.None
+        };
+        _nm.SceneManager.LoadGlobalScenes(sld);
+        await UniTask.WaitForSeconds(2f);
+
         _nm.ClientManager.StartConnection();
 
         LobbyManager.Instance.SERVER_InitLobby(_pendingLobby);
@@ -126,5 +123,26 @@ public class NetworkLobbyManager : MonoBehaviour
     public void RefreshLobbies(System.Action<List<LobbyData>> callback)
     {
         FirebaseManager.Instance.LoadLobbies(callback);
+    }
+
+    void Cleanup()
+    {
+        if (_nm == null) return;
+
+        if (_nm.ServerManager != null)
+        {
+            _nm.ServerManager.OnServerConnectionState -= OnServerConnectionState;
+
+            if (_nm.ServerManager.Started)
+                _nm.ServerManager.StopConnection(true);
+        }
+
+        if (_nm.ClientManager != null && _nm.ClientManager.Started)
+            _nm.ClientManager.StopConnection();
+
+        if (_nm.IsServerStarted && _currentLobbyId != 0)
+        {
+            FirebaseManager.Instance.RemoveLobby(_currentLobbyId);
+        }
     }
 }
