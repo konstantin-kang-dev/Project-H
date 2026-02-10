@@ -1,5 +1,7 @@
 using DG.Tweening;
+using ModestTree;
 using System;
+using TMPro;
 using UnityEngine;
 
 public class LoadingScreen : MonoBehaviour
@@ -8,6 +10,8 @@ public class LoadingScreen : MonoBehaviour
 
     [SerializeField] CanvasGroup _canvasGroup;
     [SerializeField] Transform _progressBarBlock;
+    [SerializeField] TextMeshProUGUI _messageTMP;
+    string _defaultMessage = "Connecting to the server...";
 
     [SerializeField] ProgressBar _progressBar;
 
@@ -22,6 +26,8 @@ public class LoadingScreen : MonoBehaviour
             animation.Join(fadeTween);
             Tween progressBarSlideTween = _progressBarBlock.DOLocalMoveX(0f, 0.5f).From(50f);
             animation.Join(progressBarSlideTween);
+
+            SetLoadingProgress(0f, true);
 
             animation.onComplete += HandleStart;
 
@@ -39,15 +45,27 @@ public class LoadingScreen : MonoBehaviour
         }
     }
 
-    public void SetLoadingProgress(float progress)
+    public void SetMessage(string message)
     {
-        _progressBar.SetProgress(progress);
+        if (message.IsEmpty())
+        {
+            _messageTMP.text = _defaultMessage;
+        }
+        else
+        {
+            _messageTMP.text = message;
+        }
+    }
+
+    public void SetLoadingProgress(float progress, bool doInstantly)
+    {
+        _progressBar.SetProgress(progress, doInstantly);
 
     }
 
     void HandleStart()
     {
-        SetLoadingProgress(0.15f);
+        SetLoadingProgress(0.15f, false);
     }
 
     void HandleComplete()

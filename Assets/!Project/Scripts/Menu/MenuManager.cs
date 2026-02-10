@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour
 
     void HandleStartGame()
     {
-        LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen);
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "");
         Debug.Log($"[MenuManager] Started game!");
     }
 

@@ -68,9 +68,9 @@ public class LobbyPlayer : NetworkBehaviour
         _isReady.Value = false;
         _modelKey.Value = _playerVisuals.GetRandomModelKey();
 
-        NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
+        NetworkPlayerData networkPlayerData = RoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
         networkPlayerData.ModelKey = _modelKey.Value;
-        LobbyManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+        RoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
     }
 
     private void Update()
@@ -110,9 +110,9 @@ public class LobbyPlayer : NetworkBehaviour
 
         if(IsServerStarted)
         {
-            NetworkPlayerData networkPlayerData = LobbyManager.Instance.ConnectedPlayers[Owner.ClientId];
+            NetworkPlayerData networkPlayerData = RoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
             networkPlayerData.ModelKey = _modelKey.Value;
-            LobbyManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+            RoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
         }
     }
 
