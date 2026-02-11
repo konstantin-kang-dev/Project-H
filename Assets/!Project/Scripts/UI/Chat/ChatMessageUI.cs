@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,24 @@ public class ChatMessageUI : MonoBehaviour
     [SerializeField] CanvasGroup _canvasGroup;
     [SerializeField] Image _bg;
 
+    [SerializeField] List<Color> _colorsPresets = new List<Color>();
+
     Sequence _appearanceAnim;
     public void Init(ChatMessageData messageData)
     {
-        _ownerTMP.text = $"[{messageData.OwnerPlayerName}] : ";
+        switch (messageData.MessageType)
+        {
+            case ChatMessageType.Notification:
+                _ownerTMP.text = $"{messageData.OwnerPlayerName} ";
+                break;
+            case ChatMessageType.PlayerMessage:
+                _ownerTMP.text = $"[{messageData.OwnerPlayerName}] : ";
+                break;
+            default:
+                break;
+        }
         _messageTMP.text = messageData.Message;
+        _ownerTMP.color = _colorsPresets[messageData.OwnerColorPreset];
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
         LayoutRebuilder.ForceRebuildLayoutImmediate(_container.GetComponent<RectTransform>());
@@ -52,7 +66,5 @@ public class ChatMessageUI : MonoBehaviour
             _appearanceAnim.Complete();
             _appearanceAnim = null;
         }
-
-        Debug.Log($"[ChatMessageUI] Set visibility: {visible}");
     }
 }

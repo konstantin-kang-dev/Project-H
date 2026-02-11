@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 
     PlayerStatsConfig _playerStatsConfig;
 
-    public IInput Input { get; private set; }
     [field: SerializeField] public PlayerVisuals PlayerVisuals { get; private set; }
 
     [SerializeField] PlayerMovementService _playerMovementService;
@@ -30,7 +29,6 @@ public class PlayerController : MonoBehaviour
     public void Init(Player player)
     {
         _player = player;
-        Input = new DefaultInput();
 
         _rb = GetComponent<Rigidbody>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
@@ -60,12 +58,12 @@ public class PlayerController : MonoBehaviour
         {
             PlayerVisuals.AnimatorController.SetHeadVisibility(false);
 
-            Input.OnLook += CameraController.HandleLookInput;
+            GlobalInputManager.Input.OnLook += CameraController.HandleLookInput;
             CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
             CameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
 
-            Input.OnMove += _playerMovementService.HandleMoveInput;
-            Input.OnSprint += _playerMovementService.HandleSprintInput;
+            GlobalInputManager.Input.OnMove += _playerMovementService.HandleMoveInput;
+            GlobalInputManager.Input.OnSprint += _playerMovementService.HandleSprintInput;
             _playerMovementService.OnWalkStart += PlayerVisuals.HandleWalk;
             _playerMovementService.OnWalkUpdate += PlayerVisuals.HandleWalk;
 
@@ -77,20 +75,20 @@ public class PlayerController : MonoBehaviour
         PlayerInventory.OnDeselectedItem += PlayerVisuals.HandleItemInHandDeselect;
         if (_player.IsOwner)
         {
-            Input.OnNextInventorySlot += PlayerInventory.HandleNextInventorySlotInput;
-            Input.OnPreviousInventorySlot += PlayerInventory.HandlePreviousInventorySlotInput;
+            GlobalInputManager.Input.OnNextInventorySlot += PlayerInventory.HandleNextInventorySlotInput;
+            GlobalInputManager.Input.OnPreviousInventorySlot += PlayerInventory.HandlePreviousInventorySlotInput;
+            GlobalInputManager.Input.OnInteractWithItem += PlayerInventory.InteractWithItemInHands;
         }
         
         
         PlayerInteraction.Init(_player);
         if(_player.IsOwner)
         {
-            Input.OnInteract += PlayerInteraction.HandleInteractInput;
-            Input.OnDrop += PlayerInteraction.HandleDropInput;
+            GlobalInputManager.Input.OnInteract += PlayerInteraction.HandleInteractInput;
+            GlobalInputManager.Input.OnDrop += PlayerInteraction.HandleDropInput;
             PlayerInteraction.OnInteractPickable += PlayerInventory.HandleInteractPickable;
             PlayerInteraction.OnInteractInteractable += PlayerInventory.HandleInteractInteractable;
             PlayerInteraction.OnDrop += PlayerInventory.HandleDropInput;
-
         }
 
         IsInitialized = true;

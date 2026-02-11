@@ -23,6 +23,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
     public int Picker => _picker.Value;
     Player _lastPicker;
 
+    protected readonly SyncVar<bool> _interactionState = new SyncVar<bool>();
+
     [SerializeField] List<OutlineComponent> _outlines = new List<OutlineComponent>();
     void Awake()
     {
@@ -40,6 +42,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        _interactionState.OnChange += CLIENT_HandleInteractState;
 
         ItemObjectId = ObjectId;
 
@@ -90,6 +94,18 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         SetColliders(true);
 
         _rb.AddForce(_rb.transform.forward * 100f);
+    }
+
+    [Server]
+    public virtual void SERVER_Interact()
+    {
+        _interactionState.Value = !_interactionState.Value;
+    }
+
+    [Client]
+    protected virtual void CLIENT_HandleInteractState(bool prev, bool next, bool asServer)
+    {
+
     }
 
     public virtual void SetHighlight(bool value)

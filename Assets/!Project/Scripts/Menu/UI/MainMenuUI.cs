@@ -65,7 +65,7 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
     void HandleCreateLobbyButton()
     {
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
-        NetworkLobbyManager.Instance.CreateLobby();
+        NetworkGameManager.Instance.CreateLobby();
     }
     void HandleJoinLobbyButton()
     {

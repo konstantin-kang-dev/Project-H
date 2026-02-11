@@ -37,16 +37,34 @@ public class ChatManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void RPC_RequestSendMessage(string message, NetworkConnection conn = null)
+    public void RPC_RequestSendMessage(string message, ChatMessageType chatMessageType, NetworkConnection conn)
     {
-        NetworkPlayerData networkPlayerData = RoomManager.Instance.GetNetworkPlayerData(conn.ClientId);
-        if (networkPlayerData == null) throw new Exception($"[ChatManager] Could'nt get network data for player: {conn.ClientId}");
+        NetworkPlayerData networkPlayerData = ServerRoomManager.Instance.GetNetworkPlayerData(conn.ClientId);
 
         ChatMessageData data = new ChatMessageData()
         {
             Message = message,
             OwnerPlayerName = networkPlayerData.PlayerName,
-            Timestamp = (float)base.TimeManager.Tick
+            OwnerColorPreset = networkPlayerData.PlayerIndex,
+            Timestamp = (float)base.TimeManager.Tick,
+            MessageType = chatMessageType,
+        };
+
+        _chatMessages.Add(data);
+    }
+
+    [Server]
+    public void SERVER_SendMessage(string message, ChatMessageType chatMessageType, int clientId)
+    {
+        NetworkPlayerData networkPlayerData = ServerRoomManager.Instance.GetNetworkPlayerData(clientId);
+
+        ChatMessageData data = new ChatMessageData()
+        {
+            Message = message,
+            OwnerPlayerName = networkPlayerData.PlayerName,
+            OwnerColorPreset = networkPlayerData.PlayerIndex,
+            Timestamp = (float)base.TimeManager.Tick,
+            MessageType = chatMessageType,
         };
 
         _chatMessages.Add(data);

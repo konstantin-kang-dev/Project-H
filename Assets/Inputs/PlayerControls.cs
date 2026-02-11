@@ -199,6 +199,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""InteractWithItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""3406d5a5-fdbf-4b5c-93d3-331e580d1344"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenChat"",
+                    ""type"": ""Button"",
+                    ""id"": ""daa41afe-cf29-456a-b79d-450ccc7cb7b4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -628,6 +646,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PreviousInventorySlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d53a0121-4d28-4d44-a9be-cdfade418279"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractWithItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""155f8758-c757-42e0-92fb-eb3d53695326"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenChat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1227,6 +1267,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_NextInventorySlot = m_Player.FindAction("NextInventorySlot", throwIfNotFound: true);
         m_Player_PreviousInventorySlot = m_Player.FindAction("PreviousInventorySlot", throwIfNotFound: true);
+        m_Player_InteractWithItem = m_Player.FindAction("InteractWithItem", throwIfNotFound: true);
+        m_Player_OpenChat = m_Player.FindAction("OpenChat", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1332,6 +1374,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_NextInventorySlot;
     private readonly InputAction m_Player_PreviousInventorySlot;
+    private readonly InputAction m_Player_InteractWithItem;
+    private readonly InputAction m_Player_OpenChat;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1391,6 +1435,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/PreviousInventorySlot".
         /// </summary>
         public InputAction @PreviousInventorySlot => m_Wrapper.m_Player_PreviousInventorySlot;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/InteractWithItem".
+        /// </summary>
+        public InputAction @InteractWithItem => m_Wrapper.m_Player_InteractWithItem;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/OpenChat".
+        /// </summary>
+        public InputAction @OpenChat => m_Wrapper.m_Player_OpenChat;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1453,6 +1505,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PreviousInventorySlot.started += instance.OnPreviousInventorySlot;
             @PreviousInventorySlot.performed += instance.OnPreviousInventorySlot;
             @PreviousInventorySlot.canceled += instance.OnPreviousInventorySlot;
+            @InteractWithItem.started += instance.OnInteractWithItem;
+            @InteractWithItem.performed += instance.OnInteractWithItem;
+            @InteractWithItem.canceled += instance.OnInteractWithItem;
+            @OpenChat.started += instance.OnOpenChat;
+            @OpenChat.performed += instance.OnOpenChat;
+            @OpenChat.canceled += instance.OnOpenChat;
         }
 
         /// <summary>
@@ -1500,6 +1558,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PreviousInventorySlot.started -= instance.OnPreviousInventorySlot;
             @PreviousInventorySlot.performed -= instance.OnPreviousInventorySlot;
             @PreviousInventorySlot.canceled -= instance.OnPreviousInventorySlot;
+            @InteractWithItem.started -= instance.OnInteractWithItem;
+            @InteractWithItem.performed -= instance.OnInteractWithItem;
+            @InteractWithItem.canceled -= instance.OnInteractWithItem;
+            @OpenChat.started -= instance.OnOpenChat;
+            @OpenChat.performed -= instance.OnOpenChat;
+            @OpenChat.canceled -= instance.OnOpenChat;
         }
 
         /// <summary>
@@ -1884,6 +1948,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPreviousInventorySlot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "InteractWithItem" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteractWithItem(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "OpenChat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnOpenChat(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

@@ -780,6 +780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 506820867710173930, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+    - {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 456578411985291706, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
@@ -787,14 +788,60 @@ PrefabInstance:
       addedObject: {fileID: 6684707610544232470}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4031696159140440595, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6330664088264608928}
+    - targetCorrespondingSourceObject: {fileID: 4031696159140440595, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       insertIndex: 3
       addedObject: {fileID: 3055622269937337682}
   m_SourcePrefab: {fileID: 100100000, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+--- !u!1 &340353396157988349 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9162376653769500974, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+  m_PrefabInstance: {fileID: 8907663327499080915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &2842748913837819628 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 6696036304229306943, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+  m_PrefabInstance: {fileID: 8907663327499080915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4270718963875417517 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4673264015861537150, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+  m_PrefabInstance: {fileID: 8907663327499080915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5507083011642113728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!1 &5507083011642113728 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4031696159140440595, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
   m_PrefabInstance: {fileID: 8907663327499080915}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6330664088264608928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5507083011642113728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4886d90af2ed27c45a94d91f4b441c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flashlight
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 4270718963875417517}
+  _networkObjectCache: {fileID: 0}
+  <ItemConfig>k__BackingField: {fileID: 11400000, guid: d9fd0adc8c252b8469efdb6d8a94c987, type: 2}
+  _container: {fileID: 340353396157988349}
+  _physicsCollider: {fileID: 3055622269937337682}
+  _triggerCollider: {fileID: 2842748913837819628}
+  _outlines:
+  - {fileID: 2186589484325494867}
+  _light: {fileID: 4961982886813788994}
 --- !u!136 &3055622269937337682
 CapsuleCollider:
   m_ObjectHideFlags: 0

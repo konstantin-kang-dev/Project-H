@@ -1,9 +1,12 @@
-﻿using UnityEditor;
+﻿using Steamworks;
+using UnityEditor;
 using UnityEngine;
 
-public class NetworkPlayerData
+public struct NetworkPlayerData
 {
-    public string PlayerName = "Player";
-    public int ModelKey = 0;
-    public int ClientId = -1;
+    public string PlayerName;
+    public string PlayerSteamId;
+    public int ModelKey;
+    public int PlayerIndex;
+    public int ClientId;
 }

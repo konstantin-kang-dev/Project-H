@@ -41,6 +41,13 @@ public class Bootstrap : MonoBehaviour
 
         if (_networkManager == null) throw new System.Exception($"[Bootstrap] Network manager is null.");
 
+        SaveManager.LoadAll();
+        SaveManager.GameData.SteamId = SteamUser.GetSteamID().ToString();
+        SaveManager.GameData.PlayerName = SteamFriends.GetPersonaName();
+        SaveManager.SaveAll();
+
+        GlobalInputManager.Init();
+
         SceneManager.LoadScene("Menu");
         await UniTask.WaitForSeconds(1f);
         LoadingManager.Instance.SetLoadingProgress(1f);

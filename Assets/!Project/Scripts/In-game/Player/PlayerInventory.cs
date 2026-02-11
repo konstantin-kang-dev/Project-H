@@ -176,9 +176,26 @@ public class PlayerInventory : NetworkBehaviour
         HandleDropItem(item);
     }
 
+    public void InteractWithItemInHands()
+    {
+        if(_selectedItem == null) return;
+
+        RPC_RequestInteractWithItem(_selectedItem.ItemObjectId);
+    }
+
+    [ServerRpc]
+    void RPC_RequestInteractWithItem(int itemObjectId)
+    {
+        if (!ServerManager.Objects.Spawned.TryGetValue(itemObjectId, out var obj)) return;
+
+        IPickable item = obj.GetComponent<IPickable>();
+        if(item == null || !item.IsPickedUp) return;
+
+        item.SERVER_Interact();
+    }
+
     void HandleDropItem(IPickable item)
     {
-
         OnItemDrop?.Invoke(item, _selectedItemIndex);
     }
 

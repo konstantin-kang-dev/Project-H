@@ -19,9 +19,7 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
     [SerializeField] Button _startBtn;
     void Start()
     {
-        LobbyManager.Instance.OnLocalPlayerRegister += Init;
-        LobbyManager.Instance.OnLocalPlayerUnregister += ResetEvents;
-        LobbyManager.Instance.OnLobbyDataUpdated += HandleUpdateLobbyData;
+        LobbyManager.OnReady += Init;
     }
 
     public void Init()
@@ -38,6 +36,9 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
 
         SetStartBtnVisibility(LobbyManager.Instance.IsServerStarted);
         SetStartBtnInteractable(false);
+
+        NetworkGameManager.Instance.OnLocalClientDisconnected += ResetEvents;
+        LobbyManager.Instance.OnLobbyDataUpdated += HandleUpdateLobbyData;
 
         if (LobbyManager.Instance.IsServerStarted)
         {
@@ -59,7 +60,7 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
             GameDifficultyManager.Instance.SelectConfig(selectedConfig.DifficultyType);
         }
 
-        LobbyManager.Instance.UpdateDifficulty((DifficultyType)value);
+        LobbyManager.Instance.SERVER_UpdateDifficulty((DifficultyType)value);
     }
 
     void HandleUpdateLobbyData(LobbyData lobbyData)
@@ -77,12 +78,12 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
     }
     void HandleLobbyBackBtn()
     {
-        LobbyManager.Instance.StopConnection();
+        NetworkGameManager.Instance.Disconnect();
         MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
     }
     void HandleLobbyStartBtn()
     {
-        LobbyManager.Instance.StartGame();
+        LobbyManager.Instance.RPC_RequestStartGame();
     }
 
     public void SetVisibility(bool visible, bool doInstantly = false)
@@ -126,8 +127,8 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
         if (LobbyManager.Instance != null && LobbyManager.Instance.IsServerStarted)
         {
             LobbyManager.Instance.OnPlayersReady -= HandlePlayersReadyChange;
+            LobbyManager.Instance.OnLobbyDataUpdated -= HandleUpdateLobbyData;
         }
-
-        LobbyManager.Instance.OnLocalPlayerRegister -= Init;
+        NetworkGameManager.Instance.OnLocalClientDisconnected -= ResetEvents;
     }
 }

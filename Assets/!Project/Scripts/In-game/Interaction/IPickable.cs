@@ -9,6 +9,7 @@ public interface IPickable
     bool IsPickedUp { get; }
     void SERVER_PickUp(int playerObjectId);
     void SERVER_Drop();
+    void SERVER_Interact();
     void SetHighlight(bool value);
     void SetVisibility(bool value);
     void SetColliders(bool value);

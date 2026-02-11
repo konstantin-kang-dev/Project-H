@@ -61,4 +61,5 @@ public class SaveManager
 public class GameData
 {
     public string PlayerName = "Player";
+    public string SteamId = "";
 }

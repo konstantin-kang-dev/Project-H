@@ -1,4 +1,5 @@
 using DG.Tweening;
+using FishNet.Connection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,6 +7,8 @@ using Zenject;
 
 public class MenuManager : MonoBehaviour
 {
+    public static MenuManager Instance;
+
     [Inject] MenuWindowNavigator _menuPageNavigator;
 
     [SerializeField] MainMenuUI _menuUI;
@@ -13,6 +16,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] LobbiesOverviewUI _lobbiesOverviewUI;
 
     [SerializeField] TMP_InputField _playerNameInput;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -24,31 +32,44 @@ public class MenuManager : MonoBehaviour
         SaveManager.LoadAll();
 
         _playerNameInput.text = SaveManager.GameData.PlayerName;
-        _playerNameInput.onValueChanged.AddListener(HandlePlayerNameInput);
 
         _menuUI.Init();
         _lobbiesOverviewUI.Init();
 
-        LobbyManager.Instance.OnClientConnected += HandleJoinLobby;
-        LobbyManager.Instance.OnGameStarted += HandleStartGame;
-        LobbyManager.Instance.OnClientConnectionLost += HandleQuitLobby;
-
+        BindNetworkEvents();
         _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
 
         GameDifficultyManager.Instance.Init();
+    }
+
+    public void BindNetworkEvents()
+    {
+        Debug.Log($"[MenuManager] BindNetworkEvents");
+        NetworkGameManager.Instance.OnLocalClientConnected += HandleJoinLobby;
+        NetworkGameManager.Instance.OnLocalClientDisconnected += HandleQuitLobby;
+
+        LobbyManager.OnReady += HandleLobbyManagerReady;
+    }
+
+    void HandleLobbyManagerReady()
+    {
+        LobbyManager.Instance.OnGameStarted += HandleStartGame;
+
     }
 
     void HandleJoinLobby()
     {
         _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
         LoadingManager.Instance.SetLoadingProgress(1f);
+
         Debug.Log($"[MenuManager] Joined lobby!");
     }
 
     void HandleQuitLobby()
     {
-        LobbyManager.Instance.StopConnection();
+        NetworkGameManager.Instance.Disconnect();
         MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+        LobbyManager.Instance.OnGameStarted -= HandleStartGame;
         Debug.Log($"[MenuManager] Quit lobby");
     }
 
@@ -56,12 +77,6 @@ public class MenuManager : MonoBehaviour
     {
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "");
         Debug.Log($"[MenuManager] Started game!");
-    }
-
-    void HandlePlayerNameInput(string value)
-    {
-        SaveManager.GameData.PlayerName = value;
-        SaveManager.SaveAll();
     }
 
     void HandleMenuWindowOpen(MenuWindowType windowType)
@@ -92,10 +107,12 @@ public class MenuManager : MonoBehaviour
 
         _menuPageNavigator.OnWindowOpened -= HandleMenuWindowOpen;
 
-        LobbyManager.Instance.OnClientConnected -= HandleJoinLobby;
-        LobbyManager.Instance.OnGameStarted -= HandleStartGame;
-        LobbyManager.Instance.OnClientConnectionLost -= HandleQuitLobby;
-
-        _playerNameInput.onValueChanged.RemoveListener(HandlePlayerNameInput);
+        NetworkGameManager.Instance.OnLocalClientConnected -= HandleJoinLobby;
+        NetworkGameManager.Instance.OnLocalClientDisconnected -= HandleQuitLobby;
+        
+        if(LobbyManager.Instance != null)
+        {
+            LobbyManager.Instance.OnGameStarted -= HandleStartGame;
+        }
     }
 }

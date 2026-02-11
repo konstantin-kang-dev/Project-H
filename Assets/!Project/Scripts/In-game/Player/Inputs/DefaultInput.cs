@@ -18,6 +18,8 @@ public class DefaultInput : IInput
     public event Action OnDrop;
     public event Action OnNextInventorySlot;
     public event Action OnPreviousInventorySlot;
+    public event Action OnInteractWithItem;
+    public event Action OnOpenChat;
     #endregion
 
     PlayerControls _playerControls;
@@ -42,6 +44,8 @@ public class DefaultInput : IInput
         _playerControls.Player.Look.performed += HandleLookInput;
         _playerControls.Player.Look.canceled += HandleLookInput;
 
+        _playerControls.Player.InteractWithItem.performed += HandleInteractWithItemButtonClick;
+        _playerControls.Player.OpenChat.performed += HandleOpenChatButtonClick;
     }
 
     #region INPUT_HANDLERS
@@ -90,6 +94,14 @@ public class DefaultInput : IInput
             _lastInventoryInteraction = Time.time;
             OnPreviousInventorySlot?.Invoke();
         }
+    }
+    void HandleInteractWithItemButtonClick(InputAction.CallbackContext context)
+    {
+        OnInteractWithItem?.Invoke();
+    }
+    void HandleOpenChatButtonClick(InputAction.CallbackContext context)
+    {
+        OnOpenChat?.Invoke();
     }
     #endregion
 

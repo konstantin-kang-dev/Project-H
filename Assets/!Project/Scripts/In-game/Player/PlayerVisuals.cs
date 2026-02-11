@@ -65,7 +65,7 @@ public class PlayerVisuals: NetworkBehaviour
 
         _modelChangeVfx.Play();
         OnPlayerModelChanged?.Invoke(_playerModel, AnimatorController);
-        Debug.Log($"[PlayerVisuals | {Owner.ClientId}] Changed model to: {key}");
+        //Debug.Log($"[PlayerVisuals | {Owner.ClientId}] Changed model to: {key}");
     }
 
     private void Update()

@@ -81,7 +81,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public async void SERVER_StartGame()
     {
-        _players = PlayersSpawnManager.Instance.SpawnPlayers(RoomManager.Instance.ConnectedPlayers.Values.ToList());
+        _players = PlayersSpawnManager.Instance.SpawnPlayers(ServerRoomManager.Instance.ConnectedPlayers.Values.ToList());
 
         foreach (var playerBlock in _players)
         {
@@ -105,12 +105,12 @@ public class GameManager : NetworkBehaviour
     {
         _playersReadyToStart.Add(clientId, true);
 
-        if(_playersReadyToStart.Count == RoomManager.Instance.ConnectedPlayersCount)
+        if(_playersReadyToStart.Count == ServerRoomManager.Instance.ConnectedPlayersCount)
         {
             OnAllPlayersReadyToStart?.Invoke();
         }
 
-        Debug.Log($"[GameManager] Player {clientId} is ready to start game. Total {_playersReadyToStart.Count}/{RoomManager.Instance.ConnectedPlayersCount}");
+        Debug.Log($"[GameManager] Player {clientId} is ready to start game. Total {_playersReadyToStart.Count}/{ServerRoomManager.Instance.ConnectedPlayersCount}");
     }
 
     [Client]
@@ -135,7 +135,7 @@ public class GameManager : NetworkBehaviour
         GameCanvas.Instance.Init();
         if (IsServerStarted)
         {
-            ObjectivesManager.Instance.Init(GameDifficulty, RoomManager.Instance.ConnectedPlayersCount);
+            ObjectivesManager.Instance.Init(GameDifficulty, ServerRoomManager.Instance.ConnectedPlayersCount);
             EnemiesManager.Instance.Init();
         }
 

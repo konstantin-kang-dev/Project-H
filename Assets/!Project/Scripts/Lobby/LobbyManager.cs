@@ -1,23 +1,26 @@
-using FishNet.Object;
-using FishNet.Connection;
-using FishNet.Managing.Scened;
-using System.Collections.Generic;
-using FishNet.Transporting;
-using UnityEngine;
-using FishNet.Managing;
-using System;
-using System.Linq;
-using FishNet;
-using FishNet.Object.Synchronizing;
 using Cysharp.Threading.Tasks;
+using FishNet;
+using FishNet.Connection;
+using FishNet.Managing;
+using FishNet.Managing.Scened;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using FishNet.Transporting;
+using Steamworks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Networking.PlayerConnection;
+using UnityEditor.PackageManager;
+using UnityEngine;
 
 public class LobbyManager : NetworkBehaviour
 {
     public static LobbyManager Instance;
-    NetworkManager _networkManager;
+    public static event Action OnReady;
 
     [SerializeField] List<Transform> _lobbySlotsPoints = new List<Transform>();
-    readonly SyncVar<List<LobbySlot>> _lobbySlots = new SyncVar<List<LobbySlot>>();
+    readonly SyncList<LobbySlot> _lobbySlots = new SyncList<LobbySlot>();
     [SerializeField] LobbyPlayer _lobbyPlayerPrefab;
 
     readonly SyncVar<LobbyData> _lobbyData = new SyncVar<LobbyData>();
@@ -27,31 +30,21 @@ public class LobbyManager : NetworkBehaviour
     public bool IsLocalPlayerSet => _localLobbyPlayer != null;
     public bool LocalPlayerReadyState => IsLocalPlayerSet ? _localLobbyPlayer.IsReady : false;
 
-
-    readonly SyncVar<bool> _isGameStarted = new SyncVar<bool>();
-
     public event Action OnLocalPlayerRegister;
     public event Action OnLocalPlayerUnregister;
     public event Action<bool> OnPlayersReady;
 
     public event Action<LobbyData> OnLobbyDataUpdated;
-
-    public event Action OnJoinedLobby;
     public event Action OnGameStarted;
-    public event Action OnClientConnected;
-    public event Action OnClientConnectionLost;
     private void Awake()
     {
         Instance = this;
 
-        _networkManager = InstanceFinder.NetworkManager;
-        _networkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
     }
 
     private void OnDestroy()
     {
 
-        _networkManager.ClientManager.OnClientConnectionState -= OnClientConnectionStateChange;
     }
 
     [Server]
@@ -63,52 +56,20 @@ public class LobbyManager : NetworkBehaviour
     }
 
     [Server]
-    public void CloseLobby()
+    public void SERVER_CloseLobby()
     {
         FirebaseManager.Instance.RemoveLobby(_lobbyData.Value.LobbyId);
     }
 
-    public void StopConnection()
-    {
-        bool isServerActive = _networkManager.ServerManager.Started;
-
-        bool isClientActive = _networkManager.ClientManager.Started;
-
-        bool isHost = _networkManager.IsServerStarted && _networkManager.IsClientStarted;
-
-        if (isHost)
-        {
-            StopHost();
-        }
-        else if(isClientActive)
-        {
-            StopClient();
-        }
-    }
-    public void StopHost()
-    {
-        _networkManager.ClientManager.StopConnection();
-
-        _networkManager.ServerManager.StopConnection(true);
-        Debug.Log("Host stoped");
-    }
-
-    public void StopClient()
-    {
-        _networkManager.ClientManager.StopConnection();
-        Debug.Log($"Client stoped");
-    }
 
     public override void OnStartServer()
     {
-        ServerManager.OnRemoteConnectionState += OnRemoteConnectionStateChange;
-        SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
+        NetworkGameManager.Instance.OnClientDisconnected += SERVER_HandleClientDisconnected;
 
         base.OnStartServer();
 
-        _isGameStarted.Value = false;
-
-        _lobbySlots.Value = new List<LobbySlot>()
+        _lobbySlots.Clear();
+        _lobbySlots.AddRange(new List<LobbySlot>()
         {
             new LobbySlot()
             {
@@ -126,96 +87,62 @@ public class LobbyManager : NetworkBehaviour
             {
                 SlotKey = 3,
             },
-        };
+        });
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
-        SceneManager.OnClientLoadedStartScenes -= OnClientLoadedStartScenes;
-        ServerManager.OnRemoteConnectionState -= OnRemoteConnectionStateChange;
+
+        NetworkGameManager.Instance.OnClientDisconnected -= SERVER_HandleClientDisconnected;
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
 
+        NetworkGameManager.Instance.OnLocalClientConnected += HandleLocalClientConnected;
+        NetworkGameManager.Instance.OnLocalClientDisconnected += HandleLocalClientDisconnected;
+
+        RPC_RequestSendPlayerData(SaveManager.GameData, ClientManager.Connection);
+        OnReady?.Invoke();
     }
 
     public override void OnStopClient()
     {
         base.OnStopClient();
+
+        NetworkGameManager.Instance.OnLocalClientConnected -= HandleLocalClientConnected;
+        NetworkGameManager.Instance.OnLocalClientDisconnected -= HandleLocalClientDisconnected;
     }
 
-    private void OnClientLoadedStartScenes(NetworkConnection conn, bool asServer)
+    void HandleLocalClientConnected()
     {
-        if (asServer)
-        {
-            Debug.Log($"[LobbyManager] Player[{conn.ClientId}] loaded start scenes.");
-
-            SceneManager.AddConnectionToScene(conn, gameObject.scene);
-
-            LobbySlot availableSlot = _lobbySlots.Value.First((x) => !x.IsOccupied);
-            availableSlot.IsOccupied = true;
-            availableSlot.ClientId = conn.ClientId;
-
-            Transform slotPoint = _lobbySlotsPoints[availableSlot.SlotKey];
-
-            LobbyPlayer lobbyPlayer = Instantiate(_lobbyPlayerPrefab, slotPoint.position, Quaternion.identity);
-            Spawn(lobbyPlayer, conn);
-
-            Debug.Log($"[LobbyManager] Added player[{conn.ClientId}] to slot: {availableSlot.SlotKey} and spawned lobby player object.");
-        }
-        else
-        {
-
-        }
-
-        Debug.Log($"Client {conn.ClientId} loaded start scenes");
+        _lobbyData.OnChange += HandleLobbyDataChanged;
     }
 
-    void OnClientConnectionStateChange(ClientConnectionStateArgs args)
+    void HandleLocalClientDisconnected()
     {
-        if(args.ConnectionState == LocalConnectionState.Started)
-        {
-            _isGameStarted.OnChange += HandleGameStarted;
-            _lobbyData.OnChange += HandleLobbyDataChanged;
-            OnClientConnected?.Invoke();
-        }
-        else if(args.ConnectionState == LocalConnectionState.Stopped)
-        {
-            _isGameStarted.OnChange -= HandleGameStarted;
-            _lobbyData.OnChange -= HandleLobbyDataChanged;
-            OnClientConnectionLost?.Invoke();
-        }
-        Debug.Log($"[LobbyManager] Updated client connection state: {args.ConnectionState}");
+        _lobbyData.OnChange -= HandleLobbyDataChanged;
     }
-    void OnRemoteConnectionStateChange(NetworkConnection conn, RemoteConnectionStateArgs args)
+    [Server]
+    void SERVER_HandleClientDisconnected(NetworkConnection conn)
     {
-        Debug.Log($"[LobbyManager] Updated {conn.ClientId} remote connection state: {args.ConnectionState}");
-
-        if (args.ConnectionState == RemoteConnectionState.Started)
+        LobbySlot lobbySlot = _lobbySlots.FirstOrDefault((x) => x.ClientId == conn.ClientId);
+        if (lobbySlot != null)
         {
-
+            lobbySlot.ResetData();
         }
-        else if(args.ConnectionState == RemoteConnectionState.Stopped)
-        {
-            LobbySlot lobbySlot = _lobbySlots.Value.FirstOrDefault((x)=> x.ClientId == conn.ClientId);
-            if(lobbySlot != null)
-            {
-                lobbySlot.ResetData();
-            }
-        }
-
     }
 
-    public void UpdateLobbyData()
+    [Server]
+    public void SERVER_UpdateLobbyData()
     {
         _lobbyData.Value = new LobbyData()
         {
             LobbyId = _lobbyData.Value.LobbyId,
             MaxPlayers = _lobbyData.Value.MaxPlayers,
-            CurrentPlayers = RoomManager.Instance.ConnectedPlayersCount,
+            CurrentPlayers = ServerRoomManager.Instance.ConnectedPlayersCount,
             ChosenDifficulty = _lobbyData.Value.ChosenDifficulty,
             HostName = _lobbyData.Value.HostName,
             HostSteamId = _lobbyData.Value.HostSteamId,
@@ -224,36 +151,22 @@ public class LobbyManager : NetworkBehaviour
         FirebaseManager.Instance.UpdateLobbyData(_lobbyData.Value);
     }
 
-    [Server]
-    public async void StartGame()
+    [ServerRpc(RequireOwnership = false)]
+    public void RPC_RequestStartGame()
     {
-        _isGameStarted.Value = true;
-
-        await UniTask.WaitForSeconds(0.5f);
-
-        SceneLoadData sld = new SceneLoadData("GameScene")
-        {
-            ReplaceScenes = ReplaceOption.All,
-        };
-        InstanceFinder.SceneManager.LoadGlobalScenes(sld);
         Debug.Log($"[LobbyManager] Started game.");
+        CLIENTS_HandleStartGame();
+        ServerRoomManager.Instance.SERVER_LoadGameScene(1);
     }
-    [Client]
-    void HandleGameStarted(bool prev, bool next, bool asServer)
-    {
-        if (asServer)
-        {
-            FirebaseManager.Instance.RemoveLobby(_lobbyData.Value.LobbyId);
-            return;
-        }
 
-        if (next)
-        {
-            OnGameStarted?.Invoke();
-        }
+    [ObserversRpc]
+    public void CLIENTS_HandleStartGame()
+    {
+        OnGameStarted?.Invoke();
     }
+
     [Server]
-    public void UpdateDifficulty(DifficultyType type)
+    public void SERVER_UpdateDifficulty(DifficultyType type)
     {
         _lobbyData.Value = new LobbyData()
         {
@@ -289,13 +202,13 @@ public class LobbyManager : NetworkBehaviour
     }
 
     [Server]
-    public void RegisterLobbyPlayer(LobbyPlayer player)
+    public void SERVER_RegisterLobbyPlayer(LobbyPlayer player)
     {
         _lobbyPlayers.Add(player);
     }
 
     [Server]
-    public void UnregisterLobbyPlayer(LobbyPlayer player)
+    public void SERVER_UnregisterLobbyPlayer(LobbyPlayer player)
     {
         _lobbyPlayers.Remove(player);
     }
@@ -312,5 +225,46 @@ public class LobbyManager : NetworkBehaviour
         bool allPlayersReady = _lobbyPlayers.All((x) => x.IsReady);
 
         OnPlayersReady?.Invoke(allPlayersReady);
+    }
+
+    [Server]
+    public LobbySlot SERVER_GetPlayersLobbySlot(int clientId)
+    {
+        return _lobbySlots.FirstOrDefault((x)=> x.ClientId == clientId);
+    }
+
+    [Server]
+    public LobbySlot SERVER_GetFreeLobbySlot()
+    {
+        return _lobbySlots.FirstOrDefault((x) => !x.IsOccupied);
+    }
+
+    [Server]
+    public void SERVER_OccupyLobbySlot(NetworkPlayerData networkPlayerData, LobbySlot lobbySlot = null)
+    {
+        if(lobbySlot == null)
+        {
+            lobbySlot = SERVER_GetFreeLobbySlot();
+            if (lobbySlot == null) throw new Exception($"[LobbyManager] No available lobby slots.");
+        }
+
+        NetworkConnection conn = ServerManager.Clients[networkPlayerData.ClientId];
+        if (conn == null) throw new Exception($"[LobbyManager] Player({networkPlayerData.PlayerName}, {networkPlayerData.ClientId}) doesn't exist in network.");
+        
+        lobbySlot.IsOccupied = true;
+        lobbySlot.ClientId = networkPlayerData.ClientId;
+
+        Transform slotPoint = _lobbySlotsPoints[lobbySlot.SlotKey];
+        LobbyPlayer lobbyPlayer = Instantiate(_lobbyPlayerPrefab, slotPoint.position, Quaternion.identity);
+        Spawn(lobbyPlayer, conn);
+
+        Debug.Log($"[LobbyManager] Added player({conn.ClientId}) to slot: {lobbySlot.SlotKey}.");
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RPC_RequestSendPlayerData(GameData data, NetworkConnection conn)
+    {
+        ServerRoomManager.Instance.SERVER_SetPlayerData(data, conn);
     }
 }

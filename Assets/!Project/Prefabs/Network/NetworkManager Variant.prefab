@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5877349547665719686}
   - component: {fileID: 7074339604741720517}
   m_Layer: 0
-  m_Name: NetworkLobbyManager
+  m_Name: NetworkGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f14c509b0651e4dbc5cb4da823a2f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkLobbyManager
-  _nm: {fileID: 3116683255358109582}
+  NetworkManager: {fileID: 3116683255358109582}
+  _networkManagersPrefab: {fileID: 8922537537690826779, guid: 9d2f341903637c4468e71d46415dd6e2, type: 3}
   _isLocalMode: 0
 --- !u!114 &7074339604741720517
 MonoBehaviour:
@@ -59,6 +60,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa76bd06e44dc34b9d7dd9530e03831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FirebaseLobbyManager
+--- !u!1 &7737888301216996527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5618501820006306765}
+  - component: {fileID: 6936169629515678916}
+  m_Layer: 0
+  m_Name: ServerRoomManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5618501820006306765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737888301216996527}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3116683255358109581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6936169629515678916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737888301216996527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ea074a7cbfeb44094d572f94d92311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomManager
 --- !u!1001 &5480003448925240620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,6 +174,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7443408887813606049, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6148482058774174385}
+    - targetCorrespondingSourceObject: {fileID: 7443408887813606049, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5618501820006306765}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7443408887813606051, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
       insertIndex: -1
