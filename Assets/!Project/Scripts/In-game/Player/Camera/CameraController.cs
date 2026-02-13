@@ -1,20 +1,25 @@
+using DG.Tweening;
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Camera _camera;
+    [SerializeField] CinemachineCamera _cinemachineCamera;
     [SerializeField] Transform _cameraPoint;
 
     [SerializeField] Vector2 _sensitivity = Vector2.one;
     [SerializeField] float _smoothTime = 0.3f;
 
+    [SerializeField] float _defaultFov = 80f;
+    [SerializeField] float _sprintFov = 100f;
+    Tween _fovAnimation;
+
     Vector2 _lookInput = Vector2.zero;
 
     Vector2 _targetRotation = Vector2.zero;
-    Vector2 _currentRotation = Vector2.zero;
-    Vector2 _rotationVelocity = Vector2.zero;
 
     Vector3 _lookPosition = Vector3.zero;
 
@@ -36,18 +41,18 @@ public class CameraController : MonoBehaviour
         IsInitialized = true;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!IsInitialized) return;
         if (GameManager.Instance.GameState != GameState.Started) return;
 
-        Rotate();
     }
 
     private void FixedUpdate()
     {
         if (!IsInitialized) return;
 
+        Rotate();
         CheckForCollider();
     }
 
@@ -57,9 +62,7 @@ public class CameraController : MonoBehaviour
         _targetRotation.y += _lookInput.x * _sensitivity.x;
         _targetRotation.x = Mathf.Clamp(_targetRotation.x, -90f, 90f);
 
-        _currentRotation = Vector2.SmoothDamp(_currentRotation, _targetRotation, ref _rotationVelocity, _smoothTime);
-
-        _cameraPoint.localRotation = Quaternion.Euler(_currentRotation.x, 0f, 0f);
+        _cameraPoint.localRotation = Quaternion.Euler(_targetRotation.x, 0f, 0f);
 
         _lookPosition = _cameraPoint.position + _cameraPoint.forward.normalized * 3f;
 
@@ -67,12 +70,28 @@ public class CameraController : MonoBehaviour
         //Debug.Log($"[CameraController] Updated look position: {_lookPosition} cameraPointPos: {_cameraPoint.position} cameraForward: {_cameraPoint.forward.normalized} inputs: {moveDelta}", this);
 
         OnLookPositionUpdate?.Invoke(_lookPosition);
-        OnRotationUpdate?.Invoke(_currentRotation);
+        OnRotationUpdate?.Invoke(_targetRotation);
     }
 
     public void HandleLookInput(Vector2 lookInput)
     {
         _lookInput = lookInput;
+    }
+
+    public void AdjustFov(bool isSprinting)
+    {
+        if (!IsInitialized) return;
+
+        float startFov = _cinemachineCamera.Lens.FieldOfView;
+        float targetFov = isSprinting ? _sprintFov : _defaultFov;
+
+        if(_fovAnimation != null)
+        {
+            _fovAnimation.Kill();
+            _fovAnimation = null;
+        }
+
+        _fovAnimation = DOVirtual.Float(startFov, targetFov, 1.2f, (value) => _cinemachineCamera.Lens.FieldOfView = value);
     }
 
     Collider CheckForCollider()

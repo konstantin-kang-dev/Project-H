@@ -61,14 +61,30 @@ public class PlayerMovementService : NetworkBehaviour
 
     private void Update()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
         if (!IsInitialized) return;
 
         if (GameManager.Instance.GameState != GameState.Started) return;
 
-        Rotate();
         if (IsOwner)
         {
             Move();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (!IsInitialized) return;
+
+        if (GameManager.Instance.GameState != GameState.Started) return;
+
+        if (!IsOwner)
+        {
+            Rotate();
         }
     }
 
@@ -180,6 +196,10 @@ public class PlayerMovementService : NetworkBehaviour
     {
         _targetRotationYLocal = rotations.y;
         RPC_RequestSetTargetYRotation(_targetRotationYLocal);
+        if (IsOwner)
+        {
+            Rotate();
+        }
     }
 
     [ServerRpc]

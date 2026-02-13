@@ -30,11 +30,11 @@ public class DoorVisuals : MonoBehaviour
     {
         if (value)
         { 
-            _door.DORotate(new Vector3(0, -100, 0), _openCloseDuration).SetEase(Ease.OutBack);
+            _door.DOLocalRotate(new Vector3(0, -100, 0), _openCloseDuration).SetEase(Ease.OutBack);
         }
         else
         {
-            _door.DORotate(new Vector3(0, 0, 0), _openCloseDuration).SetEase(Ease.InSine);
+            _door.DOLocalRotate(new Vector3(0, 0, 0), _openCloseDuration).SetEase(Ease.InSine);
         }
 
     }

@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
             _playerMovementService.OnWalkUpdate += PlayerVisuals.HandleWalk;
 
             CameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
+            GlobalInputManager.Input.OnSprint += CameraController.AdjustFov;
         }
 
         PlayerInventory.Init(_player);
