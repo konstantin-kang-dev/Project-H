@@ -31,6 +31,7 @@ public class Bootstrap : MonoBehaviour
             Debug.LogError("[NetworkLobbyManager] SteamAPI.Init() failed");
             return;
         }
+
         Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
 
         Debug.Log("[NetworkLobbyManager] SteamAPI initialized");

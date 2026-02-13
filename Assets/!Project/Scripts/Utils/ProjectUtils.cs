@@ -75,4 +75,9 @@ public static class ProjectUtils
 
         return index;
     }
+
+    public static int GetPercentOfValue(int value, int percent)
+    {
+        return value * percent / 100;
+    }
 }

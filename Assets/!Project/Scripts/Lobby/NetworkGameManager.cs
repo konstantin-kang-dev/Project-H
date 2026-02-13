@@ -49,7 +49,10 @@ public class NetworkGameManager : MonoBehaviour
     }
     void Update()
     {
-        SteamAPI.RunCallbacks();
+        if (SteamAPI.IsSteamRunning())
+        {
+            SteamAPI.RunCallbacks();
+        }
     }
 
     void OnDestroy()

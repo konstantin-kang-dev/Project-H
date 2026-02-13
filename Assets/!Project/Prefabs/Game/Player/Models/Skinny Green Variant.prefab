@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2748153041269416922, guid: c75cbf761a2c3754da55977a4511d9c0, type: 3}
       propertyPath: m_Name
-      value: Skinny Blue Variant
+      value: Skinny Green Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3272065300261353824, guid: c75cbf761a2c3754da55977a4511d9c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 7469074366237848045, guid: c75cbf761a2c3754da55977a4511d9c0, type: 3}
+    - target: {fileID: 8901534922083689242, guid: c75cbf761a2c3754da55977a4511d9c0, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -8,36 +8,84 @@ public class ObjectivesPointsManager: SerializedMonoBehaviour
 {
     public static ObjectivesPointsManager Instance;
 
-    [SerializeField] List<Transform> _points = new List<Transform>();
-    Queue<Transform> _freePoints = new Queue<Transform>();
+    [SerializeField] List<ItemsContainer> _itemsCommonContainers = new List<ItemsContainer>();
+    [SerializeField] List<ItemsContainer> _itemsRequiredContainers = new List<ItemsContainer>();
+
+    Queue<Transform> _freeCommonPoints = new Queue<Transform>();
+    Queue<Transform> _freeRequiredPoints = new Queue<Transform>();
 
     private void Awake()
     {
         Instance = this;
 
-        ResetAll();
+        Init();
     }
 
-    public Transform GetFreePoint()
+    void Init()
     {
-        if(_freePoints.Count == 0) return null;
+        ResetAll();
 
-        return _freePoints.Dequeue();
+        InitCommonPoints();
+        InitRequiredPoints();
+    }
+
+    void InitCommonPoints()
+    {
+        List<Transform> commonPoints = new List<Transform>();
+        foreach (var itemContainer in _itemsCommonContainers)
+        {
+            List<Transform> points = itemContainer.GetAllSpawnPoints();
+
+            foreach (var point in points)
+            {
+                commonPoints.Add(point);
+            }
+        }
+
+        commonPoints.Shuffle();
+        foreach (var point in commonPoints)
+        {
+            _freeCommonPoints.Enqueue(point);
+        }
+    }
+
+    void InitRequiredPoints()
+    {
+        List<Transform> requiredPoints = new List<Transform>();
+        foreach (var itemContainer in _itemsRequiredContainers)
+        {
+            List<Transform> points = itemContainer.GetAllSpawnPoints();
+
+            foreach (var point in points)
+            {
+                requiredPoints.Add(point);
+            }
+        }
+
+        requiredPoints.Shuffle();
+        foreach (var point in requiredPoints)
+        {
+            _freeRequiredPoints.Enqueue(point);
+        }
+    }
+
+    public Transform GetFreeCommonPoint()
+    {
+        if(_itemsCommonContainers.Count == 0) return null;
+
+        return _freeCommonPoints.Dequeue();
+    }
+
+    public Transform GetFreeRequiredPoint()
+    {
+        if(_itemsCommonContainers.Count == 0) return null;
+
+        return _freeCommonPoints.Dequeue();
     }
 
     public void ResetAll()
     {
-        _freePoints.Clear();
-
-        foreach (var point in _points)
-        {
-            for (var i = 0; i < point.childCount; i++)
-            {
-                Transform child = point.GetChild(i);
-                child.SetParent(null);
-            }
-
-            _freePoints.Enqueue(point);
-        }
+        _freeCommonPoints.Clear();
+        _freeRequiredPoints.Clear();
     }
 }

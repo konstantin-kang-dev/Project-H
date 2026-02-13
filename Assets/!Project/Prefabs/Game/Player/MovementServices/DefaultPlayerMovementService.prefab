@@ -49,7 +49,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 8495426271107249579}
   _networkObjectCache: {fileID: 0}
   _sprintSpeedMultiplier: 3
-  _acceleration: 5
+  _acceleration: 6
 --- !u!114 &8495426271107249579
 MonoBehaviour:
   m_ObjectHideFlags: 0

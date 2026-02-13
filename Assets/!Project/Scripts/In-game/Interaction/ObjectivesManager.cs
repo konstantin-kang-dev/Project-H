@@ -11,6 +11,8 @@ public class ObjectivesManager : NetworkBehaviour
 {
     public static ObjectivesManager Instance;
     [SerializeField] List<ObjectiveConfig> _configs = new List<ObjectiveConfig>();
+    [SerializeField] int _itemsPercentInLockedRooms = 30;
+
     Dictionary<ObjectiveType, ObjectiveConfig> _cachedConfigs = new Dictionary<ObjectiveType, ObjectiveConfig>();
 
     //ObjectiveConfig _chosenConfig;
@@ -79,13 +81,30 @@ public class ObjectivesManager : NetworkBehaviour
 
     void SpawnObjectives(ObjectiveConfig objectiveConfig, DifficultyType diff)
     {
-        int objectivesAmount = objectiveConfig.GetObjectivesAmountForDiff(diff);
+        int totalObjectivesAmount = objectiveConfig.GetObjectivesAmountForDiff(diff);
+
+        int objectivesAmountInRequiredPlaces = ProjectUtils.GetPercentOfValue(totalObjectivesAmount, _itemsPercentInLockedRooms);
+        int objectivesAmountInCommonPlaces = totalObjectivesAmount - objectivesAmountInRequiredPlaces;
+
         _objectives[objectiveConfig.Type] = 0;
         _completedObjectives[objectiveConfig.Type] = 0;
 
-        for (int i = 0; i < objectivesAmount; i++)
+        Debug.Log($"[ObjectivesManager] Started spawning ({totalObjectivesAmount} (r: {objectivesAmountInRequiredPlaces} + c:{objectivesAmountInCommonPlaces})) items for objective {objectiveConfig.Type}.");
+
+        for (int i = 0; i < totalObjectivesAmount; i++)
         {
-            Transform freePoint = ObjectivesPointsManager.Instance.GetFreePoint();
+            Transform freePoint = null;
+            if (objectivesAmountInRequiredPlaces > 0)
+            {
+                freePoint = ObjectivesPointsManager.Instance.GetFreeCommonPoint();
+                objectivesAmountInRequiredPlaces--; 
+            }
+            else if(objectivesAmountInCommonPlaces > 0)
+            {
+                freePoint = ObjectivesPointsManager.Instance.GetFreeRequiredPoint();
+                objectivesAmountInCommonPlaces--;
+            }
+
             if (freePoint == null)
             {
                 Debug.LogError($"[ObjectivesManager] Not enough free points. Breaking spawn loop");
@@ -94,9 +113,9 @@ public class ObjectivesManager : NetworkBehaviour
 
             BasicObjectiveItem objectiveItem = Instantiate(objectiveConfig.ObjectivePrefab, freePoint.position, freePoint.rotation).GetComponent<BasicObjectiveItem>();
             NetworkObject networkObject = objectiveItem;
+            networkObject.transform.SetParent(freePoint);
 
             ServerManager.Spawn(networkObject);
-            networkObject.SetParent(this);
 
             objectiveItem.ResetAll();
             objectiveItem.SetObjectiveType(objectiveConfig.Type);
@@ -104,7 +123,7 @@ public class ObjectivesManager : NetworkBehaviour
             _objectives[objectiveConfig.Type] += 1;
         }
 
-        Debug.Log($"[ObjectivesManager] Spawned ({objectivesAmount}) items for objective {objectiveConfig.Type}.");
+        Debug.Log($"[ObjectivesManager] Spawned ({totalObjectivesAmount}) items for objective {objectiveConfig.Type}.");
     }
 
     void HandleObjectivesInteraction(BasicObjectiveItem basicObjective)
