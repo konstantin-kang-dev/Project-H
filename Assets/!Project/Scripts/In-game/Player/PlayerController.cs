@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-
+            _rb.isKinematic = true;
+            _rb.interpolation = RigidbodyInterpolation.None;
 
         }
 
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
         if (_player.IsOwner)
         {
             PlayerVisuals.AnimatorController.SetHeadVisibility(false);
+            PlayerVisuals.OnAnimatorStateChanged += CameraController.HandleAnimationChange;
 
             GlobalInputManager.Input.OnLook += CameraController.HandleLookInput;
             CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
@@ -64,11 +66,15 @@ public class PlayerController : MonoBehaviour
 
             GlobalInputManager.Input.OnMove += _playerMovementService.HandleMoveInput;
             GlobalInputManager.Input.OnSprint += _playerMovementService.HandleSprintInput;
+            GlobalInputManager.Input.OnCrouchToggle += _playerMovementService.HandleCrouchToggle;
             _playerMovementService.OnWalkStart += PlayerVisuals.HandleWalk;
             _playerMovementService.OnWalkUpdate += PlayerVisuals.HandleWalk;
+            _playerMovementService.OnSprintChange += PlayerVisuals.HandleSprint;
+            _playerMovementService.OnCrouchingChange += PlayerVisuals.HandleCrouch;
 
             CameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
             GlobalInputManager.Input.OnSprint += CameraController.AdjustFov;
+
         }
 
         PlayerInventory.Init(_player);

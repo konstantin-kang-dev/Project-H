@@ -33,7 +33,7 @@ public class EnemyVisuals : NetworkBehaviour
         {
             if (isFollowingPlayer)
             {
-                SERVER_SetAnimatorState(AnimatorState.Run);
+                SERVER_SetAnimatorState(AnimatorState.Sprint);
 
                 Vector3 lookPos = target.position;
                 lookPos.y += 1f;

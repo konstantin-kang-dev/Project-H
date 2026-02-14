@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerStatsConfig: SerializedScriptableObject
 {
     public int Health = 0;
-    public int MoveSpeed = 0;
+    public float MoveSpeed = 0;
     public int JumpPower = 0;
 
     public PlayerStatsConfig Clone()

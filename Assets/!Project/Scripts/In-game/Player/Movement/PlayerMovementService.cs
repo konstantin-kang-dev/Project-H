@@ -3,6 +3,7 @@ using FishNet.Object.Synchronizing;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMovementService : NetworkBehaviour
 {
@@ -10,14 +11,18 @@ public class PlayerMovementService : NetworkBehaviour
 
     PlayerStatsConfig _playerStats;
 
+    [SerializeField] float _crouchingSpeedMultiplier = 0.5f;
     [SerializeField] float _sprintSpeedMultiplier = 1.5f;
     [SerializeField] float _acceleration = 1f;
 
     bool _isWalkingLocal = false;
     readonly SyncVar<bool> _isWalking = new SyncVar<bool>();
-    bool _isSprintingLocal = false;
 
+    bool _isSprintingLocal = false;
     readonly SyncVar<bool> _isSprinting = new SyncVar<bool>();
+
+    bool _isCrouchingLocal = false;
+    readonly SyncVar<bool> _isCrouching = new SyncVar<bool>();
 
     Vector2 _localInput = Vector2.zero;
     Vector2 _targetInputs = Vector2.zero;
@@ -31,6 +36,8 @@ public class PlayerMovementService : NetworkBehaviour
     public event Action<Vector2> OnWalkStart;
     public event Action<Vector2> OnWalkUpdate;
     public event Action<Vector2> OnWalkStop;
+    public event Action<bool> OnSprintChange;
+    public event Action<bool> OnCrouchingChange;
 
     public bool IsInitialized { get; private set; } = false;
     void Start()
@@ -46,6 +53,7 @@ public class PlayerMovementService : NetworkBehaviour
         {
             _isWalking.OnChange += HandleIsWalkingChange;
             _isSprinting.OnChange += HandleIsSprintingChange;
+            _isCrouching.OnChange += HandleIsCrouchingChange;
             _currentInputs.OnChange += HandleInputsChange;
         }
     }
@@ -92,16 +100,21 @@ public class PlayerMovementService : NetworkBehaviour
     {
         Vector2 targetInput = _targetInputs;
 
-        if (_isSprintingLocal && _targetInputs.y > 0)
-        {
-            targetInput *= _sprintSpeedMultiplier;
-        }
-
         _localInput = Vector2.MoveTowards(_localInput, targetInput, _acceleration * Time.deltaTime);
 
         Vector3 forceDirection = _localInput.x * transform.right + _localInput.y * transform.forward;
 
         Vector3 targetVel = forceDirection * _playerStats.MoveSpeed;
+
+        if (_isSprintingLocal && _targetInputs.y > 0)
+        {
+            targetVel *= _sprintSpeedMultiplier;
+        }
+        else if (_isCrouchingLocal)
+        {
+            targetVel *= _crouchingSpeedMultiplier;
+        }
+
         Vector3 currentVel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
         Vector3 velDiff = targetVel - currentVel;
 
@@ -119,7 +132,25 @@ public class PlayerMovementService : NetworkBehaviour
     }
     public void HandleSprintInput(bool value)
     {
+        if (_targetInputs.y <= 0) return;
+
+        if (value)
+        {
+            SetCrouchingState(false);
+        }
+
         SetSprintState(value);
+    }
+
+    public void HandleCrouchToggle()
+    {
+        bool value = !_isCrouchingLocal;
+
+        if (value)
+        {
+            SetSprintState(false);
+        }
+        SetCrouchingState(value);
     }
 
     [ServerRpc]
@@ -161,12 +192,28 @@ public class PlayerMovementService : NetworkBehaviour
         _isSprinting.Value = value;
     }
 
+    [ServerRpc]
+    void RPC_RequestSetIsCrouching(bool value)
+    {
+        _isCrouching.Value = value;
+    }
+
     [Client]
     void HandleIsSprintingChange(bool prev, bool next, bool asServer)
     {
         if (asServer) return;
         if (IsOwner) return;
 
+        OnSprintChange?.Invoke(next);
+    }
+
+    [Client]
+    void HandleIsCrouchingChange(bool prev, bool next, bool asServer)
+    {
+        if (asServer) return;
+        if (IsOwner) return;
+
+        OnCrouchingChange?.Invoke(next);
     }
     
     public void Rotate()
@@ -225,6 +272,17 @@ public class PlayerMovementService : NetworkBehaviour
         _isSprintingLocal = isSprinting;
 
         RPC_RequestSetIsSprinting(_isSprintingLocal);
+        OnSprintChange?.Invoke(_isSprintingLocal);
+        Debug.Log($"[PlayerMovementService] Set sprint: {_isSprintingLocal}");
+    }
+    public void SetCrouchingState(bool value)
+    {
+        _isCrouchingLocal = value;
+
+        RPC_RequestSetIsCrouching(_isCrouchingLocal);
+        OnCrouchingChange?.Invoke(_isCrouchingLocal);
+
+        Debug.Log($"[PlayerMovementService] Set crouching: {value}");
     }
 
     public override void OnStopClient()

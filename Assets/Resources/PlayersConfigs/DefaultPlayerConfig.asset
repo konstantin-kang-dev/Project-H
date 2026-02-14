@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01399347b12221b4a83ae894d94931ff, type: 3}
   m_Name: DefaultPlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsData
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   Health: 100
-  MoveSpeed: 2
+  MoveSpeed: 1.5
   JumpPower: 5

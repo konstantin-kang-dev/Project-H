@@ -22,6 +22,7 @@ public class PlayerVisuals: NetworkBehaviour
 
     readonly SyncVar<AnimatorState> _currentAnimatorState = new SyncVar<AnimatorState>();
 
+    public event Action<AnimatorState> OnAnimatorStateChanged;
     public event Action<PlayerModel, AnimatorController> OnPlayerModelChanged;
     public bool IsInitialized { get; private set; } = false;
 
@@ -110,8 +111,36 @@ public class PlayerVisuals: NetworkBehaviour
         AnimatorController.SetMoveInputs(inputs);
         if(IsOwner)
         {
-            AnimatorController.HandleWalk(inputs);
             RPC_RequestUpdateAnimatorMovement(inputs);
+            AnimatorController.HandleWalking(inputs);
+        }
+    }
+
+    public void HandleSprint(bool value)
+    {
+        if (AnimatorController == null) return;
+
+        if (value)
+        {
+            AnimatorController.PlayAnimation(AnimatorState.Sprint);
+        }
+        else
+        {
+            AnimatorController.PlayAnimation(AnimatorState.Walk);
+        }
+    }
+
+    public void HandleCrouch(bool value)
+    {
+        if (AnimatorController == null) return;
+
+        if (value)
+        {
+            AnimatorController.PlayAnimation(AnimatorState.Crouch);
+        }
+        else
+        {
+            AnimatorController.PlayAnimation(AnimatorState.Idle);
         }
     }
 
@@ -125,7 +154,10 @@ public class PlayerVisuals: NetworkBehaviour
     void HandleAnimatorStateChange(AnimatorState prev, AnimatorState next, bool asServer)
     {
         if (asServer) return;
+
+        OnAnimatorStateChanged?.Invoke(next);
         if (IsOwner) return;
+
         AnimatorController.PlayAnimation(next);
     }
 

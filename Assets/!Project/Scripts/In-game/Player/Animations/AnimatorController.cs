@@ -43,7 +43,7 @@ public class AnimatorController : SerializedMonoBehaviour
         PlayAnimation(AnimatorState.Idle);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!IsInitialized) return;
 
@@ -80,9 +80,12 @@ public class AnimatorController : SerializedMonoBehaviour
         SetFloat("MoveY", inputs.y);
     }
 
-    public void HandleWalk(Vector2 inputs)
+    public void HandleWalking(Vector2 inputs)
     {
-        if(inputs.x == 0f && inputs.y == 0f)
+        if (CurrentState == AnimatorState.Crouch) return;
+        if (CurrentState == AnimatorState.Sprint) return;
+
+        if (inputs == Vector2.zero)
         {
             PlayAnimation(AnimatorState.Idle);
         }

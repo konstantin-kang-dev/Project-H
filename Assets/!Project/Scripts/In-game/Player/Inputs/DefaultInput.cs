@@ -14,6 +14,7 @@ public class DefaultInput : IInput
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
     public event Action<bool> OnSprint;
+    public event Action OnCrouchToggle;
     public event Action OnInteract;
     public event Action OnDrop;
     public event Action OnNextInventorySlot;
@@ -37,6 +38,8 @@ public class DefaultInput : IInput
 
         _playerControls.Player.Sprint.performed += HandleSprintInput;
         _playerControls.Player.Sprint.canceled += HandleSprintInput;
+
+        _playerControls.Player.Crouch.performed += HandleCrouchInput;
 
         _playerControls.Player.Move.performed += HandleMoveInput;
         _playerControls.Player.Move.canceled += HandleMoveInput;
@@ -70,6 +73,10 @@ public class DefaultInput : IInput
     void HandleSprintInput(InputAction.CallbackContext context)
     {
         OnSprint?.Invoke(_playerControls.Player.Sprint.IsPressed());
+    }
+    void HandleCrouchInput(InputAction.CallbackContext context)
+    {
+        OnCrouchToggle?.Invoke();
     }
     void HandleInteractButtonClick(InputAction.CallbackContext context)
     {

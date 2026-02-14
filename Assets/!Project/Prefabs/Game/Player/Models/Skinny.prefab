@@ -817,7 +817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.TwoBoneIKConstraint
   m_Weight: 0
   m_Data:
-    m_Root: {fileID: 8766175032502714766}
+    m_Root: {fileID: 5250814184515168022}
     m_Mid: {fileID: 680414740046457635}
     m_Tip: {fileID: 3699605641793577283}
     m_Target: {fileID: 6730546606086243171}
@@ -1377,7 +1377,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -1399,6 +1399,30 @@ MonoBehaviour:
     - Name: $v
       Entry: 1
       Data: Walk
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 1
+      Data: Crouch
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 1
+      Data: Sprint
     - Name: 
       Entry: 8
       Data: 
