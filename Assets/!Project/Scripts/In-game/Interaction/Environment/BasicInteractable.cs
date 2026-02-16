@@ -10,6 +10,7 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
 {
     [field: SerializeField] public InteractableConfig Config { get; private set; }
     public Transform Transform { get; private set; }
+    public bool InteractionState => _interactState.Value;
     [field: SerializeField] public List<ItemType> RequiredItemsToInteract { get; private set; } = new List<ItemType>();
 
     protected readonly SyncVar<bool> _interactState = new SyncVar<bool>();
@@ -47,14 +48,14 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
         return true;
     }
 
-    public virtual void Interact(Player player, IPickable pickableInHand)
+    public virtual void Interact(IPickable pickableInHand)
     {
         bool isPickableCompatible = (RequiredItemsToInteract.Count > 0 && pickableInHand != null) || RequiredItemsToInteract.Count == 0;
         int pickableObjectId = pickableInHand == null ? -1 : pickableInHand.ItemObjectId;
 
-        if(CanInteract() && player != null && isPickableCompatible)
+        if(CanInteract() && isPickableCompatible)
         {
-            RPC_RequestInteract(player.ObjectId, pickableObjectId);
+            RPC_RequestInteract(pickableObjectId);
         }
         else
         {
@@ -63,25 +64,15 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected virtual void RPC_RequestInteract(int playerObjectId, int pickableObjectId)
+    protected virtual void RPC_RequestInteract(int pickableObjectId)
     {
-        NetworkObject playerNetworkObject = GetNetworkObject(playerObjectId);
-        if (playerNetworkObject != null)
+        if (_toggleInteractionState)
         {
-            Player player = playerNetworkObject.GetComponent<Player>();
-
-            if (_toggleInteractionState)
-            {
-                _interactState.Value = !_interactState.Value;
-            }
-            else
-            {
-                _interactState.Value = true;
-            }
+            _interactState.Value = !_interactState.Value;
         }
         else
         {
-            Debug.LogError($"[BasicInteractable] Player object({playerObjectId}) doesn't exist in network.");
+            _interactState.Value = true;
         }
     }
 

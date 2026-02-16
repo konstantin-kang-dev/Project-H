@@ -15,6 +15,8 @@ public class PlayerMovementService : NetworkBehaviour
     [SerializeField] float _sprintSpeedMultiplier = 1.5f;
     [SerializeField] float _acceleration = 1f;
 
+    bool _canMove = true;
+
     bool _isWalkingLocal = false;
     readonly SyncVar<bool> _isWalking = new SyncVar<bool>();
 
@@ -80,7 +82,10 @@ public class PlayerMovementService : NetworkBehaviour
 
         if (IsOwner)
         {
-            Move();
+            if (_canMove)
+            {
+                Move();
+            }
         }
     }
 
@@ -94,6 +99,13 @@ public class PlayerMovementService : NetworkBehaviour
         {
             Rotate();
         }
+    }
+
+    public void SetMoveAbility(bool value)
+    {
+        _canMove = value;
+        _rb.linearVelocity = Vector3.zero;
+        _rb.isKinematic = !value;
     }
 
     void Move()
@@ -126,12 +138,16 @@ public class PlayerMovementService : NetworkBehaviour
 
     public void HandleMoveInput(Vector2 input)
     {
+        if (!_canMove) return;
+
         _targetInputs = input;
 
         SetWalkingState(_targetInputs.x != 0 || _targetInputs.y != 0);
     }
     public void HandleSprintInput(bool value)
     {
+        if (!_canMove) return;
+
         if (_targetInputs.y <= 0) return;
 
         if (value)
@@ -144,6 +160,8 @@ public class PlayerMovementService : NetworkBehaviour
 
     public void HandleCrouchToggle()
     {
+        if (!_canMove) return;
+
         bool value = !_isCrouchingLocal;
 
         if (value)

@@ -29,14 +29,14 @@ public class Door : BasicInteractable
         return !_isLocked.Value;
     }
 
-    public override void Interact(Player player, IPickable pickableInHand)
+    public override void Interact(IPickable pickableInHand)
     {
         bool isPickableCompatible = (RequiredItemsToInteract.Count > 0 && pickableInHand != null) || RequiredItemsToInteract.Count == 0;
         int pickableObjectId = pickableInHand == null ? -1 : pickableInHand.ItemObjectId;
 
         if (IsRequiredPickable(pickableInHand) && !CanInteract() && isPickableCompatible)
         {
-            RPC_RequestInteract(player.ObjectId, pickableObjectId);
+            RPC_RequestInteract(pickableObjectId);
         }
         else if(!CanInteract())
         {
@@ -44,12 +44,12 @@ public class Door : BasicInteractable
         }
         else
         {
-            RPC_RequestInteract(player.ObjectId, pickableObjectId);
+            RPC_RequestInteract(pickableObjectId);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected override void RPC_RequestInteract(int playerObjectId, int pickableObjectId)
+    protected override void RPC_RequestInteract(int pickableObjectId)
     {
         if(_isLocked.Value == false)
         {
@@ -57,32 +57,22 @@ public class Door : BasicInteractable
             return;
         }
 
-        NetworkObject playerNetworkObject = GetNetworkObject(playerObjectId);
-        if (playerNetworkObject != null)
+        NetworkObject pickableNetworkObject = GetNetworkObject(pickableObjectId);
+        if (pickableNetworkObject != null)
         {
-            Player player = playerNetworkObject.GetComponent<Player>();
-
-            NetworkObject pickableNetworkObject = GetNetworkObject(pickableObjectId);
-            if (pickableNetworkObject != null)
+            IPickable pickable = pickableNetworkObject.GetComponent<IPickable>();
+            if (!IsRequiredPickable(pickable))
             {
-                IPickable pickable = pickableNetworkObject.GetComponent<IPickable>();
-                if (!IsRequiredPickable(pickable))
-                {
-                    Debug.LogError($"[BasicInteractable] Required items list doesn't contain Pickable object({pickable.ItemConfig.Type}).");
-                    return;
-                }
+                Debug.LogError($"[BasicInteractable] Required items list doesn't contain Pickable object({pickable.ItemConfig.Type}).");
+                return;
+            }
 
-                _interactState.Value = !_interactState.Value;
-                _isLocked.Value = false;
-            }
-            else
-            {
-                Debug.LogError($"[BasicInteractable] Pickable object({pickableObjectId}) doesn't exist in network.");
-            }
+            _interactState.Value = !_interactState.Value;
+            _isLocked.Value = false;
         }
         else
         {
-            Debug.LogError($"[BasicInteractable] Player object({playerObjectId}) doesn't exist in network.");
+            Debug.LogError($"[BasicInteractable] Pickable object({pickableObjectId}) doesn't exist in network.");
         }
     }
 

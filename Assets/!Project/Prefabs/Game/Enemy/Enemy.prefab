@@ -56,6 +56,7 @@ MonoBehaviour:
   _enemyMovementService: {fileID: 8623495743193898285}
   _enemyVisuals: {fileID: 8463437935112601973}
   _aggroControllerPrefab: {fileID: 8398116287107310004, guid: 6f32b730e6c7c9042b8db48020fd9e0a, type: 3}
+  _enemyInteractionServicePrefab: {fileID: 2751377866791040245, guid: 673ba7b7b6b5d5d4888a31434c9ac8af, type: 3}
 --- !u!195 &875226639419031044
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -67,7 +68,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 1.1
-  m_Acceleration: 8
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 1600
   m_StoppingDistance: 0

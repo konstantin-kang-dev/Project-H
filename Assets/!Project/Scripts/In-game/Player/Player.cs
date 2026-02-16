@@ -1,4 +1,5 @@
 using FishNet.Component.Animating;
+using FishNet.Component.Transforming;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -15,9 +16,13 @@ public class Player : NetworkBehaviour
     public int ModelKey => _modelKey.Value;
 
     readonly SyncVar<Vector3> _lookPosition = new SyncVar<Vector3>();
-    public Vector3 LookPosition => _lookPosition.Value;
+
+    readonly SyncVar<bool> _isKnockedDown = new SyncVar<bool>();
+    public bool IsKnockedDown => _isKnockedDown.Value;  
 
     public bool IsInvincible = false;
+
+    NetworkTransform _networkTransform;
     [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [field: SerializeField] public bool IsInitialized { get; private set; } = false;
     private void Awake()
@@ -40,11 +45,14 @@ public class Player : NetworkBehaviour
         _isReadyToInit.OnChange += HandleIsReadyToInitChange;
 
         _lookPosition.OnChange += HandleLookPositionChange;
+        _isKnockedDown.OnChange += HandleKnockedDownChange;
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        _networkTransform = GetComponent<NetworkTransform>();
 
         _modelKey.Value = -1;
         _isReadyToInit.Value = false;
@@ -85,6 +93,12 @@ public class Player : NetworkBehaviour
         _playerName.Value = playerName;
     }
 
+    [Server]
+    public void SERVER_SetKnockedDown(bool value)
+    {
+        _isKnockedDown.Value = value;
+    }
+
     [ServerRpc]
     public void RPC_RequestSetLookPosition(Vector3 lookPosition)
     {
@@ -97,6 +111,29 @@ public class Player : NetworkBehaviour
         if (asServer) return;
 
         PlayerController.SetLookPosition(next);
+    }
+
+    [ServerRpc]
+    public void RPC_RequestRevive()
+    {
+        SERVER_SetKnockedDown(false);
+    }
+
+    [Client]
+    void HandleKnockedDownChange(bool prev, bool next, bool asServer)
+    {
+        if (asServer) return;
+        if (IsOwner)
+        {
+            PlayerController.HandleKnockDown(next);
+        }
+    }
+
+    [Server]
+    public void Teleport(Vector3 targetPos)
+    {
+        transform.position = targetPos;
+        _networkTransform.Teleport();
     }
 
     void Update()

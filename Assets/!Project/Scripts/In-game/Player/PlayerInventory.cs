@@ -284,7 +284,7 @@ public class PlayerInventory : NetworkBehaviour
 
     public void HandleInteractInteractable(IInteractable interactable)
     {
-        interactable.Interact(_player, _selectedItem);
+        interactable.Interact(_selectedItem);
     }
 
     public void HandleDropInput()

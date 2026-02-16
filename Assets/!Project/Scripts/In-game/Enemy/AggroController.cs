@@ -83,7 +83,7 @@ public class AggroController : MonoBehaviour
     {
         List<Player> allPlayers = GameManager.Instance.Players.Values.ToList();
 
-        allPlayers = allPlayers.OrderBy((x)=> Vector3.Distance(transform.position, x.transform.position)).ToList();
+        allPlayers = allPlayers.Where((x) => !x.IsKnockedDown).OrderBy((x)=> Vector3.Distance(transform.position, x.transform.position)).ToList();
 
         foreach (var player in allPlayers)
         {

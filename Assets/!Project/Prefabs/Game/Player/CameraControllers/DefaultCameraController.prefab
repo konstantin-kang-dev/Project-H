@@ -34,6 +34,7 @@ Transform:
   - {fileID: 8639303223546675120}
   - {fileID: 1049640860468253400}
   - {fileID: 2279612087568782406}
+  - {fileID: 5504224824763886913}
   m_Father: {fileID: 9177662922617620295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2789126423860114827
@@ -64,7 +65,7 @@ Transform:
   m_GameObject: {fileID: 2789126423860114827}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.15, z: 0.15}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -417,6 +418,37 @@ Transform:
   - {fileID: 7546697075530889964}
   m_Father: {fileID: 3890526030893316789}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4958751558156620413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5504224824763886913}
+  m_Layer: 0
+  m_Name: LiftedPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5504224824763886913
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4958751558156620413}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3890526030893316789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5133373919977977260
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +509,7 @@ Transform:
   m_GameObject: {fileID: 5212900876892774279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.15, z: 0.15}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,7 +554,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1527
+    m_Bits: 3575
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -763,6 +795,7 @@ MonoBehaviour:
   _cameraPoint: {fileID: 8639303223546675120}
   _standPoint: {fileID: 1049640860468253400}
   _crouchPoint: {fileID: 2279612087568782406}
+  _liftedPoint: {fileID: 5504224824763886913}
   _sensitivity: {x: 0.3, y: 0.3}
   _smoothTime: 0.05
   _defaultFov: 75

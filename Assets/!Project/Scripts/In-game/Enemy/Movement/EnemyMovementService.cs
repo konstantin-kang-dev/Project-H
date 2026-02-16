@@ -13,6 +13,7 @@ public class EnemyMovementService : NetworkBehaviour
     bool _isFollowingPlayer = false;
 
     public event Action<bool, Transform> OnMove;
+    public event Action<Player> OnReachedPlayer;
     public bool IsInitialized { get; private set; } = false;
     public void Init(EnemyStatsConfig enemyStats)
     {
@@ -42,6 +43,8 @@ public class EnemyMovementService : NetworkBehaviour
 
     void UpdateDestination()
     {
+        if (_navMeshAgent.isStopped) return;
+
         if (_target != null)
         {
             _navMeshAgent.SetDestination(_target.position);
@@ -50,6 +53,11 @@ public class EnemyMovementService : NetworkBehaviour
         if (_navMeshAgent.velocity != Vector3.zero)
         {
             OnMove?.Invoke(_isFollowingPlayer, _target);
+        }
+
+        if(_isFollowingPlayer && _navMeshAgent.remainingDistance <= 1f)
+        {
+            OnReachedPlayer?.Invoke(_target.GetComponent<Player>());
         }
     }
 
@@ -79,6 +87,18 @@ public class EnemyMovementService : NetworkBehaviour
     public void UpdateSpeed(float value)
     {
         _navMeshAgent.speed = value;
+    }
+
+    public void SetMoveAbility(bool canMove)
+    {
+        _navMeshAgent.isStopped = !canMove;
+        _navMeshAgent.velocity = Vector3.zero;
+    }
+
+    public void HandleKillPlayer(Player player)
+    {
+
+        SetMoveAbility(false);
     }
 
     public bool IsReachedTarget()

@@ -20,6 +20,7 @@ public class AnimatorController : SerializedMonoBehaviour
     [SerializeField] Transform _headTransform;
     [SerializeField] GameObject _headMeshGO;
     [SerializeField] Transform _headAimTarget;
+    [SerializeField] Transform _handTransform;
     [SerializeField] Transform _handItemTarget;
     Transform _handItemPoint;
 
@@ -149,6 +150,11 @@ public class AnimatorController : SerializedMonoBehaviour
         OnAnimatorStateChanged = null;
         CurrentState = AnimatorState.None;
         IsInitialized = false;
+    }
+
+    public Vector3 GetHandPosition()
+    {
+        return _handTransform.position;
     }
 
     private void OnDrawGizmos()

@@ -7,7 +7,8 @@ public interface IInteractable
 {
     InteractableConfig Config { get; }
     Transform Transform { get; }
-    void Interact(Player player, IPickable pickable);
+    bool InteractionState { get; }
+    void Interact(IPickable pickable);
     bool CanInteract();
     void SetHighlight(bool value);
     void ResetAll();

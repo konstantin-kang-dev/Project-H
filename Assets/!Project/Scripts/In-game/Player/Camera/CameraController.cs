@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] Transform _standPoint;
     [SerializeField] Transform _crouchPoint;
+    [SerializeField] Transform _liftedPoint;
     Tween _moveAnimation;
 
     [SerializeField] Vector2 _sensitivity = Vector2.one;
@@ -82,38 +83,31 @@ public class CameraController : MonoBehaviour
         switch (state)
         {
             case AnimatorState.Idle:
-                MoveCameraToStand();
+                ChangeCameraOffset(_standPoint.localPosition);
                 break;
             case AnimatorState.Walk:
-                MoveCameraToStand();
+                ChangeCameraOffset(_standPoint.localPosition);
                 break;
             case AnimatorState.Sprint:
-                MoveCameraToStand();
+                ChangeCameraOffset(_standPoint.localPosition);
                 break;
             case AnimatorState.Crouch:
-                MoveCameraToCrouch();
+                ChangeCameraOffset(_crouchPoint.localPosition);
+                break;
+            case AnimatorState.KnockDown:
+                ChangeCameraOffset(_liftedPoint.localPosition);
                 break;
         }
     }
 
-    void MoveCameraToCrouch()
+    void ChangeCameraOffset(Vector3 targetPos)
     {
         if(_moveAnimation != null)
         {
             _moveAnimation.Kill();
         }
 
-        _moveAnimation = _cameraPoint.DOLocalMove(_crouchPoint.localPosition, 0.35f);
-    }
-
-    void MoveCameraToStand()
-    {
-        if (_moveAnimation != null)
-        {
-            _moveAnimation.Kill();
-        }
-
-        _moveAnimation = _cameraPoint.DOLocalMove(_standPoint.localPosition, 0.35f);
+        _moveAnimation = _cameraPoint.DOLocalMove(targetPos, 0.35f);
     }
 
     public void HandleLookInput(Vector2 lookInput)

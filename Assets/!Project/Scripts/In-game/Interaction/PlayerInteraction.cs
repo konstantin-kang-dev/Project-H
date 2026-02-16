@@ -11,9 +11,11 @@ public class PlayerInteraction : MonoBehaviour
 
     public IPickable _hoveredPickable { get; private set; } = null;
     public IInteractable _hoveredInteractable { get; private set; } = null;
+    public Player _hoveredPlayer { get; private set; } = null;
 
     public event Action<IPickable> OnInteractPickable;
     public event Action<IInteractable> OnInteractInteractable;
+    public event Action<Player> OnInteractPlayer;
     public event Action OnDrop;
 
     public bool IsInitialized { get; private set; } = false;
@@ -31,11 +33,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             _hoveredPickable = null;
             _hoveredInteractable = null;
+            _hoveredPlayer = null;
             return;
         }
 
         _hoveredPickable = CheckForPickable(collider);
         _hoveredInteractable = CheckForInteractable(collider);
+        _hoveredPlayer = CheckForPlayer(collider);
     }
 
     public void HandleInteractInput()
@@ -50,7 +54,22 @@ public class PlayerInteraction : MonoBehaviour
         {
             OnInteractInteractable?.Invoke(_hoveredInteractable);
         }
+
+        if(_hoveredPlayer != null)
+        {
+            HandleInteractPlayer(_hoveredPlayer);
+            OnInteractPlayer?.Invoke(_hoveredPlayer);
+        }
     }
+
+    public void HandleInteractPlayer(Player player)
+    {
+        if (player.IsKnockedDown)
+        {
+            player.RPC_RequestRevive();
+        }
+    }
+
     public void HandleDropInput()
     {
         OnDrop?.Invoke();
@@ -75,6 +94,19 @@ public class PlayerInteraction : MonoBehaviour
             interactable = foundInteractable;
         }
         return interactable;
+    }
+    Player CheckForPlayer(Collider collider)
+    {
+        Player player = null;
+
+        if (collider.TryGetComponent<Player>(out Player foundPlayer))
+        {
+            if (player.IsKnockedDown)
+            {
+                player = foundPlayer;
+            }
+        }
+        return player;
     }
 
     private void OnTriggerEnter(Collider other)

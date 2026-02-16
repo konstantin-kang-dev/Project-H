@@ -68,6 +68,13 @@ public class EnemyVisuals : NetworkBehaviour
         }
     }
 
+    public void HandleKillPlayer(Player player)
+    {
+        AnimatorController.PlayAnimation(AnimatorState.Kill);
+
+        transform.rotation = ProjectUtils.GetFlatYLookRotation(transform.position, player.transform.position);
+    }
+
     [Server]
     void SERVER_RotateHeadRandomly()
     {

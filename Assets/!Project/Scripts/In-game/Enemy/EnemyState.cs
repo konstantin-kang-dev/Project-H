@@ -7,4 +7,5 @@ public enum EnemyState
     Idle = 0,
     Stranding = 1,
     Following = 2,
+    Killing = 3,
 }

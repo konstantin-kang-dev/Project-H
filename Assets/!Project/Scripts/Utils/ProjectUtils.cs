@@ -80,4 +80,16 @@ public static class ProjectUtils
     {
         return value * percent / 100;
     }
+
+    public static Quaternion GetFlatYLookRotation(Vector3 posA, Vector3 posB)
+    {
+        posA.y = 0;
+        posB.y = 0;
+        return Quaternion.LookRotation(posB - posA);
+    }
+    public static Vector3 GetPositionAtDistance(Vector3 targetPos, Vector3 origin, float distance)
+    {
+        Vector3 direction = (targetPos - origin).normalized;
+        return origin + direction * distance;
+    }
 }

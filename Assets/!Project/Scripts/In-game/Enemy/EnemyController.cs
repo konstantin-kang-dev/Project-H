@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using FishNet.Object;
 using System;
 using UnityEngine;
@@ -8,11 +10,13 @@ public class EnemyController : NetworkBehaviour
 
     [SerializeField] EnemyMovementService _enemyMovementService;
 
-
     [SerializeField] EnemyVisuals _enemyVisuals;
 
     [SerializeField] AggroController _aggroControllerPrefab;
     AggroController _aggroController;
+
+    [SerializeField] EnemyInteractionService _enemyInteractionServicePrefab;
+    EnemyInteractionService _enemyInteractionService;
 
     EnemyState _currentState = EnemyState.None;
 
@@ -41,6 +45,11 @@ public class EnemyController : NetworkBehaviour
             _aggroController.Init(_enemyStats);
 
             _enemyVisuals.AnimatorController.OnLookPositionUpdate += HandleLookPositionUpdate;
+
+            _enemyInteractionService = Instantiate(_enemyInteractionServicePrefab, transform);
+            _enemyInteractionService.Init();
+
+            _enemyMovementService.OnReachedPlayer += KillPlayer;
         }
 
         IsInitialized = true;
@@ -93,6 +102,50 @@ public class EnemyController : NetworkBehaviour
         }
 
         OnStateUpdate?.Invoke(_currentState);
+    }
+
+    public async void KillPlayer(Player player)
+    {
+        _enemyMovementService.HandleKillPlayer(player); 
+        _enemyVisuals.HandleKillPlayer(player);
+        SERVER_SetState(EnemyState.Killing);
+
+        Vector3 playerPos = player.transform.position;
+        playerPos.y = 0;
+
+        Vector3 enemyPos = transform.position;
+        enemyPos.y = 0;
+
+        Vector3 playerTargetPos = ProjectUtils.GetPositionAtDistance(playerPos, enemyPos, 1f);
+
+        player.Teleport(playerTargetPos);
+        player.SERVER_SetKnockedDown(true);
+
+        await UniTask.WaitForSeconds(0.8f);
+        float timer = 0;
+        Vector3 handPosition = Vector3.zero;
+
+        while (timer <= 2.5f)
+        {
+            handPosition = _enemyVisuals.AnimatorController.GetHandPosition();
+            handPosition.y -= 1f;
+            player.Teleport(handPosition);
+
+            timer += Time.fixedDeltaTime;
+            await UniTask.WaitForFixedUpdate();
+        }
+
+        Vector3 floorPos = new Vector3(handPosition.x, 0, handPosition.z);
+
+        DOVirtual.Vector3(handPosition, floorPos, 0.3f, (x) =>
+        {
+            player.Teleport(x);
+        }).SetEase(Ease.InQuad);
+
+        await UniTask.WaitForSeconds(0.3f);
+
+        SERVER_SetState(EnemyState.Idle);
+        _enemyMovementService.SetMoveAbility(true);
     }
 
     void HandleAggroOnPlayer(Player player)

@@ -10,4 +10,6 @@ public enum AnimatorState
     Walk = 1,
     Sprint = 2,
     Crouch = 3,
+    Kill = 4,
+    KnockDown = 5,
 }

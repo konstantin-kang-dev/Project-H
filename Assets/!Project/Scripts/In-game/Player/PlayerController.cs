@@ -113,4 +113,18 @@ public class PlayerController : MonoBehaviour
         PlayerVisuals.AnimatorController.SetLookPosition(lookPosition);
     }
 
+    public void HandleKnockDown(bool value)
+    {
+        if (value)
+        {
+            PlayerVisuals.AnimatorController.PlayAnimation(AnimatorState.KnockDown);
+            _playerMovementService.SetMoveAbility(false);
+        }
+        else
+        {
+            PlayerVisuals.AnimatorController.PlayAnimation(AnimatorState.Idle);
+            _playerMovementService.SetMoveAbility(true);
+        }
+    }
+
 }

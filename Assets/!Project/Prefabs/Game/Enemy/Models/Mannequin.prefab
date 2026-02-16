@@ -273,6 +273,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2942719585885438115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 40540286408196104}
+  m_Layer: 0
+  m_Name: HandPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &40540286408196104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2942719585885438115}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0093, y: 0.131, z: 0.0331}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8531981251422811708}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4276412098891131731
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,6 +886,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7687346004530709025, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1083511664792678924}
+    - targetCorrespondingSourceObject: {fileID: -2530251679569251172, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 40540286408196104}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       insertIndex: -1
@@ -923,7 +957,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -961,6 +995,18 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 1
+      Data: Kill
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -971,6 +1017,7 @@ MonoBehaviour:
   _headTransform: {fileID: 4624038243543498881}
   _headMeshGO: {fileID: 0}
   _headAimTarget: {fileID: 8726227622570236731}
+  _handTransform: {fileID: 40540286408196104}
   _handItemTarget: {fileID: 0}
 --- !u!114 &6400526916378404529
 MonoBehaviour:
@@ -996,5 +1043,10 @@ Transform:
 --- !u!4 &4624038243543498881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7687346004530709025, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
+  m_PrefabInstance: {fileID: 3063875182208287392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8531981251422811708 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2530251679569251172, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
   m_PrefabInstance: {fileID: 3063875182208287392}
   m_PrefabAsset: {fileID: 0}
