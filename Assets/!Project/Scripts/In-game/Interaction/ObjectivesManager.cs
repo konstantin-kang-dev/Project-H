@@ -89,7 +89,7 @@ public class ObjectivesManager : NetworkBehaviour
         _objectives[objectiveConfig.Type] = 0;
         _completedObjectives[objectiveConfig.Type] = 0;
 
-        Debug.Log($"[ObjectivesManager] Started spawning ({totalObjectivesAmount} (r: {objectivesAmountInRequiredPlaces} + c:{objectivesAmountInCommonPlaces})) items for objective {objectiveConfig.Type}.");
+        Debug.Log($"[ObjectivesManager] Started spawning {totalObjectivesAmount} (r: {objectivesAmountInRequiredPlaces} + c: {objectivesAmountInCommonPlaces}) items for objective {objectiveConfig.Type}.");
 
         for (int i = 0; i < totalObjectivesAmount; i++)
         {

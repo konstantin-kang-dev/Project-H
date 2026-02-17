@@ -266,8 +266,11 @@ public class PlayerInventory : NetworkBehaviour
         {
             selectedItem = networkObject.GetComponent<IPickable>();
 
-            selectedItem.SetHighlight(false);
-            selectedItem.SetVisibility(true);
+            if(selectedItem != null)
+            {
+                selectedItem.SetHighlight(false);
+                selectedItem.SetVisibility(true);
+            }
         }
 
         _selectedItemIndex = next.InventoryIndex;

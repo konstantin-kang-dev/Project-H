@@ -134,6 +134,7 @@ public class Player : NetworkBehaviour
     {
         transform.position = targetPos;
         _networkTransform.Teleport();
+
     }
 
     void Update()

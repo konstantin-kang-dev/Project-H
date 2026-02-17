@@ -1,3 +1,4 @@
+using FishNet.Component.Transforming;
 using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
@@ -34,17 +35,15 @@ public class PlayersSpawnManager : NetworkBehaviour
             }
             Debug.Log($"[GameManager] Spawned player for: {networkPlayerData.ClientId}");
 
-            Player player = Instantiate(_playerPrefab);
-
             Transform spawnPoint = _spawnPoints[key];
-            player.transform.position = spawnPoint.position;
+            Player player = Instantiate(_playerPrefab, spawnPoint.position, spawnPoint.rotation);
+
+            player.NetworkObject.SetParent(this);
 
             Spawn(player, connection);
-            player.NetworkObject.SetParent(this);
 
             player.SERVER_SetPlayerName(networkPlayerData.PlayerName);
             player.SERVER_SetModelKey(networkPlayerData.ModelKey);
-
 
             players.Add(networkPlayerData.ClientId, player);
 
