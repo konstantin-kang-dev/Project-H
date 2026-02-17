@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] Camera _camera;
     [SerializeField] CinemachineCamera _cinemachineCamera;
+    [SerializeField] Transform _cameraBlock;
     [SerializeField] Transform _cameraPoint;
 
     [SerializeField] Transform _standPoint;
@@ -39,6 +40,7 @@ public class CameraController : MonoBehaviour
 
     public void Init()
     {
+        _cameraBlock.parent = null;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -46,18 +48,19 @@ public class CameraController : MonoBehaviour
         IsInitialized = true;
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (!IsInitialized) return;
         if (GameManager.Instance.GameState != GameState.Started) return;
 
+        Rotate();
     }
 
     private void FixedUpdate()
     {
         if (!IsInitialized) return;
+        if (GameManager.Instance.GameState != GameState.Started) return;
 
-        Rotate();
         CheckForCollider();
     }
 
@@ -69,13 +72,14 @@ public class CameraController : MonoBehaviour
 
         _cameraPoint.localRotation = Quaternion.Euler(_targetRotation.x, 0f, 0f);
 
+        OnRotationUpdate?.Invoke(_targetRotation);
+
         _lookPosition = _cameraPoint.position + _cameraPoint.forward.normalized * 3f;
 
         //Debug.Log($"[CameraController] Updated rotation: {_currentRotation}/{_targetRotation} and look position: {_lookPosition} inputs: {moveDelta}", this);
         //Debug.Log($"[CameraController] Updated look position: {_lookPosition} cameraPointPos: {_cameraPoint.position} cameraForward: {_cameraPoint.forward.normalized} inputs: {moveDelta}", this);
 
         OnLookPositionUpdate?.Invoke(_lookPosition);
-        OnRotationUpdate?.Invoke(_targetRotation);
     }
 
     public void HandleAnimationChange(AnimatorState state)

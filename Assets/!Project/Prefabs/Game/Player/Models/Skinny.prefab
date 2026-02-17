@@ -1331,7 +1331,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
+  m_AnimatePhysics: 1
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -1449,6 +1449,7 @@ MonoBehaviour:
   _headTransform: {fileID: 8864250626976033763}
   _headMeshGO: {fileID: 8083801639668065200}
   _headAimTarget: {fileID: 0}
+  _handTransform: {fileID: 0}
   _handItemTarget: {fileID: 6730546606086243171}
 --- !u!114 &3784745876894120132
 MonoBehaviour:

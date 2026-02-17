@@ -7,7 +7,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMovementService : NetworkBehaviour
 {
-    Rigidbody _rb;
+    CharacterController _characterController;
 
     PlayerStatsConfig _playerStats;
 
@@ -33,6 +33,7 @@ public class PlayerMovementService : NetworkBehaviour
 
     float _currentRotationYLocal = 0f;
     float _targetRotationYLocal = 0f;
+    float _rotationYLocalVelocity = 0f;
     readonly SyncVar<float> _targetRotationY = new SyncVar<float>();
 
     public event Action<Vector2> OnWalkStart;
@@ -60,21 +61,17 @@ public class PlayerMovementService : NetworkBehaviour
         }
     }
 
-    public void Init(PlayerStatsConfig playerStats, Rigidbody rb)
+    public void Init(PlayerStatsConfig playerStats, CharacterController characterController)
     {
         _playerStats = playerStats;
 
-        _rb = rb;
+        _characterController = characterController;
 
         IsInitialized = true;
     }
 
+
     private void Update()
-    {
-
-    }
-
-    private void FixedUpdate()
     {
         if (!IsInitialized) return;
 
@@ -86,6 +83,8 @@ public class PlayerMovementService : NetworkBehaviour
             {
                 Move();
             }
+
+            Rotate();
         }
     }
 
@@ -95,42 +94,27 @@ public class PlayerMovementService : NetworkBehaviour
 
         if (GameManager.Instance.GameState != GameState.Started) return;
 
-        if (!IsOwner)
-        {
-            Rotate();
-        }
     }
 
     public void SetMoveAbility(bool value)
     {
         _canMove = value;
-        _rb.linearVelocity = Vector3.zero;
-        _rb.isKinematic = !value;
     }
 
     void Move()
     {
         Vector2 targetInput = _targetInputs;
-
         _localInput = Vector2.MoveTowards(_localInput, targetInput, _acceleration * Time.deltaTime);
-
         Vector3 forceDirection = _localInput.x * transform.right + _localInput.y * transform.forward;
-
         Vector3 targetVel = forceDirection * _playerStats.MoveSpeed;
 
         if (_isSprintingLocal && _targetInputs.y > 0)
-        {
             targetVel *= _sprintSpeedMultiplier;
-        }
         else if (_isCrouchingLocal)
-        {
             targetVel *= _crouchingSpeedMultiplier;
-        }
 
-        Vector3 currentVel = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
-        Vector3 velDiff = targetVel - currentVel;
-
-        _rb.AddForce(velDiff * 500f, ForceMode.Force);
+        //_rb.linearVelocity = targetVel;
+        _characterController.Move(targetVel * Time.deltaTime);
 
         RPC_RequestSetMoveInputs(_localInput);
         OnWalkUpdate?.Invoke(_localInput);
@@ -236,35 +220,15 @@ public class PlayerMovementService : NetworkBehaviour
     
     public void Rotate()
     {
-        if (IsOwner)
-        {
-            _rb.transform.rotation = Quaternion.Euler(0, _targetRotationYLocal, 0);
-        }
-        else
-        {
-            float smoothSpeed = 5f;
-            if(_isWalking.Value && !_isSprinting.Value)
-            {
-                smoothSpeed = 15f;
-            }else if (_isSprinting.Value)
-            {
-                smoothSpeed = 20f;
-            }
-            _currentRotationYLocal = Mathf.Lerp(_currentRotationYLocal, _targetRotationY.Value, smoothSpeed * Time.deltaTime);
-
-            _rb.transform.rotation = Quaternion.Euler(0, _currentRotationYLocal, 0);
-        }
-
+        _currentRotationYLocal = Mathf.SmoothDamp(_currentRotationYLocal, _targetRotationYLocal, ref _rotationYLocalVelocity, 0.05f);
+        _characterController.transform.rotation = Quaternion.Euler(0, _currentRotationYLocal, 0);
+        //_rb.MoveRotation();
     }
 
     public void UpdateRotation(Vector2 rotations)
     {
         _targetRotationYLocal = rotations.y;
         RPC_RequestSetTargetYRotation(_targetRotationYLocal);
-        if (IsOwner)
-        {
-            Rotate();
-        }
     }
 
     [ServerRpc]

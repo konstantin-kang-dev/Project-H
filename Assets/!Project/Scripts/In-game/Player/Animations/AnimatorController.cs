@@ -44,7 +44,7 @@ public class AnimatorController : SerializedMonoBehaviour
         PlayAnimation(AnimatorState.Idle);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!IsInitialized) return;
 

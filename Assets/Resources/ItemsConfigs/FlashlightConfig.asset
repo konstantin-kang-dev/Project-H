@@ -22,8 +22,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   Type: -1
-  HandPosition: {x: 0.22, y: -0.093, z: 0.188}
+  HandPosition: {x: 0.1935, y: -0.0914, z: 0.2173}
   HandRotation: {x: 0, y: -90, z: 0}
-  HandItemPointPosition: {x: 0.0033, y: 0.0841, z: 0.0179}
+  HandItemPointPosition: {x: 0, y: 0.08, z: 0.0255}
   HandItemPointRotation: {x: 0, y: 90, z: 0}
   InventoryIcon: {fileID: 21300000, guid: 477da2e0c792fe04da7d05f7aaad4f22, type: 3}

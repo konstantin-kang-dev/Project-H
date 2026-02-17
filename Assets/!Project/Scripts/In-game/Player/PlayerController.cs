@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     Player _player;
 
-    Rigidbody _rb;
+    CharacterController _characterController;
     CapsuleCollider _capsuleCollider;
 
     PlayerStatsConfig _playerStatsConfig;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         _player = player;
 
-        _rb = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
 
         GameDifficultyConfig difficultyConfig = GameDifficultyManager.Instance.SelectedConfig;
@@ -38,22 +38,15 @@ public class PlayerController : MonoBehaviour
 
         if (_player.IsOwner)
         {
-            _rb.isKinematic = false;
             CameraController = Instantiate(_cameraControllerPrefab, transform);
             CameraController.Init();
 
             CameraController.OnRaycast += PlayerInteraction.HandleRaycast;
         }
-        else
-        {
-            _rb.isKinematic = true;
-            _rb.interpolation = RigidbodyInterpolation.None;
-
-        }
 
         PlayerVisuals.Init(_player.ModelKey);
 
-        _playerMovementService.Init(_playerStatsConfig, _rb);
+        _playerMovementService.Init(_playerStatsConfig, _characterController);
 
         if (_player.IsOwner)
         {

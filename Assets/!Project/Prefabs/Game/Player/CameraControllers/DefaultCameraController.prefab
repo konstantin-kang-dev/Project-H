@@ -31,10 +31,6 @@ Transform:
   m_Children:
   - {fileID: 2505443729763058419}
   - {fileID: 537272132155605888}
-  - {fileID: 8639303223546675120}
-  - {fileID: 1049640860468253400}
-  - {fileID: 2279612087568782406}
-  - {fileID: 5504224824763886913}
   m_Father: {fileID: 9177662922617620295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2789126423860114827
@@ -416,7 +412,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7546697075530889964}
-  m_Father: {fileID: 3890526030893316789}
+  m_Father: {fileID: 9177662922617620295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4958751558156620413
 GameObject:
@@ -447,7 +443,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3890526030893316789}
+  m_Father: {fileID: 9177662922617620295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5133373919977977260
 GameObject:
@@ -478,7 +474,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3890526030893316789}
+  m_Father: {fileID: 9177662922617620295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5212900876892774279
 GameObject:
@@ -776,6 +772,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3890526030893316789}
+  - {fileID: 8639303223546675120}
+  - {fileID: 1049640860468253400}
+  - {fileID: 2279612087568782406}
+  - {fileID: 5504224824763886913}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2144995091532444318
@@ -792,6 +792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   _camera: {fileID: 5362730253100546093}
   _cinemachineCamera: {fileID: 6472330690387249892}
+  _cameraBlock: {fileID: 3890526030893316789}
   _cameraPoint: {fileID: 8639303223546675120}
   _standPoint: {fileID: 1049640860468253400}
   _crouchPoint: {fileID: 2279612087568782406}
@@ -829,5 +830,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3890526030893316789}
+  m_Father: {fileID: 9177662922617620295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
