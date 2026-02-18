@@ -62,11 +62,11 @@ public class PlayerController : MonoBehaviour
             GlobalInputManager.Input.OnCrouchToggle += _playerMovementService.HandleCrouchToggle;
             _playerMovementService.OnWalkStart += PlayerVisuals.HandleWalk;
             _playerMovementService.OnWalkUpdate += PlayerVisuals.HandleWalk;
-            _playerMovementService.OnSprintChange += PlayerVisuals.HandleSprint;
+            _playerMovementService.OnSprint += PlayerVisuals.HandleSprint;
             _playerMovementService.OnCrouchingChange += PlayerVisuals.HandleCrouch;
 
             CameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
-            GlobalInputManager.Input.OnSprint += CameraController.AdjustFov;
+            _playerMovementService.OnSprint += CameraController.AdjustFov;
 
         }
 

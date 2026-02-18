@@ -20,6 +20,7 @@ public class PlayerMovementService : NetworkBehaviour
     bool _isWalkingLocal = false;
     readonly SyncVar<bool> _isWalking = new SyncVar<bool>();
 
+    bool _isSprintingPressed = false;
     bool _isSprintingLocal = false;
     readonly SyncVar<bool> _isSprinting = new SyncVar<bool>();
 
@@ -40,6 +41,7 @@ public class PlayerMovementService : NetworkBehaviour
     public event Action<Vector2> OnWalkUpdate;
     public event Action<Vector2> OnWalkStop;
     public event Action<bool> OnSprintChange;
+    public event Action<bool> OnSprint;
     public event Action<bool> OnCrouchingChange;
 
     public bool IsInitialized { get; private set; } = false;
@@ -82,6 +84,7 @@ public class PlayerMovementService : NetworkBehaviour
             if (_canMove)
             {
                 Move();
+                HandleSprint();
             }
 
             Rotate();
@@ -118,6 +121,28 @@ public class PlayerMovementService : NetworkBehaviour
 
         RPC_RequestSetMoveInputs(_localInput);
         OnWalkUpdate?.Invoke(_localInput);
+
+
+    }
+
+    void HandleSprint()
+    {
+        if (_isSprintingPressed && _targetInputs.y > 0 && !_isSprintingLocal)
+        {
+            _isSprintingLocal = true;
+            SetCrouchingState(false);
+            OnSprint?.Invoke(true);
+
+            RPC_RequestSetIsSprinting(_isSprintingLocal);
+        }
+        else if ((!_isSprintingPressed || _targetInputs.y <= 0) && _isSprintingLocal)
+        {
+            _isSprintingLocal = false;
+            OnSprint?.Invoke(false);
+            
+            RPC_RequestSetIsSprinting(_isSprintingLocal);
+        }
+
     }
 
     public void HandleMoveInput(Vector2 input)
@@ -131,13 +156,6 @@ public class PlayerMovementService : NetworkBehaviour
     public void HandleSprintInput(bool value)
     {
         if (!_canMove) return;
-
-        if (_targetInputs.y <= 0) return;
-
-        if (value)
-        {
-            SetCrouchingState(false);
-        }
 
         SetSprintState(value);
     }
@@ -251,11 +269,10 @@ public class PlayerMovementService : NetworkBehaviour
     }
     public void SetSprintState(bool isSprinting)
     {
-        _isSprintingLocal = isSprinting;
+        _isSprintingPressed = isSprinting;
 
-        RPC_RequestSetIsSprinting(_isSprintingLocal);
-        OnSprintChange?.Invoke(_isSprintingLocal);
-        Debug.Log($"[PlayerMovementService] Set sprint: {_isSprintingLocal}");
+        OnSprintChange?.Invoke(_isSprintingPressed);
+
     }
     public void SetCrouchingState(bool value)
     {
@@ -264,7 +281,6 @@ public class PlayerMovementService : NetworkBehaviour
         RPC_RequestSetIsCrouching(_isCrouchingLocal);
         OnCrouchingChange?.Invoke(_isCrouchingLocal);
 
-        Debug.Log($"[PlayerMovementService] Set crouching: {value}");
     }
 
     public override void OnStopClient()
