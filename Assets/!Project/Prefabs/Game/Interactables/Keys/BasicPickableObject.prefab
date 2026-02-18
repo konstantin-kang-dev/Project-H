@@ -54,6 +54,9 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 4673264015861537150}
   _networkObjectCache: {fileID: 4673264015861537150}
   <ItemConfig>k__BackingField: {fileID: 11400000, guid: a8e9380ff17b9794a919fee611715a49, type: 2}
+  <HintPoint>k__BackingField: {fileID: 4687485566273493755}
+  <HintText>k__BackingField: E - Pick up
+  <RequirementsHintText>k__BackingField: 
   _container: {fileID: 9162376653769500974}
   _physicsCollider: {fileID: 506820867710173930}
   _triggerCollider: {fileID: 6696036304229306943}
@@ -227,7 +230,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.1
+  m_Radius: 0.13
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9162376653769500974
 GameObject:

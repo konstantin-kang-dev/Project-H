@@ -495,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 2818310022946819115}
     - target: {fileID: 4031696159140440595, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: m_Name
-      value: Key Variant
+      value: KitchenKey
       objectReference: {fileID: 0}
     - target: {fileID: 4673264015861537150, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: SceneId
@@ -507,7 +507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4673264015861537150, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
-      value: 1620979193715183515
+      value: 16570986770428160147
       objectReference: {fileID: 0}
     - target: {fileID: 4687485566273493755, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: m_LocalPosition.x

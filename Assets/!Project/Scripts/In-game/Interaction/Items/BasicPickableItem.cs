@@ -5,23 +5,25 @@ using Modules.Rendering.Outline;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicPickableItem : NetworkBehaviour, IPickable
+public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable
 {
     [field: SerializeField] public ItemConfig ItemConfig { get; private set; }
     public Transform Transform { get; private set; }
     public int ItemObjectId { get; private set; } = -1;
 
+    [field: SerializeField] public Transform HintPoint {  get; private set; }
+    [field: SerializeField] public string HintText {  get; private set; }
+    [field: SerializeField] public string RequirementsHintText { get; private set; }
+
     [SerializeField] GameObject _container;
     protected NetworkTransform _netTransform;
+
     protected Rigidbody _rb;
     [SerializeField] protected Collider _physicsCollider;
     [SerializeField] protected Collider _triggerCollider;
 
     protected readonly SyncVar<bool> _isPickedUp = new SyncVar<bool>();
     public bool IsPickedUp => _isPickedUp.Value;
-    protected readonly SyncVar<int> _picker = new SyncVar<int>();
-    public int Picker => _picker.Value;
-    Player _lastPicker;
 
     protected readonly SyncVar<bool> _interactionState = new SyncVar<bool>();
 
@@ -57,9 +59,9 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         base.OnStartServer();
 
         _isPickedUp.Value = false;
-        _picker.Value = -1;
 
         _rb.isKinematic = false;
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
         SetColliders(true);
         _netTransform.enabled = true;
     }
@@ -75,21 +77,20 @@ public class BasicPickableItem : NetworkBehaviour, IPickable
         if (!ServerManager.Objects.Spawned.TryGetValue(playerObjectId, out NetworkObject networkObject)) return;
 
         _isPickedUp.Value = true;
-        _picker.Value = playerObjectId;
 
         _rb.isKinematic = true;
+        _rb.interpolation = RigidbodyInterpolation.None;
         SetColliders(false);
         _netTransform.enabled = false;
-        Debug.Log($"[BasicPickableItem] Picked up by: {_picker.Value}");
     }
 
     [Server]
     public virtual void SERVER_Drop()
     {
         _isPickedUp.Value = false;
-        _picker.Value = -1;
 
-        _rb.isKinematic = false;
+        _rb.isKinematic = false; 
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
         _netTransform.enabled = true;
         SetColliders(true);
 

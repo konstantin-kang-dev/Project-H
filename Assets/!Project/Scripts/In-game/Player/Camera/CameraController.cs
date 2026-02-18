@@ -55,6 +55,7 @@ public class CameraController : MonoBehaviour
         if (GameManager.Instance.GameState != GameState.Started) return;
 
         Rotate();
+        CheckForCollider();
     }
 
     private void FixedUpdate()
@@ -62,7 +63,6 @@ public class CameraController : MonoBehaviour
         if (!IsInitialized) return;
         if (GameManager.Instance.GameState != GameState.Started) return;
 
-        CheckForCollider();
     }
 
     void Rotate()
@@ -151,7 +151,7 @@ public class CameraController : MonoBehaviour
         Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = _camera.ScreenPointToRay(screenCenter);
 
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 5f))
         {
             collider = hitInfo.collider;
         }

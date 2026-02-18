@@ -4,7 +4,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class Player : NetworkBehaviour
+public class Player : NetworkBehaviour, IHintable
 {
     readonly SyncVar<bool> _isReadyToInit = new SyncVar<bool>();
     public bool IsReadyToInit => _isReadyToInit.Value;
@@ -23,6 +23,11 @@ public class Player : NetworkBehaviour
     public bool IsInvincible = false;
 
     NetworkTransform _networkTransform;
+
+    [field: SerializeField] public Transform HintPoint { get; private set; }
+    [field: SerializeField] public string HintText { get; private set; }
+    [field: SerializeField] public string RequirementsHintText { get; private set; }
+
     [field: SerializeField] public PlayerController PlayerController { get; private set; }
     [field: SerializeField] public bool IsInitialized { get; private set; } = false;
     private void Awake()
