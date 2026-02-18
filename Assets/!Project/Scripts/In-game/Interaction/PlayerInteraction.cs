@@ -34,12 +34,37 @@ public class PlayerInteraction : MonoBehaviour
             _hoveredPickable = null;
             _hoveredInteractable = null;
             _hoveredPlayer = null;
+
+            HandleHintables();
             return;
         }
 
         _hoveredPickable = CheckForPickable(collider);
         _hoveredInteractable = CheckForInteractable(collider);
         _hoveredPlayer = CheckForPlayer(collider);
+
+        HandleHintables();
+    }
+
+    void HandleHintables()
+    {
+        if (_hoveredPlayer != null && _hoveredPlayer is IHintable hintablePlayer)
+        {
+            HintsUI.Instance.SetHint(hintablePlayer);
+            return;
+        }
+        else if (_hoveredInteractable != null && _hoveredInteractable is IHintable hintableInteractable)
+        {
+            HintsUI.Instance.SetHint(hintableInteractable);
+            return;
+        }
+        else if (_hoveredPickable != null && _hoveredPickable is IHintable hintablePickable)
+        {
+            HintsUI.Instance.SetHint(hintablePickable);
+            return;
+        }
+
+        HintsUI.Instance.SetHint(null);
     }
 
     public void HandleInteractInput()

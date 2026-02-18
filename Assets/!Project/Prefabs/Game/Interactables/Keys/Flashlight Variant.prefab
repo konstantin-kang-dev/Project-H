@@ -820,6 +820,11 @@ SphereCollider:
   m_CorrespondingSourceObject: {fileID: 6696036304229306943, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
   m_PrefabInstance: {fileID: 8907663327499080915}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &4220765450241035816 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4687485566273493755, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+  m_PrefabInstance: {fileID: 8907663327499080915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4270718963875417517 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4673264015861537150, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
@@ -852,6 +857,9 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 4270718963875417517}
   _networkObjectCache: {fileID: 0}
   <ItemConfig>k__BackingField: {fileID: 11400000, guid: d9fd0adc8c252b8469efdb6d8a94c987, type: 2}
+  <HintPoint>k__BackingField: {fileID: 4220765450241035816}
+  <HintText>k__BackingField: E - Pick Up
+  <RequirementsHintText>k__BackingField: 
   _container: {fileID: 340353396157988349}
   _physicsCollider: {fileID: 3055622269937337682}
   _triggerCollider: {fileID: 2842748913837819628}

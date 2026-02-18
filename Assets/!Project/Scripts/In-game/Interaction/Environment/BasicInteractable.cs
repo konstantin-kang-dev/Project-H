@@ -6,12 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BasicInteractable : NetworkBehaviour, IInteractable
+public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
 {
     [field: SerializeField] public InteractableConfig Config { get; private set; }
     public Transform Transform { get; private set; }
+
+    [field: SerializeField] public Transform HintPoint { get; private set; }
+    [field: SerializeField] public string HintText { get; private set; }
+    [field: SerializeField] public string RequirementsHintText { get; private set; }
+
     public bool InteractionState => _interactState.Value;
-    [field: SerializeField] public List<ItemType> RequiredItemsToInteract { get; private set; } = new List<ItemType>();
+    [field: SerializeField] public ItemType RequiredItemToInteract { get; private set; } = ItemType.None;
 
     protected readonly SyncVar<bool> _interactState = new SyncVar<bool>();
 
@@ -26,6 +31,11 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
 
     void Awake()
     {
+        if(RequiredItemToInteract != ItemType.None)
+        {
+            RequirementsHintText = ProjectUtils.CamelCaseToSpaced(RequiredItemToInteract.ToString());
+        }
+
         Transform = transform;
     }
 
@@ -50,7 +60,7 @@ public class BasicInteractable : NetworkBehaviour, IInteractable
 
     public virtual void Interact(IPickable pickableInHand)
     {
-        bool isPickableCompatible = (RequiredItemsToInteract.Count > 0 && pickableInHand != null) || RequiredItemsToInteract.Count == 0;
+        bool isPickableCompatible = (RequiredItemToInteract != ItemType.None && pickableInHand != null) || RequiredItemToInteract == ItemType.None;
         int pickableObjectId = pickableInHand == null ? -1 : pickableInHand.ItemObjectId;
 
         if(CanInteract() && isPickableCompatible)

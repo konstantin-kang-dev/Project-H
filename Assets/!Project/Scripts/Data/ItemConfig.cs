@@ -6,8 +6,9 @@ using UnityEngine;
 [Serializable]
 public enum ItemType
 {
+    None = -2,
     Flashlight = -1,
-    DoorKey = 0,
+    KitchenKey = 0,
 }
 
 [CreateAssetMenu(fileName = "ItemConfig", menuName = "GameData/ItemConfig")]

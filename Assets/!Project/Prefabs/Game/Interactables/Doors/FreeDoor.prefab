@@ -112,6 +112,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Center: {x: 0.000007629398, y: 0, z: -0.0000019073493}
+--- !u!1 &786877208890813427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3214357788850534619}
+  m_Layer: 7
+  m_Name: HintPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3214357788850534619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786877208890813427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7973289207242774857}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &838946894805527597
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +561,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64860031884535790, guid: 6bb0ce06f9c3aca4a9c81cfa2bc4fbc2, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 314779998321485961, guid: 6bb0ce06f9c3aca4a9c81cfa2bc4fbc2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3214357788850534619}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 314779998321783977, guid: 6bb0ce06f9c3aca4a9c81cfa2bc4fbc2, type: 3}
       insertIndex: -1
@@ -571,7 +605,10 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 3702048778021475963}
   _networkObjectCache: {fileID: 3702048778021475963}
   <Config>k__BackingField: {fileID: 11400000, guid: a0ab9c28525ba0646a52f0f91516b2dd, type: 2}
-  <RequiredItemsToInteract>k__BackingField: 00000000
+  <HintPoint>k__BackingField: {fileID: 3214357788850534619}
+  <HintText>k__BackingField: E - Open door
+  <RequirementsHintText>k__BackingField: 
+  <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1
   _interactionAS1: {fileID: 0}
   _interactionAS2: {fileID: 0}

@@ -31,7 +31,7 @@ public class Door : BasicInteractable
 
     public override void Interact(IPickable pickableInHand)
     {
-        bool isPickableCompatible = (RequiredItemsToInteract.Count > 0 && pickableInHand != null) || RequiredItemsToInteract.Count == 0;
+        bool isPickableCompatible = (RequiredItemToInteract != ItemType.None && pickableInHand != null) || RequiredItemToInteract == ItemType.None;
         int pickableObjectId = pickableInHand == null ? -1 : pickableInHand.ItemObjectId;
 
         if (IsRequiredPickable(pickableInHand) && !CanInteract() && isPickableCompatible)
@@ -78,10 +78,10 @@ public class Door : BasicInteractable
 
     protected bool IsRequiredPickable(IPickable pickable)
     {
-        if (RequiredItemsToInteract.Count == 0) return true;
-        if (RequiredItemsToInteract.Count > 0 && pickable == null) return false;
+        if (RequiredItemToInteract == ItemType.None) return true;
+        if (RequiredItemToInteract != ItemType.None && pickable == null) return false;
 
-        return RequiredItemsToInteract.Any((x) => x == pickable.ItemConfig.Type);
+        return RequiredItemToInteract == pickable.ItemConfig.Type;
     }
 
     public override void SetAppearance(bool value)
