@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineCamera _cinemachineCamera;
     [SerializeField] Transform _cameraBlock;
     [SerializeField] Transform _cameraPoint;
+    [SerializeField] Animator _cameraAnimator;
 
     [SerializeField] Transform _standPoint;
     [SerializeField] Transform _crouchPoint;
@@ -88,18 +89,27 @@ public class CameraController : MonoBehaviour
         {
             case AnimatorState.Idle:
                 ChangeCameraOffset(_standPoint.localPosition);
+                _cameraAnimator.SetBool("IsWalking", false);
+                _cameraAnimator.SetBool("IsRunning", false);
                 break;
             case AnimatorState.Walk:
                 ChangeCameraOffset(_standPoint.localPosition);
+                _cameraAnimator.SetBool("IsWalking", true);
+                _cameraAnimator.SetBool("IsRunning", false);
                 break;
             case AnimatorState.Sprint:
                 ChangeCameraOffset(_standPoint.localPosition);
+                _cameraAnimator.SetBool("IsRunning", true);
                 break;
             case AnimatorState.Crouch:
                 ChangeCameraOffset(_crouchPoint.localPosition);
+                _cameraAnimator.SetBool("IsWalking", false);
+                _cameraAnimator.SetBool("IsRunning", false);
                 break;
             case AnimatorState.KnockDown:
                 ChangeCameraOffset(_liftedPoint.localPosition);
+                _cameraAnimator.SetBool("IsWalking", false);
+                _cameraAnimator.SetBool("IsRunning", false);
                 break;
         }
     }
