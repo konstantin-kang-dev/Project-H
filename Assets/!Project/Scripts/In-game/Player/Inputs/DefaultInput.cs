@@ -17,6 +17,7 @@ public class DefaultInput : IInput
     public event Action OnCrouchToggle;
     public event Action OnInteract;
     public event Action OnDrop;
+    public event Action<int> OnInventorySlotKey;
     public event Action OnNextInventorySlot;
     public event Action OnPreviousInventorySlot;
     public event Action OnInteractWithItem;
@@ -49,6 +50,12 @@ public class DefaultInput : IInput
 
         _playerControls.Player.InteractWithItem.performed += HandleInteractWithItemButtonClick;
         _playerControls.Player.OpenChat.performed += HandleOpenChatButtonClick;
+
+        _playerControls.Player.InventorySlot1.performed += HandleInventorySlotKey1;
+        _playerControls.Player.InventorySlot2.performed += HandleInventorySlotKey2;
+        _playerControls.Player.InventorySlot3.performed += HandleInventorySlotKey3;
+        _playerControls.Player.InventorySlot4.performed += HandleInventorySlotKey4;
+        _playerControls.Player.InventorySlot5.performed += HandleInventorySlotKey5;
     }
 
     #region INPUT_HANDLERS
@@ -110,6 +117,32 @@ public class DefaultInput : IInput
     {
         OnOpenChat?.Invoke();
     }
+
+    void HandleInventorySlotKey1(InputAction.CallbackContext context)
+    {
+        OnInventorySlotKey?.Invoke(0);
+    }
+
+    void HandleInventorySlotKey2(InputAction.CallbackContext context)
+    {
+        OnInventorySlotKey?.Invoke(1);
+    }
+
+    void HandleInventorySlotKey3(InputAction.CallbackContext context)
+    {
+        OnInventorySlotKey?.Invoke(2);
+    }
+
+    void HandleInventorySlotKey4(InputAction.CallbackContext context)
+    {
+        OnInventorySlotKey?.Invoke(3);
+    }
+
+    void HandleInventorySlotKey5(InputAction.CallbackContext context)
+    {
+        OnInventorySlotKey?.Invoke(4);
+    }
+
     #endregion
 
     public void Dispose()
