@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 6884274438288424505}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.798, y: 0, z: 0}
+  m_LocalPosition: {x: 0.75, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -177,11 +177,11 @@ MonoBehaviour:
   <Config>k__BackingField: {fileID: 11400000, guid: a0ab9c28525ba0646a52f0f91516b2dd, type: 2}
   <HintPoint>k__BackingField: {fileID: 2122320047375481323}
   <HintText>k__BackingField: E - Open door
+  <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: 0
   _toggleInteractionState: 1
   _interactionAS1: {fileID: 0}
   _interactionAS2: {fileID: 0}
-  _outlines: []
   IsLockedOnStart: 1
   _doorVisuals: {fileID: 8418689653481776129}
 --- !u!114 &6992277083888199249

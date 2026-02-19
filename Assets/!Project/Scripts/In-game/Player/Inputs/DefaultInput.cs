@@ -13,6 +13,7 @@ public class DefaultInput : IInput
     #region INPUT_EVENTS
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;
+    public event Action OnJump;
     public event Action<bool> OnSprint;
     public event Action OnCrouchToggle;
     public event Action OnInteract;
@@ -36,6 +37,8 @@ public class DefaultInput : IInput
 
         _playerControls.Player.NextInventorySlot.performed += HandleNextInventorySlotTrigger;
         _playerControls.Player.PreviousInventorySlot.performed += HandlePreviousInventorySlotTrigger;
+
+        _playerControls.Player.Jump.performed += HandleJumpInput;
 
         _playerControls.Player.Sprint.performed += HandleSprintInput;
         _playerControls.Player.Sprint.canceled += HandleSprintInput;
@@ -80,6 +83,10 @@ public class DefaultInput : IInput
     void HandleSprintInput(InputAction.CallbackContext context)
     {
         OnSprint?.Invoke(_playerControls.Player.Sprint.IsPressed());
+    }
+    void HandleJumpInput(InputAction.CallbackContext context)
+    {
+        OnJump?.Invoke();
     }
     void HandleCrouchInput(InputAction.CallbackContext context)
     {

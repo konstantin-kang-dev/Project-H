@@ -963,7 +963,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 0
+      Data: 10
     - Name: $v
       Entry: 1
       Data: Idle
@@ -975,7 +975,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 1
+      Data: 20
     - Name: $v
       Entry: 1
       Data: Walk
@@ -987,7 +987,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 2
+      Data: 40
     - Name: $v
       Entry: 1
       Data: Run
@@ -999,7 +999,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 4
+      Data: 200
     - Name: $v
       Entry: 1
       Data: Kill

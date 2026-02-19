@@ -14,7 +14,7 @@ public class PlayerVisuals: NetworkBehaviour
     [SerializeField] List<PlayerModel> _playerModels = new List<PlayerModel>();
     PlayerModel _playerModel = null;
 
-    public AnimatorController AnimatorController;
+    public CharacterAnimatorController AnimatorController;
     Vector2 _targetMovementInputs = Vector2.zero;
     Vector2 _currentMovementInputs = Vector2.zero;
 
@@ -23,7 +23,7 @@ public class PlayerVisuals: NetworkBehaviour
     readonly SyncVar<AnimatorState> _currentAnimatorState = new SyncVar<AnimatorState>();
 
     public event Action<AnimatorState> OnAnimatorStateChanged;
-    public event Action<PlayerModel, AnimatorController> OnPlayerModelChanged;
+    public event Action<PlayerModel, CharacterAnimatorController> OnPlayerModelChanged;
     public bool IsInitialized { get; private set; } = false;
 
     private void Awake()
@@ -55,7 +55,7 @@ public class PlayerVisuals: NetworkBehaviour
         _playerModel = _playerModels[key];
         _playerModel.gameObject.SetActive(true);
 
-        AnimatorController = _playerModel.GetComponent<AnimatorController>();
+        AnimatorController = _playerModel.GetComponent<CharacterAnimatorController>();
 
         if (IsOwner)
         {
@@ -76,7 +76,7 @@ public class PlayerVisuals: NetworkBehaviour
         if (!IsOwner)
         {
             _currentMovementInputs = Vector2.Lerp(_currentMovementInputs, _targetMovementInputs, 10f * Time.deltaTime);
-            HandleWalk(_currentMovementInputs);
+            HandleWalk(_currentMovementInputs, false);
         }
     }
 
@@ -104,7 +104,7 @@ public class PlayerVisuals: NetworkBehaviour
         AnimatorController.SetItemInHand(item, false);
     }
 
-    public void HandleWalk(Vector2 inputs)
+    public void HandleWalk(Vector2 inputs, bool isSprinting)
     {
         if (AnimatorController == null) return;
 
@@ -112,22 +112,22 @@ public class PlayerVisuals: NetworkBehaviour
         if(IsOwner)
         {
             RPC_RequestUpdateAnimatorMovement(inputs);
-            AnimatorController.HandleWalking(inputs);
+            AnimatorController.HandleWalking(inputs, isSprinting);
         }
     }
 
-    public void HandleSprint(bool value)
+    public void HandleJump()
     {
         if (AnimatorController == null) return;
 
-        if (value)
-        {
-            AnimatorController.PlayAnimation(AnimatorState.Sprint);
-        }
-        else
-        {
-            AnimatorController.PlayAnimation(AnimatorState.Walk);
-        }
+        AnimatorController.HandleJump();
+    }
+
+    public void HandleLand()
+    {
+        if (AnimatorController == null) return;
+
+        AnimatorController.HandleLanding();
     }
 
     public void HandleCrouch(bool value)
@@ -136,11 +136,11 @@ public class PlayerVisuals: NetworkBehaviour
 
         if (value)
         {
-            AnimatorController.PlayAnimation(AnimatorState.Crouch);
+            AnimatorController.SetState(AnimatorState.Crouch);
         }
         else
         {
-            AnimatorController.PlayAnimation(AnimatorState.Idle);
+            AnimatorController.SetState(AnimatorState.Idle);
         }
     }
 
@@ -158,7 +158,7 @@ public class PlayerVisuals: NetworkBehaviour
         OnAnimatorStateChanged?.Invoke(next);
         if (IsOwner) return;
 
-        AnimatorController.PlayAnimation(next);
+        AnimatorController.SetState(next);
     }
 
     [ServerRpc]

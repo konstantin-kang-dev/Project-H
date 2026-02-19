@@ -25,11 +25,10 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
     [SerializeField] EnhancedAudio _interactionAS1;
     [SerializeField] EnhancedAudio _interactionAS2;
 
-    [SerializeField] List<OutlineComponent> _outlines = new List<OutlineComponent>();
 
     public event Action<IInteractable, bool> OnInteractStateChange;
 
-    void Awake()
+    protected virtual void Awake()
     {
         if(RequiredItemToInteract != ItemType.None)
         {
@@ -110,13 +109,6 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
     }
 
 
-    public virtual void SetHighlight(bool value)
-    {
-        foreach (var outline in _outlines)
-        {
-            outline.enabled = value;
-        }
-    }
 
     public virtual void SetAppearance(bool value)
     {

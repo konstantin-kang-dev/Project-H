@@ -9,6 +9,7 @@ public interface IInput
 
     event Action<Vector2> OnMove;
     event Action<Vector2> OnLook;
+    event Action OnJump;
     event Action<bool> OnSprint; 
     event Action OnCrouchToggle;
     event Action OnInteract;

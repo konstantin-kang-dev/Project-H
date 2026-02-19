@@ -24,7 +24,17 @@ public class PlayerInteraction : MonoBehaviour
     {
         _player = player;
 
+        GlobalInputManager.Input.OnInteract += HandleInteractInput;
+        GlobalInputManager.Input.OnDrop += HandleDropInput;
+
         IsInitialized = true;
+    }
+
+    private void OnDestroy()
+    {
+        GlobalInputManager.Input.OnInteract -= HandleInteractInput;
+        GlobalInputManager.Input.OnDrop -= HandleDropInput;
+
     }
 
     public void HandleRaycast(Collider collider)
@@ -126,7 +136,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (collider.TryGetComponent<Player>(out Player foundPlayer))
         {
-            if (player.IsKnockedDown)
+            if (foundPlayer.IsKnockedDown)
             {
                 player = foundPlayer;
             }
@@ -139,10 +149,12 @@ public class PlayerInteraction : MonoBehaviour
         if (other == null) return;
         if (_interactionLayer.Contains(other.gameObject.layer))
         {
-            IPickable pickable = other.GetComponent<IPickable>();
-            if (pickable == null) return;
+            IOutlinable outlinable = other.GetComponent<IOutlinable>();
+            if (outlinable != null)
+            {
+                outlinable.SetHighlight(true);
+            }
 
-            pickable.SetHighlight(true);
             //Debug.Log($"[PlayerInventory] OnTriggerEnter {other.gameObject.name}");
         }
     }
@@ -151,10 +163,12 @@ public class PlayerInteraction : MonoBehaviour
         if (other == null) return;
         if (_interactionLayer.Contains(other.gameObject.layer))
         {
-            IPickable pickable = other.GetComponent<IPickable>();
-            if (pickable == null) return;
+            IOutlinable outlinable = other.GetComponent<IOutlinable>();
+            if (outlinable != null)
+            {
+                outlinable.SetHighlight(false);
+            }
 
-            pickable.SetHighlight(false);
             //Debug.Log($"[PlayerInventory] OnTriggerExit {other.gameObject.name}");
         }
     }

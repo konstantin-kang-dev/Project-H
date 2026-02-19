@@ -23,4 +23,4 @@ MonoBehaviour:
     SerializationNodes: []
   Health: 100
   MoveSpeed: 1.5
-  JumpPower: 5
+  JumpPower: 6

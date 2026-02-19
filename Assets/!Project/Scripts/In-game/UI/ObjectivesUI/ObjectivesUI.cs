@@ -46,6 +46,7 @@ public class ObjectivesUI : MonoBehaviour
         objectiveUI.OnDestroy += HandleObjectiveUIDestroy;
 
         objectiveUI.Init(config.Type, startDescription);
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(_container);
     }
 

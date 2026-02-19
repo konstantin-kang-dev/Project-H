@@ -493,6 +493,18 @@ PrefabInstance:
       propertyPath: '_outlines.Array.data[1]'
       value: 
       objectReference: {fileID: 2818310022946819115}
+    - target: {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: <Outlines>k__BackingField.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: '<Outlines>k__BackingField.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7548630848797040253}
+    - target: {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: '<Outlines>k__BackingField.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2818310022946819115}
     - target: {fileID: 4031696159140440595, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: m_Name
       value: KitchenKey

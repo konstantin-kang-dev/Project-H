@@ -573,9 +573,13 @@ PrefabInstance:
     - target: {fileID: 5741564858705165260, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
       propertyPath: Transport
       value: 
-      objectReference: {fileID: 563247938}
+      objectReference: {fileID: 563247941}
     - target: {fileID: 5877349547665719686, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
       propertyPath: _isLocalMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741183481686315302, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -597,17 +601,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c95dfde7d73b54dbbdc23155d35d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &563247938 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7741183481686315302, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
-  m_PrefabInstance: {fileID: 563247936}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563247939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f48f002b825cbd45a19bd96d90f9edb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Transporting.Tugboat.Tugboat
 --- !u!1 &563247939 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3116683255358109583, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
@@ -629,6 +622,17 @@ MonoBehaviour:
   _lightProbeUpdating: 0
   _moveClientObjects: 1
   _setActiveScene: 1
+--- !u!114 &563247941 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7741183481686315302, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
+  m_PrefabInstance: {fileID: 563247936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563247939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f48f002b825cbd45a19bd96d90f9edb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Transporting.Tugboat.Tugboat
 --- !u!1 &656288277
 GameObject:
   m_ObjectHideFlags: 0

@@ -54,6 +54,16 @@ public class PlayerInventory : NetworkBehaviour
     {
         _player = player;
 
+        if (IsOwner)
+        {
+
+            GlobalInputManager.Input.OnInventorySlotKey += SelectItem;
+            GlobalInputManager.Input.OnNextInventorySlot += HandleNextInventorySlotInput;
+            GlobalInputManager.Input.OnPreviousInventorySlot += HandlePreviousInventorySlotInput;
+            GlobalInputManager.Input.OnInteractWithItem += InteractWithItemInHands;
+
+        }
+
         _items.Clear();
         for (int i = 0; i < _capacity; i++)
         {
@@ -69,6 +79,18 @@ public class PlayerInventory : NetworkBehaviour
 
 
         IsInitialized = true;
+    }
+
+    private void OnDestroy()
+    {
+        if (IsOwner)
+        {
+            GlobalInputManager.Input.OnInventorySlotKey -= SelectItem;
+            GlobalInputManager.Input.OnNextInventorySlot -= HandleNextInventorySlotInput;
+            GlobalInputManager.Input.OnPreviousInventorySlot -= HandlePreviousInventorySlotInput;
+            GlobalInputManager.Input.OnInteractWithItem -= InteractWithItemInHands;
+        }
+
     }
 
     private void FixedUpdate()

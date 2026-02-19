@@ -5,7 +5,7 @@ using Modules.Rendering.Outline;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable
+public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlinable
 {
     [field: SerializeField] public ItemConfig ItemConfig { get; private set; }
     public Transform Transform { get; private set; }
@@ -27,7 +27,8 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable
 
     protected readonly SyncVar<bool> _interactionState = new SyncVar<bool>();
 
-    [SerializeField] List<OutlineComponent> _outlines = new List<OutlineComponent>();
+    [field: SerializeField] public List<OutlineComponent> Outlines { get; private set; } = new List<OutlineComponent>();
+
     void Awake()
     {
         if(ItemConfig == null)
@@ -39,6 +40,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable
         Transform = transform;
         _rb = GetComponent<Rigidbody>();
         _netTransform = GetComponent<NetworkTransform>();
+        SetHighlight(false);
     }
 
     public override void OnStartClient()
@@ -51,7 +53,6 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable
 
         _rb.isKinematic = true;
         SetColliders(true);
-        SetHighlight(false);
     }
 
     public override void OnStartServer()
@@ -111,7 +112,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable
 
     public virtual void SetHighlight(bool value)
     {
-        foreach (var outline in _outlines)
+        foreach (var outline in Outlines)
         {
             outline.enabled = value;
         }

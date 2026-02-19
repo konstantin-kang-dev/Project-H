@@ -1377,13 +1377,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 3
-      Data: 0
+      Data: 10
     - Name: $v
       Entry: 1
       Data: Idle
@@ -1395,7 +1395,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 1
+      Data: 20
     - Name: $v
       Entry: 1
       Data: Walk
@@ -1407,7 +1407,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 3
+      Data: 30
     - Name: $v
       Entry: 1
       Data: Crouch
@@ -1419,7 +1419,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 2
+      Data: 40
     - Name: $v
       Entry: 1
       Data: Sprint
@@ -1431,10 +1431,22 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 5
+      Data: 200
     - Name: $v
       Entry: 1
       Data: KnockDown
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 100
+    - Name: $v
+      Entry: 1
+      Data: Jump
     - Name: 
       Entry: 8
       Data: 
@@ -1444,7 +1456,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  Animator: {fileID: 0}
+  Animator: {fileID: 8901534922083689242}
   _handConstraint: {fileID: 4272199560864439729}
   _headTransform: {fileID: 8864250626976033763}
   _headMeshGO: {fileID: 8083801639668065200}

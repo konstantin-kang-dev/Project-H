@@ -369,6 +369,9 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: -4128999373706879264}
   _networkObjectCache: {fileID: -4128999373706879264}
   IsInvincible: 0
+  <HintPoint>k__BackingField: {fileID: 0}
+  <HintText>k__BackingField: 
+  <RequirementsHintText>k__BackingField: 
   <PlayerController>k__BackingField: {fileID: 4360053120356261361}
   <IsInitialized>k__BackingField: 0
 --- !u!114 &4360053120356261361
@@ -532,7 +535,7 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
-  _synchronizeRotation: 0
+  _synchronizeRotation: 1
   _rotationSnapping:
     X: 0
     Y: 0
@@ -563,9 +566,9 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.6
   m_Radius: 0.2
-  m_SlopeLimit: 0
-  m_StepOffset: 0
-  m_SkinWidth: 0.08
+  m_SlopeLimit: 90
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.02
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1001 &3677964824367446544

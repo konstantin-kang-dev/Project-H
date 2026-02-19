@@ -43,10 +43,18 @@ public class CameraController : MonoBehaviour
     {
         _cameraBlock.parent = null;
 
+        GlobalInputManager.Input.OnLook += HandleLookInput;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
          
         IsInitialized = true;
+    }
+
+    private void OnDestroy()
+    {
+        GlobalInputManager.Input.OnLook -= HandleLookInput;
+
     }
 
     void Update()

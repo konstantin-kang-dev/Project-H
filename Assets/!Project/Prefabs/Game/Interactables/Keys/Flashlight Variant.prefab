@@ -111,7 +111,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 655.66425
-  m_Range: 6
+  m_Range: 9
   m_SpotAngle: 72.62305
   m_InnerSpotAngle: 1
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -863,7 +863,7 @@ MonoBehaviour:
   _container: {fileID: 340353396157988349}
   _physicsCollider: {fileID: 3055622269937337682}
   _triggerCollider: {fileID: 2842748913837819628}
-  _outlines:
+  <Outlines>k__BackingField:
   - {fileID: 2186589484325494867}
   _light: {fileID: 4961982886813788994}
 --- !u!136 &3055622269937337682

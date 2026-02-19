@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Coffee.UIExtensions;
+using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -6,23 +7,37 @@ using UnityEngine;
 public class ObjectiveUI: MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _descriptionTMP;
-    [SerializeField] ParticleSystem _progressVfx;
-    [SerializeField] ParticleSystem _completionVfx;
+    [SerializeField] UIParticle _initializationVfx;
+    [SerializeField] UIParticle _progressVfx;
+    [SerializeField] UIParticle _completionVfx;
     public ObjectiveType ObjectiveType { get; private set; }
 
     public event Action<ObjectiveUI> OnDestroy;
     public void Init(ObjectiveType objectiveType, string description)
     {
         ObjectiveType = objectiveType;
+
+        _descriptionTMP.text = description;
+
+        _initializationVfx.Play();
     }
 
     public void HandleUpdateObjective(string description)
     {
         _descriptionTMP.text = description;
+
+        _progressVfx.Play();
     }
 
     public void HandleCompleteObjective()
     {
-        transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        _descriptionTMP.fontStyle = FontStyles.Strikethrough;
+
+        Color color = Color.gray;
+        color.a = 0.3f;
+
+        _descriptionTMP.color = color;
+
+        _completionVfx.Play();
     }
 }

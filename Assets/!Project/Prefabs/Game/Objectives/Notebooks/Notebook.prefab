@@ -51,14 +51,17 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2270728199649212176}
   _networkObjectCache: {fileID: 0}
   <Config>k__BackingField: {fileID: 11400000, guid: 086fcb220376e074181962873ea2ae00, type: 2}
-  _model: {fileID: 6504725564752823464}
-  <RequiredItemsToInteract>k__BackingField: 
+  <HintPoint>k__BackingField: {fileID: 1315538811790519159}
+  <HintText>k__BackingField: E - Collect
+  <RequirementsHintText>k__BackingField: 
+  <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 0
   _interactionAS1: {fileID: 0}
   _interactionAS2: {fileID: 0}
-  _outlines:
+  <Outlines>k__BackingField:
   - {fileID: 4090208468942598320}
   _interactVfx: {fileID: 0}
+  _model: {fileID: 6504725564752823464}
 --- !u!114 &2270728199649212176
 MonoBehaviour:
   m_ObjectHideFlags: 0

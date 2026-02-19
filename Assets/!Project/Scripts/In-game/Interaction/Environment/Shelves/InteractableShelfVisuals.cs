@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class InteractableShelfVisuals : MonoBehaviour
 {
-    [SerializeField] MeshRenderer _meshRenderer;
     [SerializeField] float _animationDuration = 0.5f;
 
     float _meshLengthZ;
@@ -12,7 +11,7 @@ public class InteractableShelfVisuals : MonoBehaviour
     private void Awake()
     {
         _initialLocalPos = transform.localPosition;
-        _meshLengthZ = _meshRenderer.bounds.size.z * 1.2f;
+        _meshLengthZ = 0.55f;
     }
     public void HandleStateChange(bool value)
     {

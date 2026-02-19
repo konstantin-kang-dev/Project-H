@@ -8,7 +8,7 @@ public class EnemyVisuals : NetworkBehaviour
     [SerializeField] EnemyModel _enemyModelPrefab;
     EnemyModel _enemyModel;
 
-    public AnimatorController AnimatorController;
+    public CharacterAnimatorController AnimatorController;
 
     float _headRotationTimer = 0f;
     float _headRotationInterval = 2f;
@@ -23,7 +23,7 @@ public class EnemyVisuals : NetworkBehaviour
         _currentAnimatorState.OnChange += HandleAnimatorStateChange;
         _lookPosition.OnChange += HandleLookPositionChange;
 
-        AnimatorController = _enemyModel.GetComponent<AnimatorController>();
+        AnimatorController = _enemyModel.GetComponent<CharacterAnimatorController>();
         AnimatorController.Init();
     }
 
@@ -70,7 +70,7 @@ public class EnemyVisuals : NetworkBehaviour
 
     public void HandleKillPlayer(Player player)
     {
-        AnimatorController.PlayAnimation(AnimatorState.Kill);
+        AnimatorController.SetState(AnimatorState.KnockDown);
 
         transform.rotation = ProjectUtils.GetFlatYLookRotation(transform.position, player.transform.position);
     }
@@ -105,6 +105,6 @@ public class EnemyVisuals : NetworkBehaviour
     [Client]
     void HandleAnimatorStateChange(AnimatorState prev, AnimatorState next, bool asServer)
     {
-        AnimatorController.PlayAnimation(next);
+        AnimatorController.SetState(next);
     }
 }
