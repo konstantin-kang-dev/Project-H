@@ -293,7 +293,6 @@ MonoBehaviour:
   _toggleInteractionState: 1
   _interactionAS1: {fileID: 0}
   _interactionAS2: {fileID: 0}
-  _outlines: []
   _shelfVisuals: {fileID: 4234730770473011384}
 --- !u!114 &4234730770473011384
 MonoBehaviour:
@@ -307,18 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
-  _meshRenderer: {fileID: 772185079293950165}
   _animationDuration: 0.5
---- !u!23 &772185079293950165 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 422149011051106257, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
-  m_PrefabInstance: {fileID: 1111435234342598404}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &1951289999370728081 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1475143963476510101, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
-  m_PrefabInstance: {fileID: 1111435234342598404}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1951289999372659793 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1475143963478776661, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
@@ -347,7 +335,6 @@ MonoBehaviour:
   _toggleInteractionState: 1
   _interactionAS1: {fileID: 0}
   _interactionAS2: {fileID: 0}
-  _outlines: []
   _shelfVisuals: {fileID: 8206402084650427748}
 --- !u!114 &8206402084650427748
 MonoBehaviour:
@@ -361,7 +348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
-  _meshRenderer: {fileID: 1951289999370728081}
   _animationDuration: 0.5
 --- !u!4 &1951289999373021297 stripped
 Transform:
@@ -396,7 +382,6 @@ MonoBehaviour:
   _toggleInteractionState: 1
   _interactionAS1: {fileID: 0}
   _interactionAS2: {fileID: 0}
-  _outlines: []
   _shelfVisuals: {fileID: 2967092611143981508}
 --- !u!114 &2967092611143981508
 MonoBehaviour:
@@ -410,16 +395,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd574bfc58e0334bbf982570b63ef23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
-  _meshRenderer: {fileID: 4636295684561127525}
   _animationDuration: 0.5
 --- !u!4 &4636295684559227525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5709423208818785665, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
-  m_PrefabInstance: {fileID: 1111435234342598404}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &4636295684561127525 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5709423208821079905, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
   m_PrefabInstance: {fileID: 1111435234342598404}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6600065591248702635 stripped
