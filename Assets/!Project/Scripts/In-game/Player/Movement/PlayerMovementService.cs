@@ -12,11 +12,15 @@ public class PlayerMovementService : NetworkBehaviour
     [SerializeField] float _crouchingSpeedMultiplier = 0.5f;
     [SerializeField] float _sprintSpeedMultiplier = 1.5f;
     [SerializeField] float _acceleration = 1f;
+
     float _verticalVelocity;
     const float Gravity = -9.81f;
     bool _isJumpedBuffer = false;
     bool _isLanded = false;
 
+    [SerializeField] float _minStaminaToSprintAndJump = 0.1f;
+    float _currentStamina = 0f;
+    bool _canSprintAndJump = true;
     bool _canMove = true;
 
     bool _isSprintingPressed = false;
@@ -123,6 +127,13 @@ public class PlayerMovementService : NetworkBehaviour
         _canMove = value;
     }
 
+    public void HandleUpdateStamina(float stamina)
+    {
+        _currentStamina = stamina;
+
+        _canSprintAndJump = _currentStamina >= _minStaminaToSprintAndJump;
+    }
+
     void UpdateInputs()
     {
         _localInput = Vector2.MoveTowards(_localInput, _targetInputs, _acceleration * Time.deltaTime);
@@ -166,6 +177,7 @@ public class PlayerMovementService : NetworkBehaviour
     void Jump()
     {
         if (!_characterController.isGrounded) return;
+        if (!_canSprintAndJump) return;
 
         _isJumpedBuffer = true;
 
@@ -185,6 +197,11 @@ public class PlayerMovementService : NetworkBehaviour
 
     void HandleSprint()
     {
+        if(_currentStamina == 0f)
+        {
+            _isSprintingPressed = false;
+        }
+
         bool oldValue = _isSprintingLocal;
         _isSprintingLocal = _isSprintingPressed && _targetInputs.y > 0;
 
@@ -215,6 +232,7 @@ public class PlayerMovementService : NetworkBehaviour
     public void HandleSprintInput(bool value)
     {
         if (!_canMove) return;
+        if (!_canSprintAndJump && value) return;
 
         SetSprintState(value);
     }
@@ -265,12 +283,6 @@ public class PlayerMovementService : NetworkBehaviour
         _isSprinting.Value = value;
     }
 
-    [ServerRpc]
-    void RPC_RequestSetIsCrouching(bool value)
-    {
-        _isCrouching.Value = value;
-    }
-
     [Client]
     void HandleIsSprintingChange(bool prev, bool next, bool asServer)
     {
@@ -278,6 +290,12 @@ public class PlayerMovementService : NetworkBehaviour
         if (IsOwner) return;
 
         OnSprintChange?.Invoke(next);
+    }
+
+    [ServerRpc]
+    void RPC_RequestSetIsCrouching(bool value)
+    {
+        _isCrouching.Value = value;
     }
 
     [Client]

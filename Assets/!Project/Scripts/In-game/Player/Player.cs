@@ -2,6 +2,7 @@ using FishNet.Component.Animating;
 using FishNet.Component.Transforming;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using UnityEngine;
 
 public class Player : NetworkBehaviour, IHintable
@@ -29,6 +30,8 @@ public class Player : NetworkBehaviour, IHintable
     [field: SerializeField] public string RequirementsHintText { get; private set; }
 
     [field: SerializeField] public PlayerController PlayerController { get; private set; }
+
+    public static event Action<Player> OnLocalPlayerInitialized;
     [field: SerializeField] public bool IsInitialized { get; private set; } = false;
     private void Awake()
     {
@@ -46,6 +49,7 @@ public class Player : NetworkBehaviour, IHintable
         if (IsOwner)
         {
             GameManager.Instance.RegisterLocalPlayer(this);
+            
         }
         _isReadyToInit.OnChange += HandleIsReadyToInitChange;
 
@@ -65,10 +69,21 @@ public class Player : NetworkBehaviour, IHintable
 
     public void Init()
     {
+        if (IsOwner)
+        {
+            PlayerController.OnInitialized += HandlePlayerControllerInitialized;
+        }
+
         PlayerController.Init(this);
 
         IsInitialized = true;
     }
+    void HandlePlayerControllerInitialized()
+    {
+        OnLocalPlayerInitialized?.Invoke(this);
+        Debug.Log($"[Player] Local player initialized");
+    }
+
     [Server]
     public void SERVER_SetReadyToInit(bool value)
     {

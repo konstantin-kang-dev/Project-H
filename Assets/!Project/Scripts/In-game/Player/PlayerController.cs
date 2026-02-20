@@ -1,4 +1,5 @@
 ﻿using FishNet.Component.Animating;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     [field: SerializeField] public PlayerVisuals PlayerVisuals { get; private set; }
 
+    public PlayerStaminaService PlayerStaminaService { get; private set; }
     [SerializeField] PlayerMovementService _playerMovementService;
 
     [SerializeField] CameraController _cameraControllerPrefab;
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     [field: SerializeField] public PlayerInventory PlayerInventory { get; private set; }
     [field: SerializeField] public PlayerInteraction PlayerInteraction { get; private set; }
+
+    public static event Action OnInitialized;
     public bool IsInitialized { get; private set; } = false;
     private void Start()
     {
@@ -50,17 +54,22 @@ public class PlayerController : MonoBehaviour
 
         if (_player.IsOwner)
         {
+            PlayerStaminaService = new PlayerStaminaService(1f);
+            PlayerStaminaService.OnStaminaUpdate += _playerMovementService.HandleUpdateStamina;
+
+            _playerMovementService.OnWalk += PlayerStaminaService.HandleWalk;
+            _playerMovementService.OnJump += PlayerStaminaService.HandleJump;
+
             PlayerVisuals.AnimatorController.SetHeadVisibility(false);
             PlayerVisuals.OnAnimatorStateChanged += CameraController.HandleAnimationChange;
-
-            CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
-            CameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
 
             _playerMovementService.OnWalk += PlayerVisuals.HandleWalk;
             _playerMovementService.OnJump += PlayerVisuals.HandleJump;
             _playerMovementService.OnLand += PlayerVisuals.HandleLand;
             _playerMovementService.OnCrouchingChange += PlayerVisuals.HandleCrouch;
 
+            CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
+            CameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
             CameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
             _playerMovementService.OnSprint += CameraController.AdjustFov;
 
@@ -80,10 +89,18 @@ public class PlayerController : MonoBehaviour
 
         IsInitialized = true;
 
+        OnInitialized?.Invoke();
         if (_player.IsOwner)
         {
             Debug.Log($"[PlayerController] Initialized.");
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsInitialized) return;
+
+        PlayerStaminaService.Tick(Time.fixedDeltaTime);
     }
 
     public void SetLookPosition(Vector3 lookPosition)
