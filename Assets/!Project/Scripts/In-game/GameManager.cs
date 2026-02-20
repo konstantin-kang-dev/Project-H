@@ -72,7 +72,7 @@ public class GameManager : NetworkBehaviour
         }
         else
         {
-
+            
         }
 
         Debug.Log($"[GameManager] Initialized");
@@ -132,7 +132,8 @@ public class GameManager : NetworkBehaviour
 
     void InitLocation()
     {
-        GameCanvas.Instance.Init();
+        GameUI.Instance.Init();
+
         if (IsServerStarted)
         {
             ObjectivesManager.Instance.Init(GameDifficulty, ServerRoomManager.Instance.ConnectedPlayersCount);

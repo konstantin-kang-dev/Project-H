@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public class GameCanvas : MonoBehaviour
+public class GameUI : MonoBehaviour
 {
-    public static GameCanvas Instance { get; private set; }
+    public static GameUI Instance { get; private set; }
     Canvas _canvas;
 
     [SerializeField] InventoryUI _inventoryUI;
     [SerializeField] ObjectivesUI _objectivesUI;
     [SerializeField] ChatUI _chatUI;
+    [SerializeField] StaminaUI _staminaUI;
 
     public bool IsInitialized { get; private set; } = false;
     void Awake()
@@ -22,6 +23,7 @@ public class GameCanvas : MonoBehaviour
         _inventoryUI.Init();
         _objectivesUI.Init();
         _chatUI.Init();
+        _staminaUI.Init();
 
         IsInitialized = true;
     }

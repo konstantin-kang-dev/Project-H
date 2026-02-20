@@ -51,6 +51,7 @@ MonoBehaviour:
   _crouchingSpeedMultiplier: 0.5
   _sprintSpeedMultiplier: 3
   _acceleration: 6
+  _minStaminaToSprintAndJump: 0.2
 --- !u!114 &8495426271107249579
 MonoBehaviour:
   m_ObjectHideFlags: 0

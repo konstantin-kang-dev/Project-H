@@ -5,6 +5,7 @@ public class ProgressBar : MonoBehaviour
 {
     public float Progress { get; private set; } = 0f;
     public int ProgressPercent => Mathf.RoundToInt(Progress * 100);
+    public bool IsFullfilled => Progress == 1;
 
     IProgressBarVisuals _progressBarVisuals;
 
@@ -22,9 +23,11 @@ public class ProgressBar : MonoBehaviour
     public void SetProgress(float progress, bool doInstantly)
     {
         Progress = progress;
-        OnProgressChanged?.Invoke(progress);
+        Progress = Mathf.Clamp(Progress, 0f, 1f);
 
-        _progressBarVisuals?.UpdateProgress(progress, doInstantly);
+        OnProgressChanged?.Invoke(Progress);
+
+        _progressBarVisuals?.UpdateProgress(Progress, doInstantly);
         if(Progress >= 1f)
         {
             OnFullFilled?.Invoke();
