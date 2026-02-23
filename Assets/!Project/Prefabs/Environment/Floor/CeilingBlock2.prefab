@@ -96,6 +96,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor_06
       objectReference: {fileID: 0}
+    - target: {fileID: 4518327166717152160, guid: bbd32a536a25c2346b8d72c00cb7f191, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518327166717152160, guid: bbd32a536a25c2346b8d72c00cb7f191, type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518327166717152160, guid: bbd32a536a25c2346b8d72c00cb7f191, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 53e69af65cab35947bc8875dfd72ef37, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

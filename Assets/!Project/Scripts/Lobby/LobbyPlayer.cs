@@ -1,6 +1,7 @@
 ﻿using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using Saves;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -47,7 +48,7 @@ public class LobbyPlayer : NetworkBehaviour
                 RPC_RequestChangePlayerModel(modelKey);
             });
 
-            RPC_RequestSetPlayerName(SaveManager.GameData.PlayerName);
+            RPC_RequestSetPlayerName(SaveManager.GameSave.PlayerSave.PlayerName);
         }
         else
         {

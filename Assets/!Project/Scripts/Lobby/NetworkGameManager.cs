@@ -6,6 +6,7 @@ using FishNet.Managing.Server;
 using FishNet.Object;
 using FishNet.Transporting;
 using FishySteamworks;
+using Saves;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -135,7 +136,7 @@ public class NetworkGameManager : MonoBehaviour
             LobbyId = _currentLobbyId,
             MaxPlayers = ProjectConstants.LOBBY_MAX_PLAYERS,
             CurrentPlayers = 1,
-            HostName = SaveManager.GameData.PlayerName,
+            HostName = SaveManager.GameSave.PlayerSave.PlayerName,
         };
 
         _waitingForHost = true;

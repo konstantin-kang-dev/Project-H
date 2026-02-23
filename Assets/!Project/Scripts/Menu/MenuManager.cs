@@ -1,5 +1,6 @@
 using DG.Tweening;
 using FishNet.Connection;
+using Saves;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -31,7 +32,7 @@ public class MenuManager : MonoBehaviour
     {
         SaveManager.LoadAll();
 
-        _playerNameInput.text = SaveManager.GameData.PlayerName;
+        _playerNameInput.text = SaveManager.GameSave.PlayerSave.PlayerName;
 
         _menuUI.Init();
         _lobbiesOverviewUI.Init();
