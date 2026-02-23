@@ -82,7 +82,7 @@ public class ServerRoomManager: MonoBehaviour
         LobbyManager.Instance.SERVER_UpdateLobbyData();
     }
 
-    public void SERVER_SetPlayerData(GameData data, NetworkConnection conn)
+    public void SERVER_SetPlayerData(PlayerSave data, NetworkConnection conn)
     {
         if (!_connectedPlayers.ContainsKey(conn.ClientId)) throw new System.Exception($"[RoomManager] Player doesn't exists in connected players list.");
 

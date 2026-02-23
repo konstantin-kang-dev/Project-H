@@ -2,6 +2,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using Saves;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +98,7 @@ public class LobbyManager : NetworkBehaviour
         NetworkGameManager.Instance.OnLocalClientConnected += HandleLocalClientConnected;
         NetworkGameManager.Instance.OnLocalClientDisconnected += HandleLocalClientDisconnected;
 
-        RPC_RequestSendPlayerData(SaveManager.GameData, ClientManager.Connection);
+        RPC_RequestSendPlayerData(SaveManager.GameSave.PlayerSave, ClientManager.Connection);
         OnReady?.Invoke();
     }
 
@@ -256,7 +257,7 @@ public class LobbyManager : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void RPC_RequestSendPlayerData(GameData data, NetworkConnection conn)
+    public void RPC_RequestSendPlayerData(PlayerSave data, NetworkConnection conn)
     {
         ServerRoomManager.Instance.SERVER_SetPlayerData(data, conn);
     }

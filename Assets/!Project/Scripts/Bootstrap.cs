@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using FishNet.Managing;
+using Saves;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -43,8 +44,8 @@ public class Bootstrap : MonoBehaviour
         if (_networkManager == null) throw new System.Exception($"[Bootstrap] Network manager is null.");
 
         SaveManager.LoadAll();
-        SaveManager.GameData.SteamId = SteamUser.GetSteamID().ToString();
-        SaveManager.GameData.PlayerName = SteamFriends.GetPersonaName();
+        SaveManager.GameSave.PlayerSave.SteamId = SteamUser.GetSteamID().ToString();
+        SaveManager.GameSave.PlayerSave.PlayerName = SteamFriends.GetPersonaName();
         SaveManager.SaveAll();
 
         GlobalInputManager.Init();

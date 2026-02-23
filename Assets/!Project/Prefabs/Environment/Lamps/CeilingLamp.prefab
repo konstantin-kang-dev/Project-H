@@ -212,7 +212,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 1, g: 0.8487299, b: 0.62938, a: 1}
+  m_Color: {r: 1, g: 0.7526883, b: 0.39757407, a: 1}
   m_Intensity: 50.903065
   m_Range: 5
   m_SpotAngle: 179
@@ -262,7 +262,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 0
   m_ForceVisible: 0
-  m_ShadowRadius: 1.88
+  m_ShadowRadius: 0.3
   m_ShadowAngle: 0
   m_LightUnit: 0
   m_LuxAtDistance: 1
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_AffectDiffuse: 1
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
-  m_ShapeRadius: 1.88
+  m_ShapeRadius: 0.3
   m_SoftnessScale: 0.1
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
@@ -364,10 +364,10 @@ MonoBehaviour:
   m_ShadowResolution:
     m_Override: 512
     m_UseOverride: 0
-    m_Level: 1
+    m_Level: 2
   m_ShadowDimmer: 1
   m_VolumetricShadowDimmer: 1
-  m_ShadowFadeDistance: 13
+  m_ShadowFadeDistance: 12
   m_UseContactShadow:
     m_Override: 0
     m_UseOverride: 1
