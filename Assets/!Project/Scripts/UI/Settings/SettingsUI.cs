@@ -1,10 +1,31 @@
 using Saves;
+using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
+using static UnityEngine.Experimental.Rendering.GraphicsStateCollection;
 
-public class SettingsUI : MonoBehaviour
+public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
 {
+    [field: SerializeField] public MenuWindowType WindowType { get; private set; }
+    [SerializeField] BasicWindowVisuals _windowVisuals;
+
+    [Header("Navigation")]
+    [SerializeField] ToggleGroup _navigationGroup;
+    [SerializeField] Button _backBtn;
+
+    [Header("Pages")]
+    [SerializeField] Dictionary<int, BasicWindowVisuals> _pages = new Dictionary<int, BasicWindowVisuals>();
+    BasicWindowVisuals _lastOpenedWindow = null;
+
+    [Header("Audio Settings")]
+    [SerializeField] RangeSelectorUI _globalVolumeSelector;
+    [SerializeField] RangeSelectorUI _environmentVolumeSelector;
+    [SerializeField] RangeSelectorUI _interfaceVolumeSelector;
+
     [Header("Graphics settings")]
+    [SerializeField] ValueSelectorUI _resolutionSelector;
     [SerializeField] ValueSelectorUI _shadowsQualitySelector;
     [SerializeField] ValueSelectorUI _lightingQualitySelector;
     [SerializeField] CheckBox _antiAliasingCheckbox;
@@ -14,34 +35,100 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] CheckBox _bloomCheckbox;
     [SerializeField] CheckBox _motionBlurCheckbox;
     [SerializeField] CheckBox _vignetteCheckbox;
+
+    [Header("Controls Settings")]
+    [SerializeField] InputSelector _moveForwardSelector;
+    [SerializeField] InputSelector _moveBackwardSelector;
+    [SerializeField] InputSelector _moveRightSelector;
+    [SerializeField] InputSelector _moveLeftSelector;
+    [SerializeField] InputSelector _sprintSelector;
+    [SerializeField] InputSelector _jumpSelector;
+    [SerializeField] InputSelector _crouchSelector;
+    [SerializeField] InputSelector _interactSelector;
+
+
     private void OnEnable()
     {
         ApplySave(SaveManager.GameSave.SettingsSave);
 
-        _shadowsQualitySelector.OnValueChanged += IntTrigger;
-        _lightingQualitySelector.OnValueChanged += IntTrigger;
-        _antiAliasingCheckbox.OnValueChanged += BoolTrigger;
-        _vsyncCheckbox.OnValueChanged += BoolTrigger;
-        _maxFpsSelector.OnValueChanged += IntTrigger;
-        _fullscreenCheckbox.OnValueChanged += BoolTrigger;
-        _bloomCheckbox.OnValueChanged += BoolTrigger;
-        _motionBlurCheckbox.OnValueChanged += BoolTrigger;
-        _vignetteCheckbox.OnValueChanged += BoolTrigger;
+        _globalVolumeSelector.OnValueChangedTrigger += CollectAudioValues;
+        _environmentVolumeSelector.OnValueChangedTrigger += CollectAudioValues;
+        _interfaceVolumeSelector.OnValueChangedTrigger += CollectAudioValues;
+
+        _resolutionSelector.OnValueChangedTrigger += CollectGraphicsValues;
+        _shadowsQualitySelector.OnValueChangedTrigger += CollectGraphicsValues;
+        _lightingQualitySelector.OnValueChangedTrigger += CollectGraphicsValues;
+        _antiAliasingCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+        _vsyncCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+        _maxFpsSelector.OnValueChangedTrigger += CollectGraphicsValues;
+        _fullscreenCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+        _bloomCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+        _motionBlurCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+        _vignetteCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+
+        _moveForwardSelector.OnValueChangedTrigger += CollectControlsValues;
+        _moveBackwardSelector.OnValueChangedTrigger += CollectControlsValues;
+        _moveRightSelector.OnValueChangedTrigger += CollectControlsValues;
+        _moveLeftSelector.OnValueChangedTrigger += CollectControlsValues;
+        _sprintSelector.OnValueChangedTrigger += CollectControlsValues;
+        _jumpSelector.OnValueChangedTrigger += CollectControlsValues;
+        _crouchSelector.OnValueChangedTrigger += CollectControlsValues;
+        _interactSelector.OnValueChangedTrigger += CollectControlsValues;
+
+        _backBtn.onClick.AddListener(HandleBackBtn);
+        _navigationGroup.OnToggle += HandleNavigation;
+
     }
 
-    void IntTrigger(int value)
+    void OnDisable()
     {
-        CollectValues();
+        _globalVolumeSelector.OnValueChangedTrigger -= CollectAudioValues;
+        _environmentVolumeSelector.OnValueChangedTrigger -= CollectAudioValues;
+        _interfaceVolumeSelector.OnValueChangedTrigger -= CollectAudioValues;
+
+        _resolutionSelector.OnValueChangedTrigger -= CollectGraphicsValues;
+        _shadowsQualitySelector.OnValueChangedTrigger -= CollectGraphicsValues;
+        _lightingQualitySelector.OnValueChangedTrigger -= CollectGraphicsValues;
+        _antiAliasingCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+        _vsyncCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+        _maxFpsSelector.OnValueChangedTrigger -= CollectGraphicsValues;
+        _fullscreenCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+        _bloomCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+        _motionBlurCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+        _vignetteCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+
+        _moveForwardSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _moveBackwardSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _moveRightSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _moveLeftSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _sprintSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _jumpSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _crouchSelector.OnValueChangedTrigger -= CollectControlsValues;
+        _interactSelector.OnValueChangedTrigger -= CollectControlsValues;
+
+        _backBtn.onClick.RemoveListener(HandleBackBtn);
+        _navigationGroup.OnToggle -= HandleNavigation;
     }
 
-    void BoolTrigger(bool value)
+    void CollectAudioValues()
     {
-        CollectValues(); 
+        AudioSave audioSave = new AudioSave();
+        audioSave.GlobalVolume = _globalVolumeSelector.Value;
+        audioSave.EnvironmentVolume = _environmentVolumeSelector.Value;
+        audioSave.InterfaceVolume = _interfaceVolumeSelector.Value;
+
+        SaveManager.GameSave.SettingsSave.AudioSave = audioSave;
+        SaveManager.SaveAll();
     }
 
-    void CollectValues()
+    void CollectGraphicsValues()
     {
         GraphicsSave graphicsSave = new GraphicsSave();
+
+        Resolution resolution = GraphicsManager.AvailableResolutions[_resolutionSelector.SelectedValue];
+
+        graphicsSave.ScreenWidth = resolution.width;
+        graphicsSave.ScreenHeight = resolution.height;
         graphicsSave.ShadowsQuality = (GraphicsQuality)_shadowsQualitySelector.SelectedValue;
         graphicsSave.LightingQuality = (GraphicsQuality)_lightingQualitySelector.SelectedValue;
         graphicsSave.AntiAliasingEnabled = _antiAliasingCheckbox.Value;
@@ -55,11 +142,30 @@ public class SettingsUI : MonoBehaviour
         SaveManager.GameSave.SettingsSave.GraphicsSave = graphicsSave;
         SaveManager.SaveAll();
     }
+    void CollectControlsValues()
+    {
+        ControlsSave controlsSave = new ControlsSave();
+        controlsSave.MoveForwardBind = _moveForwardSelector.Value;
+        controlsSave.MoveBackwardBind = _moveBackwardSelector.Value;
+        controlsSave.MoveRightBind = _moveRightSelector.Value;
+        controlsSave.MoveLeftBind = _moveLeftSelector.Value;
+        controlsSave.SprintBind = _sprintSelector.Value;
+        controlsSave.JumpBind = _jumpSelector.Value;
+        controlsSave.CrouchBind = _crouchSelector.Value;
+        controlsSave.InteractBind = _interactSelector.Value;
+
+        SaveManager.GameSave.SettingsSave.ControlsSave = controlsSave;
+        SaveManager.SaveAll();
+    }
 
     void ApplySave(SettingsSave settingsSave)
     {
-        GraphicsSave graphicsSave = settingsSave.GraphicsSave;
+        AudioSave audioSave = settingsSave.AudioSave;
+        _globalVolumeSelector.SetValue(audioSave.GlobalVolume);
+        _environmentVolumeSelector.SetValue(audioSave.EnvironmentVolume);
+        _interfaceVolumeSelector.SetValue(audioSave.InterfaceVolume);
 
+        GraphicsSave graphicsSave = settingsSave.GraphicsSave;
         _shadowsQualitySelector.SetValue((int)graphicsSave.ShadowsQuality);
         _lightingQualitySelector.SetValue((int)graphicsSave.LightingQuality);
         _antiAliasingCheckbox.SetValue(graphicsSave.AntiAliasingEnabled);
@@ -69,5 +175,56 @@ public class SettingsUI : MonoBehaviour
         _bloomCheckbox.SetValue(graphicsSave.BloomEnabled);
         _motionBlurCheckbox.SetValue(graphicsSave.MotionBlurEnabled);
         _vignetteCheckbox.SetValue(graphicsSave.VignetteEnabled);
+
+        ControlsSave controlsSave = settingsSave.ControlsSave;
+        _moveForwardSelector.SetValue(controlsSave.MoveForwardBind);
+        _moveBackwardSelector.SetValue(controlsSave.MoveBackwardBind);
+        _moveRightSelector.SetValue(controlsSave.MoveRightBind);
+        _moveLeftSelector.SetValue(controlsSave.MoveLeftBind);
+        _sprintSelector.SetValue(controlsSave.SprintBind);
+        _jumpSelector.SetValue(controlsSave.JumpBind);
+        _crouchSelector.SetValue(controlsSave.CrouchBind);
+        _interactSelector.SetValue(controlsSave.InteractBind);
+    }
+
+    public void SetVisibility(bool visible, bool doInstantly)
+    {
+        if (visible)
+        {
+            _windowVisuals.ProcessInAnimation(doInstantly);
+            _lastOpenedWindow = null;
+            foreach (var page in _pages)
+            {
+                page.Value.ProcessOutAnimation(true);
+            }
+            HandleNavigation(0);
+        }
+        else
+        {
+            _windowVisuals.ProcessOutAnimation(doInstantly);
+        }
+    }
+
+    void HandleNavigation(int value)
+    {
+        if (_lastOpenedWindow != null)
+        {
+            _lastOpenedWindow.ProcessOutAnimation();
+        }
+
+        if (_pages.ContainsKey(value))
+        {
+            _pages[value].ProcessInAnimation();
+            _lastOpenedWindow = _pages[value];
+        }
+        else
+        {
+            _lastOpenedWindow = null;
+        }
+    }
+
+    void HandleBackBtn()
+    {
+        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
     }
 }

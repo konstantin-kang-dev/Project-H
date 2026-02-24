@@ -9,7 +9,7 @@ public class CheckBox : MonoBehaviour
     public bool Value { get; private set; } = false;
 
     public event Action<bool> OnValueChanged;
-
+    public event Action OnValueChangedTrigger;
     private void OnEnable()
     {
         _btn.onClick.AddListener(HandleClick);
@@ -35,5 +35,6 @@ public class CheckBox : MonoBehaviour
         }
 
         OnValueChanged?.Invoke(Value);
+        OnValueChangedTrigger?.Invoke();
     }
 }

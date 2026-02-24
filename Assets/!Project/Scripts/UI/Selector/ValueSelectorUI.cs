@@ -18,6 +18,7 @@ public class ValueSelectorUI : SerializedMonoBehaviour
     public int SelectedValue => _selectedValue;
 
     public event Action<int> OnValueChanged;
+    public event Action OnValueChangedTrigger;
 
     private void OnEnable()
     {
@@ -53,5 +54,6 @@ public class ValueSelectorUI : SerializedMonoBehaviour
 
         _valueTmp.text = _values[_selectedValue];
         OnValueChanged?.Invoke(_selectedValue);
+        OnValueChangedTrigger?.Invoke();
     }
 }

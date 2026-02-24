@@ -38,6 +38,7 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
                 case MenuButtonType.Contacts:
                     break;
                 case MenuButtonType.Settings:
+                    button.onClick.AddListener(HandleSettingsButton);
                     break;
                 case MenuButtonType.Quit:
                     button.onClick.AddListener(HandleQuitButton);
@@ -71,6 +72,10 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
     void HandleJoinLobbyButton()
     {
         MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.LobbiesOverview);
+    }
+    void HandleSettingsButton()
+    {
+        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.Settings);
     }
     void HandleQuitButton()
     {

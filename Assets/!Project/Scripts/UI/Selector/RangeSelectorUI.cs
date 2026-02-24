@@ -12,7 +12,7 @@ public class RangeSelectorUI : MonoBehaviour
 
     public int Value { get; private set; } = 0;
     public event Action<int> OnValueChanged;
-
+    public event Action OnValueChangedTrigger;
     private void Awake()
     {
         _slider.maxValue = _sliderMaxValue;
@@ -62,6 +62,7 @@ public class RangeSelectorUI : MonoBehaviour
     {
         Value = value;
         OnValueChanged?.Invoke(Value);
+        OnValueChangedTrigger?.Invoke();
 
         if (!_input.isFocused)
         {

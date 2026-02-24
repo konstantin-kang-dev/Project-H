@@ -163,6 +163,31 @@ public class BasicWindowVisuals : MonoBehaviour
 
                 break;
             case WindowAnimationType.PopUp:
+
+                switch (animationDirection)
+                {
+                    case WindowAnimationDirection.In:
+
+                        Tween groupSwipeDown1 = _canvasGroup.transform.DOLocalMoveY(0f, _inAnimationDuration).From(-200f);
+                        resultSequence.Join(groupSwipeDown1);
+
+                        Tween groupFadeIn = _canvasGroup.DOFade(1, _inAnimationDuration).From(0);
+                        resultSequence.Join(groupFadeIn);
+
+                        break;
+                    case WindowAnimationDirection.Out:
+
+                        Tween groupSwipeDown2 = _canvasGroup.transform.DOLocalMoveY(200f, _outAnimationDuration).From(0);
+                        resultSequence.Join(groupSwipeDown2);
+
+                        Tween groupFadeOut = _canvasGroup.DOFade(0, _outAnimationDuration).From(1);
+                        resultSequence.Join(groupFadeOut);
+
+                        break;
+                    default:
+                        break;
+                }
+
                 break;
             default:
                 break;

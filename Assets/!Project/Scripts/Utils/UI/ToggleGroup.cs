@@ -8,7 +8,7 @@ using UnityEngine;
 public class ToggleGroup : SerializedMonoBehaviour
 {
     [SerializeField] Dictionary<int, TextMeshProUGUI> _toggleTmps = new Dictionary<int, TextMeshProUGUI> ();
-    [SerializeField] Dictionary<ToggleButton, int> _toggleButtons = new Dictionary<ToggleButton, int>();
+    [SerializeField] List<ToggleButton> _toggleButtons = new List<ToggleButton>();
 
     int _currentValue = 0;
     public int CurrentValue => _currentValue;
@@ -20,9 +20,9 @@ public class ToggleGroup : SerializedMonoBehaviour
     {
         if (_toggleButtons.Count == 0) throw new System.Exception($"[ToggleGroup] You forgot to set up toggle buttons.");
 
-        foreach (var buttonBlock in _toggleButtons)
+        foreach (var button in _toggleButtons)
         {
-            ToggleButton toggleButton = buttonBlock.Key;
+            ToggleButton toggleButton = button;
 
             toggleButton.OnToggle += HandleToggle;
         }
@@ -44,7 +44,7 @@ public class ToggleGroup : SerializedMonoBehaviour
 
     public void ResetValues()
     {
-        _toggleButtons.Keys.ToList()[0].SetState(true);
+        _toggleButtons.ToList()[0].SetState(true);
     }
 
     public void SetValue(int value)
@@ -54,7 +54,7 @@ public class ToggleGroup : SerializedMonoBehaviour
             throw new System.Exception($"[ToggleGroup] Value is out of bounds.");
         }
 
-        ToggleButton targetBtn = _toggleButtons.FirstOrDefault((x)=> x.Value == value).Key;
+        ToggleButton targetBtn = _toggleButtons.FirstOrDefault((x)=> _toggleButtons.IndexOf(x) == value);
         targetBtn.SetState(true);
         HandleToggle(targetBtn);
     }
@@ -63,7 +63,7 @@ public class ToggleGroup : SerializedMonoBehaviour
     {
         foreach (var button in _toggleButtons)
         {
-            button.Key.SetVisibility(visible);
+            button.SetVisibility(visible);
         }
     }
 
@@ -73,7 +73,7 @@ public class ToggleGroup : SerializedMonoBehaviour
         if (!toggleButton.State) return;
 
         DisableAllWithException(toggleButton);
-        _currentValue = _toggleButtons[toggleButton];
+        _currentValue = _toggleButtons.IndexOf(toggleButton);
 
         if (_toggleTmps.ContainsKey(_currentValue))
         {
@@ -87,14 +87,14 @@ public class ToggleGroup : SerializedMonoBehaviour
     {
         if (!IsInitialized) return;
 
-        foreach (var buttonBlock in _toggleButtons)
+        for (int i = 0; i < _toggleButtons.Count; i++)
         {
-            ToggleButton toggleButton = buttonBlock.Key;
+            ToggleButton toggleButton = _toggleButtons[i];
             if (toggleButton == excToggleButton) continue;
 
-            if (_toggleTmps.ContainsKey(buttonBlock.Value))
+            if (_toggleTmps.ContainsKey(i))
             {
-                _toggleTmps[buttonBlock.Value].gameObject.SetActive(false);
+                _toggleTmps[i].gameObject.SetActive(false);
             }
 
             toggleButton.SetState(false);
