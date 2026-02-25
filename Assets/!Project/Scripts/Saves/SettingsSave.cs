@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.AMD;
+using UnityEngine.NVIDIA;
 
 namespace Saves
 {
@@ -11,9 +13,18 @@ namespace Saves
         public ControlsSave ControlsSave;
     }
 
+    [Serializable]
     public enum GraphicsQuality
     {
         Low, Medium, High, Ultra, Crazy
+    }
+
+    [Serializable]
+    public enum UpscaleType
+    {
+        None = 0,
+        DLSS = 1,
+        FSR = 2,
     }
 
     [Serializable]
@@ -24,6 +35,10 @@ namespace Saves
         public GraphicsQuality ShadowsQuality;
         public GraphicsQuality LightingQuality;
         public bool AntiAliasingEnabled;
+        public UpscaleType UpscaleType;
+        public DLSSQuality DLSSQuality;
+        public FSR2Quality FSRQuality;
+
         public bool VsyncEnabled;
         public int MaxFps;
         public bool FullscreenEnabled;
@@ -38,6 +53,10 @@ namespace Saves
             ShadowsQuality = GraphicsQuality.Medium;
             LightingQuality = GraphicsQuality.Medium;
             AntiAliasingEnabled = true;
+            UpscaleType = UpscaleType.None;
+            DLSSQuality = DLSSQuality.MaximumQuality;
+            FSRQuality = FSR2Quality.Quality;
+
             VsyncEnabled = false;
             MaxFps = 500;
             FullscreenEnabled = true;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class RangeSelectorUI : MonoBehaviour
 {
     [SerializeField] Slider _slider;
-    [SerializeField] int _sliderMaxValue;
+    [SerializeField] Vector2 _sliderMinMaxValue;
     [SerializeField] TMP_InputField _input;
     [SerializeField] string _inputPostfix;
 
@@ -15,7 +15,8 @@ public class RangeSelectorUI : MonoBehaviour
     public event Action OnValueChangedTrigger;
     private void Awake()
     {
-        _slider.maxValue = _sliderMaxValue;
+        _slider.minValue = _sliderMinMaxValue.x;
+        _slider.maxValue = _sliderMinMaxValue.y;
     }
     private void OnEnable()
     {
@@ -58,7 +59,7 @@ public class RangeSelectorUI : MonoBehaviour
         }
     }
 
-    public void SetValue(int value)
+    public void SetValue(int value, bool forceSetSlider = false)
     {
         Value = value;
         OnValueChanged?.Invoke(Value);
@@ -69,6 +70,11 @@ public class RangeSelectorUI : MonoBehaviour
             _input.text = $"{Value}{_inputPostfix}";
         }
         else
+        {
+            _slider.value = Value;
+        }
+
+        if (forceSetSlider)
         {
             _slider.value = Value;
         }
