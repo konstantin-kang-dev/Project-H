@@ -4,10 +4,17 @@ using UnityEngine;
 
 namespace Saves
 {
+    [Serializable]
     public class GameSave
     {
         public PlayerSave PlayerSave;
         public SettingsSave SettingsSave;
+
+        public GameSave()
+        {
+            PlayerSave = new PlayerSave();
+            SettingsSave = new SettingsSave();
+        }
     }
 
     public class SaveManager
@@ -18,6 +25,15 @@ namespace Saves
         public static void LoadAll()
         {
             GameSave = Load<GameSave>();
+            if(GameSave == null)
+            {
+                GameSave = new GameSave();
+            }
+            else
+            {
+                if(GameSave.PlayerSave == null) GameSave.PlayerSave = new PlayerSave();
+                if(GameSave.SettingsSave == null) GameSave.SettingsSave = new SettingsSave();
+            }
         }
 
         public static void SaveAll()

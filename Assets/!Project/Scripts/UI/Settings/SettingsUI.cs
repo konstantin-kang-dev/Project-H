@@ -2,6 +2,8 @@ using Saves;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AMD;
+using UnityEngine.NVIDIA;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static UnityEngine.Experimental.Rendering.GraphicsStateCollection;
@@ -29,6 +31,10 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
     [SerializeField] ValueSelectorUI _shadowsQualitySelector;
     [SerializeField] ValueSelectorUI _lightingQualitySelector;
     [SerializeField] CheckBox _antiAliasingCheckbox;
+    [SerializeField] ValueSelectorUI _upscaleTypeSelector;
+    [SerializeField] ValueSelectorUI _dlssQualitySelector;
+    [SerializeField] ValueSelectorUI _fsrQualitySelector;
+
     [SerializeField] CheckBox _vsyncCheckbox;
     [SerializeField] RangeSelectorUI _maxFpsSelector;
     [SerializeField] CheckBox _fullscreenCheckbox;
@@ -59,6 +65,12 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
         _shadowsQualitySelector.OnValueChangedTrigger += CollectGraphicsValues;
         _lightingQualitySelector.OnValueChangedTrigger += CollectGraphicsValues;
         _antiAliasingCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
+
+        _upscaleTypeSelector.OnValueChangedTrigger += CollectGraphicsValues;
+        _upscaleTypeSelector.OnValueChanged += HandleUpscaleTypeChange;
+        _dlssQualitySelector.OnValueChangedTrigger += CollectGraphicsValues;
+        _fsrQualitySelector.OnValueChangedTrigger += CollectGraphicsValues;
+
         _vsyncCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
         _maxFpsSelector.OnValueChangedTrigger += CollectGraphicsValues;
         _fullscreenCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
@@ -90,6 +102,12 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
         _shadowsQualitySelector.OnValueChangedTrigger -= CollectGraphicsValues;
         _lightingQualitySelector.OnValueChangedTrigger -= CollectGraphicsValues;
         _antiAliasingCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
+
+        _upscaleTypeSelector.OnValueChangedTrigger -= CollectGraphicsValues;
+        _upscaleTypeSelector.OnValueChanged -= HandleUpscaleTypeChange;
+        _dlssQualitySelector.OnValueChangedTrigger -= CollectGraphicsValues;
+        _fsrQualitySelector.OnValueChangedTrigger -= CollectGraphicsValues;
+
         _vsyncCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
         _maxFpsSelector.OnValueChangedTrigger -= CollectGraphicsValues;
         _fullscreenCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
@@ -132,6 +150,11 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
         graphicsSave.ShadowsQuality = (GraphicsQuality)_shadowsQualitySelector.SelectedValue;
         graphicsSave.LightingQuality = (GraphicsQuality)_lightingQualitySelector.SelectedValue;
         graphicsSave.AntiAliasingEnabled = _antiAliasingCheckbox.Value;
+
+        graphicsSave.UpscaleType = (UpscaleType)_upscaleTypeSelector.SelectedValue;
+        graphicsSave.DLSSQuality = (DLSSQuality)_dlssQualitySelector.SelectedValue;
+        graphicsSave.FSRQuality = (FSR2Quality)_fsrQualitySelector.SelectedValue;
+
         graphicsSave.VsyncEnabled = _vsyncCheckbox.Value;
         graphicsSave.MaxFps = _maxFpsSelector.Value;
         graphicsSave.FullscreenEnabled = _fullscreenCheckbox.Value;
@@ -141,6 +164,7 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
 
         SaveManager.GameSave.SettingsSave.GraphicsSave = graphicsSave;
         SaveManager.SaveAll();
+        GraphicsManager.ChangeGraphics(graphicsSave);
     }
     void CollectControlsValues()
     {
@@ -161,16 +185,21 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
     void ApplySave(SettingsSave settingsSave)
     {
         AudioSave audioSave = settingsSave.AudioSave;
-        _globalVolumeSelector.SetValue(audioSave.GlobalVolume);
-        _environmentVolumeSelector.SetValue(audioSave.EnvironmentVolume);
-        _interfaceVolumeSelector.SetValue(audioSave.InterfaceVolume);
+        _globalVolumeSelector.SetValue(audioSave.GlobalVolume, true);
+        _environmentVolumeSelector.SetValue(audioSave.EnvironmentVolume, true);
+        _interfaceVolumeSelector.SetValue(audioSave.InterfaceVolume, true);
 
         GraphicsSave graphicsSave = settingsSave.GraphicsSave;
         _shadowsQualitySelector.SetValue((int)graphicsSave.ShadowsQuality);
         _lightingQualitySelector.SetValue((int)graphicsSave.LightingQuality);
         _antiAliasingCheckbox.SetValue(graphicsSave.AntiAliasingEnabled);
+        
+        _upscaleTypeSelector.SetValue((int)graphicsSave.UpscaleType);
+        _dlssQualitySelector.SetValue((int)graphicsSave.DLSSQuality);
+        _fsrQualitySelector.SetValue((int)graphicsSave.FSRQuality); 
+
         _vsyncCheckbox.SetValue(graphicsSave.VsyncEnabled);
-        _maxFpsSelector.SetValue(graphicsSave.MaxFps);
+        _maxFpsSelector.SetValue(graphicsSave.MaxFps, true);
         _fullscreenCheckbox.SetValue(graphicsSave.FullscreenEnabled);
         _bloomCheckbox.SetValue(graphicsSave.BloomEnabled);
         _motionBlurCheckbox.SetValue(graphicsSave.MotionBlurEnabled);
@@ -226,5 +255,26 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
     void HandleBackBtn()
     {
         MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+    }
+
+    void HandleUpscaleTypeChange(int value)
+    {
+        switch (value)
+        {
+            case 0:
+                _dlssQualitySelector.gameObject.SetActive(false);
+                _fsrQualitySelector.gameObject.SetActive(false);
+                break;
+            case 1:
+                _dlssQualitySelector.gameObject.SetActive(true);
+                _fsrQualitySelector.gameObject.SetActive(false);
+                break;
+            case 2:
+                _dlssQualitySelector.gameObject.SetActive(false);
+                _fsrQualitySelector.gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
     }
 }
