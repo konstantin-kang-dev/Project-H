@@ -27,6 +27,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
 
     protected readonly SyncVar<bool> _interactionState = new SyncVar<bool>();
 
+    [field: SerializeField] protected InteractableObjectAudioService _audioService;
     [field: SerializeField] public List<OutlineComponent> Outlines { get; private set; } = new List<OutlineComponent>();
 
     void Awake()
@@ -83,6 +84,13 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
         _rb.interpolation = RigidbodyInterpolation.None;
         SetColliders(false);
         _netTransform.enabled = false;
+        RPC_NotifyPickUp();
+    }
+
+    [ObserversRpc]
+    void RPC_NotifyPickUp()
+    {
+        _audioService.Play(InteractableObjectAudioType.PickUp);
     }
 
     [Server]
@@ -107,7 +115,16 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
     [Client]
     protected virtual void CLIENT_HandleInteractState(bool prev, bool next, bool asServer)
     {
+        if (asServer) return;
 
+        if (next)
+        {
+            _audioService.Play(InteractableObjectAudioType.InteractionStateActive);
+        }
+        else
+        {
+            _audioService.Play(InteractableObjectAudioType.InteractionStateInactive);
+        }
     }
 
     public virtual void SetHighlight(bool value)
@@ -126,5 +143,23 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
     {
         _physicsCollider.enabled = value;
         _triggerCollider.enabled = value;
+    }
+
+    [ObserversRpc]
+    void RPC_NotifyCollision(float speed)
+    {
+        float volume = Mathf.InverseLerp(0.5f, 5f, speed);
+        _audioService.Play(InteractableObjectAudioType.DropCollision, volume);
+
+        Debug.Log($"[BasicPickableItem] Received collision, speed: {speed} volume: {volume}");
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!IsServerStarted) return;
+
+        float speed = collision.relativeVelocity.magnitude;
+        if (speed < 0.1f) return;
+        RPC_NotifyCollision(speed);
     }
 }

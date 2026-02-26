@@ -95,6 +95,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  ObjectivePrefab: {fileID: 4043599365488334800, guid: dd9ad047cce598740a50ff2e19eaa28c, type: 3}
+  ObjectivePrefab: {fileID: 3389895604186402280, guid: d4532f1fdb83b0244a874f76f1fdce45, type: 3}
   Type: 0
   Description: Collect notebooks

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using FishNet.Managing;
+using GameAudio;
 using Saves;
 using Steamworks;
 using UnityEngine;
@@ -43,12 +44,16 @@ public class Bootstrap : MonoBehaviour
 
         if (_networkManager == null) throw new System.Exception($"[Bootstrap] Network manager is null.");
 
+        GlobalInputManager.Init();
+
         SaveManager.LoadAll();
         SaveManager.GameSave.PlayerSave.SteamId = SteamUser.GetSteamID().ToString();
         SaveManager.GameSave.PlayerSave.PlayerName = SteamFriends.GetPersonaName();
         SaveManager.SaveAll();
 
-        GlobalInputManager.Init();
+        GraphicsManager.ApplySave(SaveManager.GameSave.SettingsSave.GraphicsSave);
+        GlobalInputManager.ApplySave(SaveManager.GameSave.SettingsSave.ControlsSave);
+        GlobalAudioManager.Instance.ApplySave(SaveManager.GameSave.SettingsSave.AudioSave);
 
         SceneManager.LoadScene("Menu");
         await UniTask.WaitForSeconds(1f);

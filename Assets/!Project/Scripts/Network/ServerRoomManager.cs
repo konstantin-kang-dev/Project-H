@@ -6,6 +6,7 @@ using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
+using GameAudio;
 using Steamworks;
 using System;
 using System.Collections;
@@ -70,6 +71,7 @@ public class ServerRoomManager: MonoBehaviour
         LobbyManager.Instance.SERVER_UpdateLobbyData();
     }
 
+
     void SERVER_RemoveConnectedPlayer(NetworkConnection conn)
     {
         int clientId = conn.ClientId;
@@ -81,6 +83,7 @@ public class ServerRoomManager: MonoBehaviour
         _connectedPlayers.Remove(clientId);
         LobbyManager.Instance.SERVER_UpdateLobbyData();
     }
+
 
     public void SERVER_SetPlayerData(PlayerSave data, NetworkConnection conn)
     {

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using FishNet.Connection;
+using GameAudio;
 using Saves;
 using TMPro;
 using UnityEngine;
@@ -41,6 +42,7 @@ public class MenuManager : MonoBehaviour
         _menuPageNavigator.OnWindowOpened += HandleMenuWindowOpen;
 
         GameDifficultyManager.Instance.Init();
+        GlobalAudioManager.Instance.Play(SoundType.MenuAmbient);
     }
 
     public void BindNetworkEvents()

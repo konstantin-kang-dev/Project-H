@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 699769605907367053}
   - component: {fileID: 5303494746303688605}
   - component: {fileID: 1287449989186503129}
+  - component: {fileID: 678840198500796215}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -151,6 +152,21 @@ MonoBehaviour:
   _tmp: {fileID: 5271346458480782405}
   _tmpHoverColor: {r: 0, g: 0, b: 0, a: 1}
   _hoverAnimationDuration: 0.15
+--- !u!114 &678840198500796215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3423531138797132252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ba952a58174ff4bb329cee44a121d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIAudioReactor
+  _doReact: 1
+  _clickSoundType: 1
+  _hoverSoundType: 2
 --- !u!1 &4156431984561402729
 GameObject:
   m_ObjectHideFlags: 0

@@ -19394,7 +19394,7 @@ PrefabInstance:
     - target: {fileID: 3995539841100278756, guid: 4701b6e80575de944ad10ef0f964756d, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3995539841100278756, guid: 4701b6e80575de944ad10ef0f964756d, type: 3}
     - target: {fileID: 3995539841100278756, guid: 4701b6e80575de944ad10ef0f964756d, type: 3}
       propertyPath: _toggleButtons.Array.size
       value: 3
@@ -46870,7 +46870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 335011709201588698, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: m_fontSize
-      value: 18
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 335011709201588698, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: m_fontSizeMax

@@ -1290,6 +1290,7 @@ GameObject:
   - component: {fileID: 7469074366237848045}
   - component: {fileID: 3784745876894120132}
   - component: {fileID: 5314927074861981839}
+  - component: {fileID: 8823437905861845836}
   m_Layer: 0
   m_Name: Skinny
   m_TagString: Untagged
@@ -1491,6 +1492,19 @@ MonoBehaviour:
   - m_Rig: {fileID: 271598738467557665}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &8823437905861845836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2748153041269416922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2aff10fe82b60b4ea93af2435e5f85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationEvents
+  _playerController: {fileID: 0}
 --- !u!1 &2763838202623929108
 GameObject:
   m_ObjectHideFlags: 0

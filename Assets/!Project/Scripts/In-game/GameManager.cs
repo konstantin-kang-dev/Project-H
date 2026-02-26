@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using GameAudio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -141,6 +142,7 @@ public class GameManager : NetworkBehaviour
         }
 
         LoadingManager.Instance.SetLoadingProgress(1f);
+        GlobalAudioManager.Instance.Play(SoundType.GameAmbient);
     }
 
     [Server]

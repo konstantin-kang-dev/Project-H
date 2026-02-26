@@ -25,50 +25,50 @@ public class DefaultInput : IInput
     public event Action OnOpenChat;
     #endregion
 
-    PlayerControls _playerControls;
+    public PlayerControls PlayerControls { get; private set; }
 
     public DefaultInput()
     {
-        _playerControls = new PlayerControls();
-        _playerControls.Enable();
+        PlayerControls = new PlayerControls();
+        PlayerControls.Enable();
 
-        _playerControls.Player.Interact.performed += HandleInteractButtonClick;
-        _playerControls.Player.Drop.performed += HandleDropButtonClick;
+        PlayerControls.Player.Interact.performed += HandleInteractButtonClick;
+        PlayerControls.Player.Drop.performed += HandleDropButtonClick;
 
-        _playerControls.Player.NextInventorySlot.performed += HandleNextInventorySlotTrigger;
-        _playerControls.Player.PreviousInventorySlot.performed += HandlePreviousInventorySlotTrigger;
+        PlayerControls.Player.NextInventorySlot.performed += HandleNextInventorySlotTrigger;
+        PlayerControls.Player.PreviousInventorySlot.performed += HandlePreviousInventorySlotTrigger;
 
-        _playerControls.Player.Jump.performed += HandleJumpInput;
+        PlayerControls.Player.Jump.performed += HandleJumpInput;
 
-        _playerControls.Player.Sprint.performed += HandleSprintInput;
-        _playerControls.Player.Sprint.canceled += HandleSprintInput;
+        PlayerControls.Player.Sprint.performed += HandleSprintInput;
+        PlayerControls.Player.Sprint.canceled += HandleSprintInput;
 
-        _playerControls.Player.Crouch.performed += HandleCrouchInput;
+        PlayerControls.Player.Crouch.performed += HandleCrouchInput;
 
-        _playerControls.Player.Move.performed += HandleMoveInput;
-        _playerControls.Player.Move.canceled += HandleMoveInput;
+        PlayerControls.Player.Move.performed += HandleMoveInput;
+        PlayerControls.Player.Move.canceled += HandleMoveInput;
 
-        _playerControls.Player.Look.performed += HandleLookInput;
-        _playerControls.Player.Look.canceled += HandleLookInput;
+        PlayerControls.Player.Look.performed += HandleLookInput;
+        PlayerControls.Player.Look.canceled += HandleLookInput;
 
-        _playerControls.Player.InteractWithItem.performed += HandleInteractWithItemButtonClick;
-        _playerControls.Player.OpenChat.performed += HandleOpenChatButtonClick;
+        PlayerControls.Player.InteractWithItem.performed += HandleInteractWithItemButtonClick;
+        PlayerControls.Player.OpenChat.performed += HandleOpenChatButtonClick;
 
-        _playerControls.Player.InventorySlot1.performed += HandleInventorySlotKey1;
-        _playerControls.Player.InventorySlot2.performed += HandleInventorySlotKey2;
-        _playerControls.Player.InventorySlot3.performed += HandleInventorySlotKey3;
-        _playerControls.Player.InventorySlot4.performed += HandleInventorySlotKey4;
-        _playerControls.Player.InventorySlot5.performed += HandleInventorySlotKey5;
+        PlayerControls.Player.InventorySlot1.performed += HandleInventorySlotKey1;
+        PlayerControls.Player.InventorySlot2.performed += HandleInventorySlotKey2;
+        PlayerControls.Player.InventorySlot3.performed += HandleInventorySlotKey3;
+        PlayerControls.Player.InventorySlot4.performed += HandleInventorySlotKey4;
+        PlayerControls.Player.InventorySlot5.performed += HandleInventorySlotKey5;
     }
 
     #region INPUT_HANDLERS
     Vector2 GetInputMove()
     {
-        return _playerControls.Player.Move.ReadValue<Vector2>();
+        return PlayerControls.Player.Move.ReadValue<Vector2>();
     }
     Vector2 GetInputLook()
     {
-        return _playerControls.Player.Look.ReadValue<Vector2>();
+        return PlayerControls.Player.Look.ReadValue<Vector2>();
     }
     void HandleMoveInput(InputAction.CallbackContext context)
     {
@@ -82,7 +82,7 @@ public class DefaultInput : IInput
     }
     void HandleSprintInput(InputAction.CallbackContext context)
     {
-        OnSprint?.Invoke(_playerControls.Player.Sprint.IsPressed());
+        OnSprint?.Invoke(PlayerControls.Player.Sprint.IsPressed());
     }
     void HandleJumpInput(InputAction.CallbackContext context)
     {
@@ -154,22 +154,22 @@ public class DefaultInput : IInput
 
     public void Dispose()
     {
-        _playerControls.Player.Interact.performed -= HandleInteractButtonClick;
-        _playerControls.Player.Drop.performed -= HandleDropButtonClick;
+        PlayerControls.Player.Interact.performed -= HandleInteractButtonClick;
+        PlayerControls.Player.Drop.performed -= HandleDropButtonClick;
 
-        _playerControls.Player.NextInventorySlot.performed -= HandleNextInventorySlotTrigger;
-        _playerControls.Player.PreviousInventorySlot.performed -= HandlePreviousInventorySlotTrigger;
+        PlayerControls.Player.NextInventorySlot.performed -= HandleNextInventorySlotTrigger;
+        PlayerControls.Player.PreviousInventorySlot.performed -= HandlePreviousInventorySlotTrigger;
 
-        _playerControls.Player.Sprint.started -= HandleSprintInput;
-        _playerControls.Player.Sprint.canceled -= HandleSprintInput;
+        PlayerControls.Player.Sprint.started -= HandleSprintInput;
+        PlayerControls.Player.Sprint.canceled -= HandleSprintInput;
 
-        _playerControls.Player.Move.performed -= HandleMoveInput;
-        _playerControls.Player.Move.canceled -= HandleMoveInput;
+        PlayerControls.Player.Move.performed -= HandleMoveInput;
+        PlayerControls.Player.Move.canceled -= HandleMoveInput;
 
-        _playerControls.Player.Look.performed -= HandleLookInput;
-        _playerControls.Player.Look.canceled -= HandleLookInput;
+        PlayerControls.Player.Look.performed -= HandleLookInput;
+        PlayerControls.Player.Look.canceled -= HandleLookInput;
 
-        _playerControls.Disable();
-        _playerControls.Dispose();
+        PlayerControls.Disable();
+        PlayerControls.Dispose();
     }
 }
