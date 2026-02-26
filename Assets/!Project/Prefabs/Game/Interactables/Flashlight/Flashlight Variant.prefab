@@ -638,6 +638,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1679085052543789593, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1679085052543789593, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
     - target: {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: _physicsCollider
       value: 
@@ -696,7 +700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4673264015861537150, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
-      value: 18160621259123897573
+      value: 15071526326211875991
       objectReference: {fileID: 0}
     - target: {fileID: 4673264015861537150, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: SerializedTransformProperties.IsValid
@@ -786,13 +790,49 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5689173336834498696, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
-      propertyPath: m_AngularDamping
-      value: 0.15
+    - target: {fileID: 5006269053952859760, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5006269053952859760, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+    - target: {fileID: 8062953216853067780, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: _audioList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062953216853067780, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: '_audioList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 68f4aa040c2d75646a0138825fe5611e, type: 3}
+    - target: {fileID: 8062953216853067780, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8062953216853067780, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+    - target: {fileID: 8367551857481354520, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8367551857481354520, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+    - target: {fileID: 8536880742603113952, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: _audioList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536880742603113952, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: '_audioList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 68f4aa040c2d75646a0138825fe5611e, type: 3}
+    - target: {fileID: 8536880742603113952, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8536880742603113952, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+    - target: {fileID: 8683676751688412237, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: m_Pitch
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 9162376653769500974, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203908383706966318, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+      propertyPath: m_Pitch
+      value: 1.7
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 506820867710173930, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
@@ -815,6 +855,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9162376653769500974, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
   m_PrefabInstance: {fileID: 8907663327499080915}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1117425477721348555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8367551857481354520, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
+  m_PrefabInstance: {fileID: 8907663327499080915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac3d8288954f144787992a23dfc3d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObjectAudioService
 --- !u!135 &2842748913837819628 stripped
 SphereCollider:
   m_CorrespondingSourceObject: {fileID: 6696036304229306943, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
@@ -863,6 +914,7 @@ MonoBehaviour:
   _container: {fileID: 340353396157988349}
   _physicsCollider: {fileID: 3055622269937337682}
   _triggerCollider: {fileID: 2842748913837819628}
+  _audioService: {fileID: 1117425477721348555}
   <Outlines>k__BackingField:
   - {fileID: 2186589484325494867}
   _light: {fileID: 4961982886813788994}
@@ -873,7 +925,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5507083011642113728}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 44c3924444baa6b44bf762ae4de8c89c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

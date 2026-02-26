@@ -26,7 +26,7 @@ public class GraphicsManager
         ApplyLightingSettings(RelevantGraphicsSave);
     }
 
-    public static void ChangeGraphics(GraphicsSave save)
+    public static void ApplySave(GraphicsSave save)
     {
         RelevantGraphicsSave = save;
         Screen.SetResolution(save.ScreenWidth, save.ScreenHeight, save.FullscreenEnabled);

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     PlayerStatsConfig _playerStatsConfig;
 
     [field: SerializeField] public PlayerVisuals PlayerVisuals { get; private set; }
+    [field: SerializeField] public CharacterAudioService CharacterAudioService { get; private set; }
 
     public PlayerStaminaService PlayerStaminaService { get; private set; }
     [SerializeField] PlayerMovementService _playerMovementService;

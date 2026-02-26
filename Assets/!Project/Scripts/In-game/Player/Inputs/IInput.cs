@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IInput
 {
+    PlayerControls PlayerControls { get; }
     Vector2 CurrentMoveInput { get;}
     Vector2 CurrentLookInput { get;}
 

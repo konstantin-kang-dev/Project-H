@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
 {
@@ -22,9 +23,7 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
 
     [SerializeField] protected bool _toggleInteractionState = true;
 
-    [SerializeField] EnhancedAudio _interactionAS1;
-    [SerializeField] EnhancedAudio _interactionAS2;
-
+    [field: SerializeField] protected InteractableObjectAudioService _audioService;
 
     public event Action<IInteractable, bool> OnInteractStateChange;
 
@@ -90,6 +89,15 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
     {
         if (asServer) return;
 
+        if (next)
+        {
+            _audioService.Play(InteractableObjectAudioType.InteractionStateActive);
+        }
+        else
+        {
+            _audioService.Play(InteractableObjectAudioType.InteractionStateInactive);
+        }
+
         SetAppearance(next);
 
         OnInteractStateChange?.Invoke(this, next);
@@ -112,21 +120,7 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
 
     public virtual void SetAppearance(bool value)
     {
-        if (value)
-        {
-            if(_interactionAS1 != null)
-            {
-                _interactionAS1.Play();
-            }
-        }
-        else
-        {
-            if(_interactionAS2 != null)
-            {
-                _interactionAS2.Play();
-            }
 
-        }
     }
 
     [Server]

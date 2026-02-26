@@ -5,7 +5,8 @@ public class DoorVisuals : MonoBehaviour
 {
     [SerializeField] Transform _door;
 
-    [SerializeField] float _openCloseDuration = 1f;
+    [SerializeField] float _openDuration = 1f;
+    [SerializeField] float _closeDuration = 1f;
 
     Sequence _shakeAnim;
     void Awake()
@@ -30,11 +31,11 @@ public class DoorVisuals : MonoBehaviour
     {
         if (value)
         { 
-            _door.DOLocalRotate(new Vector3(0, -100, 0), _openCloseDuration).SetEase(Ease.OutBack);
+            _door.DOLocalRotate(new Vector3(0, -100, 0), _openDuration).SetEase(Ease.OutBack);
         }
         else
         {
-            _door.DOLocalRotate(new Vector3(0, 0, 0), _openCloseDuration).SetEase(Ease.InSine);
+            _door.DOLocalRotate(new Vector3(0, 0, 0), _closeDuration).SetEase(Ease.InSine);
         }
 
     }

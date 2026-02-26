@@ -2,6 +2,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using GameAudio;
 using Saves;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,7 @@ public class LobbyManager : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        NetworkGameManager.Instance.OnClientConnected += SERVER_HandleClientConnected;
         NetworkGameManager.Instance.OnClientDisconnected += SERVER_HandleClientDisconnected;
 
         base.OnStartServer();
@@ -88,6 +90,7 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnStopServer();
 
+        NetworkGameManager.Instance.OnClientConnected -= SERVER_HandleClientConnected;
         NetworkGameManager.Instance.OnClientDisconnected -= SERVER_HandleClientDisconnected;
     }
 
@@ -119,6 +122,13 @@ public class LobbyManager : NetworkBehaviour
     {
         _lobbyData.OnChange -= HandleLobbyDataChanged;
     }
+
+    [Server]
+    void SERVER_HandleClientConnected(NetworkConnection conn)
+    {
+        RPC_NotifyPlayersConnection();
+    }
+
     [Server]
     void SERVER_HandleClientDisconnected(NetworkConnection conn)
     {
@@ -127,6 +137,19 @@ public class LobbyManager : NetworkBehaviour
         {
             lobbySlot.ResetData();
         }
+        RPC_NotifyPlayersDisconnection();
+    }
+
+    [ObserversRpc]
+    void RPC_NotifyPlayersConnection()
+    {
+        GlobalAudioManager.Instance.Play(SoundType.UILobbyJoin);
+    }
+
+    [ObserversRpc]
+    void RPC_NotifyPlayersDisconnection()
+    {
+        GlobalAudioManager.Instance.Play(SoundType.UILobbyLeave);
     }
 
     [Server]
@@ -156,6 +179,7 @@ public class LobbyManager : NetworkBehaviour
     [ObserversRpc]
     public void CLIENTS_HandleStartGame()
     {
+        GlobalAudioManager.Instance.Stop(SoundType.MenuAmbient);
         OnGameStarted?.Invoke();
     }
 

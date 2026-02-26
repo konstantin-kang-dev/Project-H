@@ -1,3 +1,4 @@
+using GameAudio;
 using Saves;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
@@ -137,6 +138,7 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
 
         SaveManager.GameSave.SettingsSave.AudioSave = audioSave;
         SaveManager.SaveAll();
+        GlobalAudioManager.Instance.ApplySave(audioSave);
     }
 
     void CollectGraphicsValues()
@@ -164,7 +166,7 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
 
         SaveManager.GameSave.SettingsSave.GraphicsSave = graphicsSave;
         SaveManager.SaveAll();
-        GraphicsManager.ChangeGraphics(graphicsSave);
+        GraphicsManager.ApplySave(graphicsSave);
     }
     void CollectControlsValues()
     {
@@ -180,6 +182,8 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
 
         SaveManager.GameSave.SettingsSave.ControlsSave = controlsSave;
         SaveManager.SaveAll();
+        GlobalInputManager.ApplySave(SaveManager.GameSave.SettingsSave.ControlsSave);
+
     }
 
     void ApplySave(SettingsSave settingsSave)
