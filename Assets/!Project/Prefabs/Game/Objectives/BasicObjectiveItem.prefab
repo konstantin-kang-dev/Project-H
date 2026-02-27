@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2ef4ee07ccfd44c9bf8be1545bdea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicObjectiveItem
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4195026028180740225}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 4195026028180740225}
   <Config>k__BackingField: {fileID: 0}
   <HintPoint>k__BackingField: {fileID: 8072049081875474812}
   <HintText>k__BackingField: 
@@ -56,6 +56,7 @@ MonoBehaviour:
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1
   _audioService: {fileID: 3383119442966815788}
+  _collider: {fileID: 0}
   <Outlines>k__BackingField: []
   _interactVfx: {fileID: 0}
   _model: {fileID: 0}
@@ -77,7 +78,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 3409723780107438984}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -88,7 +90,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: 0
+  _initializedTimestamp: -8584294099251192585
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -104,15 +106,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 1
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 223136330465559978
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!1001 &586020328163901015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 2797499904008444539, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
     - target: {fileID: 2797499904008444539, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.size
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2797499904008444539, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
@@ -155,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2797499904008444539, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2797499904008444539, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: 'serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]'
