@@ -150,8 +150,6 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
     {
         float volume = Mathf.InverseLerp(0.5f, 5f, speed);
         _audioService.Play(InteractableObjectAudioType.DropCollision, volume);
-
-        Debug.Log($"[BasicPickableItem] Received collision, speed: {speed} volume: {volume}");
     }
 
     void OnCollisionEnter(Collision collision)

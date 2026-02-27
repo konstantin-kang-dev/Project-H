@@ -50,7 +50,8 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
             OnObjectiveCollected?.Invoke(this);
         }
 
-        gameObject.SetActive(!next);
+        _model.gameObject.SetActive(!next);
+        if (_collider != null) _collider.enabled = !next;
 
     }
     public virtual void SetHighlight(bool value)

@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerStaminaService = new PlayerStaminaService(1f);
             PlayerStaminaService.OnStaminaUpdate += _playerMovementService.HandleUpdateStamina;
+            PlayerStaminaService.OnStaminaEmpty += CharacterAudioService.HandleStaminaEmpty;
 
             _playerMovementService.OnWalk += PlayerStaminaService.HandleWalk;
             _playerMovementService.OnJump += PlayerStaminaService.HandleJump;
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour
             PlayerInteraction.OnInteractPickable += PlayerInventory.HandleInteractPickable;
             PlayerInteraction.OnInteractInteractable += PlayerInventory.HandleInteractInteractable;
             PlayerInteraction.OnDrop += PlayerInventory.HandleDropInput;
+            PlayerInventory.OnItemPickUp += CharacterAudioService.HandlePickUp;
         }
 
         IsInitialized = true;
@@ -101,7 +103,10 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsInitialized) return;
 
-        PlayerStaminaService.Tick(Time.fixedDeltaTime);
+        if(_player.IsOwner)
+        {
+            PlayerStaminaService.Tick(Time.fixedDeltaTime);
+        }
     }
 
     public void SetLookPosition(Vector3 lookPosition)

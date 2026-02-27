@@ -83331,6 +83331,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4339400201405273887, guid: 3969479a52a98e341a878e6d32188649, type: 3}
     - target: {fileID: 4684052010498219058, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 7816989849202451817}
+    - target: {fileID: 4684052010498219058, guid: 3969479a52a98e341a878e6d32188649, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 4684052010498219058, guid: 3969479a52a98e341a878e6d32188649, type: 3}
@@ -83414,6 +83418,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 8692531207571714081, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+    - target: {fileID: 9171292825146554369, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+      propertyPath: SceneId
+      value: 1602092797
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -83441,6 +83449,17 @@ MonoBehaviour:
 --- !u!114 &7816989849202451816 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1877787549955290328, guid: 3969479a52a98e341a878e6d32188649, type: 3}
+  m_PrefabInstance: {fileID: 7816989849202451813}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+--- !u!114 &7816989849202451817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9171292825146554369, guid: 3969479a52a98e341a878e6d32188649, type: 3}
   m_PrefabInstance: {fileID: 7816989849202451813}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

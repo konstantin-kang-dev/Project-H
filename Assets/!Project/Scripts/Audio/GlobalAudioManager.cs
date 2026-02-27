@@ -18,7 +18,6 @@ namespace GameAudio
         UILobbyJoin = 5,
         UILobbyLeave = 6,
 
-
         MenuAmbient = 20,
         GameAmbient = 21,
         EnemyDetection = 22,

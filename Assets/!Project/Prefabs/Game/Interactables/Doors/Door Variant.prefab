@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3153544248203352191}
+  - component: {fileID: 2477167627685588770}
   - component: {fileID: 3153544248202582111}
   - component: {fileID: 3153544248201452191}
-  - component: {fileID: 2477167627685588770}
   - component: {fileID: 8504241116271990605}
   - component: {fileID: 6899613188540778328}
   - component: {fileID: 7071112354495286096}
@@ -38,6 +38,31 @@ Transform:
   - {fileID: 7637756301937244653}
   m_Father: {fileID: 6206558087791667076}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2477167627685588770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3153544248203445343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5af0a4fee18bf42bb1f82ba515d8b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 8504241116271990605}
+  _networkObjectCache: {fileID: 8504241116271990605}
+  <Config>k__BackingField: {fileID: 11400000, guid: a0ab9c28525ba0646a52f0f91516b2dd, type: 2}
+  <HintPoint>k__BackingField: {fileID: 7637756301937244653}
+  <HintText>k__BackingField: E - Open door
+  <RequirementsHintText>k__BackingField: 
+  <RequiredItemToInteract>k__BackingField: -2
+  _toggleInteractionState: 1
+  _audioService: {fileID: 2094827639870633830}
+  _collider: {fileID: 7071112354495286096}
+  IsLockedOnStart: 0
+  _doorVisuals: {fileID: 6899613188540778328}
 --- !u!33 &3153544248202582111
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -95,30 +120,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2477167627685588770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3153544248203445343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b5af0a4fee18bf42bb1f82ba515d8b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 8504241116271990605}
-  _networkObjectCache: {fileID: 8504241116271990605}
-  <Config>k__BackingField: {fileID: 11400000, guid: a0ab9c28525ba0646a52f0f91516b2dd, type: 2}
-  <HintPoint>k__BackingField: {fileID: 7637756301937244653}
-  <HintText>k__BackingField: E - Open door
-  <RequirementsHintText>k__BackingField: 
-  <RequiredItemToInteract>k__BackingField: -2
-  _toggleInteractionState: 1
-  _audioService: {fileID: 2094827639870633830}
-  IsLockedOnStart: 0
-  _doorVisuals: {fileID: 6899613188540778328}
 --- !u!114 &8504241116271990605
 MonoBehaviour:
   m_ObjectHideFlags: 0

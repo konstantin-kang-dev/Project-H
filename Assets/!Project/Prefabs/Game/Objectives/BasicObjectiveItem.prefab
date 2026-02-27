@@ -50,7 +50,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 4195026028180740225}
   _networkObjectCache: {fileID: 0}
   <Config>k__BackingField: {fileID: 0}
-  <HintPoint>k__BackingField: {fileID: 0}
+  <HintPoint>k__BackingField: {fileID: 8072049081875474812}
   <HintText>k__BackingField: 
   <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: -2
@@ -213,6 +213,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4406893700116127591, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
+      propertyPath: _audioList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406893700116127591, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
+      propertyPath: '_audioList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 219cb57c30be1a447872b401840b20e4, type: 3}
     - target: {fileID: 4406893700116127591, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: serializationData.Prefab
       value: 
