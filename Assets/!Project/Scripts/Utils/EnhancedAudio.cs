@@ -105,6 +105,5 @@ public class EnhancedAudio : MonoBehaviour
     {
         _volumeMultiplier = volume;
         _audioSource.volume = _totalVolume;
-        Debug.Log($"[EnhancedAudio] Set volume: {volume}");
     }
 }

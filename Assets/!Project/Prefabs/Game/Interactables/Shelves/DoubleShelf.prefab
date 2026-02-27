@@ -222,6 +222,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8488980834567595718}
   m_SourcePrefab: {fileID: 100100000, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+--- !u!65 &1023307888329701155 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 157711880330601283, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 865758774920074336}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5782912008434743742 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6648101201434783198, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
@@ -259,6 +264,7 @@ MonoBehaviour:
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1
   _audioService: {fileID: 1679091816633391457}
+  _collider: {fileID: 1023307888329701155}
   _shelfVisuals: {fileID: 8488980834567595718}
 --- !u!114 &8488980834567595718
 MonoBehaviour:
@@ -273,6 +279,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableShelfVisuals
   _animationDuration: 0.5
+--- !u!65 &7405339856989706477 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 7694055101926739085, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+  m_PrefabInstance: {fileID: 865758774920074336}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7948930980928782492 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
@@ -300,6 +311,7 @@ MonoBehaviour:
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1
   _audioService: {fileID: 1679091816633391457}
+  _collider: {fileID: 7405339856989706477}
   _shelfVisuals: {fileID: 82341686266697100}
 --- !u!114 &82341686266697100
 MonoBehaviour:
@@ -394,6 +406,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1708241318430296339, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
     - target: {fileID: 2644779071697949315, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
+      propertyPath: _audioList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2644779071697949315, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
+      propertyPath: '_audioList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 21ec8f1fcf1c9b749b8860548dfff13b, type: 3}
+    - target: {fileID: 2644779071697949315, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 2644779071697949315, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
@@ -481,6 +501,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4406893700116127591, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
+      propertyPath: _audioList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406893700116127591, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
+      propertyPath: '_audioList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3daddc65355f6c44d95d7239bd03bba1, type: 3}
     - target: {fileID: 4406893700116127591, guid: 89f3e11ebda596f4db15e96116d95378, type: 3}
       propertyPath: serializationData.Prefab
       value: 

@@ -12,6 +12,7 @@ public class PlayerStaminaService
     float _timer = 0;
 
     public event Action<float> OnStaminaUpdate;
+    public event Action OnStaminaEmpty;
     public PlayerStaminaService(float staminaRecoverySpeed = 1f)
     {
         _staminaRecoverySpeed = staminaRecoverySpeed;
@@ -41,6 +42,10 @@ public class PlayerStaminaService
         Stamina = Mathf.Clamp(stamina, 0, 1);
 
         OnStaminaUpdate?.Invoke(Stamina);
+        if(Stamina == 0)
+        {
+            OnStaminaEmpty?.Invoke();
+        }
 
         //Debug.Log($"[PlayerStaminaService] Updated stamina: {Stamina}");
     }

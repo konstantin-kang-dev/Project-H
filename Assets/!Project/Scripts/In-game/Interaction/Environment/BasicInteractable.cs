@@ -12,18 +12,24 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
     [field: SerializeField] public InteractableConfig Config { get; private set; }
     public Transform Transform { get; private set; }
 
+    [Header("Hints")]
     [field: SerializeField] public Transform HintPoint { get; private set; }
     [field: SerializeField] public string HintText { get; private set; }
     [field: SerializeField] public string RequirementsHintText { get; private set; }
 
     public bool InteractionState => _interactState.Value;
+
+    [Header("Requiremenets")]
     [field: SerializeField] public ItemType RequiredItemToInteract { get; private set; } = ItemType.None;
 
     protected readonly SyncVar<bool> _interactState = new SyncVar<bool>();
 
+    [Header("Settings")]
     [SerializeField] protected bool _toggleInteractionState = true;
 
+    [Header("Modules")]
     [field: SerializeField] protected InteractableObjectAudioService _audioService;
+    [SerializeField] protected Collider _collider;
 
     public event Action<IInteractable, bool> OnInteractStateChange;
 

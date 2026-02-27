@@ -16,10 +16,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3383119442966815788, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 3383119442966815788, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
     - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
       propertyPath: _model
       value: 
       objectReference: {fileID: 277448434350768099}
+    - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 4739657784136199455}
     - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
       propertyPath: _componentIndexCache
       value: 0
