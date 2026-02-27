@@ -9,7 +9,7 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
 {
     [field: SerializeField] public List<OutlineComponent> Outlines { get; private set; } = new List<OutlineComponent>();
 
-    [SerializeField] VisualEffect _interactVfx;
+    [SerializeField] ParticleSystem _interactVfx;
 
     [SerializeField] protected Transform _model;
     public ObjectiveType ObjectiveType { get; private set; }
