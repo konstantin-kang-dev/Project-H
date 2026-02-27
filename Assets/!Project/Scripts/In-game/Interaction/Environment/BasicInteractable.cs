@@ -95,13 +95,16 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
     {
         if (asServer) return;
 
-        if (next)
+        if(GameManager.Instance != null && GameManager.Instance.GameState == GameState.Started)
         {
-            _audioService.Play(InteractableObjectAudioType.InteractionStateActive);
-        }
-        else
-        {
-            _audioService.Play(InteractableObjectAudioType.InteractionStateInactive);
+            if (next)
+            {
+                _audioService.Play(InteractableObjectAudioType.InteractionStateActive);
+            }
+            else
+            {
+                _audioService.Play(InteractableObjectAudioType.InteractionStateInactive);
+            }
         }
 
         SetAppearance(next);
