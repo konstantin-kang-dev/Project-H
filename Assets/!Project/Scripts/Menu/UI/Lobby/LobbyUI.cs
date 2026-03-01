@@ -5,9 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Zenject;
 
-public class LobbyUI : MonoBehaviour, IMenuWindow
+public class LobbyUI : BasicCustomWindow
 {
-    [field: SerializeField] public MenuWindowType WindowType { get; private set; }
     [SerializeField] BasicWindowVisuals _visuals;
 
     [SerializeField] ChatUI _lobbyChatUI;
@@ -79,23 +78,11 @@ public class LobbyUI : MonoBehaviour, IMenuWindow
     void HandleLobbyBackBtn()
     {
         NetworkGameManager.Instance.Disconnect();
-        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.MainMenu);
     }
     void HandleLobbyStartBtn()
     {
         LobbyManager.Instance.RPC_RequestStartGame();
-    }
-
-    public void SetVisibility(bool visible, bool doInstantly = false)
-    {
-        if(visible)
-        {
-            _visuals.ProcessInAnimation(doInstantly);
-        }
-        else
-        {
-            _visuals.ProcessOutAnimation(doInstantly);
-        }
     }
 
     public void SetStartBtnInteractable(bool interactable)

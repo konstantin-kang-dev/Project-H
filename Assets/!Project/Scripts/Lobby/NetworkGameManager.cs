@@ -202,6 +202,8 @@ public class NetworkGameManager : MonoBehaviour
         {
             StopClient();
         }
+
+        ServerRoomManager.Instance.Clear();
     }
     public void StopHost()
     {

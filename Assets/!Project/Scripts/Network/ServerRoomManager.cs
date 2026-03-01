@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 public class ServerRoomManager: MonoBehaviour
@@ -39,6 +40,7 @@ public class ServerRoomManager: MonoBehaviour
     }
     public void Clear()
     {
+        _connectedPlayers.Clear();
         NetworkGameManager.Instance.OnClientLoadedStartScene -= HandleClientLoadedStartScene;
     }
 
