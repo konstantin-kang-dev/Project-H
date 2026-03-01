@@ -3,10 +3,10 @@ using Zenject;
 
 public class SceneInstaller : MonoInstaller
 {
-    [SerializeField] MenuWindowNavigator _menuPageNavigator;
+    [SerializeField] WindowsNavigator _menuPageNavigator;
     public override void InstallBindings()
     {
-        Container.Bind<MenuWindowNavigator>().FromInstance(_menuPageNavigator).AsSingle();
+        Container.Bind<WindowsNavigator>().FromInstance(_menuPageNavigator).AsSingle();
 
     }
 }

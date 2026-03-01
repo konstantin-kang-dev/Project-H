@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbiesOverviewUI : MonoBehaviour, IMenuWindow
+public class LobbiesOverviewUI : BasicCustomWindow
 {
-    [field: SerializeField] public MenuWindowType WindowType { get; private set; }
     [SerializeField] BasicWindowVisuals _visuals;
     [SerializeField] Button _backBtn;
 
@@ -30,16 +29,13 @@ public class LobbiesOverviewUI : MonoBehaviour, IMenuWindow
         _backBtn.onClick.AddListener(HandleBackBtn);
     }
 
-    public void SetVisibility(bool visible, bool doInstantly)
+    public override void SetVisibility(bool visible, bool doInstantly)
     {
+        base.SetVisibility(visible, doInstantly);
+
         if (visible)
         {
-            _visuals.ProcessInAnimation(doInstantly);
             LoadLobbies();
-        }
-        else
-        {
-            _visuals.ProcessOutAnimation(doInstantly);
         }
 
         _timer = 0f;
@@ -88,6 +84,6 @@ public class LobbiesOverviewUI : MonoBehaviour, IMenuWindow
 
     void HandleBackBtn()
     {
-        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.MainMenu);
     }
 }

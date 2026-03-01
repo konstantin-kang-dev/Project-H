@@ -8,10 +8,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
+public class MainMenuUI : BasicCustomWindow
 {
-    [field: SerializeField] public MenuWindowType WindowType { get; }
-
     [SerializeField] CanvasGroup _canvasGroup;
     [SerializeField] BasicWindowVisuals _visuals;
 
@@ -52,18 +50,6 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
         
     }
 
-    public void SetVisibility(bool visible, bool doInstantly = false)
-    {
-        if(visible)
-        {
-            _visuals.ProcessInAnimation(doInstantly);
-        }
-        else
-        {
-            _visuals.ProcessOutAnimation(doInstantly);
-        }
-    }
-
     void HandleCreateLobbyButton()
     {
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
@@ -71,11 +57,11 @@ public class MainMenuUI : SerializedMonoBehaviour, IMenuWindow
     }
     void HandleJoinLobbyButton()
     {
-        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.LobbiesOverview);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.LobbiesOverview);
     }
     void HandleSettingsButton()
     {
-        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.Settings);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.Settings);
     }
     void HandleQuitButton()
     {

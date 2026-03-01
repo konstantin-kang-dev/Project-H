@@ -1,6 +1,7 @@
 using GameAudio;
 using Saves;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AMD;
@@ -9,9 +10,8 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static UnityEngine.Experimental.Rendering.GraphicsStateCollection;
 
-public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
+public class SettingsUI : BasicCustomWindow
 {
-    [field: SerializeField] public MenuWindowType WindowType { get; private set; }
     [SerializeField] BasicWindowVisuals _windowVisuals;
 
     [Header("Navigation")]
@@ -53,6 +53,8 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
     [SerializeField] InputSelector _crouchSelector;
     [SerializeField] InputSelector _interactSelector;
 
+
+    public event Action<bool> OnVisibilityChange;
 
     private void OnEnable()
     {
@@ -220,21 +222,17 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
         _interactSelector.SetValue(controlsSave.InteractBind);
     }
 
-    public void SetVisibility(bool visible, bool doInstantly)
+    public override void SetVisibility(bool visible, bool doInstantly)
     {
+        base.SetVisibility(visible, doInstantly);
         if (visible)
         {
-            _windowVisuals.ProcessInAnimation(doInstantly);
             _lastOpenedWindow = null;
             foreach (var page in _pages)
             {
                 page.Value.ProcessOutAnimation(true);
             }
             HandleNavigation(0);
-        }
-        else
-        {
-            _windowVisuals.ProcessOutAnimation(doInstantly);
         }
     }
 
@@ -258,7 +256,7 @@ public class SettingsUI : SerializedMonoBehaviour, IMenuWindow
 
     void HandleBackBtn()
     {
-        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+        WindowsNavigator.Instance.GoBack();
     }
 
     void HandleUpscaleTypeChange(int value)

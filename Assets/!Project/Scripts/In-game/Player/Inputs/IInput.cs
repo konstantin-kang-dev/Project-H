@@ -20,4 +20,5 @@ public interface IInput
     event Action OnPreviousInventorySlot;
     event Action OnInteractWithItem;
     event Action OnOpenChat;
+    event Action OnEscPressed;
 }

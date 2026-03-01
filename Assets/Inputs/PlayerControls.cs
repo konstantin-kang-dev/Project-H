@@ -235,6 +235,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Button"",
+                    ""id"": ""2debc910-7cf4-43eb-a899-f0e5408b84ed"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -631,6 +640,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""InventorySlot5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf71762a-1d82-4ac6-8949-b0d10867d08d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Esc"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1234,6 +1254,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_InventorySlot3 = m_Player.FindAction("InventorySlot3", throwIfNotFound: true);
         m_Player_InventorySlot4 = m_Player.FindAction("InventorySlot4", throwIfNotFound: true);
         m_Player_InventorySlot5 = m_Player.FindAction("InventorySlot5", throwIfNotFound: true);
+        m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1343,6 +1364,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_InventorySlot3;
     private readonly InputAction m_Player_InventorySlot4;
     private readonly InputAction m_Player_InventorySlot5;
+    private readonly InputAction m_Player_Esc;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1419,6 +1441,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @InventorySlot5 => m_Wrapper.m_Player_InventorySlot5;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Esc".
+        /// </summary>
+        public InputAction @Esc => m_Wrapper.m_Player_Esc;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1492,6 +1518,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @InventorySlot5.started += instance.OnInventorySlot5;
             @InventorySlot5.performed += instance.OnInventorySlot5;
             @InventorySlot5.canceled += instance.OnInventorySlot5;
+            @Esc.started += instance.OnEsc;
+            @Esc.performed += instance.OnEsc;
+            @Esc.canceled += instance.OnEsc;
         }
 
         /// <summary>
@@ -1551,6 +1580,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @InventorySlot5.started -= instance.OnInventorySlot5;
             @InventorySlot5.performed -= instance.OnInventorySlot5;
             @InventorySlot5.canceled -= instance.OnInventorySlot5;
+            @Esc.started -= instance.OnEsc;
+            @Esc.performed -= instance.OnEsc;
+            @Esc.canceled -= instance.OnEsc;
         }
 
         /// <summary>
@@ -1963,6 +1995,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInventorySlot5(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Esc" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEsc(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

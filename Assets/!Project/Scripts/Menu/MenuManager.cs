@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
 
-    [Inject] MenuWindowNavigator _menuPageNavigator;
+    [Inject] WindowsNavigator _menuPageNavigator;
 
     [SerializeField] MainMenuUI _menuUI;
     [SerializeField] LobbyUI _lobbyUI;
@@ -62,7 +62,7 @@ public class MenuManager : MonoBehaviour
 
     void HandleJoinLobby()
     {
-        _menuPageNavigator.OpenWindow(MenuWindowType.Lobby);
+        _menuPageNavigator.OpenWindow(CustomWindowType.Lobby);
         LoadingManager.Instance.SetLoadingProgress(1f);
 
         Debug.Log($"[MenuManager] Joined lobby!");
@@ -71,27 +71,28 @@ public class MenuManager : MonoBehaviour
     void HandleQuitLobby()
     {
         NetworkGameManager.Instance.Disconnect();
-        MenuWindowNavigator.Instance.OpenWindow(MenuWindowType.MainMenu);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.MainMenu);
         LobbyManager.Instance.OnGameStarted -= HandleStartGame;
         Debug.Log($"[MenuManager] Quit lobby");
     }
 
     void HandleStartGame()
     {
+        WindowsNavigator.Instance.Clear();
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "");
         Debug.Log($"[MenuManager] Started game!");
     }
 
-    void HandleMenuWindowOpen(MenuWindowType windowType)
+    void HandleMenuWindowOpen(CustomWindowType windowType)
     {
         Vector3 startRot = Camera.main.transform.eulerAngles;
 
         switch (windowType)
         {
-            case MenuWindowType.MainMenu:
+            case CustomWindowType.MainMenu:
                 Camera.main.transform.DORotate(new Vector3(startRot.x, 0f, startRot.z), 1.5f).SetUpdate(UpdateType.Late).SetEase(Ease.OutQuart);
                 break;
-            case MenuWindowType.Lobby:
+            case CustomWindowType.Lobby:
                 Camera.main.transform.DORotate(new Vector3(startRot.x, 180f, startRot.z), 3.5f).SetUpdate(UpdateType.Late).SetEase(Ease.InOutSine);
                 break;
             default:

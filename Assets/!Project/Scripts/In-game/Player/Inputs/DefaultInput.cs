@@ -23,6 +23,7 @@ public class DefaultInput : IInput
     public event Action OnPreviousInventorySlot;
     public event Action OnInteractWithItem;
     public event Action OnOpenChat;
+    public event Action OnEscPressed;
     #endregion
 
     public PlayerControls PlayerControls { get; private set; }
@@ -59,6 +60,8 @@ public class DefaultInput : IInput
         PlayerControls.Player.InventorySlot3.performed += HandleInventorySlotKey3;
         PlayerControls.Player.InventorySlot4.performed += HandleInventorySlotKey4;
         PlayerControls.Player.InventorySlot5.performed += HandleInventorySlotKey5;
+
+        PlayerControls.Player.Esc.performed += HandleEscPress;
     }
 
     #region INPUT_HANDLERS
@@ -148,6 +151,11 @@ public class DefaultInput : IInput
     void HandleInventorySlotKey5(InputAction.CallbackContext context)
     {
         OnInventorySlotKey?.Invoke(4);
+    }
+
+    void HandleEscPress(InputAction.CallbackContext context)
+    {
+        OnEscPressed?.Invoke();
     }
 
     #endregion
