@@ -43,6 +43,10 @@ public class MenuManager : MonoBehaviour
 
         GameDifficultyManager.Instance.Init();
         GlobalAudioManager.Instance.Play(SoundType.MenuAmbient);
+
+        WindowsNavigator.Instance.Clear();
+        WindowsNavigator.Instance.CloseAll(true);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.MainMenu);
     }
 
     public void BindNetworkEvents()

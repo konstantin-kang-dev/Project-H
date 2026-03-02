@@ -363,8 +363,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Say something...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b6a8f970ac14ac5438e5c13b534f688c, type: 2}
-  m_sharedMaterial: {fileID: -4945193686086609493, guid: b6a8f970ac14ac5438e5c13b534f688c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cca8847e5606cfe4096e94b532cf970d, type: 2}
+  m_sharedMaterial: {fileID: -5147555929850112861, guid: cca8847e5606cfe4096e94b532cf970d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -698,8 +698,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b6a8f970ac14ac5438e5c13b534f688c, type: 2}
-  m_sharedMaterial: {fileID: -4945193686086609493, guid: b6a8f970ac14ac5438e5c13b534f688c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cca8847e5606cfe4096e94b532cf970d, type: 2}
+  m_sharedMaterial: {fileID: -5147555929850112861, guid: cca8847e5606cfe4096e94b532cf970d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -12,8 +12,6 @@ using static UnityEngine.Experimental.Rendering.GraphicsStateCollection;
 
 public class SettingsUI : BasicCustomWindow
 {
-    [SerializeField] BasicWindowVisuals _windowVisuals;
-
     [Header("Navigation")]
     [SerializeField] ToggleGroup _navigationGroup;
     [SerializeField] Button _backBtn;
@@ -52,9 +50,6 @@ public class SettingsUI : BasicCustomWindow
     [SerializeField] InputSelector _jumpSelector;
     [SerializeField] InputSelector _crouchSelector;
     [SerializeField] InputSelector _interactSelector;
-
-
-    public event Action<bool> OnVisibilityChange;
 
     private void OnEnable()
     {
@@ -201,6 +196,7 @@ public class SettingsUI : BasicCustomWindow
         _antiAliasingCheckbox.SetValue(graphicsSave.AntiAliasingEnabled);
         
         _upscaleTypeSelector.SetValue((int)graphicsSave.UpscaleType);
+        HandleUpscaleTypeChange(_upscaleTypeSelector.SelectedValue);
         _dlssQualitySelector.SetValue((int)graphicsSave.DLSSQuality);
         _fsrQualitySelector.SetValue((int)graphicsSave.FSRQuality); 
 

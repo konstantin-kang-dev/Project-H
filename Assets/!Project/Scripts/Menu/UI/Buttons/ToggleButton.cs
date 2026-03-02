@@ -12,6 +12,7 @@ public class ToggleButton : MonoBehaviour
     bool _isVisible = true;
 
     [SerializeField] bool _toggleOnClick = true;
+    [SerializeField] bool _clickOnlyActivates = false;
 
     public event Action<ToggleButton> OnToggle;
 
@@ -22,7 +23,19 @@ public class ToggleButton : MonoBehaviour
         Button = GetComponent<Button>();
         if (_toggleOnClick)
         {
-            Button.onClick.AddListener(Toggle);
+            Button.onClick.AddListener(HandleButtonClick);
+        }
+    }
+
+    void HandleButtonClick()
+    {
+        if (_clickOnlyActivates)
+        {
+            if (!_state) Toggle();
+        }
+        else
+        {
+            Toggle();
         }
     }
 

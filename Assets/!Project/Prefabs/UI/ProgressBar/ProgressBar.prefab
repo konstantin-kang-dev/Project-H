@@ -174,8 +174,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: -20, y: -20}
+  m_AnchoredPosition: {x: 7, y: 0}
+  m_SizeDelta: {x: -14, y: -14}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7796012291417345132
 CanvasRenderer:
@@ -205,16 +205,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 89cc97401eb588a408315f5fa0148929, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: a402bf12bf7bf26428ed1c64d14e5b2e, type: 3}
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1.89
+  m_PixelsPerUnitMultiplier: 9.41
 --- !u!1 &6761028965977355845
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,8 +319,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: CONNECTING TO SERVER..
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 13efb3f17af3e8c49be6ad44f7dfc4ed, type: 2}
-  m_sharedMaterial: {fileID: 2592568621743033640, guid: 13efb3f17af3e8c49be6ad44f7dfc4ed, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cca8847e5606cfe4096e94b532cf970d, type: 2}
+  m_sharedMaterial: {fileID: -5147555929850112861, guid: cca8847e5606cfe4096e94b532cf970d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
