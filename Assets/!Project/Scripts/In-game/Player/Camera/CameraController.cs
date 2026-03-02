@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform _cameraPoint;
     [SerializeField] Animator _cameraAnimator;
 
+    bool _isActive = false;
+
     [SerializeField] Transform _standPoint;
     [SerializeField] Transform _crouchPoint;
     [SerializeField] Transform _liftedPoint;
@@ -44,23 +46,29 @@ public class CameraController : MonoBehaviour
         _cameraBlock.parent = null;
 
         GlobalInputManager.Input.OnLook += HandleLookInput;
+        GameUI.Instance.OnGameplayUIFocusChange += HandleGameplayUIFocusChange;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-         
+        _isActive = true;
         IsInitialized = true;
+    }
+
+    void HandleGameplayUIFocusChange(bool visible)
+    {
+        _isActive = visible;
     }
 
     private void OnDestroy()
     {
         GlobalInputManager.Input.OnLook -= HandleLookInput;
 
+        GameUI.Instance.OnGameplayUIFocusChange -= HandleGameplayUIFocusChange;
     }
 
     void Update()
     {
         if (!IsInitialized) return;
         if (GameManager.Instance.GameState != GameState.Started) return;
+        if (!_isActive) return;
 
         Rotate();
         CheckForCollider();

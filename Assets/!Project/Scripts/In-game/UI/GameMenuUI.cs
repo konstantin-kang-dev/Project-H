@@ -9,14 +9,6 @@ public class GameMenuUI : BasicCustomWindow
     [SerializeField] Button _settingsBtn;
     [SerializeField] Button _quitToMenuBtn;
 
-    [Header("Windows")]
-    [SerializeField] SettingsUI _settingsUI;
-
-    private void Awake()
-    {
-        _windowVisuals = GetComponent<BasicWindowVisuals>();
-    }
-
     void OnEnable()
     {
         GlobalInputManager.Input.OnEscPressed += HandleEscPressed;
@@ -35,29 +27,37 @@ public class GameMenuUI : BasicCustomWindow
         _quitToMenuBtn.onClick.RemoveListener(HandleQuitToMenuBtn);
     }
 
+    protected override void BindControls()
+    {
+        
+    }
+
+    protected override void UnbindControls()
+    {
+        
+    }
+
     void HandleEscPressed()
     {
-        if (!IsVisible) SetVisibility(true, false);
+        if (!IsVisible)
+        {
+            WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameMenu);
+        }
+        else
+        {
+            WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameplayUI);
+        }
+        Debug.Log($"[GameMenuUI] HandleEscPressed IsVisible: {IsVisible}");
     }
 
     void HandleContinueBtn()
     {
-        SetVisibility(false, false);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameplayUI);
     }
 
     void HandleSettingsBtn()
     {
-        void HandleVisibilityChange(bool visible)
-        {
-            if (!visible)
-            {
-                SetVisibility(true, false);
-                _settingsUI.OnVisibilityChange -= HandleVisibilityChange;
-            }
-        }
-
-        _settingsUI.OnVisibilityChange += HandleVisibilityChange;
-        _settingsUI.SetVisibility(true, false);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.Settings);
     }
     
     void HandleQuitToMenuBtn()

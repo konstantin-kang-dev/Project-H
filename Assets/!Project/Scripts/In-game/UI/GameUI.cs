@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameUI : MonoBehaviour
@@ -14,7 +15,10 @@ public class GameUI : MonoBehaviour
 
     [Header("Windows")]
     [SerializeField] GameMenuUI _gameMenuUI;
+    [SerializeField] GameplayUI _gameplayUI;
     [SerializeField] SettingsUI _settingsUI;
+
+    public event Action<bool> OnGameplayUIFocusChange;
 
     public bool IsInitialized { get; private set; } = false;
     void Awake()
@@ -30,9 +34,21 @@ public class GameUI : MonoBehaviour
         _objectivesUI.Init();
         _chatUI.Init();
         _staminaUI.Init();
-        _settingsUI.SetVisibility(false, true);
+
+        WindowsNavigator.Instance.Clear();
+        WindowsNavigator.Instance.CloseAll(true);
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameplayUI);
+
+        _gameplayUI.OnVisibilityChange += HandleGameplayUIVisibilityChange;
 
         IsInitialized = true;
+
+        Debug.Log($"[GameUI] Initialized.");
+    }
+
+    void HandleGameplayUIVisibilityChange(bool visible)
+    {
+        OnGameplayUIFocusChange?.Invoke(visible);
     }
 
     void Update()

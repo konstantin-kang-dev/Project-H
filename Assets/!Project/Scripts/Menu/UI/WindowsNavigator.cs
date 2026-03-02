@@ -9,7 +9,7 @@ public class WindowsNavigator : SerializedMonoBehaviour
 
     [SerializeField] GameObject _inputBlocker;
 
-    [SerializeField] Dictionary<CustomWindowType, ICustomWindow> _menuWindows = new Dictionary<CustomWindowType, ICustomWindow>();
+    [SerializeField] Dictionary<CustomWindowType, ICustomWindow> _availableWindows = new Dictionary<CustomWindowType, ICustomWindow>();
     ICustomWindow _openedWindow;
     Stack<CustomWindowType> _windowsHistory = new Stack<CustomWindowType>();
 
@@ -21,18 +21,7 @@ public class WindowsNavigator : SerializedMonoBehaviour
 
     void Start()
     {
-        Init();
-    }
 
-    public void Init()
-    {
-        foreach (var window in _menuWindows)
-        {
-            if (window.Value.WindowType == CustomWindowType.MainMenu) continue;
-            window.Value.SetVisibility(false, true);
-        }
-
-        OpenWindow(CustomWindowType.MainMenu);
     }
 
     void Update()
@@ -40,9 +29,19 @@ public class WindowsNavigator : SerializedMonoBehaviour
         
     }
 
+    public void CloseAll(bool doInstantly)
+    {
+        foreach (var window in _availableWindows)
+        {
+            ICustomWindow customWindow = window.Value;
+
+            customWindow.SetVisibility(false, doInstantly);
+        }
+    }
+
     public void OpenWindow(CustomWindowType type)
     {
-        if (!_menuWindows.ContainsKey(type)) throw new Exception($"[WindowsNavigator] Window {type} not found");
+        if (!_availableWindows.ContainsKey(type)) throw new Exception($"[WindowsNavigator] Window {type} not found");
 
         if (_openedWindow != null)
         {
@@ -50,7 +49,7 @@ public class WindowsNavigator : SerializedMonoBehaviour
             _openedWindow.SetVisibility(false, false);
         }
 
-        ICustomWindow nextWindow = _menuWindows[type];
+        ICustomWindow nextWindow = _availableWindows[type];
 
         nextWindow.SetVisibility(true, false);
 
@@ -72,11 +71,13 @@ public class WindowsNavigator : SerializedMonoBehaviour
 
     public void Clear()
     {
-        foreach (var window in _windowsHistory)
+        foreach (var window in _availableWindows)
         {
-            _menuWindows[window].Clear();
+            window.Value.Clear();
         }
+
         _windowsHistory.Clear();
+        _openedWindow = null;
     }
 
     public void SetInputBlocker(bool active)

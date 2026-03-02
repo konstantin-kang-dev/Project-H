@@ -10,5 +10,6 @@ public enum CustomWindowType
     LobbiesOverview = 2,
     Settings = 3,
     GameMenu = 4,
+    GameplayUI = 5,
 
 }

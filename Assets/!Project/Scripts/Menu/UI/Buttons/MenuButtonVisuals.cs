@@ -55,6 +55,9 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
         Tween backgroundFadeTween = _backgroundImage.DOFade(1f, _hoverAnimationDuration);
         hoverEnterAnim.Join(backgroundFadeTween);
 
+        Tween borderFadeTween = _borderImage.DOFade(0f, _hoverAnimationDuration);
+        hoverEnterAnim.Join(borderFadeTween);
+
         Tween tmpColorFade = _tmp.DOColor(_tmpHoverColor, _hoverAnimationDuration);
         hoverEnterAnim.Join(tmpColorFade);
     }
@@ -65,6 +68,9 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         Tween backgroundFadeTween = _backgroundImage.DOFade(0f, _hoverAnimationDuration);
         hoverExitAnim.Join(backgroundFadeTween);
+
+        Tween borderFadeTween = _borderImage.DOFade(1f, _hoverAnimationDuration);
+        hoverExitAnim.Join(borderFadeTween);
 
         Tween tmpColorFade = _tmp.DOColor(_initialTmpColor, _hoverAnimationDuration);
         hoverExitAnim.Join(tmpColorFade);
