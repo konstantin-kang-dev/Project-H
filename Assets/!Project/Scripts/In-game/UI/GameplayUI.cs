@@ -20,11 +20,16 @@ public class GameplayUI : BasicCustomWindow
 
     protected override void BindControls()
     {
-
+        GlobalInputManager.Input.OnEscPressed += HandleEscPressed;
     }
 
     protected override void UnbindControls()
     {
-        
+        GlobalInputManager.Input.OnEscPressed -= HandleEscPressed;
+    }
+
+    void HandleEscPressed()
+    {
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameMenu);
     }
 }

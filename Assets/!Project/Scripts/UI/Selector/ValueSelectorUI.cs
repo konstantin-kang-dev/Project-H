@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class ValueSelectorUI : SerializedMonoBehaviour
     [SerializeField] Button _leftBtn;
     [SerializeField] Button _rightBtn;
     [SerializeField] TextMeshProUGUI _valueTmp;
-    [SerializeField] Dictionary<int, string> _values = new Dictionary<int, string>();
+    [SerializeField] List<string> _values = new List<string>();
 
     int _selectedValue = 0;
 
@@ -32,7 +33,7 @@ public class ValueSelectorUI : SerializedMonoBehaviour
         _rightBtn.onClick.RemoveListener(HandleRightBtn);
     }
 
-    public void SetValues(Dictionary<int, string> values)
+    public void SetValues(List<string> values)
     {
         _values = values;
         SetValue(SelectedValue);

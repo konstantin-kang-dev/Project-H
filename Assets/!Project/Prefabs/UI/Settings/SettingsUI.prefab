@@ -1293,6 +1293,26 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: _values.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[0]'
+      value: Quality
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[1]'
+      value: Balanced
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[2]'
+      value: Performance
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[3]'
+      value: Ultra Performance
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
@@ -2926,7 +2946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 335011709201588698, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: m_fontSize
-      value: 27.1
+      value: 23.65
       objectReference: {fileID: 0}
     - target: {fileID: 335011709201588698, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: m_fontSizeMax
@@ -2935,6 +2955,26 @@ PrefabInstance:
     - target: {fileID: 335011709201588698, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: m_enableAutoSizing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[0]'
+      value: Performance
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[1]'
+      value: Balanced
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[2]'
+      value: Quality
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[3]'
+      value: Ultra Performance
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[4]'
+      value: DLAA
       objectReference: {fileID: 0}
     - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: serializationData.Prefab
@@ -4026,23 +4066,34 @@ PrefabInstance:
       value: None
       objectReference: {fileID: 0}
     - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: _values.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[0]'
+      value: None
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[1]'
+      value: DLSS
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
+      propertyPath: '_values.Array.data[2]'
+      value: FSR2
+      objectReference: {fileID: 0}
+    - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
     - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.size
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
-      value: '"path":"_values","add_keys":{"$id":0,"$type":"System.Object[], mscorlib","$rlength":3,"$rcontent":[{"$id":1,"$type":"System.Int32,
-        mscorlib",0},{"$id":2,"$type":"System.Int32, mscorlib",1},{"$id":3,"$type":"System.Int32,
-        mscorlib",2}]},"remove_keys":{"$id":4,"$type":"System.Object[], mscorlib","$rlength":9,"$rcontent":[{"$id":5,"$type":"System.Int32,
-        mscorlib",3},{"$id":6,"$type":"System.Int32, mscorlib",3},{"$id":7,"$type":"System.Int32,
-        mscorlib",4},{"$id":8,"$type":"System.Int32, mscorlib",3},{"$id":9,"$type":"System.Int32,
-        mscorlib",4},{"$id":10,"$type":"System.Int32, mscorlib",3},{"$id":11,"$type":"System.Int32,
-        mscorlib",4},{"$id":12,"$type":"System.Int32, mscorlib",3},{"$id":13,"$type":"System.Int32,
-        mscorlib",4}]}'
+      value: '"path":"_values","add_keys":null,"remove_keys":{"$id":0,"$type":"System.Object[],
+        mscorlib","$rlength":3,"$rcontent":[{"$id":1,"$type":"System.Int32, mscorlib",3},{"$id":2,"$type":"System.Int32,
+        mscorlib",3},{"$id":3,"$type":"System.Int32, mscorlib",4}]}'
       objectReference: {fileID: 0}
     - target: {fileID: 444354525232057345, guid: 08708d8972071ea48ba3bfe9aa3b9729, type: 3}
       propertyPath: 'serializationData.PrefabModifications.Array.data[1]'
