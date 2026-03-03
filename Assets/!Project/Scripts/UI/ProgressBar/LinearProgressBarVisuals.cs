@@ -4,10 +4,16 @@ using DG.Tweening;
 
 public class LinearProgressBarVisuals : MonoBehaviour, IProgressBarVisuals
 {
-    [SerializeField] Transform _progressBlock;
+    [SerializeField] RectTransform _progressBlock;
     [SerializeField] float _smoothingDuration = 0.2f;
+    float _initialWidth = 0f;
 
     Tween _growAnim;
+
+    void Awake()
+    {
+        _initialWidth = _progressBlock.rect.width;
+    }
     public void Init()
     {
 
@@ -15,17 +21,20 @@ public class LinearProgressBarVisuals : MonoBehaviour, IProgressBarVisuals
 
     public void UpdateProgress(float progress, bool doInstantly)
     {
-        Vector3 targetLocalScale = new Vector3(progress,  _progressBlock.localScale.y, _progressBlock.localScale.z);
+        float targetWidth = _initialWidth * progress;
+        //Vector3 targetLocalScale = new Vector3(progress,  _progressBlock.localScale.y, _progressBlock.localScale.z);
 
         if (doInstantly)
         {
-            _progressBlock.localScale = targetLocalScale;
+            //_progressBlock.localScale = targetLocalScale;
+            _progressBlock.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
         }
         else
         {
             if (_growAnim != null) _growAnim.Kill();
 
-            _growAnim = _progressBlock.DOScale(targetLocalScale, _smoothingDuration);
+            //_growAnim = _progressBlock.DOScale(targetLocalScale, _smoothingDuration);
+            _growAnim = _progressBlock.DOSizeDelta(new Vector2(targetWidth, _progressBlock.sizeDelta.y), _smoothingDuration);
         }
     }
 }
