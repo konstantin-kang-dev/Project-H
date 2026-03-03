@@ -111,11 +111,18 @@ public class LobbyUI : BasicCustomWindow
 
     void ResetEvents()
     {
+        _readyBtn.OnToggle -= HandleClickReadyBtn;
+
         if (LobbyManager.Instance != null && LobbyManager.Instance.IsServerStarted)
         {
-            LobbyManager.Instance.OnPlayersReady -= HandlePlayersReadyChange;
-            LobbyManager.Instance.OnLobbyDataUpdated -= HandleUpdateLobbyData;
+            LobbyManager.OnReady -= Init;
+            if (LobbyManager.Instance.IsServerStarted)
+            {
+                _difficultyToggleGroup.OnToggle -= HandleDifficultyToggle;
+                LobbyManager.Instance.OnPlayersReady -= HandlePlayersReadyChange;
+            }
         }
+        LobbyManager.Instance.OnLobbyDataUpdated -= HandleUpdateLobbyData;
         NetworkGameManager.Instance.OnLocalClientDisconnected -= ResetEvents;
     }
 }

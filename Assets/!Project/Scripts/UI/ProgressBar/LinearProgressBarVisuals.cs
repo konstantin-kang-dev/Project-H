@@ -14,6 +14,10 @@ public class LinearProgressBarVisuals : MonoBehaviour, IProgressBarVisuals
     {
         _initialWidth = _progressBlock.rect.width;
     }
+    void OnDestroy()
+    {
+        UpdateProgress(1f, true);
+    }
     public void Init()
     {
 

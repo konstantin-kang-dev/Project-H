@@ -63,6 +63,7 @@ public class GameManager : NetworkBehaviour
         OnAllPlayersReadyToStart += SERVER_StartGame;
 
         _gameDifficulty.Value = GameDifficultyManager.Instance.SelectedConfig.DifficultyType;
+        Debug.Log($"[GameManager] Server is loaded. Difficulty: {_gameDifficulty.Value}");
     }
 
     public void Init()

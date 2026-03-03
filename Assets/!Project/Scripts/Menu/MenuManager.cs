@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FishNet.Connection;
 using GameAudio;
@@ -29,7 +30,7 @@ public class MenuManager : MonoBehaviour
         Init();
     }
 
-    public void Init()
+    public async void Init()
     {
         SaveManager.LoadAll();
 
@@ -47,6 +48,9 @@ public class MenuManager : MonoBehaviour
         WindowsNavigator.Instance.Clear();
         WindowsNavigator.Instance.CloseAll(true);
         WindowsNavigator.Instance.OpenWindow(CustomWindowType.MainMenu);
+
+        await UniTask.WaitForSeconds(1f);
+        LoadingManager.Instance.SetLoadingProgress(1f);
     }
 
     public void BindNetworkEvents()
@@ -68,6 +72,7 @@ public class MenuManager : MonoBehaviour
     {
         _menuPageNavigator.OpenWindow(CustomWindowType.Lobby);
         LoadingManager.Instance.SetLoadingProgress(1f);
+        
 
         Debug.Log($"[MenuManager] Joined lobby!");
     }

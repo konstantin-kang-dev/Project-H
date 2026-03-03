@@ -9,9 +9,14 @@ public class StaminaUI : MonoBehaviour
     bool _isVisible = false;
 
     Tween _fadeAnim;
-    private void Awake()
+    private void OnEnable()
     {
         Player.OnLocalPlayerInitialized += ConnectToPlayer;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnLocalPlayerInitialized -= ConnectToPlayer;
     }
 
     public void Init()
