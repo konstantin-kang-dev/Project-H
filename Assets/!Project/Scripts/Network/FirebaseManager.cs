@@ -53,19 +53,22 @@ public class FirebaseManager : MonoBehaviour
     {
         if (!_isInitialized) return;
 
-        var lobbyDict = new Dictionary<string, object>
-        {
-            { "lobbyId", lobby.LobbyId },
-            { "maxPlayers", lobby.MaxPlayers },
-            { "currentPlayers", lobby.CurrentPlayers },
-            { "chosenDifficulty", (int)lobby.ChosenDifficulty},
-            { "hostName", lobby.HostName },
-            { "steamId", steamId },
-            { "timestamp", ServerValue.Timestamp }
-        };
+        var lobbyRef = _database.Child("lobbies").Child(lobby.LobbyId.ToString());
 
-        _database.Child("lobbies").Child(lobby.LobbyId.ToString()).SetValueAsync(lobbyDict)
-            .ContinueWithOnMainThread(task =>
+        var lobbyDict = new Dictionary<string, object>
+    {
+        { "lobbyId", lobby.LobbyId },
+        { "maxPlayers", lobby.MaxPlayers },
+        { "currentPlayers", lobby.CurrentPlayers },
+        { "chosenDifficulty", (int)lobby.ChosenDifficulty },
+        { "hostName", lobby.HostName },
+        { "steamId", steamId },
+        { "timestamp", ServerValue.Timestamp }
+    };
+
+        lobbyRef.OnDisconnect().RemoveValue().ContinueWithOnMainThread(_ =>
+        {
+            lobbyRef.SetValueAsync(lobbyDict).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -73,6 +76,7 @@ public class FirebaseManager : MonoBehaviour
                     onSuccess?.Invoke();
                 }
             });
+        });
     }
 
     public void LoadLobbies(Action<List<LobbyData>> callback)
@@ -142,7 +146,9 @@ public class FirebaseManager : MonoBehaviour
     {
         if (!_isInitialized) return;
 
-        _database.Child("lobbies").Child(lobbyId.ToString()).RemoveValueAsync();
+        var lobbyRef = _database.Child("lobbies").Child(lobbyId.ToString());
+        lobbyRef.OnDisconnect().Cancel();
+        lobbyRef.RemoveValueAsync();
     }
 }
 
