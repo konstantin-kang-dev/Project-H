@@ -56,7 +56,5 @@ public class Bootstrap : MonoBehaviour
         GlobalAudioManager.Instance.ApplySave(SaveManager.GameSave.SettingsSave.AudioSave);
 
         SceneManager.LoadScene("Menu");
-        await UniTask.WaitForSeconds(1f);
-        LoadingManager.Instance.SetLoadingProgress(1f);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 public class GameMenuUI : BasicCustomWindow
 {
@@ -53,8 +55,12 @@ public class GameMenuUI : BasicCustomWindow
         WindowsNavigator.Instance.OpenWindow(CustomWindowType.Settings);
     }
     
-    void HandleQuitToMenuBtn()
+    async void HandleQuitToMenuBtn()
     {
-        //TODO
+        NetworkGameManager.Instance.Disconnect();
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "Loading Menu");
+
+        await UniTask.WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }

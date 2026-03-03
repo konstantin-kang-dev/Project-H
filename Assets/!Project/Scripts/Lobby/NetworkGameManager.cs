@@ -145,7 +145,7 @@ public class NetworkGameManager : MonoBehaviour
 
         NetworkManager.ServerManager.StartConnection();
 
-        await UniTask.WaitForSeconds(1f);
+        await UniTask.WaitForSeconds(1.5f);
         ServerRoomManager.Instance.Init();
 
         NetworkManager.ClientManager.StartConnection();
@@ -172,7 +172,7 @@ public class NetworkGameManager : MonoBehaviour
     }
 
 
-    public void JoinLobby(LobbyData lobby)
+    public async void JoinLobby(LobbyData lobby)
     {
         Debug.Log($"[NetworkLobbyManager] Join attempt. Host SteamID: {lobby.HostSteamId}");
         Debug.Log($"[NetworkLobbyManager] Active transport: {NetworkManager.TransportManager.Transport}");
@@ -182,6 +182,7 @@ public class NetworkGameManager : MonoBehaviour
             NetworkManager.TransportManager.Transport.SetClientAddress(lobby.HostSteamId.ToString());
         }
 
+        await UniTask.WaitForSeconds(1.5f);
         Debug.Log($"[NetworkLobbyManager] Join lobby, host steam id: {lobby.HostSteamId}");
         NetworkManager.ClientManager.StartConnection(); 
     }

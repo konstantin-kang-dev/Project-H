@@ -28,6 +28,7 @@ public class ChatUI : MonoBehaviour
         _chatInput.onSubmit.AddListener(HandleChatInputSend);
 
         GlobalInputManager.Input.OnOpenChat += HandleOpenChat;
+        NetworkGameManager.Instance.OnLocalClientConnected += Clear;
 
         IsInitialized = true;
     }
@@ -68,12 +69,27 @@ public class ChatUI : MonoBehaviour
         _chatInput.ActivateInputField();
     }
 
+    public void Clear()
+    {
+        foreach (var chatMessage in _chatMessagesUI)
+        {
+            Destroy(chatMessage.gameObject);
+        }
+
+        _chatMessagesUI.Clear();
+    }
+
     private void OnDestroy()
     {
-        ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
-        _chatInput.onSubmit.RemoveListener(HandleChatInputSend);
+        if(ChatManager.Instance != null)
+        {
+            ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
+        }
 
         GlobalInputManager.Input.OnOpenChat -= HandleOpenChat;
-
+        if(NetworkGameManager.Instance != null)
+        {
+            NetworkGameManager.Instance.OnLocalClientConnected -= Clear;
+        }
     }
 }
