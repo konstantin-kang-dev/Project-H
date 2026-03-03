@@ -11,7 +11,7 @@ public class GameMenuUI : BasicCustomWindow
 
     void OnEnable()
     {
-        GlobalInputManager.Input.OnEscPressed += HandleEscPressed;
+        //GlobalInputManager.Input.OnEscPressed += HandleEscPressed;
 
         _continueBtn.onClick.AddListener(HandleContinueBtn);
         _settingsBtn.onClick.AddListener(HandleSettingsBtn);
@@ -20,7 +20,7 @@ public class GameMenuUI : BasicCustomWindow
 
     private void OnDisable()
     {
-        GlobalInputManager.Input.OnEscPressed -= HandleEscPressed;
+        //GlobalInputManager.Input.OnEscPressed -= HandleEscPressed;
 
         _continueBtn.onClick.RemoveListener(HandleContinueBtn);
         _settingsBtn.onClick.RemoveListener(HandleSettingsBtn);
@@ -29,26 +29,19 @@ public class GameMenuUI : BasicCustomWindow
 
     protected override void BindControls()
     {
-        
+        GlobalInputManager.Input.OnEscPressed += HandleEscPressed;
     }
 
     protected override void UnbindControls()
     {
-        
+        GlobalInputManager.Input.OnEscPressed -= HandleEscPressed;
     }
 
     void HandleEscPressed()
     {
-        if (!IsVisible)
-        {
-            WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameMenu);
-        }
-        else
-        {
-            WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameplayUI);
-        }
-        Debug.Log($"[GameMenuUI] HandleEscPressed IsVisible: {IsVisible}");
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.GameplayUI);
     }
+
 
     void HandleContinueBtn()
     {

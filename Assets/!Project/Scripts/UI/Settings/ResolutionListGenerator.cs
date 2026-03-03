@@ -15,15 +15,13 @@ public class ResolutionListGenerator : MonoBehaviour
     {
         Resolution[] resolutions = GraphicsManager.AvailableResolutions;
 
-        Dictionary<int, string> _selectorValues = new Dictionary<int, string>();
-        int key = 0;
+        List<string> _selectorValues = new List<string>();
 
         foreach (Resolution resolution in resolutions)
         {
             string stringRes = $"{resolution.width}x{resolution.height}";
 
-            _selectorValues.Add(key, stringRes);
-            key++;
+            _selectorValues.Add(stringRes);
         }
 
         _valueSelectorUI.SetValues(_selectorValues);

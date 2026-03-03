@@ -19,13 +19,13 @@ public class BasicCustomWindow : SerializedMonoBehaviour, ICustomWindow
         {
             _windowVisuals.ProcessInAnimation(doInstantly);
             BindControls();
-            Debug.Log($"[BasicCustomWindow | {WindowType}] Showed window");
+            //Debug.Log($"[BasicCustomWindow | {WindowType}] Showed window");
         }
         else
         {
             _windowVisuals.ProcessOutAnimation(doInstantly);
             UnbindControls();
-            Debug.Log($"[BasicCustomWindow | {WindowType}] Hidden window");
+            //Debug.Log($"[BasicCustomWindow | {WindowType}] Hidden window");
 
         }
 
