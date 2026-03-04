@@ -9,6 +9,9 @@ public enum ItemType
     None = -2,
     Flashlight = -1,
     KitchenKey = 0,
+    BedroomKey = 1,
+    StorageKey = 2,
+    ExitKey = 3,
 }
 
 [CreateAssetMenu(fileName = "ItemConfig", menuName = "GameData/ItemConfig")]

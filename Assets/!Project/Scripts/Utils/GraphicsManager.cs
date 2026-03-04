@@ -148,7 +148,7 @@ public class GraphicsManager
                 GraphicsQuality.Medium => 32,
                 GraphicsQuality.High => 64,
                 GraphicsQuality.Ultra => 96,
-                GraphicsQuality.Crazy => 96,
+                GraphicsQuality.Crazy => 128,
                 _ => 64
             };
         }
@@ -161,7 +161,7 @@ public class GraphicsManager
                 GraphicsQuality.Low => 0,
                 GraphicsQuality.Medium => 0,
                 GraphicsQuality.High => 0,
-                GraphicsQuality.Ultra => 0,
+                GraphicsQuality.Ultra => 1,
                 GraphicsQuality.Crazy => 1,
                 _ => 0
             };

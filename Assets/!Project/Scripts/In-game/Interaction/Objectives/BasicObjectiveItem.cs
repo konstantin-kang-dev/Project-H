@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
+using static System.Net.Mime.MediaTypeNames;
 
 public class BasicObjectiveItem : BasicInteractable, IOutlinable
 {
@@ -38,17 +39,28 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
             }
         }
     }
+    protected override void RPC_RequestInteract(int pickableObjectId)
+    {
+        if (_toggleInteractionState)
+        {
+            _interactState.Value = !_interactState.Value;
+        }
+        else
+        {
+            _interactState.Value = true;
+        }
+
+        if (_interactState.Value)
+        {
+            OnObjectiveCollected?.Invoke(this);
+        }
+    }
 
     protected override void HandleInteractStateChange(bool prev, bool next, bool asServer)
     {
         if (asServer) return;
 
         base.HandleInteractStateChange(prev, next, asServer);
-
-        if (next)
-        {
-            OnObjectiveCollected?.Invoke(this);
-        }
 
         _model.gameObject.SetActive(!next);
         if (_collider != null) _collider.enabled = !next;

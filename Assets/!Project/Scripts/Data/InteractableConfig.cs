@@ -9,6 +9,7 @@ public enum InteractableType
     Door = 0,
     Notebook = 1,
     Shelf = 2,
+    Safe = 3,
 }
 
 [CreateAssetMenu(fileName = "InteractableConfig", menuName = "GameData/InteractableConfig")]

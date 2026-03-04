@@ -64,7 +64,7 @@ public class ObjectivesManager : NetworkBehaviour
 
         List<ObjectiveConfig> configsCopy = new List<ObjectiveConfig>(_configs);
 
-        playersCount = 1; //MOK
+        playersCount = GameManager.Instance.Players.Count;
 
         for (int i = 0; i < playersCount; i++)
         {
@@ -79,6 +79,15 @@ public class ObjectivesManager : NetworkBehaviour
         _isInitialized.Value = true;
     }
 
+    void HandleInitialization(bool prev, bool next, bool asServer)
+    {
+        if (asServer) return;
+
+        if (next)
+        {
+            OnInitialize?.Invoke();
+        }
+    }
     void SpawnObjectives(ObjectiveConfig objectiveConfig, DifficultyType diff)
     {
         int totalObjectivesAmount = objectiveConfig.GetObjectivesAmountForDiff(diff);
@@ -86,7 +95,7 @@ public class ObjectivesManager : NetworkBehaviour
         int objectivesAmountInRequiredPlaces = ProjectUtils.GetPercentOfValue(totalObjectivesAmount, _itemsPercentInLockedRooms);
         int objectivesAmountInCommonPlaces = totalObjectivesAmount - objectivesAmountInRequiredPlaces;
 
-        _objectives[objectiveConfig.Type] = 0;
+        _objectives[objectiveConfig.Type] = totalObjectivesAmount;
         _completedObjectives[objectiveConfig.Type] = 0;
 
         Debug.Log($"[ObjectivesManager] Started spawning {totalObjectivesAmount} (r: {objectivesAmountInRequiredPlaces} + c: {objectivesAmountInCommonPlaces}) items for objective {objectiveConfig.Type}.");
@@ -120,7 +129,6 @@ public class ObjectivesManager : NetworkBehaviour
             objectiveItem.ResetAll();
             objectiveItem.SetObjectiveType(objectiveConfig.Type);
             objectiveItem.OnObjectiveCollected += HandleObjectivesInteraction;
-            _objectives[objectiveConfig.Type] += 1;
         }
 
         Debug.Log($"[ObjectivesManager] Spawned ({totalObjectivesAmount}) items for objective {objectiveConfig.Type}.");
@@ -147,17 +155,19 @@ public class ObjectivesManager : NetworkBehaviour
         }
     }
 
-    void HandleObjectiveProgress(ObjectiveType type, int completed)
+    void HandleObjectiveProgress(ObjectiveType type, int collected)
     {
         if (!_objectives.ContainsKey(type)) return;
 
         int total = _objectives[type];
+        Debug.Log($"[ObjectivesManager] Collected objective: {type} collected: {collected} total: {total}");
+
         ObjectiveConfig config = _cachedConfigs[type];
 
-        string description = $"{config.Description} ({completed}/{total})";
+        string description = $"{config.Description} ({collected}/{total})";
         OnObjectiveCollected?.Invoke(type, description);
 
-        if (completed >= total)
+        if (collected >= total)
         {
             OnObjectiveCompleted?.Invoke(type);
 
@@ -218,13 +228,4 @@ public class ObjectivesManager : NetworkBehaviour
         return _cachedConfigs[type];
     }
 
-    void HandleInitialization(bool prev, bool next, bool asServer)
-    {
-        if (asServer) return;
-
-        if (next)
-        {
-            OnInitialize?.Invoke();
-        }
-    }
 }

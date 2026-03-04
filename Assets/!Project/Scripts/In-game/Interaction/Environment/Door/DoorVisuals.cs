@@ -4,6 +4,7 @@ using UnityEngine;
 public class DoorVisuals : MonoBehaviour
 {
     [SerializeField] Transform _door;
+    [SerializeField] bool _positiveRotation = false;
 
     [SerializeField] float _openDuration = 1f;
     [SerializeField] float _closeDuration = 1f;
@@ -30,8 +31,9 @@ public class DoorVisuals : MonoBehaviour
     public void SetState(bool value)
     {
         if (value)
-        { 
-            _door.DOLocalRotate(new Vector3(0, -100, 0), _openDuration).SetEase(Ease.OutBack);
+        {
+            float targetYRotation = _positiveRotation ? 100f : -100f;
+            _door.DOLocalRotate(new Vector3(0, targetYRotation, 0), _openDuration).SetEase(Ease.OutBack);
         }
         else
         {
