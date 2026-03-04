@@ -15,6 +15,8 @@ public class Door : BasicInteractable
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        _isLocked.OnChange += HandleIsLockedChange;
     }
 
     public override void OnStartServer()
@@ -69,6 +71,7 @@ public class Door : BasicInteractable
 
             _interactState.Value = !_interactState.Value;
             _isLocked.Value = false;
+
         }
         else
         {
@@ -100,7 +103,7 @@ public class Door : BasicInteractable
         }
         else
         {
-
+            RequirementsHintText = string.Empty;
         }
     }
 

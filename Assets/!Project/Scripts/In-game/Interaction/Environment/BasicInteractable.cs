@@ -105,6 +105,7 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
             {
                 _audioService.Play(InteractableObjectAudioType.InteractionStateInactive);
             }
+
         }
 
         SetAppearance(next);
