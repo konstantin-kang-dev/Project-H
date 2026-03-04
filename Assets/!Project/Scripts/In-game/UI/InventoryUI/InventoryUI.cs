@@ -1,10 +1,15 @@
+using DG.Tweening;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] List<InventorySlotUI> _inventorySlots = new List<InventorySlotUI>();
     InventorySlotUI _lastSelectedSlot;
+
+    [SerializeField] TextMeshProUGUI _selectedItemNameTMP;
+    Sequence _itemNameAnim;
 
     public bool IsInitialized { get; private set; } = false;
     void Start()
@@ -51,11 +56,38 @@ public class InventoryUI : MonoBehaviour
 
         _lastSelectedSlot = _inventorySlots[index];
         _lastSelectedSlot.Select();
+
+        if(_lastSelectedSlot.Item != null)
+        {
+            SetItemNameVisibility(true, _lastSelectedSlot.Item.ItemConfig.Type.ToString());
+        }
+        else
+        {
+            SetItemNameVisibility(false);
+        }
     }
 
-    private void OnDestroy()
+    void SetItemNameVisibility(bool visible, string itemName = "")
     {
+        if(_itemNameAnim != null)
+        {
+            _itemNameAnim.Kill();
+            _itemNameAnim = null;
+        }
 
+        _itemNameAnim = DOTween.Sequence();
+        if (visible)
+        {
+            Tween fadeTween = _selectedItemNameTMP.DOFade(1f, 0.35f);
+            _itemNameAnim.Join(fadeTween);
+
+            if (!string.IsNullOrEmpty(itemName)) _selectedItemNameTMP.text = itemName;
+        }
+        else
+        {
+            Tween fadeTween = _selectedItemNameTMP.DOFade(0f, 0.2f);
+            _itemNameAnim.Join(fadeTween);
+        }
     }
 
 }
