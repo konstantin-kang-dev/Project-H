@@ -9,7 +9,8 @@ public class InventorySlotUI : MonoBehaviour
     [SerializeField] Image _itemImage;
     Sequence _selectAnim;
     Sequence _deselectAnim;
-    IPickable _item;
+
+    public IPickable Item { get; private set; }
     private void Awake()
     {
 
@@ -51,14 +52,14 @@ public class InventorySlotUI : MonoBehaviour
 
     public void SetItem(IPickable item)
     {
-        _item = item;
-        _itemImage.sprite = _item.ItemConfig.InventoryIcon;
+        Item = item;
+        _itemImage.sprite = Item.ItemConfig.InventoryIcon;
         _itemImage.gameObject.SetActive(true);
     }
 
     public void Clear()
     {
-        _item = null;
+        Item = null;
 
         _itemImage.sprite = null;
         _itemImage.gameObject.SetActive(false);
