@@ -565,7 +565,7 @@ MonoBehaviour:
     m_Value: 50
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 4
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
@@ -580,10 +580,10 @@ MonoBehaviour:
     m_Value: 20
   denoisingMode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 3
   anisotropy:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 0.642
   sliceDistributionUniformity:
     m_OverrideState: 1
     m_Value: 0.75
