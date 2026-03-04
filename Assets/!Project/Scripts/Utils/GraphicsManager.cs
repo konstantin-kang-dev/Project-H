@@ -74,9 +74,9 @@ public class GraphicsManager
                 hdData.allowFidelityFX2SuperResolution = true;
                 hdData.fidelityFX2SuperResolutionUseCustomQualitySettings = true;
                 hdData.fidelityFX2SuperResolutionQuality = (uint)RelevantGraphicsSave.FSRQuality;
-                //Debug.Log($"[GraphicsManager] Enabled FSR2 {hdData.fidelityFX2SuperResolutionQuality} ({RelevantGraphicsSave.FSRQuality})");
                 break;
         }
+        Debug.Log($"[GraphicsManager] Enabled Upscale: {RelevantGraphicsSave.UpscaleType} FSR2 Quality: {hdData.fidelityFX2SuperResolutionQuality} DLSS Quality:{hdData.deepLearningSuperSamplingQuality}");
     }
 
     public static void ApplyPostProcessSettings(GraphicsSave save)
@@ -147,8 +147,8 @@ public class GraphicsManager
                 GraphicsQuality.Low => 16,
                 GraphicsQuality.Medium => 32,
                 GraphicsQuality.High => 64,
-                GraphicsQuality.Ultra => 128,
-                GraphicsQuality.Crazy => 196,
+                GraphicsQuality.Ultra => 96,
+                GraphicsQuality.Crazy => 96,
                 _ => 64
             };
         }
@@ -161,9 +161,9 @@ public class GraphicsManager
                 GraphicsQuality.Low => 0,
                 GraphicsQuality.Medium => 0,
                 GraphicsQuality.High => 0,
-                GraphicsQuality.Ultra => 1,
+                GraphicsQuality.Ultra => 0,
                 GraphicsQuality.Crazy => 1,
-                _ => 1
+                _ => 0
             };
         }
 
