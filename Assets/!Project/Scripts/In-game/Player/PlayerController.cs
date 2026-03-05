@@ -130,4 +130,37 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void HandleEndGame()
+    {
+        if(_player.IsOwner)
+        {
+            PlayerInteraction.Clear();
+            PlayerInventory.Clear();
+            _playerMovementService.Clear();
+            CameraController.Clear();
+
+            PlayerStaminaService.OnStaminaUpdate -= _playerMovementService.HandleUpdateStamina;
+            PlayerStaminaService.OnStaminaEmpty -= CharacterAudioService.HandleStaminaEmpty;
+
+            _playerMovementService.OnWalk -= PlayerStaminaService.HandleWalk;
+            _playerMovementService.OnJump -= PlayerStaminaService.HandleJump;
+
+            PlayerVisuals.AnimatorController.SetHeadVisibility(false);
+            PlayerVisuals.OnAnimatorStateChanged -= CameraController.HandleAnimationChange;
+
+            _playerMovementService.OnWalk -= PlayerVisuals.HandleWalk;
+            _playerMovementService.OnJump -= PlayerVisuals.HandleJump;
+            _playerMovementService.OnLand -= PlayerVisuals.HandleLand;
+            _playerMovementService.OnCrouchingChange -= PlayerVisuals.HandleCrouch;
+
+            CameraController.OnLookPositionUpdate -= PlayerVisuals.AnimatorController.SetLookPosition;
+            CameraController.OnLookPositionUpdate -= _player.RPC_RequestSetLookPosition;
+            CameraController.OnRotationUpdate -= _playerMovementService.UpdateRotation;
+            _playerMovementService.OnSprint -= CameraController.AdjustFov;
+
+        }
+
+        PlayerVisuals.AnimatorController.SetState(AnimatorState.Idle);
+    }
+
 }

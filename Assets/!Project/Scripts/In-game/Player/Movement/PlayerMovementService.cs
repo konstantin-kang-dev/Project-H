@@ -90,15 +90,22 @@ public class PlayerMovementService : NetworkBehaviour
 
     private void OnDestroy()
     {
+        Clear();
+    }
+
+    public void Clear()
+    {
         if (IsOwner)
         {
             GlobalInputManager.Input.OnMove -= HandleMoveInput;
             GlobalInputManager.Input.OnJump -= HandleJumpInput;
             GlobalInputManager.Input.OnSprint -= HandleSprintInput;
             GlobalInputManager.Input.OnCrouchToggle -= HandleCrouchToggle;
+
+            _targetInputs = Vector2.zero;
+            
         }
     }
-
 
     private void Update()
     {

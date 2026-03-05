@@ -306,15 +306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 2
   _audioList:
   - {fileID: 8300000, guid: 68f4aa040c2d75646a0138825fe5611e, type: 3}
@@ -582,15 +573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 1
   _audioList:
   - {fileID: 8300000, guid: b67c351cecfebb04d9de1746fb133dae, type: 3}
@@ -894,6 +876,18 @@ PrefabInstance:
       propertyPath: _isLocalMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6325356971670124016, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
+      propertyPath: SceneId
+      value: 1586411517
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400994915425915497, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
+      propertyPath: SceneId
+      value: 2664350207
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400994915425915497, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7741183481686315302, guid: b0cfa0a9a8367c1458704e64e1b90aa0, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -990,15 +984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 2
   _audioList: []
   _randomizeSounds: 1
@@ -1184,15 +1169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 2
   _audioList:
   - {fileID: 8300000, guid: 2db347e78f6ee7247a56f80d5429e428, type: 3}
@@ -1419,15 +1395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 1
   _audioList: []
   _randomizeSounds: 1
@@ -2088,15 +2055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 2
   _audioList:
   - {fileID: 8300000, guid: bb94f425faea87547b7536ae0cc7bbf9, type: 3}
@@ -2322,15 +2280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 2
   _audioList:
   - {fileID: 8300000, guid: 696f2983f3c852a4e828a769d147c009, type: 3}
@@ -2678,15 +2627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 2
   _audioList:
   - {fileID: 8300000, guid: 630d8f4779b790b4c8903eaf8cb5b64f, type: 3}
@@ -2739,15 +2679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebd753c24444c044a2458cbf6e75038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   GameAudioType: 1
   _audioList:
   - {fileID: 8300000, guid: 4037b11d7b309cf4393ad1b76b94e0c8, type: 3}

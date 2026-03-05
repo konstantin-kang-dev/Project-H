@@ -55,12 +55,8 @@ public class GameMenuUI : BasicCustomWindow
         WindowsNavigator.Instance.OpenWindow(CustomWindowType.Settings);
     }
     
-    async void HandleQuitToMenuBtn()
+    void HandleQuitToMenuBtn()
     {
-        NetworkGameManager.Instance.Disconnect();
-        LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "Loading Menu");
-
-        await UniTask.WaitForSeconds(0.5f);
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        GameManager.Instance.QuitToMenu();
     }
 }

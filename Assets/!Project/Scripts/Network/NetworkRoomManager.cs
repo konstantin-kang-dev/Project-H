@@ -15,15 +15,20 @@ using System.Linq;
 using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
-public class ServerRoomManager: MonoBehaviour
+public class NetworkRoomManager: NetworkBehaviour
 {
-    public static ServerRoomManager Instance;
-    public static event Action OnManagerReady;
+    public static NetworkRoomManager Instance;
 
     NetworkManager _networkManager;
-    Dictionary<int, NetworkPlayerData> _connectedPlayers = new Dictionary<int, NetworkPlayerData>();
+    readonly SyncDictionary<int, NetworkPlayerData> _connectedPlayers = new SyncDictionary<int, NetworkPlayerData>();
     public IReadOnlyDictionary<int, NetworkPlayerData> ConnectedPlayers => _connectedPlayers;
     public int ConnectedPlayersCount => ConnectedPlayers.Values.ToList().Count;
+
+    public Dictionary<int, Sprite> PlayersAvatars { get; private set; } = new Dictionary<int, Sprite>();
+
+    public event Action<NetworkPlayerData> OnConnectedPlayer;
+    public event Action<NetworkPlayerData> OnUpdatedPlayer;
+    public event Action<NetworkPlayerData> OnDisconnectedPlayer;
 
     private void Awake()
     {
@@ -32,13 +37,31 @@ public class ServerRoomManager: MonoBehaviour
         _networkManager = InstanceFinder.NetworkManager;
     }
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        _connectedPlayers.OnChange += HandleConnectedPlayersChange;
+        Debug.Log($"[NetworkRoomManager] OnStartClient");
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        _connectedPlayers.OnChange -= HandleConnectedPlayersChange;
+    }
+
+
     public void Init()
     {
         NetworkGameManager.Instance.OnClientDisconnected += SERVER_RemoveConnectedPlayer;
         NetworkGameManager.Instance.OnClientLoadedStartScene += HandleClientLoadedStartScene;
         _connectedPlayers.Clear();
     }
-    public void Clear()
+
+    [Server]
+    public void SERVER_Clear()
     {
         _connectedPlayers.Clear();
         NetworkGameManager.Instance.OnClientLoadedStartScene -= HandleClientLoadedStartScene;
@@ -54,6 +77,49 @@ public class ServerRoomManager: MonoBehaviour
         }
         else
         {
+
+        }
+    }
+
+    private void HandleConnectedPlayersChange(SyncDictionaryOperation op, int key, NetworkPlayerData value, bool asServer)
+    {
+        switch (op)
+        {
+            case SyncDictionaryOperation.Add:
+                HandlePlayerAdded(value);
+                OnConnectedPlayer?.Invoke(value);
+                break;
+            case SyncDictionaryOperation.Remove:
+                HandlePlayerRemoved(value);
+                OnDisconnectedPlayer?.Invoke(value);
+                break;
+            case SyncDictionaryOperation.Set:
+                HandlePlayerAdded(value);
+                OnUpdatedPlayer?.Invoke(value);
+                break;
+        }
+    }
+
+    async void HandlePlayerAdded(NetworkPlayerData playerData)
+    {
+        Debug.Log($"[NetworkRoomManager] HandlePlayerAdded {playerData.PlayerName}");
+        Sprite avatar = null;
+
+        if (!string.IsNullOrEmpty(playerData.PlayerSteamId))
+        {
+            Texture2D texture = await NetworkGameManager.Instance.GetSteamAvatar(playerData.PlayerSteamId);
+            avatar = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+            Debug.Log($"[NetworkRoomManager] Loaded {playerData.PlayerName}'s avatar");
+        }
+
+        PlayersAvatars[playerData.ClientId] = avatar;
+    }
+
+    async void HandlePlayerRemoved(NetworkPlayerData playerData)
+    {
+        if (PlayersAvatars.ContainsKey(playerData.ClientId))
+        {
+            PlayersAvatars.Remove(playerData.ClientId);
 
         }
     }
@@ -100,6 +166,7 @@ public class ServerRoomManager: MonoBehaviour
         ChatManager.Instance.SERVER_SendMessage("has joined the game.", ChatMessageType.Notification, networkPlayerData.ClientId);
     }
 
+
     public NetworkPlayerData GetNetworkPlayerData(int clientId)
     {
         if (!ConnectedPlayers.ContainsKey(clientId)) return new NetworkPlayerData();
@@ -124,5 +191,18 @@ public class ServerRoomManager: MonoBehaviour
             ReplaceScenes = ReplaceOption.All,
         };
         InstanceFinder.SceneManager.LoadGlobalScenes(sld);
+    }
+
+    public Sprite GetPlayerAvatar(int clientId)
+    {
+        if (PlayersAvatars.ContainsKey(clientId))
+        {
+            return PlayersAvatars[clientId];
+        }
+        else
+        {
+            return null;
+        }
+
     }
 }

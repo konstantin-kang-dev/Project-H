@@ -159,7 +159,7 @@ public class LobbyManager : NetworkBehaviour
         {
             LobbyId = _lobbyData.Value.LobbyId,
             MaxPlayers = _lobbyData.Value.MaxPlayers,
-            CurrentPlayers = ServerRoomManager.Instance.ConnectedPlayersCount,
+            CurrentPlayers = NetworkRoomManager.Instance.ConnectedPlayersCount,
             ChosenDifficulty = _lobbyData.Value.ChosenDifficulty,
             HostName = _lobbyData.Value.HostName,
             HostSteamId = _lobbyData.Value.HostSteamId,
@@ -173,7 +173,7 @@ public class LobbyManager : NetworkBehaviour
     {
         Debug.Log($"[LobbyManager] Started game.");
         CLIENTS_HandleStartGame();
-        ServerRoomManager.Instance.SERVER_LoadGameScene(1);
+        NetworkRoomManager.Instance.SERVER_LoadGameScene(1);
     }
 
     [ObserversRpc]
@@ -283,6 +283,6 @@ public class LobbyManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RPC_RequestSendPlayerData(PlayerSave data, NetworkConnection conn)
     {
-        ServerRoomManager.Instance.SERVER_SetPlayerData(data, conn);
+        NetworkRoomManager.Instance.SERVER_SetPlayerData(data, conn);
     }
 }
