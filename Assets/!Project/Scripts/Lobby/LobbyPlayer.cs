@@ -8,8 +8,7 @@ using Zenject;
 
 public class LobbyPlayer : NetworkBehaviour
 {
-    private readonly SyncVar<string> _playerName = new SyncVar<string>("Player");
-    public string PlayerName => _playerName.Value;
+    readonly SyncVar<NetworkPlayerData> _playerData = new SyncVar<NetworkPlayerData>();
 
     private readonly SyncVar<bool> _isReady = new SyncVar<bool>(false);
     private readonly SyncVar<int> _modelKey = new SyncVar<int>(0);
@@ -29,7 +28,7 @@ public class LobbyPlayer : NetworkBehaviour
         int myClientId = base.IsClientStarted ? ClientManager.Connection.ClientId : -1;
         Debug.Log($"[CLIENT {myClientId}] LobbyPlayer spawned.");
 
-        _playerName.OnChange += CLIENT_HandlePlayerNameChange;
+        _playerData.OnChange += CLIENT_HandlePlayerDataChange;
         _modelKey.OnChange += CLIENT_OnPlayerModelChanged;
         _isReady.OnChange += CLIENT_OnPlayerReadyChanged;
         _lookPosition.OnChange += CLIENT_OnLookPositionUpdated;
@@ -48,7 +47,6 @@ public class LobbyPlayer : NetworkBehaviour
                 RPC_RequestChangePlayerModel(modelKey);
             });
 
-            RPC_RequestSetPlayerName(SaveManager.GameSave.PlayerSave.PlayerName);
         }
         else
         {
@@ -65,7 +63,9 @@ public class LobbyPlayer : NetworkBehaviour
     {
         base.OnStartServer();
 
-        _playerName.Value = "Player";
+        _playerData.Value = NetworkRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
+        NetworkRoomManager.Instance.OnUpdatedPlayer += SERVER_HandleUpdatePlayerData;
+
         _isReady.Value = false;
         _modelKey.Value = _playerVisuals.GetRandomModelKey();
 
@@ -111,9 +111,7 @@ public class LobbyPlayer : NetworkBehaviour
 
         if(IsServerStarted)
         {
-            NetworkPlayerData networkPlayerData = NetworkRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
-            networkPlayerData.ModelKey = _modelKey.Value;
-            NetworkRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+            SERVER_UpdatePlayerNetworkData();
         }
     }
 
@@ -133,7 +131,7 @@ public class LobbyPlayer : NetworkBehaviour
     {
         if (asServer) return;
 
-        _lobbyPlayerUI.SetReadyIconVisibility(next);
+        _lobbyPlayerUI.SetReadyAppearance(next);
 
         if (IsServerStarted)
         {
@@ -141,17 +139,15 @@ public class LobbyPlayer : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void RPC_RequestSetPlayerName(string name)
-    {
-        _playerName.Value = name;
-        SERVER_UpdatePlayerNetworkData();
-    }
     [Client]
-    void CLIENT_HandlePlayerNameChange(string prev, string next, bool asServer)
+    void CLIENT_HandlePlayerDataChange(NetworkPlayerData prev, NetworkPlayerData next, bool asServer)
     {
         if (asServer) return;
-        _lobbyPlayerUI.SetNicknameText(next);
+
+        _lobbyPlayerUI.SetNicknameText(next.PlayerName);
+
+        Sprite avatar = NetworkRoomManager.Instance.GetPlayerAvatar(_playerData.Value.ClientId);
+        _lobbyPlayerUI.SetAvatarSprite(avatar);
     }
 
     [ServerRpc]
@@ -169,12 +165,19 @@ public class LobbyPlayer : NetworkBehaviour
             _playerVisuals.AnimatorController.SetLookPosition(next);
         }
     }
+    [Server]
+    void SERVER_HandleUpdatePlayerData(NetworkPlayerData playerData)
+    {
+        if(playerData.ClientId == Owner.ClientId)
+        {
+            _playerData.Value = playerData;
+        }
+    }
 
     [Server]
     void SERVER_UpdatePlayerNetworkData()
     {
-        NetworkPlayerData networkPlayerData = NetworkRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
-        networkPlayerData.PlayerName = _playerName.Value;
+        NetworkPlayerData networkPlayerData = _playerData.Value;
         networkPlayerData.ModelKey = _modelKey.Value;
         NetworkRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
     }
