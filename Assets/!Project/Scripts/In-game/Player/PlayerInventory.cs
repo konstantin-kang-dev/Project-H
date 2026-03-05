@@ -83,6 +83,12 @@ public class PlayerInventory : NetworkBehaviour
 
     private void OnDestroy()
     {
+
+        Clear();
+    }
+
+    public void Clear()
+    {
         if (IsOwner)
         {
             GlobalInputManager.Input.OnInventorySlotKey -= SelectItem;
@@ -90,7 +96,6 @@ public class PlayerInventory : NetworkBehaviour
             GlobalInputManager.Input.OnPreviousInventorySlot -= HandlePreviousInventorySlotInput;
             GlobalInputManager.Input.OnInteractWithItem -= InteractWithItemInHands;
         }
-
     }
 
     private void FixedUpdate()

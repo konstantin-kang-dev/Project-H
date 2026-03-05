@@ -11,8 +11,5 @@ public class CameraGraphicsApplier : MonoBehaviour
         GraphicsManager.ApplyCameraSettings(hdData);
 
     }
-    void Update()
-    {
-        Debug.Log($"Scale: {DynamicResolutionHandler.instance.GetCurrentScale()}");
-    }
+
 }

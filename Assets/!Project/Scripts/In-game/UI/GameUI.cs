@@ -51,6 +51,11 @@ public class GameUI : MonoBehaviour
         OnGameplayUIFocusChange?.Invoke(visible);
     }
 
+    public void SetCanvasCamera(Camera camera)
+    {
+        _canvas.worldCamera = camera;
+    }
+
     void Update()
     {
         

@@ -32,9 +32,14 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnDestroy()
     {
+        Clear();
+
+    }
+
+    public void Clear()
+    {
         GlobalInputManager.Input.OnInteract -= HandleInteractInput;
         GlobalInputManager.Input.OnDrop -= HandleDropInput;
-
     }
 
     public void HandleRaycast(Collider collider)

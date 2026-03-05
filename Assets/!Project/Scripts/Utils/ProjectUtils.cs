@@ -108,4 +108,31 @@ public static class ProjectUtils
 
         return sb.ToString();
     }
+    public static string FormatTime(float seconds)
+    {
+        int h = (int)(seconds / 3600);
+        int m = (int)(seconds % 3600 / 60);
+        int s = (int)(seconds % 60);
+
+        if (h > 0) return $"{h}h {m:D2}m {s:D2}s";
+        if (m > 0) return $"{m}m {s:D2}s";
+        return $"{s}s";
+    }
+
+    public static string GetDifficultyString(DifficultyType diffType)
+    {
+        switch (diffType)
+        {
+            case DifficultyType.FiftyPercent:
+                return "50%";
+            case DifficultyType.HundredPercent:
+                return "100%";
+            case DifficultyType.TwoHundredPercent:
+                return "200%";
+            case DifficultyType.FourHundredPercent:
+                return "400%";
+        }
+
+        return "50%";
+    }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -27,8 +28,8 @@ public class GameManager : NetworkBehaviour
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Player> Players => _players;
 
-    readonly SyncVar<float> _gameSpeed = new SyncVar<float>();
-
+    public float SessionTimer { get; private set; } = 0f;
+    public bool IsWin { get; private set; } = false;
     public bool IsInitialized { get; private set; } = false;
     private void Awake()
     {
@@ -45,7 +46,6 @@ public class GameManager : NetworkBehaviour
 
         Init();
 
-        _gameSpeed.OnChange += HandleGameSpeedChange;
         _gameState.OnChange += HandleGameStateChange;
 
         LoadingManager.Instance.SetLoadingProgress(0.75f);
@@ -57,13 +57,26 @@ public class GameManager : NetworkBehaviour
     {
         base.OnStartServer();
 
-        _gameSpeed.Value = 1;
         _gameState.Value = GameState.PreparingToStart;
         _playersReadyToStart.Clear();
         OnAllPlayersReadyToStart += SERVER_StartGame;
 
         _gameDifficulty.Value = GameDifficultyManager.Instance.SelectedConfig.DifficultyType;
         Debug.Log($"[GameManager] Server is loaded. Difficulty: {_gameDifficulty.Value}");
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        _gameState.OnChange -= HandleGameStateChange;
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+
+        OnAllPlayersReadyToStart -= SERVER_StartGame;
     }
 
     public void Init()
@@ -80,10 +93,18 @@ public class GameManager : NetworkBehaviour
         Debug.Log($"[GameManager] Initialized");
     }
 
+    private void FixedUpdate()
+    {
+        if (GameState == GameState.Started)
+        {
+            SessionTimer += Time.deltaTime;
+        }
+    }
+
     [Server]
     public async void SERVER_StartGame()
     {
-        _players = PlayersSpawnManager.Instance.SpawnPlayers(ServerRoomManager.Instance.ConnectedPlayers.Values.ToList());
+        _players = PlayersSpawnManager.Instance.SpawnPlayers(NetworkRoomManager.Instance.ConnectedPlayers.Values.ToList());
 
         foreach (var playerBlock in _players)
         {
@@ -107,12 +128,12 @@ public class GameManager : NetworkBehaviour
     {
         _playersReadyToStart.Add(clientId, true);
 
-        if(_playersReadyToStart.Count == ServerRoomManager.Instance.ConnectedPlayersCount)
+        if(_playersReadyToStart.Count == NetworkRoomManager.Instance.ConnectedPlayersCount)
         {
             OnAllPlayersReadyToStart?.Invoke();
         }
 
-        Debug.Log($"[GameManager] Player {clientId} is ready to start game. Total {_playersReadyToStart.Count}/{ServerRoomManager.Instance.ConnectedPlayersCount}");
+        Debug.Log($"[GameManager] Player {clientId} is ready to start game. Total {_playersReadyToStart.Count}/{NetworkRoomManager.Instance.ConnectedPlayersCount}");
     }
 
     [Client]
@@ -138,46 +159,43 @@ public class GameManager : NetworkBehaviour
 
         if (IsServerStarted)
         {
-            ObjectivesManager.Instance.Init(GameDifficulty, ServerRoomManager.Instance.ConnectedPlayersCount);
+            ObjectivesManager.Instance.Init(GameDifficulty, NetworkRoomManager.Instance.ConnectedPlayersCount);
             EnemiesManager.Instance.Init();
         }
 
         LoadingManager.Instance.SetLoadingProgress(1f);
         GlobalAudioManager.Instance.Play(SoundType.GameAmbient);
+
+        ResultsUI.Instance.OnContinueBtn += QuitToMenu;
     }
 
     [Server]
-    public void SERVER_SetGameSpeed(float speed)
+    public void SERVER_EndGame(bool isWin)
     {
-        _gameSpeed.Value = speed;
+        _gameState.Value = GameState.Ended;
+        IsWin = isWin;  
+
+        RPC_SendSessionDataToClients(SessionTimer, isWin);
     }
 
-    [Client]
-    void HandleGameSpeedChange(float prev, float next, bool asServer)
+    [ObserversRpc]
+    void RPC_SendSessionDataToClients(float sessionTime, bool isWin)
     {
-        if (asServer) return;
+        SessionTimer = sessionTime;
+        IsWin = isWin;
 
-        Time.timeScale = next;
+        List<NetworkPlayerData> playersData = NetworkRoomManager.Instance.ConnectedPlayers.Values.ToList(); 
+
+        ResultsUI.Instance.SetVisibility(true, IsWin, playersData, _gameDifficulty.Value, SessionTimer);
+        LocalPlayer.HandleEndGame();
     }
-
-    void Update()
+    public async void QuitToMenu()
     {
+        NetworkGameManager.Instance.Disconnect();
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "Loading Menu...");
 
-    }
-
-    public override void OnStopClient()
-    {
-        base.OnStopClient();
-
-        _gameSpeed.OnChange -= HandleGameSpeedChange;
-        _gameState.OnChange -= HandleGameStateChange;
-    }
-
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-
-        OnAllPlayersReadyToStart -= SERVER_StartGame;
+        await UniTask.WaitForSeconds(0.5f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }
 
@@ -192,16 +210,6 @@ public class GameManagerEditor : Editor
         GameManager manager = (GameManager)target;
 
         EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Speed", EditorStyles.boldLabel);
-
-        if (GUILayout.Button("Set speed 0.2x"))
-            manager.SERVER_SetGameSpeed(0.2f);
-
-        if (GUILayout.Button("Set speed 0.5x"))
-            manager.SERVER_SetGameSpeed(0.5f);
-
-        if (GUILayout.Button("Set speed 1x"))
-            manager.SERVER_SetGameSpeed(1f);
 
     }
 }

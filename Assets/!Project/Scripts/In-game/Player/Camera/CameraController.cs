@@ -47,6 +47,7 @@ public class CameraController : MonoBehaviour
 
         GlobalInputManager.Input.OnLook += HandleLookInput;
         GameUI.Instance.OnGameplayUIFocusChange += HandleGameplayUIFocusChange;
+        GameUI.Instance.SetCanvasCamera(_camera);
 
         _isActive = true;
         IsInitialized = true;
@@ -59,9 +60,15 @@ public class CameraController : MonoBehaviour
 
     private void OnDestroy()
     {
+        Clear();
+    }
+
+    public void Clear()
+    {
         GlobalInputManager.Input.OnLook -= HandleLookInput;
 
         GameUI.Instance.OnGameplayUIFocusChange -= HandleGameplayUIFocusChange;
+        _cameraAnimator.enabled = false;
     }
 
     void Update()

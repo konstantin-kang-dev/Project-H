@@ -111,9 +111,9 @@ public class LobbyPlayer : NetworkBehaviour
 
         if(IsServerStarted)
         {
-            NetworkPlayerData networkPlayerData = ServerRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
+            NetworkPlayerData networkPlayerData = NetworkRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
             networkPlayerData.ModelKey = _modelKey.Value;
-            ServerRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+            NetworkRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
         }
     }
 
@@ -173,10 +173,10 @@ public class LobbyPlayer : NetworkBehaviour
     [Server]
     void SERVER_UpdatePlayerNetworkData()
     {
-        NetworkPlayerData networkPlayerData = ServerRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
+        NetworkPlayerData networkPlayerData = NetworkRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
         networkPlayerData.PlayerName = _playerName.Value;
         networkPlayerData.ModelKey = _modelKey.Value;
-        ServerRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
+        NetworkRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
     }
 
     public override void OnDespawnServer(NetworkConnection connection)

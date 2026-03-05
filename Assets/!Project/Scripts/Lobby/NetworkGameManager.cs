@@ -11,6 +11,7 @@ using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.UI.GridLayoutGroup;
@@ -146,7 +147,7 @@ public class NetworkGameManager : MonoBehaviour
         NetworkManager.ServerManager.StartConnection();
 
         await UniTask.WaitForSeconds(1.5f);
-        ServerRoomManager.Instance.Init();
+        NetworkRoomManager.Instance.Init();
 
         NetworkManager.ClientManager.StartConnection();
 
@@ -187,6 +188,44 @@ public class NetworkGameManager : MonoBehaviour
         NetworkManager.ClientManager.StartConnection(); 
     }
 
+    public async Task<Texture2D> GetSteamAvatar(string steamIdString)
+    {
+        CSteamID steamId = new CSteamID(ulong.Parse(steamIdString));
+        SteamFriends.RequestUserInformation(steamId, false);
+
+        int avatarHandle = SteamFriends.GetLargeFriendAvatar(steamId);
+
+        await UniTask.WaitUntil(() =>
+        {
+            return avatarHandle != -1 && avatarHandle != 0;
+        });
+
+        SteamUtils.GetImageSize(avatarHandle, out uint width, out uint height);
+
+        byte[] imageData = new byte[4 * width * height];
+        SteamUtils.GetImageRGBA(avatarHandle, imageData, imageData.Length);
+
+        Texture2D texture = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
+        texture.filterMode = FilterMode.Trilinear;
+
+        Color32[] pixels = new Color32[width * height];
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+            {
+                int srcIdx = (int)((height - 1 - y) * width + x) * 4;
+                pixels[y * width + x] = new Color32(
+                    imageData[srcIdx],
+                    imageData[srcIdx + 1],
+                    imageData[srcIdx + 2],
+                    imageData[srcIdx + 3]
+                );
+            }
+
+        texture.SetPixels32(pixels);
+        texture.Apply();
+        return texture;
+    }
+
     public void Disconnect()
     {
         bool isServerActive = NetworkManager.ServerManager.Started;
@@ -204,7 +243,7 @@ public class NetworkGameManager : MonoBehaviour
             StopClient();
         }
 
-        ServerRoomManager.Instance.Clear();
+        NetworkRoomManager.Instance.SERVER_Clear();
     }
     public void StopHost()
     {

@@ -39,7 +39,7 @@ public class ChatManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RPC_RequestSendMessage(string message, ChatMessageType chatMessageType, NetworkConnection conn)
     {
-        NetworkPlayerData networkPlayerData = ServerRoomManager.Instance.GetNetworkPlayerData(conn.ClientId);
+        NetworkPlayerData networkPlayerData = NetworkRoomManager.Instance.GetNetworkPlayerData(conn.ClientId);
 
         ChatMessageData data = new ChatMessageData()
         {
@@ -56,7 +56,7 @@ public class ChatManager : NetworkBehaviour
     [Server]
     public void SERVER_SendMessage(string message, ChatMessageType chatMessageType, int clientId)
     {
-        NetworkPlayerData networkPlayerData = ServerRoomManager.Instance.GetNetworkPlayerData(clientId);
+        NetworkPlayerData networkPlayerData = NetworkRoomManager.Instance.GetNetworkPlayerData(clientId);
 
         ChatMessageData data = new ChatMessageData()
         {

@@ -157,6 +157,11 @@ public class Player : NetworkBehaviour, IHintable
 
     }
 
+    public void HandleEndGame()
+    {
+        PlayerController.HandleEndGame();
+    }
+
     void Update()
     {
         
