@@ -10,7 +10,11 @@ public class LobbyPlayerUI : MonoBehaviour
 {
     [SerializeField] List<Button> _playerModelChangeBtns = new List<Button>();
     [SerializeField] TextMeshProUGUI _nicknameTmp;
-    [SerializeField] Image _readyIcon;
+
+    [SerializeField] Image _profileAvatar;
+    [SerializeField] Image _profileBg;
+    [SerializeField] Color _profileReadyBgColor;
+    [SerializeField] Color _profileNotReadyBgColor;
 
     public void BindActionsToModelChangeButtons(UnityAction leftBtnAction, UnityAction rightBtnAction)
     {
@@ -26,13 +30,21 @@ public class LobbyPlayerUI : MonoBehaviour
         }
     }
 
+    public void SetAvatarSprite(Sprite sprite)
+    {
+        if(sprite != null)
+        {
+            _profileAvatar.sprite = sprite;
+        }
+    }
+
     public void SetNicknameText(string nickname)
     {
         _nicknameTmp.text = nickname;
     }
 
-    public void SetReadyIconVisibility(bool visible)
+    public void SetReadyAppearance(bool isReady)
     {
-        _readyIcon.gameObject.SetActive(visible);
+        _profileBg.color = isReady ? _profileReadyBgColor : _profileNotReadyBgColor;
     }
 }

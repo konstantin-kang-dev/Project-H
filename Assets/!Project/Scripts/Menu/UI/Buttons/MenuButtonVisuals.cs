@@ -14,13 +14,24 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     [SerializeField] TextMeshProUGUI _tmp;
     [SerializeField] Color _tmpHoverColor;
+    [SerializeField] Image _icon;
+
     Color _initialTmpColor;
+    Color _initialIconColor;
 
     [SerializeField] float _hoverAnimationDuration = 0.15f;
     void Awake()
     {
         _btn = GetComponent<Button>();
-        _initialTmpColor = _tmp.color;
+        if(_tmp != null)
+        {
+            _initialTmpColor = _tmp.color;
+        }
+
+        if (_icon != null)
+        {
+            _initialIconColor = _icon.color;
+        }
     }
 
     void Update()
@@ -58,8 +69,18 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
         Tween borderFadeTween = _borderImage.DOFade(0f, _hoverAnimationDuration);
         hoverEnterAnim.Join(borderFadeTween);
 
-        Tween tmpColorFade = _tmp.DOColor(_tmpHoverColor, _hoverAnimationDuration);
-        hoverEnterAnim.Join(tmpColorFade);
+        if(_tmp != null)
+        {
+            Tween tmpColorFade = _tmp.DOColor(_tmpHoverColor, _hoverAnimationDuration);
+            hoverEnterAnim.Join(tmpColorFade);
+        }
+
+
+        if(_icon != null)
+        {
+            Tween iconColorFade = _icon.DOColor(_tmpHoverColor, _hoverAnimationDuration);
+            hoverEnterAnim.Join(iconColorFade);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -72,8 +93,17 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
         Tween borderFadeTween = _borderImage.DOFade(1f, _hoverAnimationDuration);
         hoverExitAnim.Join(borderFadeTween);
 
-        Tween tmpColorFade = _tmp.DOColor(_initialTmpColor, _hoverAnimationDuration);
-        hoverExitAnim.Join(tmpColorFade);
+        if(_tmp != null)
+        {
+            Tween tmpColorFade = _tmp.DOColor(_initialTmpColor, _hoverAnimationDuration);
+            hoverExitAnim.Join(tmpColorFade);
+        }
+
+        if (_icon != null)
+        {
+            Tween iconColorFade = _icon.DOColor(_initialTmpColor, _hoverAnimationDuration);
+            hoverExitAnim.Join(iconColorFade);
+        }
     }
 
 }

@@ -49,15 +49,30 @@ public class NetworkRoomManager: NetworkBehaviour
     {
         base.OnStopClient();
 
-        _connectedPlayers.OnChange -= HandleConnectedPlayersChange;
+        CLIENT_Clear();
     }
 
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+
+        SERVER_Clear();
+    }
 
     public void Init()
     {
         NetworkGameManager.Instance.OnClientDisconnected += SERVER_RemoveConnectedPlayer;
         NetworkGameManager.Instance.OnClientLoadedStartScene += HandleClientLoadedStartScene;
         _connectedPlayers.Clear();
+    }
+
+    [Client]
+    public void CLIENT_Clear()
+    {
+        _connectedPlayers.OnChange -= HandleConnectedPlayersChange;
+        OnConnectedPlayer = null;
+        OnUpdatedPlayer = null;
+        OnDisconnectedPlayer = null;
     }
 
     [Server]
@@ -102,7 +117,6 @@ public class NetworkRoomManager: NetworkBehaviour
 
     async void HandlePlayerAdded(NetworkPlayerData playerData)
     {
-        Debug.Log($"[NetworkRoomManager] HandlePlayerAdded {playerData.PlayerName}");
         Sprite avatar = null;
 
         if (!string.IsNullOrEmpty(playerData.PlayerSteamId))
