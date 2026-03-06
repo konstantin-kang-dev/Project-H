@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
 
     [SerializeField] float _interactionRange = 3f;
     [SerializeField] LayerMask _interactionLayer;
+    [SerializeField] SphereCollider _sphereCollider;
 
     public IPickable _hoveredPickable { get; private set; } = null;
     public IInteractable _hoveredInteractable { get; private set; } = null;
@@ -23,6 +24,8 @@ public class PlayerInteraction : MonoBehaviour
     public void Init(Player player)
     {
         _player = player;
+
+        _sphereCollider.radius = _interactionRange;
 
         GlobalInputManager.Input.OnInteract += HandleInteractInput;
         GlobalInputManager.Input.OnDrop += HandleDropInput;
@@ -160,6 +163,12 @@ public class PlayerInteraction : MonoBehaviour
                 outlinable.SetHighlight(true);
             }
 
+            Player player = other.GetComponent<Player>();
+            if(player != null && !player.IsOwner)
+            {
+                player.PlayerController.SetPlayerUIVisibility(true);
+            }
+
             //Debug.Log($"[PlayerInventory] OnTriggerEnter {other.gameObject.name}");
         }
     }
@@ -174,6 +183,11 @@ public class PlayerInteraction : MonoBehaviour
                 outlinable.SetHighlight(false);
             }
 
+            Player player = other.GetComponent<Player>();
+            if (player != null && !player.IsOwner)
+            {
+                player.PlayerController.SetPlayerUIVisibility(false);
+            }
             //Debug.Log($"[PlayerInventory] OnTriggerExit {other.gameObject.name}");
         }
     }

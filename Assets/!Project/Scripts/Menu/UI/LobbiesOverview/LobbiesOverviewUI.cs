@@ -14,7 +14,7 @@ public class LobbiesOverviewUI : BasicCustomWindow
 
     bool _isVisible = false;
 
-    List<LobbyCardUI> _activeLobbyCardsUI = new List<LobbyCardUI>();
+    [field: SerializeField] List<LobbyCardUI> _activeLobbyCardsUI = new List<LobbyCardUI>();
 
     void Awake()
     {
@@ -58,21 +58,26 @@ public class LobbiesOverviewUI : BasicCustomWindow
     void LoadLobbies()
     {
         FirebaseManager.Instance.LoadLobbies(HandleLoadLobbies);
-        Debug.Log($"[LobbiesOverview] Updated lobbies list({_activeLobbyCardsUI.Count}).");
     }
 
     void HandleLoadLobbies(List<LobbyData> lobbiesData)
     {
+
         foreach (var lobbyCardUI in _activeLobbyCardsUI)
         {
             Destroy(lobbyCardUI.gameObject);
         }
         _activeLobbyCardsUI.Clear();
 
+        Debug.Log($"[LobbiesOverview] HandleLoadLobbies 1");
         foreach (var lobbyData in lobbiesData)
         {
             SpawnLobbyCard(lobbyData);
+            Debug.Log($"[LobbiesOverview] HandleLoadLobbies 2");
         }
+
+        Debug.Log($"[LobbiesOverview] Updated lobbies list({_activeLobbyCardsUI.Count}).");
+
     }
 
     void SpawnLobbyCard(LobbyData lobbyData)

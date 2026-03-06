@@ -42,7 +42,6 @@ public class PlayersSpawnManager : NetworkBehaviour
 
             Spawn(player, connection);
 
-            player.SERVER_SetPlayerName(networkPlayerData.PlayerName);
             player.SERVER_SetModelKey(networkPlayerData.ModelKey);
 
             players.Add(networkPlayerData.ClientId, player);

@@ -71,7 +71,21 @@ public class LobbyPlayer : NetworkBehaviour
 
         SERVER_UpdatePlayerNetworkData();
     }
+    public override void OnStopNetwork()
+    {
+        base.OnStopNetwork();
 
+        if (IsServerStarted)
+        {
+            LobbyManager.Instance.SERVER_UnregisterLobbyPlayer(this); 
+            NetworkRoomManager.Instance.OnUpdatedPlayer -= SERVER_HandleUpdatePlayerData;
+        }
+
+        if (IsOwner)
+        {
+            LobbyManager.Instance.UnregisterLocalLobbyPlayer();
+        }
+    }
     private void Update()
     {
         if (IsOwner)
@@ -182,18 +196,4 @@ public class LobbyPlayer : NetworkBehaviour
         NetworkRoomManager.Instance.SERVER_UpdateNetworkPlayerData(Owner.ClientId, networkPlayerData);
     }
 
-    public override void OnDespawnServer(NetworkConnection connection)
-    {
-        base.OnDespawnServer(connection);
-
-        if (IsServerStarted)
-        {
-            LobbyManager.Instance.SERVER_UnregisterLobbyPlayer(this);
-        }
-
-        if (IsOwner)
-        {
-            LobbyManager.Instance.UnregisterLocalLobbyPlayer();
-        }
-    }
 }

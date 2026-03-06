@@ -120,6 +120,7 @@ public class FirebaseManager : MonoBehaviour
                 }
             }
 
+            Debug.Log($"[FirebaseManager] Loaded lobbies: {lobbies.Count}");
 
             callback?.Invoke(lobbies);
         });

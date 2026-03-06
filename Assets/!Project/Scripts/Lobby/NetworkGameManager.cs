@@ -168,8 +168,9 @@ public class NetworkGameManager : MonoBehaviour
 
         FirebaseManager.Instance.CreateLobby(_pendingLobby, hostSteamId.ToString(), () =>
         {
-            Debug.Log($"[NetworkLobbyManager] Lobby registered! ID: {_currentLobbyId}, SteamID: {hostSteamId}");
+            Debug.Log($"[NetworkLobbyManager] Lobby registered! ID: {_pendingLobby.LobbyId}, HostName: {_pendingLobby.HostName}");
         });
+
     }
 
 

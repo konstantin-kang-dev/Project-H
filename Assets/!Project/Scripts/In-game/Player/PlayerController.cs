@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     [field: SerializeField] public PlayerInventory PlayerInventory { get; private set; }
     [field: SerializeField] public PlayerInteraction PlayerInteraction { get; private set; }
+    [field: SerializeField] public PlayerUI PlayerUI { get; private set; }
 
     public static event Action OnInitialized;
     public bool IsInitialized { get; private set; } = false;
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
             PlayerInventory.OnItemPickUp += CharacterAudioService.HandlePickUp;
         }
 
+
         IsInitialized = true;
 
         OnInitialized?.Invoke();
@@ -107,6 +109,18 @@ public class PlayerController : MonoBehaviour
         {
             PlayerStaminaService.Tick(Time.fixedDeltaTime);
         }
+    }
+
+    public void SetPlayerData(NetworkPlayerData playerData)
+    {
+        Sprite playerAvatar = NetworkRoomManager.Instance.GetPlayerAvatar(playerData.ClientId);
+
+        PlayerUI.SetData(playerData.PlayerName, playerAvatar);
+    }
+
+    public void SetPlayerUIVisibility(bool visible)
+    {
+        PlayerUI.SetVisibility(visible);
     }
 
     public void SetLookPosition(Vector3 lookPosition)

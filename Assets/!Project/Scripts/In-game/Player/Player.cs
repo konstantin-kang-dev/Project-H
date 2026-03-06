@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour, IHintable
 {
+    readonly SyncVar<NetworkPlayerData> _playerData = new SyncVar<NetworkPlayerData>();
+    public NetworkPlayerData PlayerData => _playerData.Value;
+
     readonly SyncVar<bool> _isReadyToInit = new SyncVar<bool>();
     public bool IsReadyToInit => _isReadyToInit.Value;
-
-    readonly SyncVar<string> _playerName = new SyncVar<string>();
-    public string PlayerName => _playerName.Value;
 
     readonly SyncVar<int> _modelKey = new SyncVar<int>();
     public int ModelKey => _modelKey.Value;
@@ -51,6 +51,8 @@ public class Player : NetworkBehaviour, IHintable
             GameManager.Instance.RegisterLocalPlayer(this);
             
         }
+
+        _playerData.OnChange += CLIENT_HandlePlayerDataChange;
         _isReadyToInit.OnChange += HandleIsReadyToInitChange;
 
         _lookPosition.OnChange += HandleLookPositionChange;
@@ -61,10 +63,23 @@ public class Player : NetworkBehaviour, IHintable
     {
         base.OnStartServer();
 
+        _playerData.Value = NetworkRoomManager.Instance.GetNetworkPlayerData(Owner.ClientId);
+        NetworkRoomManager.Instance.OnUpdatedPlayer += SERVER_HandleUpdatePlayerData;
+
         _networkTransform = GetComponent<NetworkTransform>();
 
         _modelKey.Value = -1;
         _isReadyToInit.Value = false;
+    }
+
+    public override void OnStopNetwork()
+    {
+        base.OnStopNetwork();
+
+        if (IsServerStarted)
+        {
+            NetworkRoomManager.Instance.OnUpdatedPlayer -= SERVER_HandleUpdatePlayerData;
+        }
     }
 
     public void Init()
@@ -82,6 +97,30 @@ public class Player : NetworkBehaviour, IHintable
     {
         OnLocalPlayerInitialized?.Invoke(this);
         Debug.Log($"[Player] Local player initialized");
+    }
+
+    [Server]
+    void SERVER_HandleUpdatePlayerData(NetworkPlayerData playerData)
+    {
+        if (playerData.ClientId == Owner.ClientId)
+        {
+            _playerData.Value = playerData;
+        }
+    }
+
+    [Client]
+    void CLIENT_HandlePlayerDataChange(NetworkPlayerData prev, NetworkPlayerData next, bool asServer)
+    {
+        if (asServer) return;
+
+        if (IsOwner)
+        {
+            PlayerController.SetPlayerUIVisibility(false);
+        }
+        else
+        {
+            PlayerController.SetPlayerData(next);
+        }
     }
 
     [Server]
@@ -105,12 +144,6 @@ public class Player : NetworkBehaviour, IHintable
     public void SERVER_SetModelKey(int modelKey)
     {
         _modelKey.Value = modelKey;
-    }
-
-    [Server]
-    public void SERVER_SetPlayerName(string playerName)
-    {
-        _playerName.Value = playerName;
     }
 
     [Server]

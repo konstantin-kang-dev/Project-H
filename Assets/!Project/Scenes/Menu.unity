@@ -27326,6 +27326,7 @@ MonoBehaviour:
   _scrollContainer: {fileID: 1364884765}
   _lobbyCardPrefab: {fileID: 1230083239390865358, guid: fa212204523be6841a6948642c8adb9e, type: 3}
   _autoUpdateInterval: 3
+  _activeLobbyCardsUI: []
 --- !u!1001 &1373903985
 PrefabInstance:
   m_ObjectHideFlags: 0

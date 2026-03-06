@@ -66,14 +66,12 @@ public class ObjectivesManager : NetworkBehaviour
 
         playersCount = GameManager.Instance.Players.Count;
 
-        for (int i = 0; i < playersCount; i++)
-        {
-            int randomConfigKey = Random.Range(0, configsCopy.Count);
-            ObjectiveConfig chosenConfig = configsCopy[randomConfigKey];
-            configsCopy.RemoveAt(randomConfigKey);
+        int randomConfigKey = Random.Range(0, configsCopy.Count);
+        ObjectiveConfig chosenConfig = configsCopy[randomConfigKey];
+        configsCopy.RemoveAt(randomConfigKey);
 
-            SpawnObjectives(chosenConfig, chosenDiff);
-        }
+        SpawnObjectives(chosenConfig, chosenDiff);
+
         Debug.Log($"[ObjectivesManager] Initialized.");
 
         _isInitialized.Value = true;

@@ -59,7 +59,8 @@ public class InventoryUI : MonoBehaviour
 
         if(_lastSelectedSlot.Item != null)
         {
-            SetItemNameVisibility(true, _lastSelectedSlot.Item.ItemConfig.Type.ToString());
+            string itemName = ProjectUtils.CamelCaseToSpaced(_lastSelectedSlot.Item.ItemConfig.Type.ToString());
+            SetItemNameVisibility(true, itemName);
         }
         else
         {
@@ -81,7 +82,10 @@ public class InventoryUI : MonoBehaviour
             Tween fadeTween = _selectedItemNameTMP.DOFade(1f, 0.35f);
             _itemNameAnim.Join(fadeTween);
 
-            if (!string.IsNullOrEmpty(itemName)) _selectedItemNameTMP.text = itemName;
+            if (!string.IsNullOrEmpty(itemName))
+            {
+                _selectedItemNameTMP.text = itemName;
+            }
         }
         else
         {
