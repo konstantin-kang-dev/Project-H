@@ -6,7 +6,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     Player _player;
 
-    [SerializeField] float _interactionRange = 3f;
+    [field: SerializeField] public float InteractionRange { get; private set; } = 3f;
     [SerializeField] LayerMask _interactionLayer;
     [SerializeField] SphereCollider _sphereCollider;
 
@@ -25,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         _player = player;
 
-        _sphereCollider.radius = _interactionRange;
+        _sphereCollider.radius = InteractionRange;
 
         GlobalInputManager.Input.OnInteract += HandleInteractInput;
         GlobalInputManager.Input.OnDrop += HandleDropInput;

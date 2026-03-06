@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
         PlayerInteraction.Init(_player);
         if(_player.IsOwner)
         {
+            CameraController.SetRaycastDistance(PlayerInteraction.InteractionRange);
             PlayerInteraction.OnInteractPickable += PlayerInventory.HandleInteractPickable;
             PlayerInteraction.OnInteractInteractable += PlayerInventory.HandleInteractInteractable;
             PlayerInteraction.OnDrop += PlayerInventory.HandleDropInput;

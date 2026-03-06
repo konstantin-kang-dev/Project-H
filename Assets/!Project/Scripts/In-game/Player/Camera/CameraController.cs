@@ -32,6 +32,8 @@ public class CameraController : MonoBehaviour
 
     Vector3 _lookPosition = Vector3.zero;
 
+    float _raycastDistance = 0f;
+
     public event Action<Vector3> OnLookPositionUpdate;
     public event Action<Vector2> OnRotationUpdate;
     public event Action<Collider> OnRaycast;
@@ -51,6 +53,10 @@ public class CameraController : MonoBehaviour
 
         _isActive = true;
         IsInitialized = true;
+    }
+    public void SetRaycastDistance(float raycastDistance)
+    {
+        _raycastDistance = raycastDistance;
     }
 
     void HandleGameplayUIFocusChange(bool visible)
@@ -174,7 +180,7 @@ public class CameraController : MonoBehaviour
         Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = _camera.ScreenPointToRay(screenCenter);
 
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 5f))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, _raycastDistance))
         {
             collider = hitInfo.collider;
         }
