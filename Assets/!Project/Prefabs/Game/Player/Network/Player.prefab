@@ -956,7 +956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc7b081953c2f8479025b8d66a561d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
-  _interactionRange: 2
+  <InteractionRange>k__BackingField: 2
   _interactionLayer:
     serializedVersion: 2
     m_Bits: 1408
