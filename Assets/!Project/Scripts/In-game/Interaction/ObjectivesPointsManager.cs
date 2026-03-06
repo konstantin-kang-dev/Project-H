@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using FishNet.Object;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -11,8 +12,8 @@ public class ObjectivesPointsManager: SerializedMonoBehaviour
     [SerializeField] List<ItemsContainer> _itemsCommonContainers = new List<ItemsContainer>();
     [SerializeField] List<ItemsContainer> _itemsRequiredContainers = new List<ItemsContainer>();
 
-    Queue<Transform> _freeCommonPoints = new Queue<Transform>();
-    Queue<Transform> _freeRequiredPoints = new Queue<Transform>();
+    Queue<NetworkObject> _freeCommonPoints = new Queue<NetworkObject>();
+    Queue<NetworkObject> _freeRequiredPoints = new Queue<NetworkObject>();
 
     private void Awake()
     {
@@ -31,10 +32,10 @@ public class ObjectivesPointsManager: SerializedMonoBehaviour
 
     void InitCommonPoints()
     {
-        List<Transform> commonPoints = new List<Transform>();
+        List<NetworkObject> commonPoints = new List<NetworkObject>();
         foreach (var itemContainer in _itemsCommonContainers)
         {
-            List<Transform> points = itemContainer.GetAllSpawnPoints();
+            List<NetworkObject> points = itemContainer.GetAllSpawnPoints();
 
             foreach (var point in points)
             {
@@ -51,10 +52,10 @@ public class ObjectivesPointsManager: SerializedMonoBehaviour
 
     void InitRequiredPoints()
     {
-        List<Transform> requiredPoints = new List<Transform>();
+        List<NetworkObject> requiredPoints = new List<NetworkObject>();
         foreach (var itemContainer in _itemsRequiredContainers)
         {
-            List<Transform> points = itemContainer.GetAllSpawnPoints();
+            List<NetworkObject> points = itemContainer.GetAllSpawnPoints();
 
             foreach (var point in points)
             {
@@ -69,14 +70,14 @@ public class ObjectivesPointsManager: SerializedMonoBehaviour
         }
     }
 
-    public Transform GetFreeCommonPoint()
+    public NetworkObject GetFreeCommonPoint()
     {
         if(_itemsCommonContainers.Count == 0) return null;
 
         return _freeCommonPoints.Dequeue();
     }
 
-    public Transform GetFreeRequiredPoint()
+    public NetworkObject GetFreeRequiredPoint()
     {
         if(_itemsCommonContainers.Count == 0) return null;
 

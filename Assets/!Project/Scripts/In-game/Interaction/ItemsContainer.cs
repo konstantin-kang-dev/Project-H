@@ -1,11 +1,12 @@
+using FishNet.Object;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemsContainer : MonoBehaviour
 {
-    [SerializeField] List<Transform> _spawnPoints = new List<Transform>();
+    [SerializeField] List<NetworkObject> _spawnPoints = new List<NetworkObject>();
 
-    public List<Transform> GetAllSpawnPoints()
+    public List<NetworkObject> GetAllSpawnPoints()
     {
         return _spawnPoints;
     }

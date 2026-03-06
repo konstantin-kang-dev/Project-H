@@ -100,7 +100,7 @@ public class ObjectivesManager : NetworkBehaviour
 
         for (int i = 0; i < totalObjectivesAmount; i++)
         {
-            Transform freePoint = null;
+            NetworkObject freePoint = null;
             if (objectivesAmountInRequiredPlaces > 0)
             {
                 freePoint = ObjectivesPointsManager.Instance.GetFreeCommonPoint();
@@ -117,12 +117,17 @@ public class ObjectivesManager : NetworkBehaviour
                 Debug.LogError($"[ObjectivesManager] Not enough free points. Breaking spawn loop");
                 break;
             }
+            else
+            {
+                ServerManager.Spawn(freePoint);
+            }
 
-            BasicObjectiveItem objectiveItem = Instantiate(objectiveConfig.ObjectivePrefab, freePoint.position, freePoint.rotation).GetComponent<BasicObjectiveItem>();
+            BasicObjectiveItem objectiveItem = Instantiate(objectiveConfig.ObjectivePrefab, freePoint.transform.position, freePoint.transform.rotation).GetComponent<BasicObjectiveItem>();
             NetworkObject networkObject = objectiveItem;
-            networkObject.transform.SetParent(freePoint);
 
             ServerManager.Spawn(networkObject);
+
+            networkObject.SetParent(freePoint);
 
             objectiveItem.ResetAll();
             objectiveItem.SetObjectiveType(objectiveConfig.Type);

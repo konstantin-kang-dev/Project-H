@@ -1,3 +1,4 @@
+using FishNet.Object;
 using Modules.Rendering.Outline;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
             }
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
     protected override void RPC_RequestInteract(int pickableObjectId)
     {
         if (_toggleInteractionState)
@@ -56,6 +59,7 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
         }
     }
 
+    [Client]
     protected override void HandleInteractStateChange(bool prev, bool next, bool asServer)
     {
         if (asServer) return;
