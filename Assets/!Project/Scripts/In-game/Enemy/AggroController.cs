@@ -94,7 +94,7 @@ public class AggroController : MonoBehaviour
             int distanceAggroPoints = GetAggroPointsFromDistance(distance);
             bool isCloseEnough = distanceAggroPoints >= _enemyStats.RequiredPointsToAggro;
             bool isVisible = IsVisibleForMe(player.transform.position);
-            //Debug.Log($"[AggroController] Checking player: {player} distance: {distance} distancePoints: {distanceAggroPoints}/{_enemyStats.RequiredPointsToAggro} isVisible: {isVisible}");
+            //Debug.Log($"[AggroController] Checking player: {player.PlayerData.PlayerName} distance: {distance} distancePoints: {distanceAggroPoints}/{_enemyStats.RequiredPointsToAggro} isVisible: {isVisible}");
             if (isCloseEnough && isVisible)
             {
                 _aggroPlayer = player;

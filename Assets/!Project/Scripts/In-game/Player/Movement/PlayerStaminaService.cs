@@ -61,7 +61,7 @@ public class PlayerStaminaService
     {
         if (isSprinting)
         {
-            SpendStamina(0.2f * Time.deltaTime);
+            SpendStamina(0.14f * Time.deltaTime);
         }
     }
 
