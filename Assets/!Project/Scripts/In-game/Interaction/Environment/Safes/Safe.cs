@@ -13,7 +13,7 @@ public class Safe : BasicInteractable
     {
         base.OnStartClient();
 
-        RequirementsHintText = $"Collect all {ProjectUtils.CamelCaseToSpaced(_requiredObjectiveToCollect.ToString())} (s)";
+        HintText = $"Collect all {ProjectUtils.CamelCaseToSpaced(_requiredObjectiveToCollect.ToString())}";
     }
     public override void OnStartServer()
     {
@@ -43,5 +43,6 @@ public class Safe : BasicInteractable
         base.SetAppearance(value);
 
         _doorVisuals.SetState(value);
+        _collider.enabled = !value;
     }
 }

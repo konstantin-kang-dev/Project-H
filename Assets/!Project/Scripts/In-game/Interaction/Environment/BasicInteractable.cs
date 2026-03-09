@@ -14,7 +14,7 @@ public class BasicInteractable : NetworkBehaviour, IInteractable, IHintable
 
     [Header("Hints")]
     [field: SerializeField] public Transform HintPoint { get; private set; }
-    [field: SerializeField] public string HintText { get; private set; }
+    [field: SerializeField] public string HintText { get; protected set; }
     [field: SerializeField] public string RequirementsHintText { get; protected set; }
 
     public bool InteractionState => _interactState.Value;
