@@ -48,7 +48,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 3354494366749315060}
   _networkObjectCache: {fileID: 3354494366749315060}
-  _enemyModelPrefab: {fileID: 7847039606318137769, guid: 86ada190645d64b4bae03550f0a65c6a, type: 3}
+  _enemyModelPrefab: {fileID: 3406442913511727618, guid: c2aee8e78248e274183a0c74c9455647, type: 3}
   AnimatorController: {fileID: 0}
 --- !u!114 &3354494366749315060
 MonoBehaviour:
