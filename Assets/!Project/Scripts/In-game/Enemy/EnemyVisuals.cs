@@ -33,21 +33,35 @@ public class EnemyVisuals : NetworkBehaviour
         {
             if (isFollowingPlayer)
             {
-                SERVER_SetAnimatorState(AnimatorState.Sprint);
-
                 Vector3 lookPos = target.position;
                 lookPos.y += 1f;
                 SERVER_SetLookPosition(lookPos);
-            }
-            else
-            {
-                SERVER_SetAnimatorState(AnimatorState.Walk);
             }
         }
 
     }
 
-    public void HandleStateUpdate(EnemyState state)
+    public void HandleStateChange(EnemyState state)
+    {
+        switch (state)
+        {
+            case EnemyState.Idle:
+                SERVER_SetAnimatorState(AnimatorState.Idle);
+                break;
+            case EnemyState.Stranding:
+                SERVER_SetAnimatorState(AnimatorState.Walk);
+                break;
+            case EnemyState.Following:
+                SERVER_SetAnimatorState(AnimatorState.Sprint);
+                break;
+            case EnemyState.Killing:
+                SERVER_SetAnimatorState(AnimatorState.KnockDown);
+                break;
+            default:
+                break;
+        }
+    }
+    public void HandleStateMachineUpdate(EnemyState state)
     {
         if (IsServerStarted)
         {
@@ -70,8 +84,6 @@ public class EnemyVisuals : NetworkBehaviour
 
     public void HandleKillPlayer(Player player)
     {
-        AnimatorController.SetState(AnimatorState.KnockDown);
-
         transform.rotation = ProjectUtils.GetFlatYLookRotation(transform.position, player.transform.position);
     }
 
@@ -85,14 +97,17 @@ public class EnemyVisuals : NetworkBehaviour
     }
 
     [Server]
-    void SERVER_SetLookPosition(Vector3 lookPosition)
+    public void SERVER_SetLookPosition(Vector3 lookPosition)
     {
         _lookPosition.Value = lookPosition;
+
     }
 
     [Client]
     void HandleLookPositionChange(Vector3 prev, Vector3 next, bool asServer)
     {
+        if (asServer) return;
+
         AnimatorController.SetLookPosition(next);
     }
 
@@ -105,6 +120,9 @@ public class EnemyVisuals : NetworkBehaviour
     [Client]
     void HandleAnimatorStateChange(AnimatorState prev, AnimatorState next, bool asServer)
     {
-        AnimatorController.SetState(next);
+        if (asServer) return;
+
+        AnimatorController.SetState(next, true);
+        Debug.Log($"[EnemyVisuals] HandleAnimatorStateChange {next}");
     }
 }

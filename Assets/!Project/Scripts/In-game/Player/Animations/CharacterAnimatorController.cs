@@ -57,7 +57,7 @@ public class CharacterAnimatorController : SerializedMonoBehaviour
         _headAimTarget.transform.position = _currentLookPos;
     }
 
-    public void SetState(AnimatorState requested)
+    public void SetState(AnimatorState requested, bool force = false)
     {
         if (!IsInitialized) return;
         if (!_animatorStates.ContainsKey(requested))
@@ -68,11 +68,14 @@ public class CharacterAnimatorController : SerializedMonoBehaviour
 
         if (requested == CurrentState) return;
 
-        if (_isHighPriorityActive && (int)requested < (int)CurrentState)
+        if (!force)
         {
-            if ((int)requested > (int)_bufferedState)
-                _bufferedState = requested;
-            return;
+            if (_isHighPriorityActive && (int)requested < (int)CurrentState)
+            {
+                if ((int)requested > (int)_bufferedState)
+                    _bufferedState = requested;
+                return;
+            }
         }
 
         ApplyState(requested);

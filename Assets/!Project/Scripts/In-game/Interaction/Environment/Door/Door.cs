@@ -121,5 +121,7 @@ public class Door : BasicInteractable
     void RPC_HandleClientsShake()
     {
         _doorVisuals.Shake();
+        _audioService.Play(InteractableObjectAudioType.InteractionLocked);
+
     }
 }

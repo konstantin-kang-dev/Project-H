@@ -149,7 +149,6 @@ public class CameraController : MonoBehaviour
                 _cameraAnimator.SetBool("IsRunning", false);
                 break;
             case AnimatorState.KnockDown:
-                ChangeCameraOffset(_liftedPoint.localPosition);
                 _cameraAnimator.SetBool("IsWalking", false);
                 _cameraAnimator.SetBool("IsRunning", false);
                 break;

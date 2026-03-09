@@ -17,6 +17,7 @@ public class GameDifficultyConfig : SerializedScriptableObject
 {
     public DifficultyType DifficultyType;
     public PlayerStatsConfig PlayersStats;
+    public int EnemiesCount;
     public EnemyStatsConfig EnemyStats;
 
     public GameDifficultyConfig Clone()
@@ -24,6 +25,7 @@ public class GameDifficultyConfig : SerializedScriptableObject
         GameDifficultyConfig config = CreateInstance<GameDifficultyConfig>();
         config.DifficultyType = DifficultyType;
         config.PlayersStats = PlayersStats.Clone();
+        config.EnemiesCount = EnemiesCount;
         config.EnemyStats = EnemyStats.Clone();
 
         return config;

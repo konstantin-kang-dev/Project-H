@@ -20,7 +20,7 @@ public class LocationManager : MonoBehaviour
 
         List<Transform> points = LocationEnemyKeyPoints.OrderBy((x)=> Vector3.Distance(x.position, point)).ToList();
 
-        int randomValidPoints = points.Count < 3 ? points.Count : 3;
+        int randomValidPoints = points.Count < 5 ? points.Count : 5;
         points = points.GetRange(0, randomValidPoints);
 
         int randomKey = Random.Range(0, points.Count);

@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorVisuals
   _door: {fileID: 3153544248203352191}
+  _positiveRotation: 0
   _openDuration: 1
   _closeDuration: 0.65
 --- !u!65 &7071112354495286096
@@ -258,6 +259,26 @@ PrefabInstance:
       propertyPath: <AssetPathHash>k__BackingField
       value: 792661415684003140
       objectReference: {fileID: 0}
+    - target: {fileID: 559885513834528965, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: _audioList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 559885513834528965, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: '_audioList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 9586dbe957e0db44d8da0bc37f112396, type: 3}
+    - target: {fileID: 559885513834528965, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: '_audioList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3a3f6aead45c2824f847b5e786d3fdf8, type: 3}
+    - target: {fileID: 559885513834528965, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: '_audioList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 6f24c5c77250bf04dbc6f0f95372a3c7, type: 3}
+    - target: {fileID: 559885513834528965, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: '_audioList.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ac1e605f536b9364c90401f6cda971ae, type: 3}
     - target: {fileID: 1015261322250005585, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
       propertyPath: serializationData.Prefab
       value: 
