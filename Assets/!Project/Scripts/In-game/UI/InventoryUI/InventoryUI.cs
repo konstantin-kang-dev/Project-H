@@ -33,16 +33,19 @@ public class InventoryUI : MonoBehaviour
 
     void HandlePickUpItem(IPickable pickable, int index)
     {
-        _inventorySlots[index].SetItem(pickable);
+        _inventorySlots[index].SetItem(pickable); 
+        string itemName = ProjectUtils.CamelCaseToSpaced(_inventorySlots[index].Item.ItemConfig.Type.ToString());
+        SetItemNameVisibility(true, itemName);
     }
     void HandleDropItem(IPickable pickable, int index)
     {
         _inventorySlots[index].Clear();
+        SetItemNameVisibility(false);
     }
 
     void HandleSelectItem(IPickable pickable, int index)
     {
-        if(index > _inventorySlots.Count - 1)
+        if (index > _inventorySlots.Count - 1)
         {
             throw new System.Exception($"[InventoryUI] Index of selected item is out of bounds.");
         }
