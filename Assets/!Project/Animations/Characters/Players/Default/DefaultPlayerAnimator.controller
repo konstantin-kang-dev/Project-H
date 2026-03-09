@@ -86,24 +86,40 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: f70550db32b8a7141b70b1ddf6bf9657, type: 2}
+    m_Threshold: 0.5
+    m_Position: {x: 0.7, y: 0.7}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 7804e617947747d4e94d415ea2794cc1, type: 2}
+    m_Threshold: 0.5714286
+    m_Position: {x: -0.7, y: 0.7}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: b8fb7ecb5f8e6444da93619793f54af5, type: 2}
-    m_Threshold: 0.52380955
-    m_Position: {x: 0.7, y: 0}
+    m_Threshold: 0.6428572
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1.1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 1eeab436fdfeb3a46a2ee5e92071a6a5, type: 2}
-    m_Threshold: 0.61904764
-    m_Position: {x: -0.7, y: 0}
+    m_Threshold: 0.71428573
+    m_Position: {x: -1, y: 0}
     m_TimeScale: 1.1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: cc8ce8e1f5119c94780aeaa2d06bf4d8, type: 2}
-    m_Threshold: 0.71428573
+    m_Threshold: 0.78571427
     m_Position: {x: -0.7, y: -0.7}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -111,7 +127,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 868d93376cb9c8943bdc81bba9dee485, type: 2}
-    m_Threshold: 0.8095238
+    m_Threshold: 0.85714287
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1.3
     m_CycleOffset: 0
@@ -119,7 +135,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 6096a638b2ae24a4397c6a07f7038938, type: 2}
-    m_Threshold: 0.9047619
+    m_Threshold: 0.92857146
     m_Position: {x: 0.7, y: -0.7}
     m_TimeScale: 1
     m_CycleOffset: 0
