@@ -42,6 +42,7 @@ public class SettingsUI : BasicCustomWindow
     [SerializeField] CheckBox _vignetteCheckbox;
 
     [Header("Controls Settings")]
+    [SerializeField] RangeSelectorUI _mouseSensitivitySelector;
     [SerializeField] InputSelector _moveForwardSelector;
     [SerializeField] InputSelector _moveBackwardSelector;
     [SerializeField] InputSelector _moveRightSelector;
@@ -76,6 +77,7 @@ public class SettingsUI : BasicCustomWindow
         _motionBlurCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
         _vignetteCheckbox.OnValueChangedTrigger += CollectGraphicsValues;
 
+        _mouseSensitivitySelector.OnValueChangedTrigger += CollectControlsValues;
         _moveForwardSelector.OnValueChangedTrigger += CollectControlsValues;
         _moveBackwardSelector.OnValueChangedTrigger += CollectControlsValues;
         _moveRightSelector.OnValueChangedTrigger += CollectControlsValues;
@@ -113,6 +115,7 @@ public class SettingsUI : BasicCustomWindow
         _motionBlurCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
         _vignetteCheckbox.OnValueChangedTrigger -= CollectGraphicsValues;
 
+        _mouseSensitivitySelector.OnValueChangedTrigger -= CollectControlsValues;
         _moveForwardSelector.OnValueChangedTrigger -= CollectControlsValues;
         _moveBackwardSelector.OnValueChangedTrigger -= CollectControlsValues;
         _moveRightSelector.OnValueChangedTrigger -= CollectControlsValues;
@@ -168,6 +171,7 @@ public class SettingsUI : BasicCustomWindow
     void CollectControlsValues()
     {
         ControlsSave controlsSave = new ControlsSave();
+        controlsSave.MouseSensitivity = _mouseSensitivitySelector.Value;
         controlsSave.MoveForwardBind = _moveForwardSelector.Value;
         controlsSave.MoveBackwardBind = _moveBackwardSelector.Value;
         controlsSave.MoveRightBind = _moveRightSelector.Value;
@@ -208,6 +212,7 @@ public class SettingsUI : BasicCustomWindow
         _vignetteCheckbox.SetValue(graphicsSave.VignetteEnabled);
 
         ControlsSave controlsSave = settingsSave.ControlsSave;
+        _mouseSensitivitySelector.SetValue(controlsSave.MouseSensitivity);
         _moveForwardSelector.SetValue(controlsSave.MoveForwardBind);
         _moveBackwardSelector.SetValue(controlsSave.MoveBackwardBind);
         _moveRightSelector.SetValue(controlsSave.MoveRightBind);

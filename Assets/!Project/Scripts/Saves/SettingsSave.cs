@@ -84,6 +84,7 @@ namespace Saves
     [Serializable]
     public class ControlsSave
     {
+        public int MouseSensitivity;
         public string MoveForwardBind;
         public string MoveBackwardBind;
         public string MoveRightBind;
@@ -95,6 +96,7 @@ namespace Saves
 
         public ControlsSave()
         {
+            MouseSensitivity = 50;
             MoveForwardBind = "W";
             MoveBackwardBind = "S";
             MoveRightBind = "D";

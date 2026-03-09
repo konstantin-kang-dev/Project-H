@@ -21,6 +21,8 @@ namespace Saves
     {
         private static readonly string SavePath = Path.Combine(Application.persistentDataPath, "save.json");
 
+        public static Action<GameSave> OnSaveUpdated;
+        public static Action<GameSave> OnSaveLoaded;
         public static GameSave GameSave { get; private set; } = new GameSave();
         public static void LoadAll()
         {
@@ -34,11 +36,14 @@ namespace Saves
                 if(GameSave.PlayerSave == null) GameSave.PlayerSave = new PlayerSave();
                 if(GameSave.SettingsSave == null) GameSave.SettingsSave = new SettingsSave();
             }
+
+            OnSaveLoaded?.Invoke(GameSave);
         }
 
         public static void SaveAll()
         {
-            Save(GameSave);
+            Save(GameSave); 
+            OnSaveUpdated?.Invoke(GameSave);
         }
 
         public static void Save<T>(T data)
@@ -47,6 +52,7 @@ namespace Saves
             {
                 string json = JsonUtility.ToJson(data, true);
                 File.WriteAllText(SavePath, json);
+                
             }
             catch (Exception e)
             {

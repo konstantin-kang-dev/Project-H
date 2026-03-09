@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Saves;
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform _liftedPoint;
     Tween _moveAnimation;
 
-    [SerializeField] Vector2 _sensitivity = Vector2.one;
+    [SerializeField] float _mouseSensitivity = 1f;
     [SerializeField] float _smoothTime = 0.3f;
 
     [SerializeField] float _defaultFov = 80f;
@@ -51,8 +52,17 @@ public class CameraController : MonoBehaviour
         GameUI.Instance.OnGameplayUIFocusChange += HandleGameplayUIFocusChange;
         GameUI.Instance.SetCanvasCamera(_camera);
 
+        SetupSensitivity(SaveManager.GameSave);
+        SaveManager.OnSaveUpdated += SetupSensitivity;
+
         _isActive = true;
         IsInitialized = true;
+    }
+    public void SetupSensitivity(GameSave gameSave)
+    {
+        float mouseSensitivity = gameSave.SettingsSave.ControlsSave.MouseSensitivity;
+
+        _mouseSensitivity = mouseSensitivity / 100f;
     }
     public void SetRaycastDistance(float raycastDistance)
     {
@@ -75,6 +85,9 @@ public class CameraController : MonoBehaviour
 
         GameUI.Instance.OnGameplayUIFocusChange -= HandleGameplayUIFocusChange;
         _cameraAnimator.enabled = false;
+
+
+        SaveManager.OnSaveUpdated -= SetupSensitivity;
     }
 
     void Update()
@@ -96,8 +109,8 @@ public class CameraController : MonoBehaviour
 
     void Rotate()
     {
-        _targetRotation.x -= _lookInput.y * _sensitivity.y;
-        _targetRotation.y += _lookInput.x * _sensitivity.x;
+        _targetRotation.x -= _lookInput.y * _mouseSensitivity;
+        _targetRotation.y += _lookInput.x * _mouseSensitivity;
         _targetRotation.x = Mathf.Clamp(_targetRotation.x, -90f, 90f);
 
         _cameraPoint.localRotation = Quaternion.Euler(_targetRotation.x, 0f, 0f);
