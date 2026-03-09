@@ -22,6 +22,6 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   MoveSpeed: 1.2
-  SprintSpeed: 3
-  BlindFollowDuration: 5
+  SprintSpeed: 2.5
+  BlindFollowDuration: 3
   RequiredPointsToAggro: 10

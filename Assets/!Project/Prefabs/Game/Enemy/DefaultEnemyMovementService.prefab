@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1231369749647593134}
   - component: {fileID: 2623281700374502425}
   - component: {fileID: 6727985885086494517}
+  - component: {fileID: -8820906579581741022}
   m_Layer: 0
   m_Name: DefaultEnemyMovementService
   m_TagString: Untagged
@@ -45,9 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279ac3a57bebd27478b30646d8417d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementService
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 6727985885086494517}
-  _networkObjectCache: {fileID: 6727985885086494517}
 --- !u!114 &6727985885086494517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,7 +65,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 2623281700374502425}
+  - {fileID: -8820906579581741022}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -78,7 +76,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584314056529372293
+  _initializedTimestamp: -8584285561626806624
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -94,7 +92,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 19
+  <PrefabId>k__BackingField: 31
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 17770224092634378688
   SceneId: 0
@@ -103,3 +101,18 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
+--- !u!114 &-8820906579581741022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400574939490659782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.EmptyNetworkBehaviour
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 6727985885086494517}
+  _networkObjectCache: {fileID: 6727985885086494517}

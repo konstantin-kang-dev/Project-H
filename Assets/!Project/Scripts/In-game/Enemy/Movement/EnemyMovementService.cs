@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovementService : NetworkBehaviour
+public class EnemyMovementService : MonoBehaviour
 {
     EnemyStatsConfig _enemyStats;
     NavMeshAgent _navMeshAgent;
@@ -15,18 +15,18 @@ public class EnemyMovementService : NetworkBehaviour
     public event Action<bool, Transform> OnMove;
     public event Action<Player> OnReachedPlayer;
     public bool IsInitialized { get; private set; } = false;
+
+    private void Awake()
+    {
+        _navMeshAgent = GetComponentInParent<NavMeshAgent>();
+        _navMeshAgent.enabled = false;
+    }
     public void Init(EnemyStatsConfig enemyStats)
     {
         _enemyStats = enemyStats;
-        _navMeshAgent = GetComponentInParent<NavMeshAgent>();
-        if (IsServerStarted)
-        {
-            UpdateSpeed(_enemyStats.MoveSpeed);
-        }
-        else
-        {
-            _navMeshAgent.enabled = false;
-        }
+
+        UpdateSpeed(_enemyStats.MoveSpeed);
+        _navMeshAgent.enabled = true;
 
         IsInitialized = true;
     }
@@ -35,10 +35,7 @@ public class EnemyMovementService : NetworkBehaviour
     {
         if (!IsInitialized) return;
 
-        if (IsServerStarted)
-        {
-            UpdateDestination();
-        }
+        UpdateDestination();
     }
 
     void UpdateDestination()
@@ -106,5 +103,14 @@ public class EnemyMovementService : NetworkBehaviour
         if(_target == null) return true;
 
         return Vector3.Distance(transform.position, _target.position) < 0.5f;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(_target == null) return;
+
+        Gizmos.color = Color.purple;
+        Gizmos.DrawLine(transform.position, _target.position);
+        Gizmos.DrawSphere(_target.position, 0.5f);
     }
 }

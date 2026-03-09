@@ -22,6 +22,7 @@ public class GameManager : NetworkBehaviour
 
     readonly SyncVar<DifficultyType> _gameDifficulty = new SyncVar<DifficultyType>();
     public DifficultyType GameDifficulty => _gameDifficulty.Value;
+    public GameDifficultyConfig GameDifficultyConfig { get; private set; }
 
     [field: SerializeField] public Player LocalPlayer { get; private set; }
 
@@ -47,6 +48,7 @@ public class GameManager : NetworkBehaviour
         Init();
 
         _gameState.OnChange += HandleGameStateChange;
+        _gameDifficulty.OnChange += HandleDifficultyChange;
 
         LoadingManager.Instance.SetLoadingProgress(0.75f);
 
@@ -70,6 +72,8 @@ public class GameManager : NetworkBehaviour
         base.OnStopClient();
 
         _gameState.OnChange -= HandleGameStateChange;
+
+        _gameDifficulty.OnChange -= HandleDifficultyChange;
     }
 
     public override void OnStopServer()
@@ -152,6 +156,13 @@ public class GameManager : NetworkBehaviour
                 break;
         }
     }
+    [Client]
+    void HandleDifficultyChange(DifficultyType prev, DifficultyType next, bool asServer)
+    {
+        if(asServer) return;
+
+        GameDifficultyConfig = GameDifficultyManager.Instance.GetConfigByType(next);
+    }
 
     void InitLocation()
     {
@@ -160,7 +171,7 @@ public class GameManager : NetworkBehaviour
         if (IsServerStarted)
         {
             ObjectivesManager.Instance.Init(GameDifficulty, NetworkRoomManager.Instance.ConnectedPlayersCount);
-            EnemiesManager.Instance.Init();
+            EnemiesManager.Instance.Init(GameDifficultyConfig);
         }
 
         LoadingManager.Instance.SetLoadingProgress(1f);

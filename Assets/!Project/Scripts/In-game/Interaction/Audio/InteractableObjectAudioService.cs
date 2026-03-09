@@ -11,6 +11,7 @@ public enum InteractableObjectAudioType
     PickUp = 2,
     InteractionStateActive = 3,
     InteractionStateInactive = 4,
+    InteractionLocked = 5,
 }
 
 public class InteractableObjectAudioService : SerializedMonoBehaviour

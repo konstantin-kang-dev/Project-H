@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemyController : NetworkBehaviour
 {
-    [SerializeField] EnemyStatsConfig _enemyStats;
+    EnemyStatsConfig _enemyStats;
 
     [SerializeField] EnemyMovementService _enemyMovementService;
 
@@ -18,30 +18,41 @@ public class EnemyController : NetworkBehaviour
     [SerializeField] EnemyInteractionService _enemyInteractionServicePrefab;
     EnemyInteractionService _enemyInteractionService;
 
-    EnemyState _currentState = EnemyState.None;
+    [SerializeField] EnemyState _currentState = EnemyState.None;
 
-    public event Action<EnemyState> OnStateUpdate;
+    public event Action<EnemyState> OnStateChange;
+    public event Action<EnemyState> OnStateMachineUpdate;
     public bool IsInitialized { get; private set; } = false;
-    void Start()
+
+    public override void OnStartClient()
     {
-        Init();
+        base.OnStartClient();
+
+        Init(GameManager.Instance.GameDifficultyConfig.EnemyStats);
     }
 
-    public void Init()
+    public void Init(EnemyStatsConfig enemyStats)
     {
-        _enemyMovementService.Init(_enemyStats);
+        _enemyStats = enemyStats;
+
+        if (IsServerStarted)
+        {
+            _enemyMovementService.Init(_enemyStats);
+        }
 
         _enemyVisuals.Init();
 
-        OnStateUpdate += _enemyVisuals.HandleStateUpdate;
+        OnStateMachineUpdate += _enemyVisuals.HandleStateMachineUpdate;
 
         _enemyMovementService.OnMove += _enemyVisuals.HandleEnemyMove;
 
         if (IsServerStarted)
         {
+            OnStateChange += _enemyVisuals.HandleStateChange;
+
             _aggroController = Instantiate(_aggroControllerPrefab, transform);
-            _aggroController.OnAggroProceed += HandleAggroOnPlayer;
-            _aggroController.OnAggroRelease += HandleAggroOnPlayerRelease;
+            _aggroController.OnAggroProceed += HandleAggro;
+            _aggroController.OnAggroRelease += HandleAggroRelease;
             _aggroController.Init(_enemyStats);
 
             _enemyVisuals.AnimatorController.OnLookPositionUpdate += HandleLookPositionUpdate;
@@ -49,7 +60,7 @@ public class EnemyController : NetworkBehaviour
             _enemyInteractionService = Instantiate(_enemyInteractionServicePrefab, transform);
             _enemyInteractionService.Init();
 
-            _enemyMovementService.OnReachedPlayer += KillPlayer;
+            _enemyMovementService.OnReachedPlayer += SERVER_KillPlayer;
         }
 
         IsInitialized = true;
@@ -77,6 +88,8 @@ public class EnemyController : NetworkBehaviour
         if(state == _currentState) return;
 
         _currentState = state;
+
+        OnStateChange?.Invoke(_currentState);
     }
 
     [Server]
@@ -101,10 +114,11 @@ public class EnemyController : NetworkBehaviour
                 break;
         }
 
-        OnStateUpdate?.Invoke(_currentState);
+        OnStateMachineUpdate?.Invoke(_currentState);
     }
 
-    public async void KillPlayer(Player player)
+    [Server]
+    public async void SERVER_KillPlayer(Player player)
     {
         _enemyMovementService.HandleKillPlayer(player); 
         _enemyVisuals.HandleKillPlayer(player);
@@ -132,6 +146,9 @@ public class EnemyController : NetworkBehaviour
             player.Teleport(handPosition);
 
             timer += Time.fixedDeltaTime;
+
+            Vector3 playerHeadPos = player.transform.position + new Vector3(0, 1.2f, 0);
+            _enemyVisuals.SERVER_SetLookPosition(playerHeadPos);
             await UniTask.WaitForFixedUpdate();
         }
 
@@ -140,6 +157,9 @@ public class EnemyController : NetworkBehaviour
         DOVirtual.Vector3(handPosition, floorPos, 0.3f, (x) =>
         {
             player.Teleport(x);
+            Vector3 playerHeadPos = player.transform.position + new Vector3(0, 1.2f, 0);
+            _enemyVisuals.SERVER_SetLookPosition(playerHeadPos);
+
         }).SetEase(Ease.InQuad);
 
         await UniTask.WaitForSeconds(0.3f);
@@ -148,12 +168,12 @@ public class EnemyController : NetworkBehaviour
         _enemyMovementService.SetMoveAbility(true);
     }
 
-    void HandleAggroOnPlayer(Player player)
+    void HandleAggro(Player player)
     {
         SERVER_SetState(EnemyState.Following);
         _enemyMovementService.SetTarget(player.transform);
     }
-    void HandleAggroOnPlayerRelease()
+    void HandleAggroRelease()
     {
         SERVER_SetState(EnemyState.Idle);
     }

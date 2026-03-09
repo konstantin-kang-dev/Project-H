@@ -62,4 +62,11 @@ public class GameDifficultyManager : SerializedMonoBehaviour
 
         return _difficultyConfigs.Values.ToList()[index];
     }
+
+    public GameDifficultyConfig GetConfigByType(DifficultyType difficultyType)
+    {
+        if (!_difficultyConfigs.ContainsKey(difficultyType)) throw new System.Exception($"[GameDifficultyManager] Difficulty with type {difficultyType} not found.");
+
+        return _difficultyConfigs[difficultyType];
+    }
 }

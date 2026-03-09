@@ -20,11 +20,11 @@ public class EnemiesManager : NetworkBehaviour
         Instance = this;
     }
 
-    public void Init()
+    public void Init(GameDifficultyConfig difficultyConfig)
     {
         if (!_safeMode)
         {
-            SpawnEnemies(1);
+            SpawnEnemies(difficultyConfig.EnemiesCount);
         }
 
         IsInitialized = true;
@@ -37,7 +37,6 @@ public class EnemiesManager : NetworkBehaviour
         for (int i = 0; i < amount; i++)
         {
             Transform spawnPoint = spawnPoints[i];
-            spawnPoints.RemoveAt(i);
 
             GameObject enemyGO = Instantiate(_enemyPrefab, spawnPoint.position, spawnPoint.rotation);
             EnemyController enemy = enemyGO.GetComponent<EnemyController>();

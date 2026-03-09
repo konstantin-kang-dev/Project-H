@@ -704,7 +704,8 @@ MonoBehaviour:
   _standPoint: {fileID: 1049640860468253400}
   _crouchPoint: {fileID: 2279612087568782406}
   _liftedPoint: {fileID: 5504224824763886913}
-  _sensitivity: {x: 0.3, y: 0.3}
+  _liftedPointAnimator: {fileID: 0}
+  _mouseSensitivity: 1
   _smoothTime: 0.05
   _defaultFov: 75
   _sprintFov: 90
