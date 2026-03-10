@@ -327,10 +327,18 @@ PrefabInstance:
       propertyPath: _networkObjectCache
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2762911249564618302, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
+      propertyPath: _characterAudioService
+      value: 
+      objectReference: {fileID: 1057712194597855950}
     - target: {fileID: 3354494366749315060, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4769168849549726799, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4769168849549726799, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
     - target: {fileID: 6120056649027337096, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
       propertyPath: m_Name
       value: DefaultEnemyVisuals
@@ -378,34 +386,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6809013404674841224, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 657904122336475630}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
 --- !u!4 &1215282455806075175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8130460541553121124, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
   m_PrefabInstance: {fileID: 6919989998797157955}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4501004371219918027 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6809013404674841224, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}
-  m_PrefabInstance: {fileID: 6919989998797157955}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &657904122336475630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4501004371219918027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2aff10fe82b60b4ea93af2435e5f85c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationEvents
-  _characterAudioService: {fileID: 1057712194597855950}
 --- !u!114 &8463437935112601973 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1548277060474812214, guid: 4d4aa48241c4ebc42957113a4b15e36f, type: 3}

@@ -16,6 +16,9 @@ public enum CharacterAudioType
     HeavyFootstep = 5,
     ChasingScream = 6,
     Detection = 7,
+
+    JumpStart = 20,
+    JumpLand = 21,
 }
 
 [Serializable] 

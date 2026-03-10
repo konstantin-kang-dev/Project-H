@@ -9,7 +9,7 @@ AnimatorState:
   m_PrefabAsset: {fileID: 0}
   m_Name: Kill
   m_Speed: 1
-  m_CycleOffset: 0.19
+  m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1dbf90987dc886743b5e6c9f320f3dd9, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8e3885b7c7dbf694ba0c19d2e8d3b3cc, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -128,7 +128,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 070e69e5138925740a143b10ae3268cc, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2a8138989dbf79949ac45e675bbf653d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
