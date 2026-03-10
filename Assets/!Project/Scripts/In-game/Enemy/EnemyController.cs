@@ -141,7 +141,7 @@ public class EnemyController : NetworkBehaviour
         player.Teleport(playerTargetPos);
         player.SERVER_SetKnockedDown(true);
 
-        await UniTask.WaitForSeconds(0.3f);
+        await UniTask.WaitForSeconds(1f);
 
         SERVER_SetState(EnemyState.Idle);
         _enemyMovementService.SetMoveAbility(true);
@@ -151,6 +151,7 @@ public class EnemyController : NetworkBehaviour
     void RPC_NotifyPlayerKill(int playerClientId)
     {
         _characterAudioService.Play(CharacterAudioType.Jumpscare);
+
     }
 
     void HandleAggro(Player player)

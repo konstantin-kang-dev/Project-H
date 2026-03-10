@@ -9,17 +9,10 @@ public class CharacterAnimationEvents : MonoBehaviour
 
     }
 
-    public void PlayFootstep()
+    public void PlayAudio(CharacterAudioType audioType)
     {
         if (_characterAudioService == null) return;
 
-        _characterAudioService.Play(CharacterAudioType.Footstep);
-    }
-
-    public void PlayHeavyFootstep()
-    {
-        if (_characterAudioService == null) return;
-
-        _characterAudioService.Play(CharacterAudioType.HeavyFootstep);
+        _characterAudioService.Play(audioType);
     }
 }

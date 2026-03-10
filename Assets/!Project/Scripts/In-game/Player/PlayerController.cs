@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerVisuals.AnimatorController.SetState(AnimatorState.KnockDown);
             _playerMovementService.SetMoveAbility(false);
+            CharacterAudioService.Play(CharacterAudioType.HeavyBreath);
         }
         else
         {
