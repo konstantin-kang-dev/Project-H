@@ -1,12 +1,12 @@
 ﻿using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using UnityEditor;
 using UnityEngine;
 
 public class EnemyVisuals : NetworkBehaviour
 {
-    [SerializeField] EnemyModel _enemyModelPrefab;
-    EnemyModel _enemyModel;
+    [SerializeField] EnemyModel _enemyModel;
 
     public CharacterAnimatorController AnimatorController;
 
@@ -18,13 +18,30 @@ public class EnemyVisuals : NetworkBehaviour
     readonly SyncVar<Vector3> _lookPosition = new SyncVar<Vector3>();
     public void Init()
     {
-        _enemyModel = Instantiate(_enemyModelPrefab, transform);
-
-        _currentAnimatorState.OnChange += HandleAnimatorStateChange;
-        _lookPosition.OnChange += HandleLookPositionChange;
 
         AnimatorController = _enemyModel.GetComponent<CharacterAnimatorController>();
         AnimatorController.Init();
+    }
+
+    private void OnDestroy()
+    {
+
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        _currentAnimatorState.OnChange += HandleAnimatorStateChange;
+        _lookPosition.OnChange += HandleLookPositionChange;
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        _currentAnimatorState.OnChange -= HandleAnimatorStateChange;
+        _lookPosition.OnChange -= HandleLookPositionChange;
     }
 
     public void HandleEnemyMove(bool isFollowingPlayer, Transform target)
@@ -61,6 +78,7 @@ public class EnemyVisuals : NetworkBehaviour
                 break;
         }
     }
+
     public void HandleStateMachineUpdate(EnemyState state)
     {
         if (IsServerStarted)
@@ -123,6 +141,6 @@ public class EnemyVisuals : NetworkBehaviour
         if (asServer) return;
 
         AnimatorController.SetState(next, true);
-        Debug.Log($"[EnemyVisuals] HandleAnimatorStateChange {next}");
     }
+
 }

@@ -20,7 +20,7 @@ namespace GameAudio
 
         MenuAmbient = 20,
         GameAmbient = 21,
-        EnemyDetection = 22,
+        EnemySpotted = 22,
     }
 
     [Serializable]

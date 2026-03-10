@@ -2,17 +2,24 @@ using UnityEngine;
 
 public class CharacterAnimationEvents : MonoBehaviour
 {
-    [SerializeField] PlayerController _playerController;
+    [SerializeField] CharacterAudioService _characterAudioService;
 
     private void Awake()
     {
-        _playerController = GetComponentInParent<PlayerController>();
+
     }
 
     public void PlayFootstep()
     {
-        if (_playerController == null) return;
+        if (_characterAudioService == null) return;
 
-        _playerController.CharacterAudioService.Play(CharacterAudioType.Footstep);
+        _characterAudioService.Play(CharacterAudioType.Footstep);
+    }
+
+    public void PlayHeavyFootstep()
+    {
+        if (_characterAudioService == null) return;
+
+        _characterAudioService.Play(CharacterAudioType.HeavyFootstep);
     }
 }

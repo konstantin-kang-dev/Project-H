@@ -29,10 +29,16 @@ public class AggroController : MonoBehaviour
     {
         if (!IsInitialized) return;
 
-        CheckForAggro();
-        CheckForAggroRelease();
+        if(_aggroPlayer == null)
+        {
+            CheckForAggro();
+        }
+        else
+        {
+            CheckForAggroRelease();
+        }
 
-        if(_aggroPlayer != null)
+        if (_aggroPlayer != null)
         {
             _aggroTimer += Time.fixedDeltaTime;
         }
