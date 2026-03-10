@@ -1377,7 +1377,7 @@ GameObject:
   - component: {fileID: 1277954371}
   - component: {fileID: 1277954370}
   m_Layer: 0
-  m_Name: EnemyDetection
+  m_Name: EnemySpotted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1396,7 +1396,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
   GameAudioType: 1
-  _audioList: []
+  _audioList:
+  - {fileID: 8300000, guid: 018dd1573a92d65449bd19abbfb548a1, type: 3}
   _randomizeSounds: 1
   _doFade: 0
   _inDuration: 0.5

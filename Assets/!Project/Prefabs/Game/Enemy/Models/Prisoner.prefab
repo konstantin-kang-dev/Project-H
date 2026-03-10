@@ -569,7 +569,7 @@ MonoBehaviour:
   _headTransform: {fileID: 3044084177734489107}
   _headMeshGO: {fileID: 0}
   _headAimTarget: {fileID: 4736878652799142747}
-  _handTransform: {fileID: 0}
+  _handTransform: {fileID: 2442232150974182584}
   _handItemTarget: {fileID: 8601079801181388213}
 --- !u!114 &5500554423160878159
 MonoBehaviour:

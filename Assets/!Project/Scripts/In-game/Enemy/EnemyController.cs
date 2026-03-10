@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FishNet.Object;
+using GameAudio;
 using System;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class EnemyController : NetworkBehaviour
 
     [SerializeField] EnemyInteractionService _enemyInteractionServicePrefab;
     EnemyInteractionService _enemyInteractionService;
+
+    [SerializeField] CharacterAudioService _characterAudioService;
+    [SerializeField] VisibilityChecker _visibilityChecker;
 
     [SerializeField] EnemyState _currentState = EnemyState.None;
 
@@ -41,6 +45,7 @@ public class EnemyController : NetworkBehaviour
         }
 
         _enemyVisuals.Init();
+        _visibilityChecker.OnVisibilityChanged += HandleModelVisibilityInCameraChange;
 
         OnStateMachineUpdate += _enemyVisuals.HandleStateMachineUpdate;
 
@@ -70,7 +75,6 @@ public class EnemyController : NetworkBehaviour
             SERVER_SetState(EnemyState.Idle);
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -120,6 +124,8 @@ public class EnemyController : NetworkBehaviour
     [Server]
     public async void SERVER_KillPlayer(Player player)
     {
+        RPC_NotifyPlayerKill(player.PlayerData.ClientId);
+
         _enemyMovementService.HandleKillPlayer(player); 
         _enemyVisuals.HandleKillPlayer(player);
         SERVER_SetState(EnemyState.Killing);
@@ -135,51 +141,51 @@ public class EnemyController : NetworkBehaviour
         player.Teleport(playerTargetPos);
         player.SERVER_SetKnockedDown(true);
 
-        await UniTask.WaitForSeconds(0.8f);
-        float timer = 0;
-        Vector3 handPosition = Vector3.zero;
-
-        while (timer <= 2.5f)
-        {
-            handPosition = _enemyVisuals.AnimatorController.GetHandPosition();
-            handPosition.y -= 1f;
-            player.Teleport(handPosition);
-
-            timer += Time.fixedDeltaTime;
-
-            Vector3 playerHeadPos = player.transform.position + new Vector3(0, 1.2f, 0);
-            _enemyVisuals.SERVER_SetLookPosition(playerHeadPos);
-            await UniTask.WaitForFixedUpdate();
-        }
-
-        Vector3 floorPos = new Vector3(handPosition.x, 0, handPosition.z);
-
-        DOVirtual.Vector3(handPosition, floorPos, 0.3f, (x) =>
-        {
-            player.Teleport(x);
-            Vector3 playerHeadPos = player.transform.position + new Vector3(0, 1.2f, 0);
-            _enemyVisuals.SERVER_SetLookPosition(playerHeadPos);
-
-        }).SetEase(Ease.InQuad);
-
         await UniTask.WaitForSeconds(0.3f);
 
         SERVER_SetState(EnemyState.Idle);
         _enemyMovementService.SetMoveAbility(true);
     }
 
+    [ObserversRpc]
+    void RPC_NotifyPlayerKill(int playerClientId)
+    {
+        _characterAudioService.Play(CharacterAudioType.Jumpscare);
+    }
+
     void HandleAggro(Player player)
     {
         SERVER_SetState(EnemyState.Following);
         _enemyMovementService.SetTarget(player.transform);
+        RPC_NotifyPlayerAggro(player.PlayerData.ClientId);
+    }
+    [ObserversRpc]
+    void RPC_NotifyPlayerAggro(int playerClientId)
+    {
+        _characterAudioService.Play(CharacterAudioType.ChasingScream);
+        _characterAudioService.Play(CharacterAudioType.Detection);
     }
     void HandleAggroRelease()
     {
         SERVER_SetState(EnemyState.Idle);
+        RPC_NotifyPlayerAggroRelease();
+    }
+    [ObserversRpc]
+    void RPC_NotifyPlayerAggroRelease()
+    {
+        _characterAudioService.Stop(CharacterAudioType.ChasingScream);
     }
 
     void HandleLookPositionUpdate(Vector3 lookPosition)
     {
         _aggroController.UpdateSightDirection(lookPosition);
+    }
+
+    void HandleModelVisibilityInCameraChange(bool visible)
+    {
+        if(visible)
+        {
+            GlobalAudioManager.Instance.Play(SoundType.EnemySpotted);
+        }
     }
 }

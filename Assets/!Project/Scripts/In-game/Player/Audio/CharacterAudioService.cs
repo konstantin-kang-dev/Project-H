@@ -12,6 +12,10 @@ public enum CharacterAudioType
     Footstep = 1,
     PickUp = 2,
     HeavyBreath = 3,
+    Jumpscare = 4,
+    HeavyFootstep = 5,
+    ChasingScream = 6,
+    Detection = 7,
 }
 
 [Serializable] 
@@ -32,9 +36,22 @@ public class CharacterAudioService : NetworkBehaviour
 
         characterSound.Audio.Play();
 
-        if(isNetworked && IsOwner)
+        if(isNetworked)
         {
             RPC_RequestPlaySound(characterSound.Type);
+        }
+    }
+
+    public void Stop(CharacterAudioType audioType, bool isNetworked = false)
+    {
+        CharacterSound characterSound = _audios.FirstOrDefault((x) => x.Type == audioType);
+        if (characterSound == null) throw new Exception($"[CharacterAudioService] Audio with type: {audioType} not found in audios list.");
+
+        characterSound.Audio.Stop();
+
+        if (isNetworked)
+        {
+            RPC_RequestStopSound(characterSound.Type);
         }
     }
 
@@ -58,5 +75,17 @@ public class CharacterAudioService : NetworkBehaviour
     void RPC_HandleObserversPlaySound(CharacterAudioType audioType)
     {
         Play(audioType);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void RPC_RequestStopSound(CharacterAudioType audioType)
+    {
+        RPC_HandleObserversStopSound(audioType);
+    }
+
+    [ObserversRpc]
+    void RPC_HandleObserversStopSound(CharacterAudioType audioType)
+    {
+        Stop(audioType);
     }
 }
