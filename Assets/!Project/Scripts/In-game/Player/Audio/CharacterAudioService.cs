@@ -26,6 +26,10 @@ public class CharacterSound
 {
     public CharacterAudioType Type;
     public EnhancedAudio Audio;
+
+    public bool DoCameraShake = false;
+    public float CameraShakePower = 1f;
+    public float CameraShakeDuration = 0.2f;
 }
 
 public class CharacterAudioService : NetworkBehaviour
@@ -38,6 +42,10 @@ public class CharacterAudioService : NetworkBehaviour
         if (characterSound == null) throw new Exception($"[CharacterAudioService] Audio with type: {audioType} not found in audios list.");
 
         characterSound.Audio.Play();
+        if (characterSound.DoCameraShake)
+        {
+            ShakeCamera(characterSound);
+        }
 
         if(isNetworked)
         {
@@ -90,5 +98,19 @@ public class CharacterAudioService : NetworkBehaviour
     void RPC_HandleObserversStopSound(CharacterAudioType audioType)
     {
         Stop(audioType);
+    }
+
+    void ShakeCamera(CharacterSound characterSound)
+    {
+        EnhancedAudio enhancedAudio = characterSound.Audio;
+        CameraController cameraController = CameraController.Instance;
+        if (cameraController == null) return;
+
+        float distanceToCamera = Vector2.Distance(cameraController.transform.position, enhancedAudio.transform.position);
+        distanceToCamera = Mathf.Clamp(distanceToCamera, 0f, enhancedAudio.AudioDistance);
+
+        float totalShakePower = ((enhancedAudio.AudioDistance - distanceToCamera) / enhancedAudio.AudioDistance) * characterSound.CameraShakePower;
+
+        cameraController.ShakeCamera(totalShakePower, characterSound.CameraShakeDuration);
     }
 }

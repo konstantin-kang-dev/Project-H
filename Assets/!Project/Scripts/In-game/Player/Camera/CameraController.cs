@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Saves;
 using System;
@@ -7,8 +8,11 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
+
     [SerializeField] Camera _camera;
     [SerializeField] CinemachineCamera _cinemachineCamera;
+    [SerializeField] CinemachineBasicMultiChannelPerlin _cinemachinePerlin;
     [SerializeField] Transform _cameraBlock;
     [SerializeField] Transform _cameraPoint;
     [SerializeField] Animator _cameraAnimator;
@@ -39,9 +43,9 @@ public class CameraController : MonoBehaviour
     public event Action<Vector2> OnRotationUpdate;
     public event Action<Collider> OnRaycast;
     public bool IsInitialized { get; private set; } = false;
-    void Start()
+    void Awake()
     {
-        
+        Instance = this;
     }
 
     public void Init()
@@ -196,6 +200,13 @@ public class CameraController : MonoBehaviour
         }
 
         _fovAnimation = DOVirtual.Float(startFov, targetFov, 1.2f, (value) => _cinemachineCamera.Lens.FieldOfView = value);
+    }
+
+    public async void ShakeCamera(float power = 1f, float duration = 0.2f)
+    {
+        _cinemachinePerlin.AmplitudeGain = power;
+        await UniTask.WaitForSeconds(duration);
+        _cinemachinePerlin.AmplitudeGain = 0;
     }
 
     Collider CheckForCollider()

@@ -480,6 +480,10 @@ PrefabInstance:
       propertyPath: '_audioList.Array.data[2]'
       value: 
       objectReference: {fileID: 8300000, guid: 534505f2d83acef45b547b96454dc8ab, type: 3}
+    - target: {fileID: 8007955592993704016, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
+      propertyPath: _audios.Array.data[4].CameraShakePower
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8773560820959930620, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: m_Name
       value: CharacterAudioService

@@ -644,7 +644,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -718,7 +718,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 1.1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnhancedAudio
   GameAudioType: 1
   _audioList:
-  - {fileID: 8300000, guid: 6e19d23cf66f98a47a644d80a597413e, type: 3}
+  - {fileID: 8300000, guid: 0f3344da52dc3174988e278cc5f86c2b, type: 3}
   _randomizeSounds: 1
   _doFade: 0
   _inDuration: 0.5
@@ -1258,22 +1258,49 @@ MonoBehaviour:
   _audios:
   - Type: 1
     Audio: {fileID: 7802427059282665570}
+    DoCameraShake: 0
+    CameraShakePower: 1
+    CameraShakeDuration: 0.2
   - Type: 2
     Audio: {fileID: 1303867058182177661}
+    DoCameraShake: 0
+    CameraShakePower: 1
+    CameraShakeDuration: 0.2
   - Type: 3
     Audio: {fileID: 2763280993705852396}
+    DoCameraShake: 0
+    CameraShakePower: 1
+    CameraShakeDuration: 0.2
   - Type: 4
     Audio: {fileID: 9212177754943341852}
+    DoCameraShake: 1
+    CameraShakePower: 1
+    CameraShakeDuration: 2
   - Type: 5
     Audio: {fileID: 6184102425460898414}
+    DoCameraShake: 1
+    CameraShakePower: 0.15
+    CameraShakeDuration: 0.15
   - Type: 6
     Audio: {fileID: 2100975296385272743}
+    DoCameraShake: 0
+    CameraShakePower: 1
+    CameraShakeDuration: 0.2
   - Type: 7
     Audio: {fileID: 396385334973235961}
+    DoCameraShake: 1
+    CameraShakePower: 0.5
+    CameraShakeDuration: 0.3
   - Type: 20
     Audio: {fileID: 6892861275801464467}
+    DoCameraShake: 0
+    CameraShakePower: 1
+    CameraShakeDuration: 0.2
   - Type: 21
     Audio: {fileID: 8774571790480922917}
+    DoCameraShake: 1
+    CameraShakePower: 0.25
+    CameraShakeDuration: 0.2
 --- !u!114 &5865405698451418211
 MonoBehaviour:
   m_ObjectHideFlags: 0
