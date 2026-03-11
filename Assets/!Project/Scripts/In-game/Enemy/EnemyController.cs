@@ -136,12 +136,12 @@ public class EnemyController : NetworkBehaviour
         Vector3 enemyPos = transform.position;
         enemyPos.y = 0;
 
-        Vector3 playerTargetPos = ProjectUtils.GetPositionAtDistance(playerPos, enemyPos, 1f);
+        Vector3 playerTargetPos = ProjectUtils.GetPositionAtDistance(playerPos, enemyPos, 1.5f);
 
         player.Teleport(playerTargetPos);
         player.SERVER_SetKnockedDown(true);
 
-        await UniTask.WaitForSeconds(1f);
+        await UniTask.WaitForSeconds(1.3f);
 
         SERVER_SetState(EnemyState.Idle);
         _enemyMovementService.SetMoveAbility(true);
