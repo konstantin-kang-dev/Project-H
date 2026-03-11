@@ -192,10 +192,7 @@ public class Player : NetworkBehaviour, IHintable
     void HandleKnockedDownChange(bool prev, bool next, bool asServer)
     {
         if (asServer) return;
-        if (IsOwner)
-        {
-            PlayerController.HandleKnockDown(next);
-        }
+        PlayerController.HandleKnockDown(next);
     }
 
     [Server]
