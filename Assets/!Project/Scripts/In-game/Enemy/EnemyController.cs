@@ -49,7 +49,7 @@ public class EnemyController : NetworkBehaviour
 
         OnStateMachineUpdate += _enemyVisuals.HandleStateMachineUpdate;
 
-        _enemyMovementService.OnMove += _enemyVisuals.HandleEnemyMove;
+        _enemyMovementService.OnFollowingPlayer += _enemyVisuals.HandleFollowingPlayer;
 
         if (IsServerStarted)
         {
@@ -144,10 +144,19 @@ public class EnemyController : NetworkBehaviour
         player.Teleport(playerTargetPos, playerTargetRot);
         player.SERVER_SetKnockedDown(true);
 
-        await UniTask.WaitForSeconds(1.3f);
+        float timer = 0;
+        float killDuration = 2f;
+
+        while (timer < killDuration)
+        {
+            timer += Time.deltaTime;
+            _enemyVisuals.SERVER_SetLookPosition(player.CameraPosition);
+            await UniTask.WaitForEndOfFrame();
+        }
 
         SERVER_SetState(EnemyState.Idle);
         _enemyMovementService.SetMoveAbility(true);
+        _aggroController.ReleaseAggro();
     }
 
     [ObserversRpc]

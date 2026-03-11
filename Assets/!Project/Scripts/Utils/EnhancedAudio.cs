@@ -22,6 +22,8 @@ public class EnhancedAudio : MonoBehaviour
     float _volumeMultiplier = 1f;
     float _totalVolume => _initialVolume * _volumeMultiplier;
 
+    public float AudioDistance { get; private set; } = 1f;
+
     int _prevKey = -1;
     AudioSource _audioSource;
 
@@ -29,6 +31,7 @@ public class EnhancedAudio : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
         _initialVolume = _audioSource.volume;
+        AudioDistance = _audioSource.maxDistance;
     }
 
     private void Start()

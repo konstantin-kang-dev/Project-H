@@ -44,18 +44,18 @@ public class EnemyVisuals : NetworkBehaviour
         _lookPosition.OnChange -= HandleLookPositionChange;
     }
 
-    public void HandleEnemyMove(bool isFollowingPlayer, Transform target)
+    public void HandleEnemyMove(Transform target)
+    {
+
+
+    }
+
+    public void HandleFollowingPlayer(Player player)
     {
         if (IsServerStarted)
         {
-            if (isFollowingPlayer)
-            {
-                Vector3 lookPos = target.position;
-                lookPos.y += 1f;
-                SERVER_SetLookPosition(lookPos);
-            }
+            SERVER_SetLookPosition(player.CameraPosition);
         }
-
     }
 
     public void HandleStateChange(EnemyState state)

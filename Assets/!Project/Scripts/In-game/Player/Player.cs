@@ -4,6 +4,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : NetworkBehaviour, IHintable
@@ -21,6 +22,9 @@ public class Player : NetworkBehaviour, IHintable
 
     readonly SyncVar<bool> _isKnockedDown = new SyncVar<bool>();
     public bool IsKnockedDown => _isKnockedDown.Value;  
+
+    readonly SyncVar<Vector3> _cameraPosition = new SyncVar<Vector3>();
+    public Vector3 CameraPosition => _cameraPosition.Value;
 
     public bool IsInvincible = false;
 
@@ -94,6 +98,17 @@ public class Player : NetworkBehaviour, IHintable
 
         IsInitialized = true;
     }
+
+    void FixedUpdate()
+    {
+        if (!IsInitialized) return;
+
+        if(Camera.main != null)
+        {
+            RPC_RequestSetCameraPosition(Camera.main.transform.position);
+        }
+    }
+
     void HandlePlayerControllerInitialized()
     {
         OnLocalPlayerInitialized?.Invoke(this);
@@ -196,6 +211,12 @@ public class Player : NetworkBehaviour, IHintable
 
         Vector2 cameraRotation = new Vector2(rotation.x, rotation.y);
         PlayerController.CameraController.SetRotation(cameraRotation);
+    }
+
+    [ServerRpc]
+    public void RPC_RequestSetCameraPosition(Vector3 cameraPos)
+    {
+        _cameraPosition.Value = cameraPos;
     }
 
     public void HandleEndGame()

@@ -10,9 +10,10 @@ public class EnemyMovementService : MonoBehaviour
     NavMeshAgent _navMeshAgent;
 
     Transform _target;
-    bool _isFollowingPlayer = false;
+    Player _targetPlayer;
 
-    public event Action<bool, Transform> OnMove;
+    public event Action<Transform> OnMove;
+    public event Action<Player> OnFollowingPlayer;
     public event Action<Player> OnReachedPlayer;
     public bool IsInitialized { get; private set; } = false;
 
@@ -49,13 +50,19 @@ public class EnemyMovementService : MonoBehaviour
 
         if (_navMeshAgent.velocity != Vector3.zero)
         {
-            OnMove?.Invoke(_isFollowingPlayer, _target);
+            OnMove?.Invoke(_target);
         }
 
-        if(_isFollowingPlayer && _navMeshAgent.remainingDistance <= 1f)
+        if (_targetPlayer != null)
         {
-            OnReachedPlayer?.Invoke(_target.GetComponent<Player>());
+            OnFollowingPlayer?.Invoke(_targetPlayer);
+
+            if (_navMeshAgent.remainingDistance <= 1f)
+            {
+                OnReachedPlayer?.Invoke(_targetPlayer);
+            }
         }
+
     }
 
     public void SetTarget(Transform target)
@@ -64,19 +71,19 @@ public class EnemyMovementService : MonoBehaviour
 
         if(_target == null)
         {
-            _isFollowingPlayer = false;
+            _targetPlayer = null;
             UpdateSpeed(_enemyStats.MoveSpeed);
             return;
         }
 
         if(target.TryGetComponent<Player>(out Player player))
         {
-            _isFollowingPlayer = true;
+            _targetPlayer = player;
             UpdateSpeed(_enemyStats.SprintSpeed);
         }
         else
         {
-            _isFollowingPlayer = false;
+            _targetPlayer = null;
             UpdateSpeed(_enemyStats.MoveSpeed);
         }
     }

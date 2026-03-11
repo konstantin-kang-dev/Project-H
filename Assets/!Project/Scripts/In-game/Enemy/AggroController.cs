@@ -103,8 +103,7 @@ public class AggroController : MonoBehaviour
             //Debug.Log($"[AggroController] Checking player: {player.PlayerData.PlayerName} distance: {distance} distancePoints: {distanceAggroPoints}/{_enemyStats.RequiredPointsToAggro} isVisible: {isVisible}");
             if (isCloseEnough && isVisible)
             {
-                _aggroPlayer = player;
-                OnAggroProceed?.Invoke(player);
+                SetAggro(player);
                 break;
             }
         }
@@ -121,11 +120,22 @@ public class AggroController : MonoBehaviour
         bool isCloseEnough = distanceAggroPoints >= _enemyStats.RequiredPointsToAggro;
         bool isVisible = IsVisibleForMe(_aggroPlayer.transform.position);
 
-        if (!isCloseEnough && !isVisible)
+        if ((!isCloseEnough && !isVisible))
         {
-            _aggroTimer = 0;
-            _aggroPlayer = null;
-            OnAggroRelease?.Invoke();
+            ReleaseAggro();
         }
+    }
+
+    public void SetAggro(Player player)
+    {
+        _aggroPlayer = player;
+        OnAggroProceed?.Invoke(player);
+    }
+
+    public void ReleaseAggro()
+    {
+        _aggroTimer = 0;
+        _aggroPlayer = null;
+        OnAggroRelease?.Invoke();
     }
 }
