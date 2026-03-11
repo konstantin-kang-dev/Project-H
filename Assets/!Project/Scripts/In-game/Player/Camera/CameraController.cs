@@ -125,6 +125,15 @@ public class CameraController : MonoBehaviour
         OnLookPositionUpdate?.Invoke(_lookPosition);
     }
 
+    public void SetRotation(Vector2 rotation)
+    {
+        _targetRotation = rotation;
+        _targetRotation.x = Mathf.Clamp(_targetRotation.x, -90f, 90f);
+        _cameraPoint.localRotation = Quaternion.Euler(_targetRotation.x, 0f, 0f);
+        OnRotationUpdate?.Invoke(_targetRotation);
+
+    }
+
     public void HandleAnimationChange(AnimatorState state)
     {
         switch (state)
@@ -149,21 +158,23 @@ public class CameraController : MonoBehaviour
                 _cameraAnimator.SetBool("IsRunning", false);
                 break;
             case AnimatorState.KnockDown:
-                ChangeCameraOffset(_knockedDownPoint.localPosition);
+                ChangeCameraOffset(_knockedDownPoint.localPosition, 2);
                 _cameraAnimator.SetBool("IsWalking", false);
                 _cameraAnimator.SetBool("IsRunning", false);
                 break;
         }
     }
 
-    void ChangeCameraOffset(Vector3 targetPos)
+    void ChangeCameraOffset(Vector3 targetPos, float customDuration = -1)
     {
         if(_moveAnimation != null)
         {
             _moveAnimation.Kill();
         }
 
-        _moveAnimation = _cameraPoint.DOLocalMove(targetPos, 0.35f);
+        float duration = customDuration >= 0 ? customDuration : 0.35f;
+
+        _moveAnimation = _cameraPoint.DOLocalMove(targetPos, duration);
     }
 
     public void HandleLookInput(Vector2 lookInput)

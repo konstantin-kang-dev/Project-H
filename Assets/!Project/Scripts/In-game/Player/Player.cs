@@ -1,5 +1,6 @@
 using FishNet.Component.Animating;
 using FishNet.Component.Transforming;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
@@ -183,11 +184,18 @@ public class Player : NetworkBehaviour, IHintable
     }
 
     [Server]
-    public void Teleport(Vector3 targetPos)
+    public void Teleport(Vector3 position, Vector3 rotation)
     {
-        transform.position = targetPos;
-        _networkTransform.Teleport();
+        RPC_RequestTeleportByOwner(Owner, position, rotation);
+    }
+    [TargetRpc]
+    void RPC_RequestTeleportByOwner(NetworkConnection targetConn, Vector3 position, Vector3 rotation)
+    {
+        transform.position = position;
+        transform.eulerAngles = rotation;
 
+        Vector2 cameraRotation = new Vector2(rotation.x, rotation.y);
+        PlayerController.CameraController.SetRotation(cameraRotation);
     }
 
     public void HandleEndGame()

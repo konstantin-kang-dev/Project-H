@@ -138,7 +138,10 @@ public class EnemyController : NetworkBehaviour
 
         Vector3 playerTargetPos = ProjectUtils.GetPositionAtDistance(playerPos, enemyPos, 1.5f);
 
-        player.Teleport(playerTargetPos);
+        Quaternion rotation = Quaternion.LookRotation(enemyPos - playerPos);
+        Vector3 playerTargetRot = rotation.eulerAngles;
+
+        player.Teleport(playerTargetPos, playerTargetRot);
         player.SERVER_SetKnockedDown(true);
 
         await UniTask.WaitForSeconds(1.3f);
