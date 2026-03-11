@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            PlayerVisuals.AnimatorController.SetState(AnimatorState.Idle);
+            PlayerVisuals.AnimatorController.SetState(AnimatorState.Idle, true);
             _playerMovementService.SetMoveAbility(true);
         }
     }

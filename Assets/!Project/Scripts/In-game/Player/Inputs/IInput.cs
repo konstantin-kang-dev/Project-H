@@ -14,6 +14,7 @@ public interface IInput
     event Action<bool> OnSprint; 
     event Action OnCrouchToggle;
     event Action OnInteract;
+    event Action OnInteractReleased;
     event Action OnDrop; 
     event Action<int> OnInventorySlotKey;
     event Action OnNextInventorySlot;

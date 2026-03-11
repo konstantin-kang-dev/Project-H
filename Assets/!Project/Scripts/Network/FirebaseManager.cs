@@ -1,4 +1,5 @@
 ﻿using Firebase;
+using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
 using Steamworks;
@@ -23,9 +24,13 @@ public class FirebaseManager : MonoBehaviour
         InitializeFirebase();
     }
 
-    void InitializeFirebase()
+    async void InitializeFirebase()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
+
+        Debug.Log("[FirebaseManager] Firebase Signed in.");
+
+        await FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)
             {                
