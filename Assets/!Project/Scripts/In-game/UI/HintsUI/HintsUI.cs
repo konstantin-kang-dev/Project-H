@@ -12,6 +12,7 @@ public class HintsUI : MonoBehaviour
     [SerializeField] RectTransform _hintBlock;
     [SerializeField] CanvasGroup _hintBlockCanvasGroup;
     [SerializeField] TextMeshProUGUI _hintTMP;
+    [SerializeField] ProgressBar _hintInteractionProgressBar;
 
     [SerializeField] GameObject _requirementsHintBlock;
     [SerializeField] TextMeshProUGUI _requirementsHintTMP;
@@ -26,7 +27,7 @@ public class HintsUI : MonoBehaviour
         Instance = this;
     }
 
-    void ShowHint(string hintText, string requirementsText = "")
+    void ShowHint(string hintText, string requirementsText = "", float progress = -1)
     {
         _hintTMP.text = hintText;
         if (!string.IsNullOrEmpty(requirementsText))
@@ -39,7 +40,18 @@ public class HintsUI : MonoBehaviour
             _requirementsHintBlock.SetActive(false);
         }
 
-        if (_isHintActive) return;
+        if (_isHintActive)
+        {
+            if(progress >= 0)
+            {
+                _hintInteractionProgressBar.SetProgress(progress, false);
+            }
+            else
+            {
+                _hintInteractionProgressBar.SetProgress(0, true);
+            }
+            return;
+        }
 
         if(_hideAnim != null)
         {
@@ -62,6 +74,8 @@ public class HintsUI : MonoBehaviour
     {
         if (!_isHintActive) return;
 
+        _hintInteractionProgressBar.SetProgress(0, true);
+
         if (_showAnim != null)
         {
             _showAnim.Kill();
@@ -79,7 +93,7 @@ public class HintsUI : MonoBehaviour
         _isHintActive = false;
     }
 
-    public void SetHint(IHintable hintable)
+    public void SetHint(IHintable hintable, float progress = -1)
     {
         if (hintable == null)
         {
@@ -102,7 +116,7 @@ public class HintsUI : MonoBehaviour
         );
 
         _hintBlock.anchoredPosition = localPoint;
-        ShowHint(hintText, requirementsText);
+        ShowHint(hintText, requirementsText, progress);
 
     }
 }

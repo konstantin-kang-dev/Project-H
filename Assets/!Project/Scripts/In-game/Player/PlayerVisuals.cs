@@ -158,7 +158,7 @@ public class PlayerVisuals: NetworkBehaviour
         OnAnimatorStateChanged?.Invoke(next);
         if (IsOwner) return;
 
-        AnimatorController.SetState(next);
+        AnimatorController.SetState(next, true);
     }
 
     [ServerRpc]

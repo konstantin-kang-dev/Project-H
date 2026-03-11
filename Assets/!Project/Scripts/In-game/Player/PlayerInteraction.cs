@@ -9,6 +9,9 @@ public class PlayerInteraction : MonoBehaviour
     [field: SerializeField] public float InteractionRange { get; private set; } = 3f;
     [SerializeField] LayerMask _interactionLayer;
     [SerializeField] SphereCollider _sphereCollider;
+    [SerializeField] float _longPressInteractDuration = 3f;
+    bool _isInteractionPressed = false;
+    float _interactionTimer = 0f;
 
     public IPickable _hoveredPickable { get; private set; } = null;
     public IInteractable _hoveredInteractable { get; private set; } = null;
@@ -27,7 +30,8 @@ public class PlayerInteraction : MonoBehaviour
 
         _sphereCollider.radius = InteractionRange;
 
-        GlobalInputManager.Input.OnInteract += HandleInteractInput;
+        GlobalInputManager.Input.OnInteract += HandleInteractPressed;
+        GlobalInputManager.Input.OnInteractReleased += HandleInteractReleased;
         GlobalInputManager.Input.OnDrop += HandleDropInput;
 
         IsInitialized = true;
@@ -41,8 +45,18 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Clear()
     {
-        GlobalInputManager.Input.OnInteract -= HandleInteractInput;
+        GlobalInputManager.Input.OnInteract -= HandleInteractPressed;
+        GlobalInputManager.Input.OnInteractReleased -= HandleInteractReleased;
         GlobalInputManager.Input.OnDrop -= HandleDropInput;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_hoveredPlayer != null && _interactionTimer >= _longPressInteractDuration)
+        {
+            HandleInteractPlayer(_hoveredPlayer);
+            OnInteractPlayer?.Invoke(_hoveredPlayer);
+        }
     }
 
     public void HandleRaycast(Collider collider)
@@ -68,7 +82,14 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (_hoveredPlayer != null && _hoveredPlayer is IHintable hintablePlayer)
         {
-            HintsUI.Instance.SetHint(hintablePlayer);
+            if (_isInteractionPressed)
+            {
+                _interactionTimer += Time.deltaTime;
+                _interactionTimer = Mathf.Clamp(_interactionTimer, 0, _longPressInteractDuration);
+            }
+
+            float interactionProgress = _interactionTimer / _longPressInteractDuration;
+            HintsUI.Instance.SetHint(hintablePlayer, interactionProgress);
             return;
         }
         else if (_hoveredInteractable != null && _hoveredInteractable is IHintable hintableInteractable)
@@ -85,8 +106,11 @@ public class PlayerInteraction : MonoBehaviour
         HintsUI.Instance.SetHint(null);
     }
 
-    public void HandleInteractInput()
+    public void HandleInteractPressed()
     {
+        _interactionTimer = 0f;
+        _isInteractionPressed = true;
+
         if (_hoveredPickable != null)
         {
             OnInteractPickable?.Invoke(_hoveredPickable);
@@ -97,12 +121,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             OnInteractInteractable?.Invoke(_hoveredInteractable);
         }
+    }
 
-        if(_hoveredPlayer != null)
-        {
-            HandleInteractPlayer(_hoveredPlayer);
-            OnInteractPlayer?.Invoke(_hoveredPlayer);
-        }
+    public void HandleInteractReleased()
+    {
+        _interactionTimer = 0f;
+        _isInteractionPressed = false;
+
     }
 
     public void HandleInteractPlayer(Player player)

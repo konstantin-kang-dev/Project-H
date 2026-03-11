@@ -17,6 +17,7 @@ public class DefaultInput : IInput
     public event Action<bool> OnSprint;
     public event Action OnCrouchToggle;
     public event Action OnInteract;
+    public event Action OnInteractReleased;
     public event Action OnDrop;
     public event Action<int> OnInventorySlotKey;
     public event Action OnNextInventorySlot;
@@ -33,7 +34,8 @@ public class DefaultInput : IInput
         PlayerControls = new PlayerControls();
         PlayerControls.Enable();
 
-        PlayerControls.Player.Interact.performed += HandleInteractButtonClick;
+        PlayerControls.Player.Interact.performed += HandleInteractButtonPress;
+        PlayerControls.Player.Interact.canceled += HandleInteractButtonRelease;
         PlayerControls.Player.Drop.performed += HandleDropButtonClick;
 
         PlayerControls.Player.NextInventorySlot.performed += HandleNextInventorySlotTrigger;
@@ -95,9 +97,13 @@ public class DefaultInput : IInput
     {
         OnCrouchToggle?.Invoke();
     }
-    void HandleInteractButtonClick(InputAction.CallbackContext context)
+    void HandleInteractButtonPress(InputAction.CallbackContext context)
     {
         OnInteract?.Invoke();
+    }
+    void HandleInteractButtonRelease(InputAction.CallbackContext context)
+    {
+        OnInteractReleased?.Invoke();
     }
     void HandleDropButtonClick(InputAction.CallbackContext context)
     {
@@ -162,7 +168,7 @@ public class DefaultInput : IInput
 
     public void Dispose()
     {
-        PlayerControls.Player.Interact.performed -= HandleInteractButtonClick;
+        PlayerControls.Player.Interact.performed -= HandleInteractButtonPress;
         PlayerControls.Player.Drop.performed -= HandleDropButtonClick;
 
         PlayerControls.Player.NextInventorySlot.performed -= HandleNextInventorySlotTrigger;

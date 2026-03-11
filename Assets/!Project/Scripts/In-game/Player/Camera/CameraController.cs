@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] Transform _standPoint;
     [SerializeField] Transform _crouchPoint;
-    [SerializeField] Transform _liftedPoint;
+    [SerializeField] Transform _knockedDownPoint;
     Tween _moveAnimation;
 
     [SerializeField] float _mouseSensitivity = 1f;
@@ -149,6 +149,7 @@ public class CameraController : MonoBehaviour
                 _cameraAnimator.SetBool("IsRunning", false);
                 break;
             case AnimatorState.KnockDown:
+                ChangeCameraOffset(_knockedDownPoint.localPosition);
                 _cameraAnimator.SetBool("IsWalking", false);
                 _cameraAnimator.SetBool("IsRunning", false);
                 break;

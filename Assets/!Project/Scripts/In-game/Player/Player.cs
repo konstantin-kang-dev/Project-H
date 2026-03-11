@@ -166,7 +166,7 @@ public class Player : NetworkBehaviour, IHintable
         PlayerController.SetLookPosition(next);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void RPC_RequestRevive()
     {
         SERVER_SetKnockedDown(false);
