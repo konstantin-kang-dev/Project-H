@@ -1211,6 +1211,22 @@ PrefabInstance:
       propertyPath: _addedNetworkObject
       value: 
       objectReference: {fileID: -4128999373706879264}
+    - target: {fileID: 8007955592993704016, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
+      propertyPath: _audios.Array.data[4].CameraShakePower
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007955592993704016, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
+      propertyPath: _audios.Array.data[8].CameraShakePower
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007955592993704016, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
+      propertyPath: _audios.Array.data[4].CameraShakeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007955592993704016, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
+      propertyPath: _audios.Array.data[8].CameraShakeDuration
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 8773560820959930620, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: m_Name
       value: CharacterAudioService

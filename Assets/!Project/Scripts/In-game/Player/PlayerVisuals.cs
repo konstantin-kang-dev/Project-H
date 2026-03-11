@@ -144,6 +144,14 @@ public class PlayerVisuals: NetworkBehaviour
         }
     }
 
+    public void HandleKnockedDownChange(bool isKnockedDown)
+    {
+        if(_playerModel != null && !IsOwner)
+        {
+            _playerModel.SetModelXray(isKnockedDown);
+        }
+    }
+
     [ServerRpc]
     public void RPC_RequestUpdateAnimatorState(AnimatorState state)
     {

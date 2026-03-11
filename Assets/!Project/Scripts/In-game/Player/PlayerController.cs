@@ -133,17 +133,26 @@ public class PlayerController : MonoBehaviour
 
     public void HandleKnockDown(bool value)
     {
-        if (value)
+        if (_player.IsOwner)
         {
-            PlayerVisuals.AnimatorController.SetState(AnimatorState.KnockDown);
-            _playerMovementService.SetMoveAbility(false);
-            CharacterAudioService.Play(CharacterAudioType.HeavyBreath);
+            if (value)
+            {
+                PlayerVisuals.AnimatorController.SetState(AnimatorState.KnockDown);
+                _playerMovementService.SetMoveAbility(false);
+                CharacterAudioService.Play(CharacterAudioType.HeavyBreath);
+            }
+            else
+            {
+                PlayerVisuals.AnimatorController.SetState(AnimatorState.Idle, true);
+                _playerMovementService.SetMoveAbility(true);
+            }
         }
         else
         {
-            PlayerVisuals.AnimatorController.SetState(AnimatorState.Idle, true);
-            _playerMovementService.SetMoveAbility(true);
+            
         }
+
+        PlayerVisuals.HandleKnockedDownChange(value);
     }
 
     public void HandleEndGame()
