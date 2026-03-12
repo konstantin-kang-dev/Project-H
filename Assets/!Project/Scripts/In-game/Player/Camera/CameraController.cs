@@ -45,6 +45,10 @@ public class CameraController : MonoBehaviour
     public bool IsInitialized { get; private set; } = false;
     void Awake()
     {
+        if(Camera.main != null)
+        {
+            Camera.main.gameObject.SetActive(false);
+        }
         Instance = this;
     }
 

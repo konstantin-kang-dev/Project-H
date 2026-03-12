@@ -7,15 +7,18 @@ using Saves;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class LobbyManager : NetworkBehaviour
 {
     public static LobbyManager Instance;
     public static event Action OnReady;
+    public static event Action OnClear;
 
     [SerializeField] List<Transform> _lobbySlotsPoints = new List<Transform>();
-    readonly SyncList<LobbySlot> _lobbySlots = new SyncList<LobbySlot>();
+    readonly SyncDictionary<int, LobbySlot> _lobbySlots = new SyncDictionary<int, LobbySlot>();
     [SerializeField] LobbyPlayer _lobbyPlayerPrefab;
 
     readonly SyncVar<LobbyData> _lobbyData = new SyncVar<LobbyData>();
@@ -65,25 +68,17 @@ public class LobbyManager : NetworkBehaviour
         base.OnStartServer();
 
         _lobbySlots.Clear();
-        _lobbySlots.AddRange(new List<LobbySlot>()
+
+        for (int i = 0; i < 4; i++)
         {
-            new LobbySlot()
+            _lobbySlots.Add(i, new LobbySlot()
             {
-                SlotKey = 0,
-            },
-            new LobbySlot()
-            {
-                SlotKey = 1,
-            },
-            new LobbySlot()
-            {
-                SlotKey = 2,
-            },
-            new LobbySlot()
-            {
-                SlotKey = 3,
-            },
-        });
+                SlotKey = i,
+                ClientId = -1,
+                IsOccupied = false,
+            });
+        }
+
     }
 
     public override void OnStopServer()
@@ -98,6 +93,8 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnStartClient();
 
+        _lobbySlots.OnChange += HandleLobbySlotsChange;
+
         NetworkGameManager.Instance.OnLocalClientConnected += HandleLocalClientConnected;
         NetworkGameManager.Instance.OnLocalClientDisconnected += HandleLocalClientDisconnected;
 
@@ -105,12 +102,36 @@ public class LobbyManager : NetworkBehaviour
         OnReady?.Invoke();
     }
 
+    private void HandleLobbySlotsChange(SyncDictionaryOperation op, int key, LobbySlot value, bool asServer)
+    {
+        switch (op)
+        {
+            case SyncDictionaryOperation.Set:
+                SetEmptySlotUI(value.SlotKey, value.ClientId == -1);
+
+                break;
+            case SyncDictionaryOperation.Complete:
+                SetEmptySlotUI(value.SlotKey, value.ClientId == -1);
+
+                break;
+        }
+
+    }
+
+    void SetEmptySlotUI(int slotKey, bool value)
+    {
+        _lobbySlotsPoints[slotKey].gameObject.SetActive(value);
+    }
+
     public override void OnStopClient()
     {
         base.OnStopClient();
 
+        _lobbySlots.OnChange -= HandleLobbySlotsChange;
         NetworkGameManager.Instance.OnLocalClientConnected -= HandleLocalClientConnected;
         NetworkGameManager.Instance.OnLocalClientDisconnected -= HandleLocalClientDisconnected;
+
+        OnClear?.Invoke();
     }
 
     void HandleLocalClientConnected()
@@ -132,11 +153,16 @@ public class LobbyManager : NetworkBehaviour
     [Server]
     void SERVER_HandleClientDisconnected(NetworkConnection conn)
     {
-        LobbySlot lobbySlot = _lobbySlots.FirstOrDefault((x) => x.ClientId == conn.ClientId);
-        if (lobbySlot != null)
+        LobbySlot lobbySlot = _lobbySlots.FirstOrDefault((x) => x.Value.ClientId == conn.ClientId).Value;
+        if (lobbySlot.IsOccupied)
         {
-            lobbySlot.ResetData();
+            LobbySlot lobbySlotTemp = lobbySlot;
+            lobbySlotTemp.ClientId = -1;
+            lobbySlotTemp.IsOccupied = false;
+
+            _lobbySlots[lobbySlot.SlotKey] = lobbySlotTemp;
         }
+
         RPC_NotifyPlayersDisconnection();
     }
 
@@ -248,29 +274,26 @@ public class LobbyManager : NetworkBehaviour
     [Server]
     public LobbySlot SERVER_GetPlayersLobbySlot(int clientId)
     {
-        return _lobbySlots.FirstOrDefault((x)=> x.ClientId == clientId);
+        return _lobbySlots.FirstOrDefault((x)=> x.Value.ClientId == clientId).Value;
     }
 
     [Server]
     public LobbySlot SERVER_GetFreeLobbySlot()
     {
-        return _lobbySlots.FirstOrDefault((x) => !x.IsOccupied);
+        return _lobbySlots.FirstOrDefault((x) => !x.Value.IsOccupied).Value;
     }
 
     [Server]
-    public void SERVER_OccupyLobbySlot(NetworkPlayerData networkPlayerData, LobbySlot lobbySlot = null)
+    public void SERVER_OccupyLobbySlot(NetworkPlayerData networkPlayerData, LobbySlot lobbySlot)
     {
-        if(lobbySlot == null)
-        {
-            lobbySlot = SERVER_GetFreeLobbySlot();
-            if (lobbySlot == null) throw new Exception($"[LobbyManager] No available lobby slots.");
-        }
-
         NetworkConnection conn = ServerManager.Clients[networkPlayerData.ClientId];
         if (conn == null) throw new Exception($"[LobbyManager] Player({networkPlayerData.PlayerName}, {networkPlayerData.ClientId}) doesn't exist in network.");
         
-        lobbySlot.IsOccupied = true;
-        lobbySlot.ClientId = networkPlayerData.ClientId;
+        LobbySlot lobbySlotTemp = lobbySlot;
+
+        lobbySlotTemp.IsOccupied = true;
+        lobbySlotTemp.ClientId = networkPlayerData.ClientId;
+        _lobbySlots[lobbySlot.SlotKey] = lobbySlotTemp;
 
         Transform slotPoint = _lobbySlotsPoints[lobbySlot.SlotKey];
         LobbyPlayer lobbyPlayer = Instantiate(_lobbyPlayerPrefab, slotPoint.position, Quaternion.identity);
@@ -278,7 +301,6 @@ public class LobbyManager : NetworkBehaviour
 
         Debug.Log($"[LobbyManager] Added player({conn.ClientId}) to slot: {lobbySlot.SlotKey}.");
     }
-
 
     [ServerRpc(RequireOwnership = false)]
     public void RPC_RequestSendPlayerData(PlayerSave data, NetworkConnection conn)

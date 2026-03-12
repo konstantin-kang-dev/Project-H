@@ -103,10 +103,14 @@ public class Player : NetworkBehaviour, IHintable
     {
         if (!IsInitialized) return;
 
-        if(Camera.main != null)
+        if (IsOwner)
         {
-            RPC_RequestSetCameraPosition(Camera.main.transform.position);
+            if (Camera.main != null)
+            {
+                RPC_RequestSetCameraPosition(Camera.main.transform.position);
+            }
         }
+
     }
 
     void HandlePlayerControllerInitialized()

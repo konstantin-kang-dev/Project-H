@@ -1,15 +1,16 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class LobbySlot
+public struct LobbySlot
 {
-    public int SlotKey = 0;
-    public int ClientId = -1;
-    public bool IsOccupied = false;
+    public int SlotKey;
+    public int ClientId;
+    public bool IsOccupied;
 
-    public void ResetData()
+    public LobbySlot(int slotKey, int clientId, bool isOccupied)
     {
-        ClientId = -1;
-        IsOccupied = false;
+        SlotKey = slotKey;
+        ClientId = clientId;
+        IsOccupied = isOccupied;
     }
 }

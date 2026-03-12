@@ -59,7 +59,8 @@ public class NetworkRoomManager: NetworkBehaviour
         SERVER_Clear();
     }
 
-    public void Init()
+    [Server]
+    public void SERVER_Init()
     {
         NetworkGameManager.Instance.OnClientDisconnected += SERVER_RemoveConnectedPlayer;
         NetworkGameManager.Instance.OnClientLoadedStartScene += HandleClientLoadedStartScene;
@@ -78,8 +79,9 @@ public class NetworkRoomManager: NetworkBehaviour
     [Server]
     public void SERVER_Clear()
     {
-        _connectedPlayers.Clear();
+        NetworkGameManager.Instance.OnClientDisconnected -= SERVER_RemoveConnectedPlayer;
         NetworkGameManager.Instance.OnClientLoadedStartScene -= HandleClientLoadedStartScene;
+        _connectedPlayers.Clear();
     }
 
     void HandleClientLoadedStartScene(NetworkConnection conn, bool asServer)
