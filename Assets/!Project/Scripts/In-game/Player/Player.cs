@@ -166,6 +166,11 @@ public class Player : NetworkBehaviour, IHintable
     public void SERVER_SetKnockedDown(bool value)
     {
         _isKnockedDown.Value = value;
+
+        if (value)
+        {
+            GameManager.Instance.HandlePlayerKnockedDown(this);
+        }
     }
 
     [ServerRpc]

@@ -181,10 +181,30 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
-    public void SERVER_EndGame(bool isWin)
+    public void HandlePlayerKnockedDown(Player player)
+    {
+        bool isAllKnockedDown = true;
+
+        foreach (var playerBlock in Players)
+        {
+            Player checkingPlayer = playerBlock.Value;
+            if (!checkingPlayer.IsKnockedDown)
+            {
+                isAllKnockedDown = false;
+                break;
+            }
+        }
+
+        if (isAllKnockedDown) SERVER_EndGame(false);
+    }
+
+    [Server]
+    public async void SERVER_EndGame(bool isWin)
     {
         _gameState.Value = GameState.Ended;
-        IsWin = isWin;  
+        IsWin = isWin;
+
+        await UniTask.WaitForSeconds(2f);
 
         RPC_SendSessionDataToClients(SessionTimer, isWin);
     }
@@ -197,6 +217,7 @@ public class GameManager : NetworkBehaviour
 
         List<NetworkPlayerData> playersData = NetworkRoomManager.Instance.ConnectedPlayers.Values.ToList(); 
 
+        GlobalAudioManager.Instance.Play(isWin ? SoundType.UIGameVictory : SoundType.UIGameLose);
         ResultsUI.Instance.SetVisibility(true, IsWin, playersData, _gameDifficulty.Value, SessionTimer);
         LocalPlayer.HandleEndGame();
     }
