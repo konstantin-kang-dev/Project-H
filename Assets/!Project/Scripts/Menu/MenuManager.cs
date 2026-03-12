@@ -122,8 +122,9 @@ public class MenuManager : MonoBehaviour
 
         NetworkGameManager.Instance.OnLocalClientConnected -= HandleJoinLobby;
         NetworkGameManager.Instance.OnLocalClientDisconnected -= HandleQuitLobby;
-        
-        if(LobbyManager.Instance != null)
+
+        LobbyManager.OnReady -= HandleLobbyManagerReady;
+        if (LobbyManager.Instance != null)
         {
             LobbyManager.Instance.OnGameStarted -= HandleStartGame;
         }

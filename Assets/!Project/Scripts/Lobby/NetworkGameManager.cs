@@ -1,20 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using FishNet.Connection;
 using FishNet.Managing;
-using FishNet.Managing.Scened;
-using FishNet.Managing.Server;
 using FishNet.Object;
 using FishNet.Transporting;
-using FishySteamworks;
 using Saves;
 using Steamworks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class NetworkGameManager : MonoBehaviour
 {
@@ -23,24 +16,23 @@ public class NetworkGameManager : MonoBehaviour
     [SerializeField] public NetworkManager NetworkManager;
     [SerializeField] NetworkObject _networkManagersPrefab;
     NetworkObject _networkManagers;
-
     [SerializeField] private bool _isLocalMode = false;
 
     private int _currentLobbyId;
     private bool _waitingForHost = false;
     private LobbyData _pendingLobby;
+    private CSteamID _steamLobbyId;
+
+    private CallResult<LobbyCreated_t> _lobbyCreated;
+    private Callback<GameLobbyJoinRequested_t> _lobbyJoinRequested;
 
     public event Action OnLocalClientConnected;
     public event Action<NetworkConnection> OnClientConnected;
     public event Action OnLocalClientDisconnected;
     public event Action<NetworkConnection> OnClientDisconnected;
-
     public event Action<NetworkConnection, bool> OnClientLoadedStartScene;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() => Instance = this;
 
     void Start()
     {
@@ -48,34 +40,92 @@ public class NetworkGameManager : MonoBehaviour
         NetworkManager.ServerManager.OnServerConnectionState += OnServerConnectionStateChange;
         NetworkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
         NetworkManager.SceneManager.OnClientLoadedStartScenes += HandleOnClientLoadedStartScene;
+
+        _lobbyCreated = CallResult<LobbyCreated_t>.Create(OnSteamLobbyCreated);
+        _lobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnLobbyJoinRequested);
     }
+
     void Update()
     {
         if (SteamAPI.IsSteamRunning())
-        {
             SteamAPI.RunCallbacks();
+    }
+
+    void OnDestroy() => Cleanup();
+    private void OnApplicationQuit() => Cleanup();
+
+    void CreateSteamLobby()
+    {
+        var call = SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, ProjectConstants.LOBBY_MAX_PLAYERS);
+        _lobbyCreated.Set(call);
+    }
+
+    void OnSteamLobbyCreated(LobbyCreated_t result, bool failure)
+    {
+        if (failure || result.m_eResult != EResult.k_EResultOK)
+        {
+            Debug.LogError($"[NetworkGameManager] Steam lobby creation failed: {result.m_eResult}");
+            return;
         }
+
+        _steamLobbyId = new CSteamID(result.m_ulSteamIDLobby);
+        SteamMatchmaking.SetLobbyData(_steamLobbyId, "hostSteamId", SteamUser.GetSteamID().ToString());
+        Debug.Log($"[NetworkGameManager] Steam lobby created: {_steamLobbyId}");
     }
 
-    void OnDestroy()
+    void OnLobbyJoinRequested(GameLobbyJoinRequested_t result)
     {
-        Cleanup();
+        CSteamID lobbyId = result.m_steamIDLobby;
+        Debug.Log($"[NetworkGameManager] Join requested via Steam invite, lobby: {lobbyId}");
 
+        SteamMatchmaking.RequestLobbyData(lobbyId);
+
+        JoinViaLobbyId(lobbyId).Forget();
     }
 
-    private void OnApplicationQuit()
+    async UniTaskVoid JoinViaLobbyId(CSteamID lobbyId)
     {
-        Cleanup();
+        await UniTask.WaitForSeconds(1f);
+
+        string hostSteamId = SteamMatchmaking.GetLobbyData(lobbyId, "hostSteamId");
+        if (string.IsNullOrEmpty(hostSteamId))
+        {
+            Debug.LogError("[NetworkGameManager] Failed to get hostSteamId from lobby data");
+            return;
+        }
+
+        Debug.Log($"[NetworkGameManager] Joining host: {hostSteamId}");
+        NetworkManager.TransportManager.Transport.SetClientAddress(hostSteamId);
+        NetworkManager.ClientManager.StartConnection();
+    }
+
+    public void OpenInviteDialog()
+    {
+        if (_steamLobbyId == CSteamID.Nil)
+        {
+            Debug.LogError("[NetworkGameManager] Steam lobby not created yet");
+            return;
+        }
+        SteamFriends.ActivateGameOverlayInviteDialog(_steamLobbyId);
+    }
+
+    void LeaveSteamLobby()
+    {
+        if (_steamLobbyId != CSteamID.Nil)
+        {
+            SteamMatchmaking.LeaveLobby(_steamLobbyId);
+            _steamLobbyId = CSteamID.Nil;
+        }
     }
 
     void OnServerConnectionStateChange(ServerConnectionStateArgs args)
     {
-        Debug.Log($"[NetworkLobbyManager] Server state changed: {args.ConnectionState}");
+        Debug.Log($"[NetworkGameManager] Server state: {args.ConnectionState}");
 
         if (args.ConnectionState == LocalConnectionState.Started && _waitingForHost)
         {
             _waitingForHost = false;
-            RegisterLobbyInFirebase(); 
+            RegisterLobbyInFirebase();
 
             if (_networkManagers == null)
             {
@@ -97,6 +147,7 @@ public class NetworkGameManager : MonoBehaviour
                 break;
         }
     }
+
     void OnClientConnectionStateChange(ClientConnectionStateArgs args)
     {
         switch (args.ConnectionState)
@@ -104,27 +155,19 @@ public class NetworkGameManager : MonoBehaviour
             case LocalConnectionState.Stopped:
                 OnLocalClientDisconnected?.Invoke();
                 break;
-            case LocalConnectionState.Stopping:
-                break;
-            case LocalConnectionState.Starting:
-                break;
             case LocalConnectionState.Started:
                 OnLocalClientConnected?.Invoke();
                 break;
         }
     }
+
     void HandleOnClientLoadedStartScene(NetworkConnection conn, bool asServer)
     {
         if (asServer)
         {
-            Scene menuScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName("Menu");
+            UnityEngine.SceneManagement.Scene menuScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName("Menu");
             NetworkManager.SceneManager.AddConnectionToScene(conn, menuScene);
         }
-
-        if (conn.IsLocalClient)
-        {
-        }
-
         OnClientLoadedStartScene?.Invoke(conn, asServer);
     }
 
@@ -142,51 +185,61 @@ public class NetworkGameManager : MonoBehaviour
 
         _waitingForHost = true;
 
-        Debug.Log($"[NetworkLobbyManager] Create lobby attempt. Active transport: {NetworkManager.TransportManager.Transport}");
-
         NetworkManager.ServerManager.StartConnection();
 
+#if !UNITY_EDITOR
+        CreateSteamLobby();
+#endif
+
         await UniTask.WaitForSeconds(1.5f);
-        NetworkRoomManager.Instance.Init();
-
+        NetworkRoomManager.Instance.SERVER_Init();
         NetworkManager.ClientManager.StartConnection();
-
         LobbyManager.Instance.SERVER_InitLobby(_pendingLobby);
-        Debug.Log($"[NetworkLobbyManager] Create lobby.");
+    }
+
+    public async void JoinLobby(LobbyData lobby)
+    {
+        Debug.Log($"[NetworkGameManager] Join attempt. Host SteamID: {lobby.HostSteamId}");
+
+        if (!_isLocalMode)
+            NetworkManager.TransportManager.Transport.SetClientAddress(lobby.HostSteamId.ToString());
+
+        await UniTask.WaitForSeconds(1.5f);
+        NetworkManager.ClientManager.StartConnection();
     }
 
     void RegisterLobbyInFirebase()
     {
-        ulong hostSteamId =  (ulong)_currentLobbyId;
-#if UNITY_EDITOR
-
-#else
+        ulong hostSteamId = (ulong)_currentLobbyId;
+#if !UNITY_EDITOR
         CSteamID steamId = SteamUser.GetSteamID();
         hostSteamId = steamId.m_SteamID;
         _pendingLobby.HostSteamId = hostSteamId;
 #endif
-
         FirebaseManager.Instance.CreateLobby(_pendingLobby, hostSteamId.ToString(), () =>
         {
-            Debug.Log($"[NetworkLobbyManager] Lobby registered! ID: {_pendingLobby.LobbyId}, HostName: {_pendingLobby.HostName}");
+            Debug.Log($"[NetworkGameManager] Lobby registered! ID: {_pendingLobby.LobbyId}");
         });
-
     }
 
-
-    public async void JoinLobby(LobbyData lobby)
+    public void Disconnect()
     {
-        Debug.Log($"[NetworkLobbyManager] Join attempt. Host SteamID: {lobby.HostSteamId}");
-        Debug.Log($"[NetworkLobbyManager] Active transport: {NetworkManager.TransportManager.Transport}");
+        if (NetworkManager.IsServerStarted && NetworkManager.IsClientStarted)
+            StopHost();
+        else if (NetworkManager.ClientManager.Started)
+            StopClient();
+    }
 
-        if (!_isLocalMode)
-        {
-            NetworkManager.TransportManager.Transport.SetClientAddress(lobby.HostSteamId.ToString());
-        }
+    public void StopHost()
+    {
+        LeaveSteamLobby();
+        NetworkManager.ClientManager.StopConnection();
+        NetworkManager.ServerManager.StopConnection(true);
+    }
 
-        await UniTask.WaitForSeconds(1.5f);
-        Debug.Log($"[NetworkLobbyManager] Join lobby, host steam id: {lobby.HostSteamId}");
-        NetworkManager.ClientManager.StartConnection(); 
+    public void StopClient()
+    {
+        NetworkManager.ClientManager.StopConnection();
     }
 
     public async Task<Texture2D> GetSteamAvatar(string steamIdString)
@@ -196,13 +249,9 @@ public class NetworkGameManager : MonoBehaviour
 
         int avatarHandle = SteamFriends.GetLargeFriendAvatar(steamId);
 
-        await UniTask.WaitUntil(() =>
-        {
-            return avatarHandle != -1 && avatarHandle != 0;
-        });
+        await UniTask.WaitUntil(() => avatarHandle != -1 && avatarHandle != 0);
 
         SteamUtils.GetImageSize(avatarHandle, out uint width, out uint height);
-
         byte[] imageData = new byte[4 * width * height];
         SteamUtils.GetImageRGBA(avatarHandle, imageData, imageData.Length);
 
@@ -215,10 +264,8 @@ public class NetworkGameManager : MonoBehaviour
             {
                 int srcIdx = (int)((height - 1 - y) * width + x) * 4;
                 pixels[y * width + x] = new Color32(
-                    imageData[srcIdx],
-                    imageData[srcIdx + 1],
-                    imageData[srcIdx + 2],
-                    imageData[srcIdx + 3]
+                    imageData[srcIdx], imageData[srcIdx + 1],
+                    imageData[srcIdx + 2], imageData[srcIdx + 3]
                 );
             }
 
@@ -227,44 +274,15 @@ public class NetworkGameManager : MonoBehaviour
         return texture;
     }
 
-    public void Disconnect()
-    {
-        bool isServerActive = NetworkManager.ServerManager.Started;
-
-        bool isClientActive = NetworkManager.ClientManager.Started;
-
-        bool isHost = NetworkManager.IsServerStarted && NetworkManager.IsClientStarted;
-
-        if (isHost)
-        {
-            StopHost();
-        }
-        else if (isClientActive)
-        {
-            StopClient();
-        }
-    }
-    public void StopHost()
-    {
-        NetworkManager.ClientManager.StopConnection();
-
-        NetworkManager.ServerManager.StopConnection(true);
-        Debug.Log("[NetworkLobbyManager] Host stoped");
-    }
-
-    public void StopClient()
-    {
-        NetworkManager.ClientManager.StopConnection();
-        Debug.Log($"[NetworkLobbyManager] Client stoped");
-    }
     void Cleanup()
     {
         if (NetworkManager == null) return;
 
+        LeaveSteamLobby();
+
         if (NetworkManager.ServerManager != null)
         {
             NetworkManager.ServerManager.OnServerConnectionState -= OnServerConnectionStateChange;
-
             if (NetworkManager.ServerManager.Started)
                 NetworkManager.ServerManager.StopConnection(true);
         }
@@ -273,9 +291,6 @@ public class NetworkGameManager : MonoBehaviour
             NetworkManager.ClientManager.StopConnection();
 
         if (NetworkManager.IsServerStarted && _currentLobbyId != 0)
-        {
             FirebaseManager.Instance.RemoveLobby(_currentLobbyId);
-        }
-
     }
 }

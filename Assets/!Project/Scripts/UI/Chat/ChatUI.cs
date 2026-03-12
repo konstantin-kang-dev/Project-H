@@ -73,6 +73,7 @@ public class ChatUI : MonoBehaviour
     {
         foreach (var chatMessage in _chatMessagesUI)
         {
+            if (chatMessage == null) continue;
             Destroy(chatMessage.gameObject);
         }
 

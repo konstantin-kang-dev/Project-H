@@ -19,6 +19,7 @@ public class LobbyUI : BasicCustomWindow
     void Start()
     {
         LobbyManager.OnReady += Init;
+        LobbyManager.OnClear += ResetEvents;
     }
 
     public void Init()
@@ -36,7 +37,6 @@ public class LobbyUI : BasicCustomWindow
         SetStartBtnVisibility(LobbyManager.Instance.IsServerStarted);
         SetStartBtnInteractable(false);
 
-        NetworkGameManager.Instance.OnLocalClientDisconnected += ResetEvents;
         LobbyManager.Instance.OnLobbyDataUpdated += HandleUpdateLobbyData;
 
         if (LobbyManager.Instance.IsServerStarted)
@@ -49,6 +49,8 @@ public class LobbyUI : BasicCustomWindow
         _startBtn.onClick.AddListener(HandleLobbyStartBtn);
 
         _lobbyChatUI.Init();
+
+        Debug.Log($"[LobbyUI] Initialized");
     }
 
     void HandleDifficultyToggle(int value)
@@ -111,18 +113,19 @@ public class LobbyUI : BasicCustomWindow
 
     void ResetEvents()
     {
-        _readyBtn.OnToggle -= HandleClickReadyBtn;
-
-        if (LobbyManager.Instance != null && LobbyManager.Instance.IsServerStarted)
+        if (LobbyManager.Instance != null)
         {
-            LobbyManager.OnReady -= Init;
-            if (LobbyManager.Instance.IsServerStarted)
-            {
-                _difficultyToggleGroup.OnToggle -= HandleDifficultyToggle;
-                LobbyManager.Instance.OnPlayersReady -= HandlePlayersReadyChange;
-            }
+            LobbyManager.Instance.OnLobbyDataUpdated -= HandleUpdateLobbyData;
+            LobbyManager.Instance.OnPlayersReady -= HandlePlayersReadyChange;
         }
-        LobbyManager.Instance.OnLobbyDataUpdated -= HandleUpdateLobbyData;
-        NetworkGameManager.Instance.OnLocalClientDisconnected -= ResetEvents;
+
+        if (GameDifficultyManager.Instance != null)
+            _difficultyToggleGroup.OnToggle -= HandleDifficultyToggle;
+
+        _readyBtn.OnToggle -= HandleClickReadyBtn;
+        _backBtn.onClick.RemoveListener(HandleLobbyBackBtn);
+        _startBtn.onClick.RemoveListener(HandleLobbyStartBtn);
+
+        Debug.Log($"[LobbyUI] Reset events");
     }
 }
