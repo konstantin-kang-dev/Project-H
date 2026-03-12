@@ -856,6 +856,7 @@ GameObject:
   - component: {fileID: 3073781024798277083}
   - component: {fileID: 8736074717316483144}
   - component: {fileID: 8631329185824298571}
+  - component: {fileID: 3814638497357145934}
   m_Layer: 5
   m_Name: ChatUI
   m_TagString: Untagged
@@ -907,4 +908,18 @@ MonoBehaviour:
   _scroll: {fileID: 3970017306465067893}
   _container: {fileID: 6924723554396720414}
   _chatInput: {fileID: 5267124834047163634}
+  _canvasGroup: {fileID: 3814638497357145934}
+  _autoOpenChatDuration: 5
   <IsInitialized>k__BackingField: 0
+--- !u!225 &3814638497357145934
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9213872347847085256}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

@@ -64,7 +64,7 @@ public class ObjectivesManager : NetworkBehaviour
 
         List<ObjectiveConfig> configsCopy = new List<ObjectiveConfig>(_configs);
 
-        playersCount = GameManager.Instance.Players.Count;
+        playersCount = GameManager.Instance.SERVER_Players.Count;
 
         int randomConfigKey = Random.Range(0, configsCopy.Count);
         ObjectiveConfig chosenConfig = configsCopy[randomConfigKey];

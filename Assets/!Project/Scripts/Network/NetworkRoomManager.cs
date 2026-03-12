@@ -168,7 +168,6 @@ public class NetworkRoomManager: NetworkBehaviour
         LobbyManager.Instance.SERVER_UpdateLobbyData();
     }
 
-
     public void SERVER_SetPlayerData(PlayerSave data, NetworkConnection conn)
     {
         if (!_connectedPlayers.ContainsKey(conn.ClientId)) throw new System.Exception($"[RoomManager] Player doesn't exists in connected players list.");

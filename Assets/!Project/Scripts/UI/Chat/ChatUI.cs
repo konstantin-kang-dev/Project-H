@@ -15,9 +15,13 @@ public class ChatUI : MonoBehaviour
     [SerializeField] RectTransform _container;
     [SerializeField] TMP_InputField _chatInput;
 
+    [SerializeField] CanvasGroup _canvasGroup;
+    [SerializeField] float _autoOpenChatDuration = 2f;
+
     List<ChatMessageUI> _chatMessagesUI = new List<ChatMessageUI>();
 
     bool _isChatOpened = false;
+    float _autoOpenChatTimer = 0f;
 
     Tween _scrollAnim;
 
@@ -26,11 +30,45 @@ public class ChatUI : MonoBehaviour
     {
         ChatManager.Instance.OnChatMessageAdded += HandleChatMessageAdd;
         _chatInput.onSubmit.AddListener(HandleChatInputSend);
+        _chatInput.onSelect.AddListener(HandleOpenChat);
+        _chatInput.onDeselect.AddListener(HandleCloseChat);
+        _chatInput.onValueChanged.AddListener(HandleTextInput);
 
-        GlobalInputManager.Input.OnOpenChat += HandleOpenChat;
+        GlobalInputManager.Input.OnOpenChat += HandleOpenChatPressed;
         NetworkGameManager.Instance.OnLocalClientConnected += Clear;
+        _canvasGroup.alpha = 0.1f;
 
         IsInitialized = true;
+    }
+    private void OnDestroy()
+    {
+        if (ChatManager.Instance != null)
+        {
+            ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
+        }
+
+        GlobalInputManager.Input.OnOpenChat += HandleOpenChatPressed;
+        if (NetworkGameManager.Instance != null)
+        {
+            NetworkGameManager.Instance.OnLocalClientConnected -= Clear;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(_autoOpenChatTimer > 0)
+        {
+            _autoOpenChatTimer -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            HandleCloseChat();
+        }
+    }
+
+    void HandleTextInput(string input)
+    {
+        UpdateAutoOpenChatTimer();
     }
 
     async void HandleChatMessageAdd(ChatMessageData chatMessageData)
@@ -50,6 +88,8 @@ public class ChatUI : MonoBehaviour
             _scrollAnim.Kill();
         }
         _scrollAnim = _scroll.DOVerticalNormalizedPos(0f, 0.5f);
+
+        HandleOpenChat();
     }
 
     void HandleChatInputSend(string input)
@@ -61,12 +101,35 @@ public class ChatUI : MonoBehaviour
         _chatInput.Select();
     }
 
-    void HandleOpenChat()
+    void HandleOpenChatPressed()
+    {
+        _chatInput.Select();
+        _chatInput.ActivateInputField();
+
+        HandleOpenChat();
+    }
+
+    void HandleOpenChat(string value = "")
     {
         if (_isChatOpened) return;
 
-        _chatInput.Select();
-        _chatInput.ActivateInputField();
+        UpdateAutoOpenChatTimer();
+        _canvasGroup.DOFade(1f, 0.2f);
+        _isChatOpened = true;
+    }
+
+    void HandleCloseChat(string value = "")
+    {
+        if (!_isChatOpened) return;
+
+        _autoOpenChatTimer = 0;
+        _canvasGroup.DOFade(0.1f, 0.2f);
+        _isChatOpened = false;
+    }
+
+    void UpdateAutoOpenChatTimer()
+    {
+        _autoOpenChatTimer = _autoOpenChatDuration;
     }
 
     public void Clear()
@@ -80,17 +143,4 @@ public class ChatUI : MonoBehaviour
         _chatMessagesUI.Clear();
     }
 
-    private void OnDestroy()
-    {
-        if(ChatManager.Instance != null)
-        {
-            ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
-        }
-
-        GlobalInputManager.Input.OnOpenChat -= HandleOpenChat;
-        if(NetworkGameManager.Instance != null)
-        {
-            NetworkGameManager.Instance.OnLocalClientConnected -= Clear;
-        }
-    }
 }

@@ -87,9 +87,15 @@ public class AggroController : MonoBehaviour
 
     void CheckForAggro()
     {
-        List<Player> allPlayers = GameManager.Instance.Players.Values.ToList();
+        List<Player> allPlayers = GameManager.Instance.SERVER_Players.Values.ToList();
 
-        allPlayers = allPlayers.Where((x) => !x.IsKnockedDown).OrderBy((x)=> Vector3.Distance(transform.position, x.transform.position)).ToList();
+        allPlayers = allPlayers
+            .Where((x) =>
+            x != null 
+            && !x.IsKnockedDown
+            && !x.IsInvincible)
+            .OrderBy((x)=> Vector3.Distance(transform.position, x.transform.position))
+            .ToList();
 
         foreach (var player in allPlayers)
         {

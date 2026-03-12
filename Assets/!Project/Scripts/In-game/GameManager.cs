@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using GameAudio;
@@ -26,8 +27,8 @@ public class GameManager : NetworkBehaviour
 
     [field: SerializeField] public Player LocalPlayer { get; private set; }
 
-    Dictionary<int, Player> _players = new Dictionary<int, Player>();
-    public Dictionary<int, Player> Players => _players;
+    Dictionary<int, Player> _serverPlayers = new Dictionary<int, Player>();
+    public Dictionary<int, Player> SERVER_Players => _serverPlayers;
 
     public float SessionTimer { get; private set; } = 0f;
     public bool IsWin { get; private set; } = false;
@@ -64,6 +65,8 @@ public class GameManager : NetworkBehaviour
         OnAllPlayersReadyToStart += SERVER_StartGame;
 
         _gameDifficulty.Value = GameDifficultyManager.Instance.SelectedConfig.DifficultyType;
+
+        NetworkGameManager.Instance.OnClientDisconnected += HandlePlayerDisconnect;
         Debug.Log($"[GameManager] Server is loaded. Difficulty: {_gameDifficulty.Value}");
     }
 
@@ -108,9 +111,9 @@ public class GameManager : NetworkBehaviour
     [Server]
     public async void SERVER_StartGame()
     {
-        _players = PlayersSpawnManager.Instance.SpawnPlayers(NetworkRoomManager.Instance.ConnectedPlayers.Values.ToList());
+        _serverPlayers = PlayersSpawnManager.Instance.SpawnPlayers(NetworkRoomManager.Instance.ConnectedPlayers.Values.ToList());
 
-        foreach (var playerBlock in _players)
+        foreach (var playerBlock in _serverPlayers)
         {
             Player player = playerBlock.Value;
             player.SERVER_SetReadyToInit(true);
@@ -125,6 +128,13 @@ public class GameManager : NetworkBehaviour
     public void RegisterLocalPlayer(Player player)
     {
         LocalPlayer = player;
+    }
+    [Server] 
+    void HandlePlayerDisconnect(NetworkConnection conn)
+    {
+        var nullKeys = _serverPlayers.Where(x => x.Value == null).Select(x => x.Key).ToList();
+        foreach (var key in nullKeys)
+            _serverPlayers.Remove(key);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -185,7 +195,7 @@ public class GameManager : NetworkBehaviour
     {
         bool isAllKnockedDown = true;
 
-        foreach (var playerBlock in Players)
+        foreach (var playerBlock in SERVER_Players)
         {
             Player checkingPlayer = playerBlock.Value;
             if (!checkingPlayer.IsKnockedDown)
