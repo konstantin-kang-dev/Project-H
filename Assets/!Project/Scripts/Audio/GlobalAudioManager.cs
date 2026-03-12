@@ -17,6 +17,8 @@ namespace GameAudio
         UINotification = 4,
         UILobbyJoin = 5,
         UILobbyLeave = 6,
+        UIGameVictory = 7,
+        UIGameLose = 8,
 
         MenuAmbient = 20,
         GameAmbient = 21,
