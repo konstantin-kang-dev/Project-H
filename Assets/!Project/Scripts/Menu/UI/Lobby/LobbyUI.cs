@@ -52,6 +52,15 @@ public class LobbyUI : BasicCustomWindow
 
         Debug.Log($"[LobbyUI] Initialized");
     }
+    protected override void BindControls()
+    {
+
+    }
+
+    protected override void UnbindControls()
+    {
+
+    }
 
     void HandleDifficultyToggle(int value)
     {
