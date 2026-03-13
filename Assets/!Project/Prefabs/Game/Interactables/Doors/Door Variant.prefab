@@ -372,6 +372,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7873457813014170448, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
     - target: {fileID: 8008165331838600104, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: _doCameraShake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8008165331838600104, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: _cameraShakeDelay
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8008165331838600104, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: _cameraShakePower
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8008165331838600104, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
+      propertyPath: _cameraShakeDuration
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8008165331838600104, guid: c527efa86a4150044abe44f3203cd1b6, type: 3}
       propertyPath: _audioList.Array.size
       value: 1
       objectReference: {fileID: 0}

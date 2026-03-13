@@ -149,6 +149,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 0
+  _cameraShakePower: 1
+  _cameraShakeDuration: 0.2
 --- !u!1 &1292037935574078068
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +301,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 0
+  _cameraShakePower: 1
+  _cameraShakeDuration: 0.2
 --- !u!1 &1499031110466417292
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +453,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 0
+  _cameraShakePower: 1
+  _cameraShakeDuration: 0.2
 --- !u!1 &3194713747665395149
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,6 +607,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 0
+  _cameraShakePower: 1
+  _cameraShakeDuration: 0.2
 --- !u!1 &5877174261125220628
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +759,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 1
+  _cameraShakePower: 0.5
+  _cameraShakeDuration: 0.2
 --- !u!1 &6216498593445420056
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,6 +911,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 1
+  _cameraShakePower: 0.2
+  _cameraShakeDuration: 0.2
 --- !u!1 &6800512654803272511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1065,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 1
+  _cameraShakePower: 0.07
+  _cameraShakeDuration: 0.1
 --- !u!1 &7330095962978207947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1219,9 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 1
+  _cameraShakePower: 0.1
+  _cameraShakeDuration: 0.1
 --- !u!1 &8773560820959930620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,49 +1282,22 @@ MonoBehaviour:
   _audios:
   - Type: 1
     Audio: {fileID: 7802427059282665570}
-    DoCameraShake: 0
-    CameraShakePower: 1
-    CameraShakeDuration: 0.2
   - Type: 2
     Audio: {fileID: 1303867058182177661}
-    DoCameraShake: 0
-    CameraShakePower: 1
-    CameraShakeDuration: 0.2
   - Type: 3
     Audio: {fileID: 2763280993705852396}
-    DoCameraShake: 0
-    CameraShakePower: 1
-    CameraShakeDuration: 0.2
   - Type: 4
     Audio: {fileID: 9212177754943341852}
-    DoCameraShake: 1
-    CameraShakePower: 1
-    CameraShakeDuration: 2
   - Type: 5
     Audio: {fileID: 6184102425460898414}
-    DoCameraShake: 1
-    CameraShakePower: 0.15
-    CameraShakeDuration: 0.15
   - Type: 6
     Audio: {fileID: 2100975296385272743}
-    DoCameraShake: 0
-    CameraShakePower: 1
-    CameraShakeDuration: 0.2
   - Type: 7
     Audio: {fileID: 396385334973235961}
-    DoCameraShake: 1
-    CameraShakePower: 0.5
-    CameraShakeDuration: 0.3
   - Type: 20
     Audio: {fileID: 6892861275801464467}
-    DoCameraShake: 0
-    CameraShakePower: 1
-    CameraShakeDuration: 0.2
   - Type: 21
     Audio: {fileID: 8774571790480922917}
-    DoCameraShake: 1
-    CameraShakePower: 0.25
-    CameraShakeDuration: 0.2
 --- !u!114 &5865405698451418211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1518,3 +1515,6 @@ MonoBehaviour:
   _doFade: 0
   _inDuration: 0.5
   _outDuration: 0.5
+  _doCameraShake: 0
+  _cameraShakePower: 1
+  _cameraShakeDuration: 0.2

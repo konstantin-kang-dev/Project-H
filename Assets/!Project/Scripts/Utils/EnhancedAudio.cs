@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using GameAudio;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
@@ -16,6 +17,13 @@ public class EnhancedAudio : MonoBehaviour
     [SerializeField] bool _doFade = false;
     [SerializeField] float _inDuration = 0.5f;
     [SerializeField] float _outDuration = 0.5f;
+
+    [Header("Shake")]
+    [SerializeField] bool _doCameraShake = false;
+    [SerializeField] float _cameraShakeDelay = 0f;
+    [SerializeField] float _cameraShakePower = 1f;
+    [SerializeField] float _cameraShakeDuration = 0.2f;
+
     Tween _fadeTween;
 
     float _initialVolume = 0f;
@@ -81,6 +89,11 @@ public class EnhancedAudio : MonoBehaviour
             float volume = customVolume >= 0f ? _totalVolume * customVolume : _totalVolume;
             _fadeTween = _audioSource.DOFade(volume, _inDuration).From(0f);
         }
+
+        if (_doCameraShake)
+        {
+            ShakeCamera();
+        }
     }
 
     public void Stop()
@@ -108,5 +121,20 @@ public class EnhancedAudio : MonoBehaviour
     {
         _volumeMultiplier = volume;
         _audioSource.volume = _totalVolume;
+    }
+
+    async void ShakeCamera()
+    {
+        CameraController cameraController = CameraController.Instance;
+        if (cameraController == null) return;
+
+        await UniTask.WaitForSeconds(_cameraShakeDelay);
+
+        float distanceToCamera = Vector2.Distance(cameraController.transform.position, transform.position);
+        distanceToCamera = Mathf.Clamp(distanceToCamera, 0f, AudioDistance);
+
+        float totalShakePower = ((AudioDistance - distanceToCamera) / AudioDistance) * _cameraShakePower;
+
+        cameraController.ShakeCamera(totalShakePower, _cameraShakeDuration);
     }
 }
