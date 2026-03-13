@@ -290,6 +290,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomFurniture_01
       objectReference: {fileID: 0}
+    - target: {fileID: 7498172464245231803, guid: ff9e207164fca5248a9835631385ee48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
