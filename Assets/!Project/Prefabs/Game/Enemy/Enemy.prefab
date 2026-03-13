@@ -60,6 +60,7 @@ MonoBehaviour:
   _enemyInteractionServicePrefab: {fileID: 2751377866791040245, guid: 673ba7b7b6b5d5d4888a31434c9ac8af, type: 3}
   _characterAudioService: {fileID: 1057712194597855950}
   _visibilityChecker: {fileID: 4947395968601370036}
+  _enemyDetectionHandlerInterval: 10
   _currentState: -1
 --- !u!195 &875226639419031044
 NavMeshAgent:

@@ -21,6 +21,8 @@ public class EnemyController : NetworkBehaviour
 
     [SerializeField] CharacterAudioService _characterAudioService;
     [SerializeField] VisibilityChecker _visibilityChecker;
+    [SerializeField] float _enemyDetectionHandlerInterval = 5f;
+    float _lastTimeEnemyDetected = 0;
 
     [SerializeField] EnemyState _currentState = EnemyState.None;
 
@@ -198,7 +200,12 @@ public class EnemyController : NetworkBehaviour
     {
         if(visible)
         {
-            GlobalAudioManager.Instance.Play(SoundType.EnemySpotted);
+            bool isReady = Time.time - _lastTimeEnemyDetected >= _enemyDetectionHandlerInterval;
+            if (isReady)
+            {
+                _lastTimeEnemyDetected = Time.time;
+                GlobalAudioManager.Instance.Play(SoundType.EnemySpotted);
+            }
         }
     }
 }
