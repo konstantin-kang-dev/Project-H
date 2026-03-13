@@ -12,7 +12,7 @@ public class AggroController : MonoBehaviour
 
     float _aggroTimer = 0f;
     Vector3 _directionOfSight = Vector3.zero;
-    float _sightMaxAngleVisibility = 20f;
+    float _sightMaxAngleVisibility = 30f;
 
     public event Action<Player> OnAggroProceed;
     public event Action OnAggroRelease;
