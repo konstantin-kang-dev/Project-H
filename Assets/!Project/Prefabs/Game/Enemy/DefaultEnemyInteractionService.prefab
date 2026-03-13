@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9460ffaa63cdfcc40a2a279dc33f7dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInteractionService
-  _interactionRange: 3
+  _interactionRange: 2
   _interactionLayers:
     serializedVersion: 2
     m_Bits: 2048
