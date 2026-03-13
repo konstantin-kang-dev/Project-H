@@ -18,8 +18,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] LobbyUI _lobbyUI;
     [SerializeField] LobbiesOverviewUI _lobbiesOverviewUI;
 
-    [SerializeField] TMP_InputField _playerNameInput;
-
     private void Awake()
     {
         Instance = this;
@@ -33,8 +31,6 @@ public class MenuManager : MonoBehaviour
     public async void Init()
     {
         SaveManager.LoadAll();
-
-        _playerNameInput.text = SaveManager.GameSave.PlayerSave.PlayerName;
 
         _menuUI.Init();
         _lobbiesOverviewUI.Init();

@@ -234,6 +234,7 @@ public class SettingsUI : BasicCustomWindow
                 page.Value.ProcessOutAnimation(true);
             }
             HandleNavigation(0);
+            _navigationGroup.SetValue(0);
         }
     }
 
