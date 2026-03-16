@@ -8,11 +8,12 @@ public class ResolutionListGenerator : MonoBehaviour
 
     private void Awake()
     {
-        SetupResolutionsList();
+
     }
 
-    void SetupResolutionsList()
+    public void SetupResolutionsList()
     {
+        Debug.Log($"[ResolutionListGenerator] Setup resolutions list started.");
         Resolution[] resolutions = GraphicsManager.AvailableResolutions;
 
         List<string> _selectorValues = new List<string>();
@@ -21,9 +22,11 @@ public class ResolutionListGenerator : MonoBehaviour
         {
             string stringRes = $"{resolution.width}x{resolution.height}";
 
+            Debug.Log($"[ResolutionListGenerator] Added resolution: {stringRes}.");
             _selectorValues.Add(stringRes);
         }
 
         _valueSelectorUI.SetValues(_selectorValues);
+        Debug.Log($"[ResolutionListGenerator] Setup resolutions list finished. Total: {_selectorValues.Count}");
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Ura
   - asteroid
   - ship
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Players
   - Doors
   - XRay
-  - 
+  - Outline
   - 
   - 
   - 

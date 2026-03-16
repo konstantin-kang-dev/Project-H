@@ -1,5 +1,6 @@
 ﻿using Saves;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -14,7 +15,14 @@ public class GraphicsManager
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Init()
     {
-        AvailableResolutions = Screen.resolutions;
+        var seen = new HashSet<string>();
+        var filtered = new List<Resolution>();
+        foreach (var r in Screen.resolutions)
+        {
+            if (seen.Add($"{r.width}x{r.height}"))
+                filtered.Add(r);
+        }
+        AvailableResolutions = filtered.ToArray();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -29,9 +37,12 @@ public class GraphicsManager
     public static void ApplySave(GraphicsSave save)
     {
         RelevantGraphicsSave = save;
-        Screen.SetResolution(save.ScreenWidth, save.ScreenHeight, save.FullscreenEnabled);
-        Application.targetFrameRate = save.MaxFps;
-        QualitySettings.vSyncCount = save.VsyncEnabled ? 1 : 0;
+        Screen.SetResolution(RelevantGraphicsSave.ScreenWidth, RelevantGraphicsSave.ScreenHeight,
+            RelevantGraphicsSave.FullscreenEnabled ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+        Debug.Log($"[GraphicsManager] Set resolution: {RelevantGraphicsSave.ScreenWidth}x{RelevantGraphicsSave.ScreenHeight} ({Screen.width}x{Screen.height}) isFullscreen: {Screen.fullScreen}");
+
+        Application.targetFrameRate = RelevantGraphicsSave.MaxFps;
+        QualitySettings.vSyncCount = RelevantGraphicsSave.VsyncEnabled ? 1 : 0;
 
         foreach (var camera in Camera.allCameras)
         {
@@ -147,10 +158,11 @@ public class GraphicsManager
                 GraphicsQuality.Low => 16,
                 GraphicsQuality.Medium => 32,
                 GraphicsQuality.High => 64,
-                GraphicsQuality.Ultra => 96,
-                GraphicsQuality.Crazy => 128,
+                GraphicsQuality.Ultra => 64,
+                GraphicsQuality.Crazy => 96,
                 _ => 64
             };
+
         }
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
