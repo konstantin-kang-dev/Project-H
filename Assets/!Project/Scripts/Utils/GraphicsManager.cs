@@ -160,22 +160,33 @@ public class GraphicsManager
                 GraphicsQuality.High => 32,
                 GraphicsQuality.Ultra => 64,
                 GraphicsQuality.Crazy => 96,
-                _ => 64
+                _ => 32
             };
 
         }
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
         {
-            fog.quality.value = save.LightingQuality switch
+            fog.volumetricFogBudget = save.LightingQuality switch
             {
-                GraphicsQuality.Low => 0,
-                GraphicsQuality.Medium => 0,
-                GraphicsQuality.High => 0,
-                GraphicsQuality.Ultra => 1,
-                GraphicsQuality.Crazy => 1,
-                _ => 0
+                GraphicsQuality.Low => 0.2f,
+                GraphicsQuality.Medium => 0.3f,
+                GraphicsQuality.High => 0.4f,
+                GraphicsQuality.Ultra => 0.5f,
+                GraphicsQuality.Crazy => 0.6f,
+                _ => 0.4f
             };
+
+            fog.sliceDistributionUniformity.value = save.LightingQuality switch
+            {
+                GraphicsQuality.Low => 0.25f,
+                GraphicsQuality.Medium => 0.4f,
+                GraphicsQuality.High => 0.5f,
+                GraphicsQuality.Ultra => 0.6f,
+                GraphicsQuality.Crazy => 0.8f,
+                _ => 0.5f
+            };
+
         }
 
         if (_globalVolume.profile.TryGet<ScreenSpaceAmbientOcclusion>(out var ao))
