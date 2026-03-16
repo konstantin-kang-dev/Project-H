@@ -26,6 +26,7 @@ public class ObjectiveConfig : SerializedScriptableObject
 
         return ObjectivesAmountPerDiff[type];
     }
+
     public ObjectiveConfig Clone()
     {
         var clone = (ObjectiveConfig)MemberwiseClone();

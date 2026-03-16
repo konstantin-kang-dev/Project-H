@@ -140,6 +140,14 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 267231076875116039, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Size.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 267231076875116039, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 422149011048845585, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
       propertyPath: m_Name
       value: InteractableShelf3
@@ -160,6 +168,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2970851441701278119, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Size.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970851441701278119, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313432531404298789, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Size.z
+      value: 0.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313432531404298789, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.225
+      objectReference: {fileID: 0}
     - target: {fileID: 3748350897347611361, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -179,6 +203,14 @@ PrefabInstance:
     - target: {fileID: 5709423208818811297, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5781824344209310236, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Size.z
+      value: 0.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 5781824344209310236, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.225
       objectReference: {fileID: 0}
     - target: {fileID: 6092352158706627849, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
       propertyPath: m_Convex
@@ -231,6 +263,22 @@ PrefabInstance:
     - target: {fileID: 7594819310973829541, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637011417506129408, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Size.z
+      value: 0.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637011417506129408, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.225
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897390049195151596, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Size.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897390049195151596, guid: 09fce0d23ad2135419712d65f208331b, type: 3}
+      propertyPath: m_Center.z
+      value: -0.04
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

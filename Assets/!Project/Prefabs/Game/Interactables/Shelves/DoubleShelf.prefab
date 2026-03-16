@@ -131,6 +131,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5412404907462473544}
     m_Modifications:
+    - target: {fileID: 157711880330601283, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Size.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 157711880330601283, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Center.z
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1714866137674711247, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Size.z
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1714866137674711247, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 6196416091334693452, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
       propertyPath: m_Name
       value: InteractableShelf
@@ -183,6 +199,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractiveFurniture_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6917969177227810581, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Size.z
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6917969177227810581, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Center.z
+      value: -0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7085162324739380476, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
       propertyPath: m_Name
       value: InteractableShelf
@@ -198,6 +222,14 @@ PrefabInstance:
     - target: {fileID: 7116888307613362899, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694055101926739085, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Size.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694055101926739085, guid: bc9080a23bccd8e4887f6a1ff1b1be24, type: 3}
+      propertyPath: m_Center.z
+      value: -0.02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

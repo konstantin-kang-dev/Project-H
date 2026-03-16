@@ -36,7 +36,7 @@ public class ObjectivesManager : NetworkBehaviour
         _cachedConfigs.Clear();
         foreach (var config in _configs)
         {
-            _cachedConfigs[config.Type] = config;
+            _cachedConfigs[config.Type] = config.Clone();
         }
         Instance = this;
     }
@@ -70,7 +70,7 @@ public class ObjectivesManager : NetworkBehaviour
         ObjectiveConfig chosenConfig = configsCopy[randomConfigKey];
         configsCopy.RemoveAt(randomConfigKey);
 
-        SpawnObjectives(chosenConfig, chosenDiff);
+        SpawnObjectives(chosenConfig, chosenDiff, playersCount);
 
         Debug.Log($"[ObjectivesManager] Initialized.");
 
@@ -86,9 +86,9 @@ public class ObjectivesManager : NetworkBehaviour
             OnInitialize?.Invoke();
         }
     }
-    void SpawnObjectives(ObjectiveConfig objectiveConfig, DifficultyType diff)
+    void SpawnObjectives(ObjectiveConfig objectiveConfig, DifficultyType diff, int playersCount)
     {
-        int totalObjectivesAmount = objectiveConfig.GetObjectivesAmountForDiff(diff);
+        int totalObjectivesAmount = objectiveConfig.GetObjectivesAmountForDiff(diff) * playersCount;
 
         int objectivesAmountInRequiredPlaces = ProjectUtils.GetPercentOfValue(totalObjectivesAmount, _itemsPercentInLockedRooms);
         int objectivesAmountInCommonPlaces = totalObjectivesAmount - objectivesAmountInRequiredPlaces;

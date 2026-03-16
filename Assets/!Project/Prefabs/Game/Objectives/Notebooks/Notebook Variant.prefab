@@ -14651,6 +14651,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 277448434350768099}
     - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 4817376327035327473}
+    - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
       propertyPath: _interactVfx
       value: 
       objectReference: {fileID: 2991182797141273617}

@@ -188,7 +188,7 @@ public class GameManager : NetworkBehaviour
 
         if (IsServerStarted)
         {
-            ObjectivesManager.Instance.Init(GameDifficulty, NetworkRoomManager.Instance.ConnectedPlayersCount);
+            ObjectivesManager.Instance.Init(GameDifficulty, _serverPlayers.Count);
             EnemiesManager.Instance.Init(GameDifficultyConfig);
         }
 
