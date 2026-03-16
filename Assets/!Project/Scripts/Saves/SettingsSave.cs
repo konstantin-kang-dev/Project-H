@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AMD;
 using UnityEngine.NVIDIA;
+using static UnityEngine.LightProbeProxyVolume;
 
 namespace Saves
 {
@@ -11,6 +12,13 @@ namespace Saves
         public AudioSave AudioSave;
         public GraphicsSave GraphicsSave;
         public ControlsSave ControlsSave;
+
+        public SettingsSave()
+        {
+            AudioSave = new AudioSave();
+            GraphicsSave = new GraphicsSave();
+            ControlsSave = new ControlsSave();
+        }
     }
 
     [Serializable]
@@ -32,6 +40,7 @@ namespace Saves
     {
         public int ScreenWidth;
         public int ScreenHeight;
+        public int ResolutionMode;
         public GraphicsQuality ShadowsQuality;
         public GraphicsQuality LightingQuality;
         public bool AntiAliasingEnabled;
@@ -50,6 +59,7 @@ namespace Saves
         {
             ScreenWidth = Screen.width;
             ScreenHeight = Screen.height;
+            ResolutionMode = 0;
             ShadowsQuality = GraphicsQuality.Medium;
             LightingQuality = GraphicsQuality.Medium;
             AntiAliasingEnabled = true;

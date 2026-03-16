@@ -20,14 +20,16 @@ namespace Modules.Rendering.Outline
         public static List<Renderer> OutlineRenderers = new List<Renderer>();
 
         // To make sure the shader will ends up in the build, we keep it's reference in the custom pass
-        [SerializeField, HideInInspector] private Shader OutlineShader;
+        [SerializeField] private Shader OutlineShader;
 
         Material FullscreenOutline;
         RTHandle OutlineBuffer;
 
         protected override void Setup(ScriptableRenderContext RenderContext, CommandBuffer CMD)
         {
-            OutlineShader = Shader.Find("Hidden/Shader/OutlinePass");
+            if (OutlineShader == null)
+                OutlineShader = Shader.Find("Hidden/Shader/OutlinePass");
+
             FullscreenOutline = CoreUtils.CreateEngineMaterial(OutlineShader);
 
             OutlineBuffer = RTHandles.Alloc

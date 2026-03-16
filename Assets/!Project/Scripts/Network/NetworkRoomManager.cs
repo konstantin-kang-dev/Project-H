@@ -5,14 +5,9 @@ using FishNet.Managing;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using FishNet.Transporting;
-using GameAudio;
-using Steamworks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 public class NetworkRoomManager: NetworkBehaviour

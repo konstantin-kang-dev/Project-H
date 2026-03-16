@@ -42,16 +42,16 @@ public class ChatUI : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if (ChatManager.Instance != null)
-        {
-            ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
-        }
+        ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
 
-        GlobalInputManager.Input.OnOpenChat += HandleOpenChatPressed;
-        if (NetworkGameManager.Instance != null)
-        {
-            NetworkGameManager.Instance.OnLocalClientConnected -= Clear;
-        }
+        _chatInput.onSubmit.RemoveListener(HandleChatInputSend);
+        _chatInput.onSelect.RemoveListener(HandleOpenChat);
+        _chatInput.onDeselect.RemoveListener(HandleCloseChat);
+        _chatInput.onValueChanged.RemoveListener(HandleTextInput);
+
+        GlobalInputManager.Input.OnOpenChat -= HandleOpenChatPressed;
+
+        NetworkGameManager.Instance.OnLocalClientConnected -= Clear;
     }
 
     private void FixedUpdate()

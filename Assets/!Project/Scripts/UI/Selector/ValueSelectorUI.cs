@@ -36,7 +36,6 @@ public class ValueSelectorUI : SerializedMonoBehaviour
     public void SetValues(List<string> values)
     {
         _values = values;
-        SetValue(SelectedValue);
     }
 
     void HandleLeftBtn()

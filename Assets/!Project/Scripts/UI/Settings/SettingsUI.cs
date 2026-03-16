@@ -26,6 +26,7 @@ public class SettingsUI : BasicCustomWindow
     [SerializeField] RangeSelectorUI _interfaceVolumeSelector;
 
     [Header("Graphics settings")]
+    [SerializeField] ResolutionListGenerator _resolutionListGenerator;
     [SerializeField] ValueSelectorUI _resolutionSelector;
     [SerializeField] ValueSelectorUI _shadowsQualitySelector;
     [SerializeField] ValueSelectorUI _lightingQualitySelector;
@@ -149,6 +150,7 @@ public class SettingsUI : BasicCustomWindow
 
         graphicsSave.ScreenWidth = resolution.width;
         graphicsSave.ScreenHeight = resolution.height;
+        graphicsSave.ResolutionMode = _resolutionSelector.SelectedValue;
         graphicsSave.ShadowsQuality = (GraphicsQuality)_shadowsQualitySelector.SelectedValue;
         graphicsSave.LightingQuality = (GraphicsQuality)_lightingQualitySelector.SelectedValue;
         graphicsSave.AntiAliasingEnabled = _antiAliasingCheckbox.Value;
@@ -194,7 +196,9 @@ public class SettingsUI : BasicCustomWindow
         _environmentVolumeSelector.SetValue(audioSave.EnvironmentVolume, true);
         _interfaceVolumeSelector.SetValue(audioSave.InterfaceVolume, true);
 
+        _resolutionListGenerator.SetupResolutionsList();
         GraphicsSave graphicsSave = settingsSave.GraphicsSave;
+        _resolutionSelector.SetValue(graphicsSave.ResolutionMode);
         _shadowsQualitySelector.SetValue((int)graphicsSave.ShadowsQuality);
         _lightingQualitySelector.SetValue((int)graphicsSave.LightingQuality);
         _antiAliasingCheckbox.SetValue(graphicsSave.AntiAliasingEnabled);
@@ -212,7 +216,7 @@ public class SettingsUI : BasicCustomWindow
         _vignetteCheckbox.SetValue(graphicsSave.VignetteEnabled);
 
         ControlsSave controlsSave = settingsSave.ControlsSave;
-        _mouseSensitivitySelector.SetValue(controlsSave.MouseSensitivity);
+        _mouseSensitivitySelector.SetValue(controlsSave.MouseSensitivity, true);
         _moveForwardSelector.SetValue(controlsSave.MoveForwardBind);
         _moveBackwardSelector.SetValue(controlsSave.MoveBackwardBind);
         _moveRightSelector.SetValue(controlsSave.MoveRightBind);
@@ -221,6 +225,8 @@ public class SettingsUI : BasicCustomWindow
         _jumpSelector.SetValue(controlsSave.JumpBind);
         _crouchSelector.SetValue(controlsSave.CrouchBind);
         _interactSelector.SetValue(controlsSave.InteractBind);
+
+        GraphicsManager.ApplySave(settingsSave.GraphicsSave);
     }
 
     public override void SetVisibility(bool visible, bool doInstantly)
