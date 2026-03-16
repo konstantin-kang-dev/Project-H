@@ -78,7 +78,7 @@ public static class ProjectUtils
 
     public static int GetPercentOfValue(int value, int percent)
     {
-        return value * percent / 100;
+        return Mathf.RoundToInt(value * (percent / 100f));
     }
 
     public static Quaternion GetFlatYLookRotation(Vector3 posA, Vector3 posB)

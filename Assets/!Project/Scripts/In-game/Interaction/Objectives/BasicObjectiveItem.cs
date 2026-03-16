@@ -77,4 +77,20 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
             outline.enabled = value;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        if (!IsClientInitialized) return;
+
+        if(_interactState.Value)
+        {
+            Gizmos.color = Color.green;
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+
+        Gizmos.DrawSphere(transform.position, 0.5f);
+    }
 }
