@@ -13895,6 +13895,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4331468267522503848, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
+      propertyPath: m_Intensity
+      value: 23.873241
+      objectReference: {fileID: 0}
     - target: {fileID: 4386973536274105227, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -20647,6 +20651,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 233379407}
     m_Modifications:
+    - target: {fileID: 1826129556047278122, guid: 44b6e63d1bcffa644879cb5c57653b50, type: 3}
+      propertyPath: m_Intensity
+      value: 23.873241
+      objectReference: {fileID: 0}
     - target: {fileID: 3813943395813302364, guid: 44b6e63d1bcffa644879cb5c57653b50, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.828
@@ -22945,6 +22953,18 @@ PrefabInstance:
       propertyPath: m_FadeDistance
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 6975277446223715759, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
+      propertyPath: m_ShadowFadeDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975277446223715759, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
+      propertyPath: m_ApplyRangeAttenuation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975277446223715759, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
+      propertyPath: m_VolumetricFadeDistance
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24941,8 +24961,16 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 6975277446223715759, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
+      propertyPath: m_ShadowFadeDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975277446223715759, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
       propertyPath: m_ApplyRangeAttenuation
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975277446223715759, guid: 56480f15f692d0f48815e09057fe158c, type: 3}
+      propertyPath: m_VolumetricFadeDistance
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34415,7 +34443,7 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 0.73055744, b: 0.34366566, a: 1}
-  m_Intensity: 3183.0989
+  m_Intensity: 942.0199
   m_Range: 10.94
   m_SpotAngle: 145.4673
   m_InnerSpotAngle: 24.113068
