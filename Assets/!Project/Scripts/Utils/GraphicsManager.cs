@@ -155,9 +155,9 @@ public class GraphicsManager
             gi.fullResolutionSS.value = save.LightingQuality >= GraphicsQuality.High;
             gi.maxRaySteps = save.LightingQuality switch
             {
-                GraphicsQuality.Low => 16,
-                GraphicsQuality.Medium => 32,
-                GraphicsQuality.High => 64,
+                GraphicsQuality.Low => 8,
+                GraphicsQuality.Medium => 16,
+                GraphicsQuality.High => 32,
                 GraphicsQuality.Ultra => 64,
                 GraphicsQuality.Crazy => 96,
                 _ => 64
@@ -167,7 +167,6 @@ public class GraphicsManager
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
         {
-            fog.enableVolumetricFog.value = save.LightingQuality >= GraphicsQuality.Medium;
             fog.quality.value = save.LightingQuality switch
             {
                 GraphicsQuality.Low => 0,
