@@ -135,4 +135,11 @@ public static class ProjectUtils
 
         return "50%";
     }
+
+    public static bool RollChance(float chance)
+    {
+        chance = Mathf.Clamp(chance, 0, 100);
+
+        return Random.Range(0, 100) < chance;
+    }
 }

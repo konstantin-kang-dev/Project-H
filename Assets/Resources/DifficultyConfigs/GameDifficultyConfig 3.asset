@@ -23,5 +23,5 @@ MonoBehaviour:
     SerializationNodes: []
   DifficultyType: 3
   PlayersStats: {fileID: 11400000, guid: 5f0c9e73dd9e80a498cf7b3d4b4795c8, type: 2}
-  EnemiesCount: 4
-  EnemyStats: {fileID: 11400000, guid: 5623dd1a3cf20ac4f903e845f3610485, type: 2}
+  EnemiesCount: 2
+  EnemyStats: {fileID: 11400000, guid: e7b851c5b3f5e6e40bf8fb4b0b7ddc36, type: 2}

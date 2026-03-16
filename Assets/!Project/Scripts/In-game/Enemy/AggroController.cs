@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class AggroController : MonoBehaviour
 {
+    [SerializeField] LayerMask _visibilityCheckLayer;
     EnemyStatsConfig _enemyStats;
 
     Player _aggroPlayer;
@@ -64,7 +65,7 @@ public class AggroController : MonoBehaviour
 
         if (dot >= Mathf.Cos(_sightMaxAngleVisibility * Mathf.Deg2Rad))
         {
-            if (Physics.Linecast(startPos, pos, out RaycastHit hit, LayerMask.GetMask("PlayZone")))
+            if (Physics.Linecast(startPos, pos, out RaycastHit hit, _visibilityCheckLayer))
             {
                 Debug.DrawLine(startPos, pos, Color.red);
                 return false;
@@ -101,13 +102,20 @@ public class AggroController : MonoBehaviour
         {
             if (player.IsInvincible) continue;
 
+            bool isVisible = IsVisibleForMe(player.transform.position);
+            if (!isVisible) continue;
+
             float distance = Vector3.Distance(transform.position, player.transform.position);
             
             int distanceAggroPoints = GetAggroPointsFromDistance(distance);
+            bool isPlayerCrouching = player.PlayerController.PlayerMovementService.IsCrouching;
+
+            distanceAggroPoints = isPlayerCrouching ? Mathf.FloorToInt(distanceAggroPoints * ProjectConstants.ENEMY_AGGRO_POINTS_PLAYER_CROUCH_MULTIPLIER) : distanceAggroPoints;
+
             bool isCloseEnough = distanceAggroPoints >= _enemyStats.RequiredPointsToAggro;
-            bool isVisible = IsVisibleForMe(player.transform.position);
+
             //Debug.Log($"[AggroController] Checking player: {player.PlayerData.PlayerName} distance: {distance} distancePoints: {distanceAggroPoints}/{_enemyStats.RequiredPointsToAggro} isVisible: {isVisible}");
-            if (isCloseEnough && isVisible)
+            if (isCloseEnough)
             {
                 SetAggro(player);
                 break;
@@ -140,6 +148,8 @@ public class AggroController : MonoBehaviour
 
     public void ReleaseAggro()
     {
+        if (_aggroPlayer == null) return;
+
         _aggroTimer = 0;
         _aggroPlayer = null;
         OnAggroRelease?.Invoke();

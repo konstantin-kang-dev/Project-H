@@ -7,6 +7,8 @@ using UnityEngine;
 public class EnemyVisuals : NetworkBehaviour
 {
     [SerializeField] EnemyModel _enemyModel;
+    [SerializeField] float _referenceMoveSpeed = 1.7f;
+    [SerializeField] float _referenceSprintSpeed = 3f;
 
     public CharacterAnimatorController AnimatorController;
 
@@ -16,11 +18,15 @@ public class EnemyVisuals : NetworkBehaviour
     readonly SyncVar<AnimatorState> _currentAnimatorState = new SyncVar<AnimatorState>();
 
     readonly SyncVar<Vector3> _lookPosition = new SyncVar<Vector3>();
-    public void Init()
+    public void Init(EnemyStatsConfig enemyStats)
     {
-
         AnimatorController = _enemyModel.GetComponent<CharacterAnimatorController>();
         AnimatorController.Init();
+
+        float moveSpeedRatio = enemyStats.MoveSpeed / _referenceMoveSpeed;
+        float sprintSpeedRatio = enemyStats.SprintSpeed / _referenceSprintSpeed;
+        AnimatorController.Animator.SetFloat("MoveSpeedRatio", moveSpeedRatio);
+        AnimatorController.Animator.SetFloat("SprintSpeedRatio", sprintSpeedRatio);
     }
 
     private void OnDestroy()

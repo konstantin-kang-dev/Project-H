@@ -29,6 +29,7 @@ public class PlayerMovementService : NetworkBehaviour
 
     bool _isCrouchingLocal = false;
     readonly SyncVar<bool> _isCrouching = new SyncVar<bool>();
+    public bool IsCrouching => _isCrouching.Value;
 
     Vector2 _localInput = Vector2.zero;
     Vector2 _targetInputs = Vector2.zero;
