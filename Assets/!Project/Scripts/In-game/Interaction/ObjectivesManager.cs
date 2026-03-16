@@ -103,12 +103,12 @@ public class ObjectivesManager : NetworkBehaviour
             NetworkObject freePoint = null;
             if (objectivesAmountInRequiredPlaces > 0)
             {
-                freePoint = ObjectivesPointsManager.Instance.GetFreeCommonPoint();
+                freePoint = ObjectivesPointsManager.Instance.GetFreeRequiredPoint();
                 objectivesAmountInRequiredPlaces--; 
             }
             else if(objectivesAmountInCommonPlaces > 0)
             {
-                freePoint = ObjectivesPointsManager.Instance.GetFreeRequiredPoint();
+                freePoint = ObjectivesPointsManager.Instance.GetFreeCommonPoint();
                 objectivesAmountInCommonPlaces--;
             }
 

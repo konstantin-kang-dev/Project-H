@@ -79,9 +79,9 @@ public class ObjectivesPointsManager: SerializedMonoBehaviour
 
     public NetworkObject GetFreeRequiredPoint()
     {
-        if(_itemsCommonContainers.Count == 0) return null;
+        if(_itemsRequiredContainers.Count == 0) return null;
 
-        return _freeCommonPoints.Dequeue();
+        return _freeRequiredPoints.Dequeue();
     }
 
     public void ResetAll()
