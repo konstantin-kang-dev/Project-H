@@ -20,7 +20,6 @@ public class EnemyController : NetworkBehaviour
     EnemyInteractionService _enemyInteractionService;
 
     [SerializeField] CharacterAudioService _characterAudioService;
-    [SerializeField] VisibilityChecker _visibilityChecker;
     [SerializeField] float _enemyDetectionHandlerInterval = 5f;
     float _lastTimeEnemyDetected = 0;
 
@@ -46,8 +45,7 @@ public class EnemyController : NetworkBehaviour
             _enemyMovementService.Init(_enemyStats);
         }
 
-        _enemyVisuals.Init();
-        _visibilityChecker.OnVisibilityChanged += HandleModelVisibilityInCameraChange;
+        _enemyVisuals.Init(_enemyStats);
 
         OnStateMachineUpdate += _enemyVisuals.HandleStateMachineUpdate;
 
@@ -61,6 +59,8 @@ public class EnemyController : NetworkBehaviour
             _aggroController.OnAggroProceed += HandleAggro;
             _aggroController.OnAggroRelease += HandleAggroRelease;
             _aggroController.Init(_enemyStats);
+
+            _enemyMovementService.OnLostPath += _aggroController.ReleaseAggro;
 
             _enemyVisuals.AnimatorController.OnLookPositionUpdate += HandleLookPositionUpdate;
 
@@ -104,7 +104,15 @@ public class EnemyController : NetworkBehaviour
         switch (_currentState)
         {
             case EnemyState.Idle:
-                Transform randomKeyPoint = LocationManager.Instance.GetRandomClosestPoint(transform.position);
+                Vector3 originPos = transform.position;
+                bool goAroundPlayer = ProjectUtils.RollChance(35f);
+                if (goAroundPlayer)
+                {
+                    Player randomPlayer = GameManager.Instance.GetRandomPlayer();
+                    originPos = randomPlayer.transform.position;
+                }
+
+                Transform randomKeyPoint = LocationManager.Instance.GetRandomClosestPoint(originPos);
                 _enemyMovementService.SetTarget(randomKeyPoint);
                 SERVER_SetState(EnemyState.Stranding);
                 break;
@@ -196,16 +204,4 @@ public class EnemyController : NetworkBehaviour
         _aggroController.UpdateSightDirection(lookPosition);
     }
 
-    void HandleModelVisibilityInCameraChange(bool visible)
-    {
-        if(visible)
-        {
-            bool isReady = Time.time - _lastTimeEnemyDetected >= _enemyDetectionHandlerInterval;
-            if (isReady)
-            {
-                _lastTimeEnemyDetected = Time.time;
-                GlobalAudioManager.Instance.Play(SoundType.EnemySpotted);
-            }
-        }
-    }
 }

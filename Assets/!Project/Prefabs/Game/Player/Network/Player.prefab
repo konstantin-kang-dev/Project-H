@@ -765,7 +765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   <PlayerVisuals>k__BackingField: {fileID: 6790547747705251169}
   <CharacterAudioService>k__BackingField: {fileID: 4684052010498219058}
-  _playerMovementService: {fileID: 1985889779253128889}
+  PlayerMovementService: {fileID: 1985889779253128889}
   _cameraControllerPrefab: {fileID: 2144995091532444318, guid: 18ad5902f64b35a4bbdc262b1908ba96, type: 3}
   <PlayerInventory>k__BackingField: {fileID: 1246677206828197827}
   <PlayerInteraction>k__BackingField: {fileID: 9218521201255798670}

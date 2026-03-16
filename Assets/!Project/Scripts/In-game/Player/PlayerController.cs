@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public CharacterAudioService CharacterAudioService { get; private set; }
 
     public PlayerStaminaService PlayerStaminaService { get; private set; }
-    [SerializeField] PlayerMovementService _playerMovementService;
+    [SerializeField] public PlayerMovementService PlayerMovementService;
 
     [SerializeField] CameraController _cameraControllerPrefab;
     public CameraController CameraController { get; private set; }
@@ -52,29 +52,29 @@ public class PlayerController : MonoBehaviour
 
         PlayerVisuals.Init(_player.ModelKey);
 
-        _playerMovementService.Init(_playerStatsConfig, _characterController);
+        PlayerMovementService.Init(_playerStatsConfig, _characterController);
 
         if (_player.IsOwner)
         {
             PlayerStaminaService = new PlayerStaminaService(1f);
-            PlayerStaminaService.OnStaminaUpdate += _playerMovementService.HandleUpdateStamina;
+            PlayerStaminaService.OnStaminaUpdate += PlayerMovementService.HandleUpdateStamina;
             PlayerStaminaService.OnStaminaEmpty += CharacterAudioService.HandleStaminaEmpty;
 
-            _playerMovementService.OnWalk += PlayerStaminaService.HandleWalk;
-            _playerMovementService.OnJump += PlayerStaminaService.HandleJump;
+            PlayerMovementService.OnWalk += PlayerStaminaService.HandleWalk;
+            PlayerMovementService.OnJump += PlayerStaminaService.HandleJump;
 
             PlayerVisuals.AnimatorController.SetHeadVisibility(false);
             PlayerVisuals.OnAnimatorStateChanged += CameraController.HandleAnimationChange;
 
-            _playerMovementService.OnWalk += PlayerVisuals.HandleWalk;
-            _playerMovementService.OnJump += PlayerVisuals.HandleJump;
-            _playerMovementService.OnLand += PlayerVisuals.HandleLand;
-            _playerMovementService.OnCrouchingChange += PlayerVisuals.HandleCrouch;
+            PlayerMovementService.OnWalk += PlayerVisuals.HandleWalk;
+            PlayerMovementService.OnJump += PlayerVisuals.HandleJump;
+            PlayerMovementService.OnLand += PlayerVisuals.HandleLand;
+            PlayerMovementService.OnCrouchingChange += PlayerVisuals.HandleCrouch;
 
             CameraController.OnLookPositionUpdate += PlayerVisuals.AnimatorController.SetLookPosition;
             CameraController.OnLookPositionUpdate += _player.RPC_RequestSetLookPosition;
-            CameraController.OnRotationUpdate += _playerMovementService.UpdateRotation;
-            _playerMovementService.OnSprint += CameraController.AdjustFov;
+            CameraController.OnRotationUpdate += PlayerMovementService.UpdateRotation;
+            PlayerMovementService.OnSprint += CameraController.AdjustFov;
 
         }
 
@@ -138,13 +138,13 @@ public class PlayerController : MonoBehaviour
             if (value)
             {
                 PlayerVisuals.AnimatorController.SetState(AnimatorState.KnockDown);
-                _playerMovementService.SetMoveAbility(false);
+                PlayerMovementService.SetMoveAbility(false);
                 CharacterAudioService.Play(CharacterAudioType.HeavyBreath);
             }
             else
             {
                 PlayerVisuals.AnimatorController.SetState(AnimatorState.Idle, true);
-                _playerMovementService.SetMoveAbility(true);
+                PlayerMovementService.SetMoveAbility(true);
             }
         }
         else
@@ -161,27 +161,27 @@ public class PlayerController : MonoBehaviour
         {
             PlayerInteraction.Clear();
             PlayerInventory.Clear();
-            _playerMovementService.Clear();
+            PlayerMovementService.Clear();
             CameraController.Clear();
 
-            PlayerStaminaService.OnStaminaUpdate -= _playerMovementService.HandleUpdateStamina;
+            PlayerStaminaService.OnStaminaUpdate -= PlayerMovementService.HandleUpdateStamina;
             PlayerStaminaService.OnStaminaEmpty -= CharacterAudioService.HandleStaminaEmpty;
 
-            _playerMovementService.OnWalk -= PlayerStaminaService.HandleWalk;
-            _playerMovementService.OnJump -= PlayerStaminaService.HandleJump;
+            PlayerMovementService.OnWalk -= PlayerStaminaService.HandleWalk;
+            PlayerMovementService.OnJump -= PlayerStaminaService.HandleJump;
 
             PlayerVisuals.AnimatorController.SetHeadVisibility(false);
             PlayerVisuals.OnAnimatorStateChanged -= CameraController.HandleAnimationChange;
 
-            _playerMovementService.OnWalk -= PlayerVisuals.HandleWalk;
-            _playerMovementService.OnJump -= PlayerVisuals.HandleJump;
-            _playerMovementService.OnLand -= PlayerVisuals.HandleLand;
-            _playerMovementService.OnCrouchingChange -= PlayerVisuals.HandleCrouch;
+            PlayerMovementService.OnWalk -= PlayerVisuals.HandleWalk;
+            PlayerMovementService.OnJump -= PlayerVisuals.HandleJump;
+            PlayerMovementService.OnLand -= PlayerVisuals.HandleLand;
+            PlayerMovementService.OnCrouchingChange -= PlayerVisuals.HandleCrouch;
 
             CameraController.OnLookPositionUpdate -= PlayerVisuals.AnimatorController.SetLookPosition;
             CameraController.OnLookPositionUpdate -= _player.RPC_RequestSetLookPosition;
-            CameraController.OnRotationUpdate -= _playerMovementService.UpdateRotation;
-            _playerMovementService.OnSprint -= CameraController.AdjustFov;
+            CameraController.OnRotationUpdate -= PlayerMovementService.UpdateRotation;
+            PlayerMovementService.OnSprint -= CameraController.AdjustFov;
 
         }
 

@@ -15,6 +15,7 @@ public class EnemyMovementService : MonoBehaviour
     public event Action<Transform> OnMove;
     public event Action<Player> OnFollowingPlayer;
     public event Action<Player> OnReachedPlayer;
+    public event Action OnLostPath;
     public bool IsInitialized { get; private set; } = false;
 
     private void Awake()
@@ -63,6 +64,21 @@ public class EnemyMovementService : MonoBehaviour
             }
         }
 
+        if (!CanReach(_navMeshAgent.destination))
+        {
+            OnLostPath?.Invoke();
+        }
+
+    }
+
+    public bool CanReach(Vector3 pos)
+    {
+        if (!NavMesh.SamplePosition(pos, out NavMeshHit hit, 2f, _navMeshAgent.areaMask))
+            return false;
+
+        NavMeshPath path = new NavMeshPath();
+        return _navMeshAgent.CalculatePath(hit.position, path)
+               && path.status == NavMeshPathStatus.PathComplete;
     }
 
     public void SetTarget(Transform target)

@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceaa1b2c4b173744cb93decbc0c0d85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AggroController
+  _visibilityCheckLayer:
+    serializedVersion: 2
+    m_Bits: 2112

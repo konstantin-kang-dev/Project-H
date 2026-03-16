@@ -129,6 +129,14 @@ public class GameManager : NetworkBehaviour
     {
         LocalPlayer = player;
     }
+    [Server]
+    public Player GetRandomPlayer()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, _serverPlayers.Count);
+
+        return _serverPlayers.Values.ToList()[randomIndex];
+    }
+
     [Server] 
     void HandlePlayerDisconnect(NetworkConnection conn)
     {
