@@ -19,9 +19,9 @@ public class ControlsHintsUI : MonoBehaviour
     public async void Init(GameSave gameSave)
     {
         ControlsSave controlsSave = gameSave.SettingsSave.ControlsSave;
-        _mapKeyInteractionTMP.text = $"[{controlsSave.InteractBind}]";
-        _mapKeySprintTMP.text = $"[{controlsSave.SprintBind}]";
-        _mapKeyCrouchTMP.text = $"[{controlsSave.CrouchBind}]";
+        _mapKeyInteractionTMP.text = $"[{controlsSave.GetBind(InputActionType.Interact)}]";
+        _mapKeySprintTMP.text = $"[{controlsSave.GetBind(InputActionType.Sprint)}]";
+        _mapKeyCrouchTMP.text = $"[{controlsSave.GetBind(InputActionType.Crouch)}]";
 
         await UniTask.WaitForEndOfFrame();
 

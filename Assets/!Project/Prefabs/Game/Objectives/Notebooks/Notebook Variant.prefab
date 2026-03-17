@@ -14675,10 +14675,6 @@ PrefabInstance:
       value: Assembly-CSharp::BasicObjective
       objectReference: {fileID: 0}
     - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
-      propertyPath: <HintText>k__BackingField
-      value: E - Collect
-      objectReference: {fileID: 0}
-    - target: {fileID: 3409723780107438984, guid: 6949bf5d28e06b045bf05ba0d60be241, type: 3}
       propertyPath: <Outlines>k__BackingField.Array.size
       value: 1
       objectReference: {fileID: 0}

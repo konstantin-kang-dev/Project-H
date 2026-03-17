@@ -348,7 +348,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2690545281352301088}
   <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
   <HintPoint>k__BackingField: {fileID: 772185079291656757}
-  <HintText>k__BackingField: E - Interact
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Interact
   <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1
@@ -449,7 +450,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2690545281352301088}
   <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
   <HintPoint>k__BackingField: {fileID: 1951289999373021297}
-  <HintText>k__BackingField: E - Interact
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Interact
   <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1
@@ -555,7 +557,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2690545281352301088}
   <Config>k__BackingField: {fileID: 11400000, guid: 1fdbfaff5ee27a04094f62ce7560cc51, type: 2}
   <HintPoint>k__BackingField: {fileID: 4636295684559227525}
-  <HintText>k__BackingField: E - Interact
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Interact
   <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1

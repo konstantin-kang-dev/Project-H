@@ -6,6 +6,7 @@ using FishNet.Object.Synchronizing;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : NetworkBehaviour, IHintable
 {
@@ -31,6 +32,7 @@ public class Player : NetworkBehaviour, IHintable
     NetworkTransform _networkTransform;
 
     [field: SerializeField] public Transform HintPoint { get; private set; }
+    [field: SerializeField] public InputActionType InputActionHint { get; private set; }
     [field: SerializeField] public string HintText { get; private set; }
     [field: SerializeField] public string RequirementsHintText { get; private set; }
 

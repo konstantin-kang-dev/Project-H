@@ -26,3 +26,20 @@ public interface IInput
     event Action OnOpenChat;
     event Action OnEscPressed;
 }
+
+[Serializable]
+public enum InputActionType
+{
+    None = -1,
+    MoveForward = 0,
+    MoveBackward = 1,
+    MoveRight = 2,
+    MoveLeft = 3,
+
+    Sprint = 10,
+    Jump = 11,
+    Crouch = 12,
+    
+    Interact = 20,
+    InteractItem = 21,
+}

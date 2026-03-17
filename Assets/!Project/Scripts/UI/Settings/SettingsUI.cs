@@ -174,14 +174,14 @@ public class SettingsUI : BasicCustomWindow
     {
         ControlsSave controlsSave = new ControlsSave();
         controlsSave.MouseSensitivity = _mouseSensitivitySelector.Value;
-        controlsSave.MoveForwardBind = _moveForwardSelector.Value;
-        controlsSave.MoveBackwardBind = _moveBackwardSelector.Value;
-        controlsSave.MoveRightBind = _moveRightSelector.Value;
-        controlsSave.MoveLeftBind = _moveLeftSelector.Value;
-        controlsSave.SprintBind = _sprintSelector.Value;
-        controlsSave.JumpBind = _jumpSelector.Value;
-        controlsSave.CrouchBind = _crouchSelector.Value;
-        controlsSave.InteractBind = _interactSelector.Value;
+        controlsSave.SetBind(InputActionType.MoveForward, _moveForwardSelector.Value);
+        controlsSave.SetBind(InputActionType.MoveBackward, _moveBackwardSelector.Value);
+        controlsSave.SetBind(InputActionType.MoveRight, _moveRightSelector.Value);
+        controlsSave.SetBind(InputActionType.MoveLeft, _moveLeftSelector.Value);
+        controlsSave.SetBind(InputActionType.Sprint, _sprintSelector.Value);
+        controlsSave.SetBind(InputActionType.Jump, _jumpSelector.Value);
+        controlsSave.SetBind(InputActionType.Crouch, _crouchSelector.Value);
+        controlsSave.SetBind(InputActionType.Interact, _interactSelector.Value);
 
         SaveManager.GameSave.SettingsSave.ControlsSave = controlsSave;
         SaveManager.SaveAll();
@@ -217,14 +217,14 @@ public class SettingsUI : BasicCustomWindow
 
         ControlsSave controlsSave = settingsSave.ControlsSave;
         _mouseSensitivitySelector.SetValue(controlsSave.MouseSensitivity, true);
-        _moveForwardSelector.SetValue(controlsSave.MoveForwardBind);
-        _moveBackwardSelector.SetValue(controlsSave.MoveBackwardBind);
-        _moveRightSelector.SetValue(controlsSave.MoveRightBind);
-        _moveLeftSelector.SetValue(controlsSave.MoveLeftBind);
-        _sprintSelector.SetValue(controlsSave.SprintBind);
-        _jumpSelector.SetValue(controlsSave.JumpBind);
-        _crouchSelector.SetValue(controlsSave.CrouchBind);
-        _interactSelector.SetValue(controlsSave.InteractBind);
+        _moveForwardSelector.SetValue(controlsSave.GetBind(InputActionType.MoveForward));
+        _moveBackwardSelector.SetValue(controlsSave.GetBind(InputActionType.MoveBackward));
+        _moveRightSelector.SetValue(controlsSave.GetBind(InputActionType.MoveRight));
+        _moveLeftSelector.SetValue(controlsSave.GetBind(InputActionType.MoveLeft));
+        _sprintSelector.SetValue(controlsSave.GetBind(InputActionType.Sprint));
+        _jumpSelector.SetValue(controlsSave.GetBind(InputActionType.Jump));
+        _crouchSelector.SetValue(controlsSave.GetBind(InputActionType.Crouch));
+        _interactSelector.SetValue(controlsSave.GetBind(InputActionType.Interact));
 
         GraphicsManager.ApplySave(settingsSave.GraphicsSave);
     }

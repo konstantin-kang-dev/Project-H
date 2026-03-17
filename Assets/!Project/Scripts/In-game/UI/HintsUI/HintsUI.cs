@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Saves;
 using TMPro;
 using UnityEngine;
 
@@ -102,7 +103,13 @@ public class HintsUI : MonoBehaviour
         }
 
         Vector3 hintPos = hintable.HintPoint.position;
+
         string hintText = hintable.HintText;
+        if (hintable.InputActionHint != InputActionType.None)
+        {
+            string inputBindKey = SaveManager.GameSave.SettingsSave.ControlsSave.GetBind(hintable.InputActionHint);
+            hintText = $"{inputBindKey} - {hintable.HintText}";
+        }
         string requirementsText = hintable.RequirementsHintText;
 
         Vector2 screenPos = Camera.main.WorldToScreenPoint(hintPos);
