@@ -51,7 +51,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 4195026028180740225}
   <Config>k__BackingField: {fileID: 0}
   <HintPoint>k__BackingField: {fileID: 8072049081875474812}
-  <HintText>k__BackingField: 
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Collect
   <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1

@@ -747,7 +747,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: -4128999373706879264}
   IsInvincible: 0
   <HintPoint>k__BackingField: {fileID: 4530950165480271803}
-  <HintText>k__BackingField: E - Revive
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Revive
   <RequirementsHintText>k__BackingField: 
   <PlayerController>k__BackingField: {fileID: 4360053120356261361}
   <IsInitialized>k__BackingField: 0

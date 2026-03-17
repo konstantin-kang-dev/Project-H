@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AMD;
 using UnityEngine.NVIDIA;
@@ -95,26 +96,33 @@ namespace Saves
     public class ControlsSave
     {
         public int MouseSensitivity;
-        public string MoveForwardBind;
-        public string MoveBackwardBind;
-        public string MoveRightBind;
-        public string MoveLeftBind;
-        public string SprintBind;
-        public string JumpBind;
-        public string CrouchBind;
-        public string InteractBind;
+
+        public Dictionary<InputActionType, string> ActionsBinds { get; private set; } = new Dictionary<InputActionType, string>();
 
         public ControlsSave()
         {
             MouseSensitivity = 50;
-            MoveForwardBind = "W";
-            MoveBackwardBind = "S";
-            MoveRightBind = "D";
-            MoveLeftBind = "A";
-            SprintBind = "LeftShift";
-            JumpBind = "Space";
-            CrouchBind = "LeftCtrl";
-            InteractBind = "E";
+
+            ActionsBinds[InputActionType.MoveForward] = "W";
+            ActionsBinds[InputActionType.MoveBackward] = "S";
+            ActionsBinds[InputActionType.MoveRight] = "D";
+            ActionsBinds[InputActionType.MoveLeft] = "A";
+            ActionsBinds[InputActionType.Sprint] = "LeftShift";
+            ActionsBinds[InputActionType.Jump] = "Space";
+            ActionsBinds[InputActionType.Crouch] = "LeftCtrl";
+            ActionsBinds[InputActionType.Interact] = "E";
+        }
+
+        public string GetBind(InputActionType actionType)
+        {
+            if (!ActionsBinds.ContainsKey(actionType)) return "";
+
+            return ActionsBinds[actionType];
+        }
+
+        public void SetBind(InputActionType actionType, string bind)
+        {
+            ActionsBinds[actionType] = bind;
         }
     }
 }

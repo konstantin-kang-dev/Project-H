@@ -12,6 +12,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
     public int ItemObjectId { get; private set; } = -1;
 
     [field: SerializeField] public Transform HintPoint {  get; private set; }
+    [field: SerializeField] public InputActionType InputActionHint {  get; private set; }
     [field: SerializeField] public string HintText {  get; private set; }
     [field: SerializeField] public string RequirementsHintText { get; private set; }
 

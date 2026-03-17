@@ -55,7 +55,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 8504241116271990605}
   <Config>k__BackingField: {fileID: 11400000, guid: a0ab9c28525ba0646a52f0f91516b2dd, type: 2}
   <HintPoint>k__BackingField: {fileID: 7637756301937244653}
-  <HintText>k__BackingField: E - Open door
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Open door
   <RequirementsHintText>k__BackingField: 
   <RequiredItemToInteract>k__BackingField: -2
   _toggleInteractionState: 1

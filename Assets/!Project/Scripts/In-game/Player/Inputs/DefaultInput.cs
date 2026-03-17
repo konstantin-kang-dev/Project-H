@@ -10,7 +10,7 @@ public class DefaultInput : IInput
     public Vector2 CurrentLookInput => GetInputLook();
 
     private float _lastInventoryInteraction = 0f;
-    private const float INVENTORY_INTERACTION_COOLDOWN = 0.03f;
+    private const float INVENTORY_INTERACTION_COOLDOWN = 0.02f;
     #region INPUT_EVENTS
     public event Action<Vector2> OnMove;
     public event Action<Vector2> OnLook;

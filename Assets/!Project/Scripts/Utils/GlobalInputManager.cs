@@ -20,15 +20,15 @@ public class GlobalInputManager
         string keyboardKey = "<Keyboard>/";
         PlayerControls playerControls = Input.PlayerControls;
 
-        playerControls.Player.Move.ApplyBindingOverride(1, keyboardKey + save.MoveForwardBind);
-        playerControls.Player.Move.ApplyBindingOverride(3, keyboardKey + save.MoveBackwardBind);
-        playerControls.Player.Move.ApplyBindingOverride(5, keyboardKey + save.MoveLeftBind);
-        playerControls.Player.Move.ApplyBindingOverride(7, keyboardKey + save.MoveRightBind);
+        playerControls.Player.Move.ApplyBindingOverride(1, keyboardKey + save.GetBind(InputActionType.MoveForward));
+        playerControls.Player.Move.ApplyBindingOverride(3, keyboardKey + save.GetBind(InputActionType.MoveBackward));
+        playerControls.Player.Move.ApplyBindingOverride(5, keyboardKey + save.GetBind(InputActionType.MoveLeft));
+        playerControls.Player.Move.ApplyBindingOverride(7, keyboardKey + save.GetBind(InputActionType.MoveRight));
 
-        playerControls.Player.Sprint.ApplyBindingOverride(0, keyboardKey + save.SprintBind);
-        playerControls.Player.Jump.ApplyBindingOverride(0, keyboardKey + save.JumpBind);
-        playerControls.Player.Crouch.ApplyBindingOverride(0, keyboardKey + save.CrouchBind);
-        playerControls.Player.Interact.ApplyBindingOverride(0, keyboardKey + save.InteractBind);
+        playerControls.Player.Sprint.ApplyBindingOverride(0, keyboardKey + save.GetBind(InputActionType.Sprint));
+        playerControls.Player.Jump.ApplyBindingOverride(0, keyboardKey + save.GetBind(InputActionType.Jump));
+        playerControls.Player.Crouch.ApplyBindingOverride(0, keyboardKey + save.GetBind(InputActionType.Crouch));
+        playerControls.Player.Interact.ApplyBindingOverride(0, keyboardKey + save.GetBind(InputActionType.Interact));
 
     }
 }

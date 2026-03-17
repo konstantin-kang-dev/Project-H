@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -21,20 +22,27 @@ namespace Saves
     {
         private static readonly string SavePath = Path.Combine(Application.persistentDataPath, "save.json");
 
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
         public static Action<GameSave> OnSaveUpdated;
         public static Action<GameSave> OnSaveLoaded;
         public static GameSave GameSave { get; private set; } = new GameSave();
+
         public static void LoadAll()
         {
             GameSave = Load<GameSave>();
-            if(GameSave == null)
+            if (GameSave == null)
             {
                 GameSave = new GameSave();
             }
             else
             {
-                if(GameSave.PlayerSave == null) GameSave.PlayerSave = new PlayerSave();
-                if(GameSave.SettingsSave == null) GameSave.SettingsSave = new SettingsSave();
+                if (GameSave.PlayerSave == null) GameSave.PlayerSave = new PlayerSave();
+                if (GameSave.SettingsSave == null) GameSave.SettingsSave = new SettingsSave();
             }
 
             OnSaveLoaded?.Invoke(GameSave);
@@ -42,7 +50,7 @@ namespace Saves
 
         public static void SaveAll()
         {
-            Save(GameSave); 
+            Save(GameSave);
             OnSaveUpdated?.Invoke(GameSave);
         }
 
@@ -50,9 +58,8 @@ namespace Saves
         {
             try
             {
-                string json = JsonUtility.ToJson(data, true);
+                string json = JsonConvert.SerializeObject(data, Settings);
                 File.WriteAllText(SavePath, json);
-                
             }
             catch (Exception e)
             {
@@ -67,7 +74,7 @@ namespace Saves
                 if (File.Exists(SavePath))
                 {
                     string json = File.ReadAllText(SavePath);
-                    return JsonUtility.FromJson<T>(json);
+                    return JsonConvert.DeserializeObject<T>(json, Settings);
                 }
             }
             catch (Exception e)
@@ -87,5 +94,3 @@ namespace Saves
         }
     }
 }
-
-
