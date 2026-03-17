@@ -5,8 +5,11 @@ using UnityEngine;
 public interface IInput
 {
     PlayerControls PlayerControls { get; }
+    bool IsLocked { get; }
     Vector2 CurrentMoveInput { get;}
     Vector2 CurrentLookInput { get;}
+
+    void SetLock(bool value);
 
     event Action<Vector2> OnMove;
     event Action<Vector2> OnLook;

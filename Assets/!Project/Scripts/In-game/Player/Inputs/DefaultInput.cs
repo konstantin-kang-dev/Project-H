@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class DefaultInput : IInput
 {
+    public bool IsLocked { get; private set; }
     public Vector2 CurrentMoveInput => GetInputMove();
     public Vector2 CurrentLookInput => GetInputLook();
 
@@ -64,6 +65,13 @@ public class DefaultInput : IInput
         PlayerControls.Player.InventorySlot5.performed += HandleInventorySlotKey5;
 
         PlayerControls.Player.Esc.performed += HandleEscPress;
+    
+    
+    }
+
+    public void SetLock(bool value)
+    {
+        IsLocked = value;
     }
 
     #region INPUT_HANDLERS
@@ -77,40 +85,49 @@ public class DefaultInput : IInput
     }
     void HandleMoveInput(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         Vector2 moveInput = context.ReadValue<Vector2>();
         OnMove?.Invoke(moveInput);
     }
     void HandleLookInput(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         Vector2 lookInput = context.ReadValue<Vector2>();
         OnLook?.Invoke(lookInput);
     }
     void HandleSprintInput(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnSprint?.Invoke(PlayerControls.Player.Sprint.IsPressed());
     }
     void HandleJumpInput(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnJump?.Invoke();
     }
     void HandleCrouchInput(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnCrouchToggle?.Invoke();
     }
     void HandleInteractButtonPress(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInteract?.Invoke();
     }
     void HandleInteractButtonRelease(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInteractReleased?.Invoke();
     }
     void HandleDropButtonClick(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnDrop?.Invoke();
     }
     private void HandleNextInventorySlotTrigger(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         if (Time.time - _lastInventoryInteraction >= INVENTORY_INTERACTION_COOLDOWN)
         {
             _lastInventoryInteraction = Time.time;
@@ -119,6 +136,7 @@ public class DefaultInput : IInput
     }
     private void HandlePreviousInventorySlotTrigger(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         if (Time.time - _lastInventoryInteraction >= INVENTORY_INTERACTION_COOLDOWN)
         {
             _lastInventoryInteraction = Time.time;
@@ -127,35 +145,42 @@ public class DefaultInput : IInput
     }
     void HandleInteractWithItemButtonClick(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInteractWithItem?.Invoke();
     }
     void HandleOpenChatButtonClick(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnOpenChat?.Invoke();
     }
 
     void HandleInventorySlotKey1(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInventorySlotKey?.Invoke(0);
     }
 
     void HandleInventorySlotKey2(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInventorySlotKey?.Invoke(1);
     }
 
     void HandleInventorySlotKey3(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInventorySlotKey?.Invoke(2);
     }
 
     void HandleInventorySlotKey4(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInventorySlotKey?.Invoke(3);
     }
 
     void HandleInventorySlotKey5(InputAction.CallbackContext context)
     {
+        if (IsLocked) return;
         OnInventorySlotKey?.Invoke(4);
     }
 

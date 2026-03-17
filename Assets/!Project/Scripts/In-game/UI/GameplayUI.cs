@@ -20,11 +20,13 @@ public class GameplayUI : BasicCustomWindow
 
     protected override void BindControls()
     {
+        GlobalInputManager.Input.SetLock(false);
         GlobalInputManager.Input.OnEscPressed += HandleEscPressed;
     }
 
     protected override void UnbindControls()
     {
+        GlobalInputManager.Input.SetLock(true);
         GlobalInputManager.Input.OnEscPressed -= HandleEscPressed;
     }
 
