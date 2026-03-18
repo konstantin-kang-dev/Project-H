@@ -27,7 +27,7 @@ public class ObjectivesManager : NetworkBehaviour
 
     public event Action OnInitialize;
     public event Action<ObjectiveType, int> OnObjectiveInitialized;
-    public event Action<ObjectiveType, string> OnObjectiveCollected;
+    public event Action<ObjectiveType, int, string> OnObjectiveCollected;
     public event Action<ObjectiveType> OnObjectiveCompleted;
     public event Action OnAllObjectivesCollected;
 
@@ -168,7 +168,7 @@ public class ObjectivesManager : NetworkBehaviour
         ObjectiveConfig config = _cachedConfigs[type];
 
         string description = $"{config.Description} ({collected}/{total})";
-        OnObjectiveCollected?.Invoke(type, description);
+        OnObjectiveCollected?.Invoke(type, collected, description);
 
         if (collected >= total)
         {

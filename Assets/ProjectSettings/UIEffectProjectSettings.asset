@@ -11,11 +11,51 @@ ShaderVariantCollection:
   - first: {fileID: 4800000, guid: 96246b1ead49a4c5a996fd477bc5a117, type: 3}
     second:
       variants:
+      - keywords: COLOR_FILTER
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_ADDITIVE
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_MASKING
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_MULTIPLY
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_MULTIPLY TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_MULTIPLY_ADDITIVE
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_REPLACE
+        passType: 0
+      - keywords: COLOR_FILTER DETAIL_SUBTRACTIVE
+        passType: 0
+      - keywords: COLOR_FILTER EDGE_PLAIN
+        passType: 0
+      - keywords: COLOR_FILTER EDGE_SHINY
+        passType: 0
       - keywords: COLOR_FILTER SAMPLING_BLUR_FAST
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_BURN
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_DISSOLVE
+        passType: 0
+      - keywords: COLOR_FILTER TRANSITION_MELT
+        passType: 0
+      - keywords: DETAIL_ADDITIVE
+        passType: 0
+      - keywords: DETAIL_MASKING
         passType: 0
       - keywords: DETAIL_MASKING SAMPLING_BLUR_FAST
         passType: 0
+      - keywords: DETAIL_MULTIPLY
+        passType: 0
       - keywords: DETAIL_MULTIPLY SAMPLING_BLUR_FAST
+        passType: 0
+      - keywords: DETAIL_REPLACE
+        passType: 0
+      - keywords: DETAIL_SUBTRACTIVE
+        passType: 0
+      - keywords: EDGE_PLAIN
+        passType: 0
+      - keywords: EDGE_SHINY
         passType: 0
       - keywords: GRADATION_COLOR2 SAMPLING_BLUR_FAST
         passType: 0
@@ -42,6 +82,20 @@ ShaderVariantCollection:
       - keywords: SAMPLING_RGB_SHIFT
         passType: 0
       - keywords: TONE_GRAYSCALE
+        passType: 0
+      - keywords: TRANSITION_BLAZE
+        passType: 0
+      - keywords: TRANSITION_BURN
+        passType: 0
+      - keywords: TRANSITION_CUTOFF
+        passType: 0
+      - keywords: TRANSITION_FADE
+        passType: 0
+      - keywords: TRANSITION_MASK
+        passType: 0
+      - keywords: TRANSITION_MELT
+        passType: 0
+      - keywords: TRANSITION_SHINY
         passType: 0
   - first: {fileID: 4800000, guid: 935b7be1c88464d2eb87204fdfab5a38, type: 3}
     second:

@@ -45,16 +45,16 @@ public class ObjectivesUI : MonoBehaviour
         _objectives[config.Type] = objectiveUI;
         objectiveUI.OnDestroy += HandleObjectiveUIDestroy;
 
-        objectiveUI.Init(config.Type, startDescription);
+        objectiveUI.Init(config.Type, amountToComplete, startDescription);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(_container);
     }
 
-    void HandleObjectiveCollected(ObjectiveType type, string description)
+    void HandleObjectiveCollected(ObjectiveType type, int collectedAmount, string description)
     {
         if (!_objectives.ContainsKey(type)) return;
 
-        _objectives[type].HandleUpdateObjective(description);
+        _objectives[type].HandleUpdateObjective(collectedAmount, description);
     }
     void HandleObjectiveCompleted(ObjectiveType type)
     {

@@ -27,11 +27,11 @@ public class LinearProgressBarVisuals : MonoBehaviour, IProgressBarVisuals
     {
         float targetWidth = _initialWidth * progress;
         //Vector3 targetLocalScale = new Vector3(progress,  _progressBlock.localScale.y, _progressBlock.localScale.z);
-
+        
         if (doInstantly)
         {
             //_progressBlock.localScale = targetLocalScale;
-            _progressBlock.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
+            _progressBlock.sizeDelta = new Vector2(targetWidth, _progressBlock.sizeDelta.y);
         }
         else
         {

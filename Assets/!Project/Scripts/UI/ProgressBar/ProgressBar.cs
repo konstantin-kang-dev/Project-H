@@ -12,7 +12,7 @@ public class ProgressBar : MonoBehaviour
     public event Action<float> OnProgressChanged;
     public event Action OnFullFilled;
 
-    private void Start()
+    private void Awake()
     {
         if(transform.TryGetComponent<IProgressBarVisuals>(out _progressBarVisuals))
         {
