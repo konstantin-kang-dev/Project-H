@@ -116,7 +116,7 @@ Light:
   m_InnerSpotAngle: 1
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -909,6 +909,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   <ItemConfig>k__BackingField: {fileID: 11400000, guid: d9fd0adc8c252b8469efdb6d8a94c987, type: 2}
   <HintPoint>k__BackingField: {fileID: 4220765450241035816}
+  <InputActionHint>k__BackingField: 0
   <HintText>k__BackingField: E - Pick Up
   <RequirementsHintText>k__BackingField: 
   _container: {fileID: 340353396157988349}

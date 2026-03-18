@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   Type: -1
-  HandPosition: {x: 0.1935, y: -0.0914, z: 0.2173}
+  HandPosition: {x: 0.272, y: -0.025, z: 0.124}
   HandRotation: {x: 0, y: -90, z: 0}
   HandItemPointPosition: {x: -0.0001, y: 0.0805, z: 0.0179}
   HandItemPointRotation: {x: 0, y: 90, z: 0}
