@@ -778,8 +778,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   <ItemConfig>k__BackingField: {fileID: 11400000, guid: d9fd0adc8c252b8469efdb6d8a94c987, type: 2}
   <HintPoint>k__BackingField: {fileID: 4220765450241035816}
-  <InputActionHint>k__BackingField: 0
-  <HintText>k__BackingField: E - Pick Up
+  <InputActionHint>k__BackingField: 20
+  <HintText>k__BackingField: Pick Up
   <RequirementsHintText>k__BackingField: 
   _container: {fileID: 340353396157988349}
   _physicsCollider: {fileID: 3055622269937337682}

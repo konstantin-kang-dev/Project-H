@@ -6,6 +6,8 @@ public class GameUI : MonoBehaviour
     public static GameUI Instance { get; private set; }
     Canvas _canvas;
 
+    [SerializeField] public Camera UICamera;
+
     [Header("Game UI")]
     [SerializeField] BasicWindowVisuals _gameUIVisuals;
     [SerializeField] InventoryUI _inventoryUI;
@@ -53,9 +55,11 @@ public class GameUI : MonoBehaviour
         OnGameplayUIFocusChange?.Invoke(visible);
     }
 
-    public void SetCanvasCamera(Camera camera)
+    public void ConnectUICamera(Transform target)
     {
-        _canvas.worldCamera = camera;
+        UICamera.transform.parent = target;
+        UICamera.transform.localPosition = Vector3.zero;
+        UICamera.transform.localEulerAngles = Vector3.zero;
     }
 
     void Update()
