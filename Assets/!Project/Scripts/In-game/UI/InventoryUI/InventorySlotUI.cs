@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class InventorySlotUI : MonoBehaviour
 {
     [SerializeField] RectTransform _container;
-    [SerializeField] Image _slotBgImage;
+    [SerializeField] CanvasGroup _canvasGroup;
+
     [SerializeField] Image _itemImage;
     Sequence _selectAnim;
     Sequence _deselectAnim;
@@ -29,8 +30,8 @@ public class InventorySlotUI : MonoBehaviour
         Tween moveUpTween = _container.DOAnchorPosY(15f, 0.2f).SetEase(Ease.InOutSine);
         _selectAnim.Join(moveUpTween);
 
-        Tween bgFadeInTween = _slotBgImage.DOFade(1f, 0.2f);
-        _selectAnim.Join(bgFadeInTween);
+        Tween fadeInTween = _canvasGroup.DOFade(1f, 0.2f);
+        _selectAnim.Join(fadeInTween);
     }
 
     public void Deselect()
@@ -46,8 +47,8 @@ public class InventorySlotUI : MonoBehaviour
         Tween moveDownTween = _container.DOAnchorPosY(0f, 0.2f).SetEase(Ease.InOutSine);
         _deselectAnim.Join(moveDownTween);
 
-        Tween bgFadeOutTween = _slotBgImage.DOFade(0.02f, 0.2f);
-        _deselectAnim.Join(bgFadeOutTween);
+        Tween fadeOutTween = _canvasGroup.DOFade(0.2f, 0.2f);
+        _deselectAnim.Join(fadeOutTween);
     }
 
     public void SetItem(IPickable item)

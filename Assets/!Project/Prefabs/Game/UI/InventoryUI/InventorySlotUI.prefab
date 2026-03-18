@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5680263067454093191}
+  - component: {fileID: 3194232642594545685}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -37,6 +38,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &3194232642594545685
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260619505322547675}
+  m_Enabled: 1
+  m_Alpha: 0.2
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &327776882250499277
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +206,7 @@ MonoBehaviour:
   m_DstBlendMode: 10
   m_ShadowMode: 1
   m_ShadowDistance: {x: -7, y: -7}
-  m_ShadowIteration: 3
+  m_ShadowIteration: 1
   m_ShadowFade: 1
   m_ShadowMirrorScale: 0.5
   m_ShadowBlurIntensity: 1
@@ -314,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventorySlotUI
   _container: {fileID: 5680263067454093191}
-  _slotBgImage: {fileID: 4271155700446937571}
+  _canvasGroup: {fileID: 3194232642594545685}
   _itemImage: {fileID: 3729379659248385038}
 --- !u!1 &6160905084329228646
 GameObject:
