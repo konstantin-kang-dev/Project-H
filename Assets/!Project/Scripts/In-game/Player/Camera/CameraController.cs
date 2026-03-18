@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     public static CameraController Instance { get; private set; }
 
     [SerializeField] Camera _camera;
+    [SerializeField] Camera _uiCamera;
     [SerializeField] CinemachineCamera _cinemachineCamera;
     [SerializeField] CinemachineBasicMultiChannelPerlin _cinemachinePerlin;
     [SerializeField] Transform _cameraBlock;
@@ -58,7 +59,7 @@ public class CameraController : MonoBehaviour
 
         GlobalInputManager.Input.OnLook += HandleLookInput;
         GameUI.Instance.OnGameplayUIFocusChange += HandleGameplayUIFocusChange;
-        GameUI.Instance.SetCanvasCamera(_camera);
+        GameUI.Instance.SetCanvasCamera(_uiCamera);
 
         SetupSensitivity(SaveManager.GameSave);
         SaveManager.OnSaveUpdated += SetupSensitivity;
