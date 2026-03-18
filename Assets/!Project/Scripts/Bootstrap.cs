@@ -19,6 +19,12 @@ public class Bootstrap : MonoBehaviour
 
     async void Init()
     {
+        if (SteamAPI.RestartAppIfNecessary(new AppId_t(480)))
+        {
+            Application.Quit();
+            return;
+        }
+
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "Initializing Steam...");
 
         while (!SteamAPI.IsSteamRunning())
