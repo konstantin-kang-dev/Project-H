@@ -97,10 +97,6 @@ PrefabInstance:
       value: Floor_06
       objectReference: {fileID: 0}
     - target: {fileID: 4518327166717152160, guid: bbd32a536a25c2346b8d72c00cb7f191, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4518327166717152160, guid: bbd32a536a25c2346b8d72c00cb7f191, type: 3}
       propertyPath: m_StaticShadowCaster
       value: 0
       objectReference: {fileID: 0}

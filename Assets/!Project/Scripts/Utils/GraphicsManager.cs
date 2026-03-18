@@ -167,14 +167,14 @@ public class GraphicsManager
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
         {
-            fog.volumetricFogBudget = save.LightingQuality switch
+            fog.screenResolutionPercentage.value = save.LightingQuality switch
             {
-                GraphicsQuality.Low => 0.2f,
-                GraphicsQuality.Medium => 0.3f,
-                GraphicsQuality.High => 0.4f,
-                GraphicsQuality.Ultra => 0.5f,
-                GraphicsQuality.Crazy => 0.6f,
-                _ => 0.4f
+                GraphicsQuality.Low => 10f,
+                GraphicsQuality.Medium => 15f,
+                GraphicsQuality.High => 20f,
+                GraphicsQuality.Ultra => 25f,
+                GraphicsQuality.Crazy => 35f,
+                _ => 20f
             };
 
             fog.sliceDistributionUniformity.value = save.LightingQuality switch

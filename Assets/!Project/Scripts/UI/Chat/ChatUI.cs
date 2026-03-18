@@ -42,7 +42,10 @@ public class ChatUI : MonoBehaviour
     }
     private void OnDestroy()
     {
-        ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
+        if(ChatManager.Instance != null)
+        {
+            ChatManager.Instance.OnChatMessageAdded -= HandleChatMessageAdd;
+        }
 
         _chatInput.onSubmit.RemoveListener(HandleChatInputSend);
         _chatInput.onSelect.RemoveListener(HandleOpenChat);
