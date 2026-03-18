@@ -12,6 +12,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] ObjectivesUI _objectivesUI;
     [SerializeField] ChatUI _chatUI;
     [SerializeField] StaminaUI _staminaUI;
+    [SerializeField] LocationTitleUI _locationTitleUI;
 
     [Header("Windows")]
     [SerializeField] GameMenuUI _gameMenuUI;
@@ -34,6 +35,7 @@ public class GameUI : MonoBehaviour
         _objectivesUI.Init();
         _chatUI.Init();
         _staminaUI.Init();
+        _locationTitleUI.Init();
 
         WindowsNavigator.Instance.Clear();
         WindowsNavigator.Instance.CloseAll(true);

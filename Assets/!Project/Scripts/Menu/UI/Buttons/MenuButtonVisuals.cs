@@ -9,8 +9,8 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
 {
     Button _btn;
     [SerializeField] Transform _container;
-    [SerializeField] Image _backgroundImage;
-    [SerializeField] Image _borderImage;
+    [SerializeField] Image _hoverBg;
+    [SerializeField] Image _defaultBg;
 
     [SerializeField] TextMeshProUGUI _tmp;
     [SerializeField] Color _tmpHoverColor;
@@ -45,8 +45,11 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         Sequence pointerDownAnim = DOTween.Sequence();
 
-        Tween scaleTween = _container.DOScale(new Vector3(0.9f, 0.9f, 1), _hoverAnimationDuration);
-        pointerDownAnim.Join(scaleTween);
+        if(_container != null)
+        {
+            Tween scaleTween = _container.DOScale(new Vector3(0.9f, 0.9f, 1), _hoverAnimationDuration);
+            pointerDownAnim.Join(scaleTween);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -63,10 +66,10 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         Sequence hoverEnterAnim = DOTween.Sequence();
 
-        Tween backgroundFadeTween = _backgroundImage.DOFade(1f, _hoverAnimationDuration);
+        Tween backgroundFadeTween = _hoverBg.DOFade(1f, _hoverAnimationDuration);
         hoverEnterAnim.Join(backgroundFadeTween);
 
-        Tween borderFadeTween = _borderImage.DOFade(0f, _hoverAnimationDuration);
+        Tween borderFadeTween = _defaultBg.DOFade(0f, _hoverAnimationDuration);
         hoverEnterAnim.Join(borderFadeTween);
 
         if(_tmp != null)
@@ -87,10 +90,10 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         Sequence hoverExitAnim = DOTween.Sequence();
 
-        Tween backgroundFadeTween = _backgroundImage.DOFade(0f, _hoverAnimationDuration);
+        Tween backgroundFadeTween = _hoverBg.DOFade(0f, _hoverAnimationDuration);
         hoverExitAnim.Join(backgroundFadeTween);
 
-        Tween borderFadeTween = _borderImage.DOFade(1f, _hoverAnimationDuration);
+        Tween borderFadeTween = _defaultBg.DOFade(1f, _hoverAnimationDuration);
         hoverExitAnim.Join(borderFadeTween);
 
         if(_tmp != null)

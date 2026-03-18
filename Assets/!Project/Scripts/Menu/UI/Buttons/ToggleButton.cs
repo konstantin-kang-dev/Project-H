@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class ToggleButton : MonoBehaviour
 {
-    [SerializeField] GameObject _activeVisuals;
-    [SerializeField] GameObject _inactiveVisuals;
+    [SerializeField] List<GameObject> _activeVisuals;
+    [SerializeField] List<GameObject> _inactiveVisuals;
     bool _state = false;
     public bool State => _state;
     bool _isVisible = true;
@@ -60,8 +61,15 @@ public class ToggleButton : MonoBehaviour
         }
         else
         {
-            _activeVisuals.SetActive(false);
-            _inactiveVisuals.SetActive(false);
+            foreach (var go in _activeVisuals)
+            {
+                go.SetActive(false);
+            }
+
+            foreach (var go in _inactiveVisuals)
+            {
+                go.SetActive(false);
+            }
         }
     }
 
@@ -71,13 +79,27 @@ public class ToggleButton : MonoBehaviour
         {
             if (_state)
             {
-                _activeVisuals.SetActive(true);
-                _inactiveVisuals.SetActive(false);
+                foreach (var go in _activeVisuals)
+                {
+                    go.SetActive(true);
+                }
+
+                foreach (var go in _inactiveVisuals)
+                {
+                    go.SetActive(false);
+                }
             }
             else
             {
-                _activeVisuals.SetActive(false);
-                _inactiveVisuals.SetActive(true);
+                foreach (var go in _activeVisuals)
+                {
+                    go.SetActive(false);
+                }
+
+                foreach (var go in _inactiveVisuals)
+                {
+                    go.SetActive(true);
+                }
             }
         }
 

@@ -19,6 +19,7 @@ namespace GameAudio
         UILobbyLeave = 6,
         UIGameVictory = 7,
         UIGameLose = 8,
+        UILocationIntro = 9,
 
         MenuAmbient = 20,
         GameAmbient = 21,
