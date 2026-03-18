@@ -116,6 +116,8 @@ public class ChatUI : MonoBehaviour
         UpdateAutoOpenChatTimer();
         _canvasGroup.DOFade(1f, 0.2f);
         _isChatOpened = true;
+
+        GlobalInputManager.Input.SetLock(true);
     }
 
     void HandleCloseChat(string value = "")
@@ -125,6 +127,8 @@ public class ChatUI : MonoBehaviour
         _autoOpenChatTimer = 0;
         _canvasGroup.DOFade(0.1f, 0.2f);
         _isChatOpened = false;
+
+        GlobalInputManager.Input.SetLock(false);
     }
 
     void UpdateAutoOpenChatTimer()

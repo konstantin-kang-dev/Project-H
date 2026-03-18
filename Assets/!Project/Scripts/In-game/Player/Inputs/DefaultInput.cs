@@ -150,7 +150,6 @@ public class DefaultInput : IInput
     }
     void HandleOpenChatButtonClick(InputAction.CallbackContext context)
     {
-        if (IsLocked) return;
         OnOpenChat?.Invoke();
     }
 
