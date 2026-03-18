@@ -117,6 +117,8 @@ public class LobbyUI : BasicCustomWindow
 
     void OnDestroy()
     {
+        LobbyManager.OnReady -= Init;
+        LobbyManager.OnClear -= ResetEvents;
         ResetEvents();
     }
 
