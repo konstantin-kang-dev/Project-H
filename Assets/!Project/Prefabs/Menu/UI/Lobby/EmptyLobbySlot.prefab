@@ -158,9 +158,25 @@ PrefabInstance:
       propertyPath: m_PixelsPerUnitMultiplier
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 65341905519843865, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_ShadowDistance.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 65341905519843865, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_ShadowDistance.y
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 699769605907367053, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1264607885484401051, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_ShadowDistance.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1264607885484401051, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
+      propertyPath: m_ShadowDistance.y
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 1286779553419698534, guid: 4ddb07c3cf5ad7642902bbb83c28dbb6, type: 3}
       propertyPath: m_AnchorMax.x

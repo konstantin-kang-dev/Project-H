@@ -2243,6 +2243,10 @@ PrefabInstance:
       value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 4185748329719642337, guid: 503d0e8ae1ea3924aa6ac29a56cbb85a, type: 3}
+      propertyPath: _inputPostfix
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185748329719642337, guid: 503d0e8ae1ea3924aa6ac29a56cbb85a, type: 3}
       propertyPath: _sliderMaxValue
       value: 500
       objectReference: {fileID: 0}
