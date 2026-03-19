@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] public Camera UICamera;
 
     [Header("Game UI")]
-    [SerializeField] BasicWindowVisuals _gameUIVisuals;
+    [SerializeField] CanvasGroup _canvasGroup;
     [SerializeField] InventoryUI _inventoryUI;
     [SerializeField] ObjectivesUI _objectivesUI;
     [SerializeField] ChatUI _chatUI;
@@ -27,6 +28,7 @@ public class GameUI : MonoBehaviour
     void Awake()
     {
         _canvas = GetComponent<Canvas>();
+        _canvasGroup.alpha = 0f;
 
         Instance = this;
     }
@@ -47,6 +49,8 @@ public class GameUI : MonoBehaviour
 
         IsInitialized = true;
 
+        _canvasGroup.DOFade(1f, 0.5f);
+
         Debug.Log($"[GameUI] Initialized.");
     }
 
@@ -62,8 +66,4 @@ public class GameUI : MonoBehaviour
         UICamera.transform.localEulerAngles = Vector3.zero;
     }
 
-    void Update()
-    {
-        
-    }
 }

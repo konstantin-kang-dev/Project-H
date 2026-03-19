@@ -140,9 +140,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
   m_ToneFilter: 0
   m_ToneIntensity: 1
-  m_ColorFilter: 0
+  m_ColorFilter: 2
   m_ColorIntensity: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 5.9921575, g: 5.9921575, b: 5.9921575, a: 1}
   m_ColorGlow: 0
   m_SamplingFilter: 0
   m_SamplingIntensity: 0.5

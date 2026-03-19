@@ -49,6 +49,8 @@ ShaderVariantCollection:
         passType: 0
       - keywords: DETAIL_MULTIPLY SAMPLING_BLUR_FAST
         passType: 0
+      - keywords: DETAIL_MULTIPLY_ADDITIVE
+        passType: 0
       - keywords: DETAIL_REPLACE
         passType: 0
       - keywords: DETAIL_SUBTRACTIVE
