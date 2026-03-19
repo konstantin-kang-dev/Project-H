@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0dce6e0df85af7f46bf65d1fce4653bc
+timeCreated: 1556415150
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 144740
+  packageName: Dynamic Grass FX
+  packageVersion: 1.0
+  assetPath: Assets/Dynamic Grass FX/Demo/Models/Materials/Black.mat
+  uploadId: 308154

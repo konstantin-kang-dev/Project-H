@@ -46,7 +46,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260619505322547675}
   m_Enabled: 1
-  m_Alpha: 0.2
+  m_Alpha: 0.03
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a3fea7d9c1bd63348828b8a3bca87818, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5051944d7c170da4b80d761cab41c86c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
   m_ToneFilter: 0
   m_ToneIntensity: 1
-  m_ColorFilter: 2
+  m_ColorFilter: 0
   m_ColorIntensity: 1
   m_Color: {r: 5.9921575, g: 5.9921575, b: 5.9921575, a: 1}
   m_ColorGlow: 0
@@ -259,11 +259,11 @@ MonoBehaviour:
   m_EdgeMode: 0
   m_EdgeWidth: 0.5
   m_EdgeColorFilter: 4
-  m_EdgeColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EdgeColor: {r: 16, g: 16, b: 16, a: 1}
   m_EdgeColorGlow: 0
   m_EdgeShinyRate: 0.5
   m_EdgeShinyWidth: 0.5
-  m_EdgeShinyAutoPlaySpeed: 1
+  m_EdgeShinyAutoPlaySpeed: 0.1
   m_PatternArea: 1
   m_DetailFilter: 0
   m_DetailIntensity: 1

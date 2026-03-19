@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 398e375eea068974d8413ce961f68a52
+timeCreated: 1556420029
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 144740
+  packageName: Dynamic Grass FX
+  packageVersion: 1.0
+  assetPath: Assets/Dynamic Grass FX/Grass Material.mat
+  uploadId: 308154

@@ -28,7 +28,10 @@ namespace Modules.Rendering.Outline
         protected override void Setup(ScriptableRenderContext RenderContext, CommandBuffer CMD)
         {
             if (OutlineShader == null)
-                OutlineShader = Shader.Find("Hidden/Shader/OutlinePass");
+            {
+                Debug.LogError("OutlinePass: OutlineShader is not assigned!");
+                return;
+            }
 
             FullscreenOutline = CoreUtils.CreateEngineMaterial(OutlineShader);
 
@@ -42,6 +45,9 @@ namespace Modules.Rendering.Outline
 
         protected override void Execute(CustomPassContext CTX)
         {
+            if (!CTX.hdCamera.camera.CompareTag("MainCamera"))
+                return;
+
             CoreUtils.SetRenderTarget(CTX.cmd, OutlineBuffer, CTX.cameraDepthBuffer, ClearFlag.Color);
 
             OutlineRenderers.ForEach((Renderer =>

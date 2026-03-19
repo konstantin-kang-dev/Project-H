@@ -47,7 +47,7 @@ public class InventorySlotUI : MonoBehaviour
         Tween moveDownTween = _container.DOAnchorPosY(0f, 0.2f).SetEase(Ease.InOutSine);
         _deselectAnim.Join(moveDownTween);
 
-        Tween fadeOutTween = _canvasGroup.DOFade(0.2f, 0.2f);
+        Tween fadeOutTween = _canvasGroup.DOFade(0.03f, 0.2f);
         _deselectAnim.Join(fadeOutTween);
     }
 

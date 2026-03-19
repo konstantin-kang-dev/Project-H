@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 87e4c053257320d44bb5f7113b8a8624
+timeCreated: 1556417484
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 144740
+  packageName: Dynamic Grass FX
+  packageVersion: 1.0
+  assetPath: Assets/Dynamic Grass FX/Demo/Animations/Sheep.controller
+  uploadId: 308154
