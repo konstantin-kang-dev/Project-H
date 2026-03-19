@@ -91,12 +91,18 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnStartClient();
 
+        foreach (var lobbySlotPoint in _lobbySlotsPoints)
+        {
+            lobbySlotPoint.gameObject.SetActive(true);
+        }
+
         _lobbySlots.OnChange += HandleLobbySlotsChange;
 
         NetworkGameManager.Instance.OnLocalClientConnected += HandleLocalClientConnected;
         NetworkGameManager.Instance.OnLocalClientDisconnected += HandleLocalClientDisconnected;
 
         RPC_RequestSendPlayerData(SaveManager.GameSave.PlayerSave, ClientManager.Connection);
+
         OnReady?.Invoke();
     }
 
@@ -204,6 +210,12 @@ public class LobbyManager : NetworkBehaviour
     public void CLIENTS_HandleStartGame()
     {
         GlobalAudioManager.Instance.Stop(SoundType.MenuAmbient);
+
+        foreach (var lobbySlotPoint in _lobbySlotsPoints)
+        {
+            lobbySlotPoint.gameObject.SetActive(false);
+        }
+
         OnGameStarted?.Invoke();
     }
 
@@ -305,4 +317,5 @@ public class LobbyManager : NetworkBehaviour
     {
         NetworkRoomManager.Instance.SERVER_SetPlayerData(data, conn);
     }
+
 }

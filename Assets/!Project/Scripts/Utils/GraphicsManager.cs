@@ -107,22 +107,22 @@ public class GraphicsManager
     {
         int resolution = save.ShadowsQuality switch
         {
-            GraphicsQuality.Low => 256,
-            GraphicsQuality.Medium => 512,
-            GraphicsQuality.High => 1024,
+            GraphicsQuality.Low => 768,
+            GraphicsQuality.Medium => 1024,
+            GraphicsQuality.High => 1440,
             GraphicsQuality.Ultra => 2048,
             GraphicsQuality.Crazy => 4096,
-            _ => 1024
+            _ => 1440
         };
 
         float distance = save.ShadowsQuality switch
         {
-            GraphicsQuality.Low => 25f,
-            GraphicsQuality.Medium => 50f,
-            GraphicsQuality.High => 100f,
-            GraphicsQuality.Ultra => 200f,
-            GraphicsQuality.Crazy => 400f,
-            _ => 100f
+            GraphicsQuality.Low => 50f,
+            GraphicsQuality.Medium => 75f,
+            GraphicsQuality.High => 75f,
+            GraphicsQuality.Ultra => 100f,
+            GraphicsQuality.Crazy => 150f,
+            _ => 75f
         };
 
         foreach (var light in Object.FindObjectsByType<HDAdditionalLightData>(FindObjectsSortMode.None))
@@ -151,40 +151,29 @@ public class GraphicsManager
         if (_globalVolume.profile.TryGet<GlobalIllumination>(out var gi))
         {
             gi.active = save.LightingQuality != GraphicsQuality.Low;
-            gi.fullResolutionSS.overrideState = true;
-            gi.fullResolutionSS.value = save.LightingQuality >= GraphicsQuality.High;
             gi.maxRaySteps = save.LightingQuality switch
             {
-                GraphicsQuality.Low => 8,
-                GraphicsQuality.Medium => 16,
-                GraphicsQuality.High => 32,
-                GraphicsQuality.Ultra => 64,
-                GraphicsQuality.Crazy => 96,
-                _ => 32
+                GraphicsQuality.Low => 6,
+                GraphicsQuality.Medium => 8,
+                GraphicsQuality.High => 16,
+                GraphicsQuality.Ultra => 16,
+                GraphicsQuality.Crazy => 32,
+                _ => 16
             };
 
         }
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
         {
-            fog.screenResolutionPercentage.value = save.LightingQuality switch
-            {
-                GraphicsQuality.Low => 10f,
-                GraphicsQuality.Medium => 15f,
-                GraphicsQuality.High => 20f,
-                GraphicsQuality.Ultra => 25f,
-                GraphicsQuality.Crazy => 35f,
-                _ => 20f
-            };
 
-            fog.sliceDistributionUniformity.value = save.LightingQuality switch
+            fog.volumetricFogBudget = save.LightingQuality switch
             {
-                GraphicsQuality.Low => 0.25f,
-                GraphicsQuality.Medium => 0.4f,
-                GraphicsQuality.High => 0.5f,
-                GraphicsQuality.Ultra => 0.6f,
-                GraphicsQuality.Crazy => 0.8f,
-                _ => 0.5f
+                GraphicsQuality.Low => 0.1f,
+                GraphicsQuality.Medium => 0.12f,
+                GraphicsQuality.High => 0.14f,
+                GraphicsQuality.Ultra => 0.17f,
+                GraphicsQuality.Crazy => 0.2f,
+                _ => 0.14f
             };
 
         }
@@ -199,10 +188,10 @@ public class GraphicsManager
             {
                 GraphicsQuality.Low => 0,
                 GraphicsQuality.Medium => 0,
-                GraphicsQuality.High => 1,
-                GraphicsQuality.Ultra => 1,
-                GraphicsQuality.Crazy => 2,
-                _ => 1
+                GraphicsQuality.High => 0,
+                GraphicsQuality.Ultra => 0,
+                GraphicsQuality.Crazy => 1,
+                _ => 0
             };
         }
     }
