@@ -45,12 +45,6 @@ public class NetworkGameManager : MonoBehaviour
         _lobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnLobbyJoinRequested);
     }
 
-    void Update()
-    {
-        if (SteamAPI.IsSteamRunning())
-            SteamAPI.RunCallbacks();
-    }
-
     void OnDestroy() => Cleanup();
     private void OnApplicationQuit() => Cleanup();
 

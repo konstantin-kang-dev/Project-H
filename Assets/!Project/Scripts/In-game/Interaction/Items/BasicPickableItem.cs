@@ -42,7 +42,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
         Transform = transform;
         _rb = GetComponent<Rigidbody>();
         _netTransform = GetComponent<NetworkTransform>();
-        SetHighlight(false);
+        SetOutlineVisibility(false);
     }
 
     public override void OnStartClient()
@@ -128,7 +128,7 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
         }
     }
 
-    public virtual void SetHighlight(bool value)
+    public virtual void SetOutlineVisibility(bool value)
     {
         foreach (var outline in Outlines)
         {

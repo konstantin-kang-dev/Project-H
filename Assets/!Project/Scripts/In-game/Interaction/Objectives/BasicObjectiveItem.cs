@@ -20,7 +20,7 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
     protected override void Awake()
     {
         base.Awake();
-        SetHighlight(false);
+        SetOutlineVisibility(false);
     }
 
     public void SetObjectiveType(ObjectiveType objectiveType)
@@ -70,7 +70,7 @@ public class BasicObjectiveItem : BasicInteractable, IOutlinable
         if (_collider != null) _collider.enabled = !next;
 
     }
-    public virtual void SetHighlight(bool value)
+    public virtual void SetOutlineVisibility(bool value)
     {
         foreach (var outline in Outlines)
         {

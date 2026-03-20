@@ -12,37 +12,18 @@ public class Bootstrap : MonoBehaviour
 
     float _timeout = 1f;
 
+
     private void Start()
     {
-        Init();
+        Init(); 
     }
-
     async void Init()
     {
-        if (SteamAPI.RestartAppIfNecessary(new AppId_t(480)))
-        {
-            Application.Quit();
-            return;
-        }
+        await UniTask.WaitUntil(() => SteamManager.Initialized);
 
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Screen, "Initializing Steam...");
 
-        while (!SteamAPI.IsSteamRunning())
-        {
-            Debug.LogError($"[Bootstrap] Steam is not running...");
-
-            await UniTask.WaitForSeconds(_timeout);
-        }
-
-        if (!SteamAPI.Init())
-        {
-            Debug.LogError("[NetworkLobbyManager] SteamAPI.Init() failed");
-            return;
-        }
-
         Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
-
-        Debug.Log("[NetworkLobbyManager] SteamAPI initialized");
         Debug.Log($"[NetworkLobbyManager] Steam Name: {SteamFriends.GetPersonaName()}");
         Debug.Log($"[NetworkLobbyManager] Steam ID: {SteamUser.GetSteamID()}");
 

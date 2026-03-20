@@ -1073,7 +1073,7 @@ MonoBehaviour:
       m_Value: 1
     opacityG:
       m_OverrideState: 1
-      m_Value: 0
+      m_Value: 0.796
     opacityB:
       m_OverrideState: 1
       m_Value: 0
@@ -1085,7 +1085,7 @@ MonoBehaviour:
       m_Value: 2000
     rotation:
       m_OverrideState: 1
-      m_Value: 0
+      m_Value: 72.8
     tint:
       m_OverrideState: 1
       m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -1120,7 +1120,7 @@ MonoBehaviour:
       m_Value: 6
     thickness:
       m_OverrideState: 1
-      m_Value: 0.5
+      m_Value: 1
     ambientProbeDimmer:
       m_OverrideState: 1
       m_Value: 1
@@ -1549,16 +1549,16 @@ MonoBehaviour:
   active: 1
   skyType:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 4
   cloudType:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   skyAmbientMode:
     m_OverrideState: 1
     m_Value: 1
   planetRadius:
     m_OverrideState: 1
-    m_Value: 6378.1
+    m_Value: 1000
   renderingSpace:
     m_OverrideState: 1
     m_Value: 1

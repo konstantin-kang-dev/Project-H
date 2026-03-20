@@ -185,7 +185,7 @@ public class PlayerInteraction : MonoBehaviour
             IOutlinable outlinable = other.GetComponent<IOutlinable>();
             if (outlinable != null)
             {
-                outlinable.SetHighlight(true);
+                outlinable.SetOutlineVisibility(true);
             }
 
             Player player = other.GetComponent<Player>();
@@ -205,7 +205,7 @@ public class PlayerInteraction : MonoBehaviour
             IOutlinable outlinable = other.GetComponent<IOutlinable>();
             if (outlinable != null)
             {
-                outlinable.SetHighlight(false);
+                outlinable.SetOutlineVisibility(false);
             }
 
             Player player = other.GetComponent<Player>();

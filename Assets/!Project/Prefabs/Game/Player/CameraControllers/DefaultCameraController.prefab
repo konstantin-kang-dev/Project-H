@@ -272,7 +272,13 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 2
+        m_Name: ParticlesSize
+        m_Overridden: 1
+      - m_Value: 3
+        m_Name: Alpha
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -447,7 +453,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 7639
+    m_Bits: 15831
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -484,7 +490,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 16384
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
   SMAAQuality: 2

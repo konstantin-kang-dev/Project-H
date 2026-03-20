@@ -132,7 +132,7 @@ public class PlayerInventory : NetworkBehaviour
     {
         var item = ClientManager.Objects.Spawned[itemObjectId].GetComponent<IPickable>();
 
-        item.SetHighlight(false);
+        item.SetOutlineVisibility(false);
         item.SetColliders(false);
 
         if(IsOwner && pickerObjectId == _player.ObjectId)
@@ -295,7 +295,7 @@ public class PlayerInventory : NetworkBehaviour
 
             if(selectedItem != null)
             {
-                selectedItem.SetHighlight(false);
+                selectedItem.SetOutlineVisibility(false);
                 selectedItem.SetVisibility(true);
             }
         }

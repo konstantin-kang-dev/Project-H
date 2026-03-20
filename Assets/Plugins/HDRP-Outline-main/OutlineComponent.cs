@@ -3,18 +3,30 @@ using UnityEngine;
 
 namespace Modules.Rendering.Outline
 {
-    [ExecuteInEditMode]
-    [RequireComponent(typeof(Renderer))]
     public class OutlineComponent : MonoBehaviour
     {
+        LayerMask _initialLayer;
+        LayerMask _outlineLayer;
+
+        private void Awake()
+        {
+            _initialLayer = gameObject.layer;
+            _outlineLayer = LayerMask.NameToLayer("Outline");
+        }
+
         private void OnEnable()
         {
-            OutlinePass.OutlineRenderers.Add(GetComponent<Renderer>());
+            SetOutline(true);
         }
 
         private void OnDisable()
         {
-            OutlinePass.OutlineRenderers.Remove(GetComponent<Renderer>());
+            SetOutline(false);
+        }
+
+        public void SetOutline(bool value)
+        {
+            gameObject.layer = value ? _outlineLayer : _initialLayer;
         }
     }
 }

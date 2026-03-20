@@ -188,7 +188,7 @@ MonoBehaviour:
   m_AspectRatio: -1
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
-  m_VolumetricDimmer: 1
+  m_VolumetricDimmer: 2
   m_FadeDistance: 13
   m_VolumetricFadeDistance: 13
   m_AffectDiffuse: 1
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 8930493954726338262}
   - component: {fileID: 687517422607040442}
   - component: {fileID: 534366762521892776}
-  - component: {fileID: 2186589484325494867}
+  - component: {fileID: 7508545104773136866}
   m_Layer: 0
   m_Name: Object_2
   m_TagString: Untagged
@@ -487,7 +487,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2186589484325494867
+--- !u!114 &7508545104773136866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -527,10 +527,6 @@ PrefabInstance:
       propertyPath: _outlines.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
-      propertyPath: '_outlines.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2186589484325494867}
     - target: {fileID: 3453669303573188082, guid: 0fd6ee520275bf649a6da0f68ae1b801, type: 3}
       propertyPath: m_EditorClassIdentifier
       value: Assembly-CSharp::BasicPickableItem
@@ -786,7 +782,7 @@ MonoBehaviour:
   _triggerCollider: {fileID: 2842748913837819628}
   _audioService: {fileID: 1117425477721348555}
   <Outlines>k__BackingField:
-  - {fileID: 2186589484325494867}
+  - {fileID: 7508545104773136866}
   _light: {fileID: 4961982886813788994}
 --- !u!136 &3055622269937337682
 CapsuleCollider:

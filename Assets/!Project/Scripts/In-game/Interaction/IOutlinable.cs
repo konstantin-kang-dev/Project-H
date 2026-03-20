@@ -6,5 +6,5 @@ using Modules.Rendering.Outline;
 public interface IOutlinable
 {
     List<OutlineComponent> Outlines { get; }
-    void SetHighlight(bool value);
+    void SetOutlineVisibility(bool value);
 }

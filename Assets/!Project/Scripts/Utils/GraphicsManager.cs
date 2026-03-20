@@ -148,6 +148,7 @@ public class GraphicsManager
     {
         if (_globalVolume == null) return;
 
+        
         if (_globalVolume.profile.TryGet<GlobalIllumination>(out var gi))
         {
             gi.active = save.LightingQuality != GraphicsQuality.Low;
@@ -170,10 +171,10 @@ public class GraphicsManager
             {
                 GraphicsQuality.Low => 0.1f,
                 GraphicsQuality.Medium => 0.12f,
-                GraphicsQuality.High => 0.14f,
-                GraphicsQuality.Ultra => 0.17f,
-                GraphicsQuality.Crazy => 0.2f,
-                _ => 0.14f
+                GraphicsQuality.High => 0.15f,
+                GraphicsQuality.Ultra => 0.2f,
+                GraphicsQuality.Crazy => 0.25f,
+                _ => 0.15f
             };
 
         }
