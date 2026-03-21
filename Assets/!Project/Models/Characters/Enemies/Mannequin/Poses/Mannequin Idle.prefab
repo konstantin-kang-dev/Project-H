@@ -128,6 +128,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4571605982943762130, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
+      propertyPath: m_RayTracingMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -1680883931492820501, guid: 295663f22dd2ad7488fab5d54088dc49, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00000028777868
