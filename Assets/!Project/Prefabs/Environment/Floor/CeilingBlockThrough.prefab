@@ -97,6 +97,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3225b7915b2954940b584cd93790063b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 703e65b2096e9564db594362c033fcba, type: 2}
     - target: {fileID: 919132149155446097, guid: 3225b7915b2954940b584cd93790063b, type: 3}
       propertyPath: m_Name
       value: floor-hole
@@ -179,6 +183,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3d1d00f2c9c15674a87da9b0d2cc91da, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 184cb4d56d310074b90b5f52bf954619, type: 2}
     - target: {fileID: 919132149155446097, guid: 3d1d00f2c9c15674a87da9b0d2cc91da, type: 3}
       propertyPath: m_Name
       value: barricade-doorway-b

@@ -423,7 +423,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1718937846997711595, guid: 587b4b8e6dbf27a45ba3e9dcaa74a83a, type: 3}
       propertyPath: m_Name
-      value: TableLamp2 Variant
+      value: TableLamp2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718937846999901227, guid: 587b4b8e6dbf27a45ba3e9dcaa74a83a, type: 3}
+      propertyPath: m_RayTracingMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

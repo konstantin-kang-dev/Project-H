@@ -117,12 +117,12 @@ public class GraphicsManager
 
         float distance = save.ShadowsQuality switch
         {
-            GraphicsQuality.Low => 50f,
-            GraphicsQuality.Medium => 75f,
-            GraphicsQuality.High => 75f,
-            GraphicsQuality.Ultra => 100f,
-            GraphicsQuality.Crazy => 150f,
-            _ => 75f
+            GraphicsQuality.Low => 25f,
+            GraphicsQuality.Medium => 35f,
+            GraphicsQuality.High => 45f,
+            GraphicsQuality.Ultra => 55f,
+            GraphicsQuality.Crazy => 65f,
+            _ => 45f
         };
 
         foreach (var light in Object.FindObjectsByType<HDAdditionalLightData>(FindObjectsSortMode.None))
@@ -148,7 +148,7 @@ public class GraphicsManager
     {
         if (_globalVolume == null) return;
 
-        
+        /*
         if (_globalVolume.profile.TryGet<GlobalIllumination>(out var gi))
         {
             gi.active = save.LightingQuality != GraphicsQuality.Low;
@@ -162,7 +162,7 @@ public class GraphicsManager
                 _ => 16
             };
 
-        }
+        }*/
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
         {

@@ -113,7 +113,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 1
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
@@ -465,7 +465,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 1
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
@@ -558,6 +558,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
+      propertyPath: m_RayTracingMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
