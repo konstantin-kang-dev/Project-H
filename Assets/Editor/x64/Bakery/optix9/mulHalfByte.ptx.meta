@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e3c123731dba7f548b710717031f5f6b
+timeCreated: 1765543434
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/mulHalfByte.ptx
+  uploadId: 838814

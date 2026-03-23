@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4ffdc380cec82f0499209c71cc127d15
+timeCreated: 1765543434
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/attrib_trimeshTexTranslucent.ptx
+  uploadId: 838814

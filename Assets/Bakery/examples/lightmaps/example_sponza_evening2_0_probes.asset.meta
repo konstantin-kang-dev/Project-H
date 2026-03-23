@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: cd4b5012614bda4438ffa9dad4551f4e
+timeCreated: 1605986146
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: -1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Bakery/examples/lightmaps/example_sponza_evening2_0_probes.asset
+  uploadId: 838814

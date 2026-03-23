@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a71b8e5f469d9b34c97595a9806ba32f
+timeCreated: 1757536766
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/lmTexGISHTranslucent.ptx
+  uploadId: 838814

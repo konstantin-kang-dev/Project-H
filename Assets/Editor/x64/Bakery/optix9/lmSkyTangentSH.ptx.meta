@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 72143d49cfbe08d40a57175f67810926
+timeCreated: 1765627719
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/lmSkyTangentSH.ptx
+  uploadId: 838814

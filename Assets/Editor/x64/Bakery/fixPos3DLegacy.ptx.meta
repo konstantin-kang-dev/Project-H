@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fa61d4e478cedb94d9e37a2b5730de12
+timeCreated: 1732442426
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/fixPos3DLegacy.ptx
+  uploadId: 838814

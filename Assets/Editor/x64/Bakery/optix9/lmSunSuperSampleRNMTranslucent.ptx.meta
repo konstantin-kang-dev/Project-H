@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c14c163ce57fa5f4793623dd7c00eb57
+timeCreated: 1765557579
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/lmSunSuperSampleRNMTranslucent.ptx
+  uploadId: 838814

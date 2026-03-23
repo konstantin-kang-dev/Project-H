@@ -1,0 +1,107 @@
+using UnityEditor;
+using UnityEngine;
+
+public class ftAdditionalConfig
+{
+    // Affects texture import settings for lightmaps
+    public const bool mipmapLightmaps = false;
+
+    // Shader eval coeff * gaussian convolution coeff
+    // ... replaced with more typical convolution coeffs
+    // Used for legacy light probes
+    public const float irradianceConvolutionL0 =       0.2820947917f;
+    public const float irradianceConvolutionL1 =       0.32573500793527993f;//0.4886025119f * 0.7346029443286334f;
+    public const float irradianceConvolutionL2_4_5_7 = 0.2731371076480198f;//0.29121293321402086f * 1.0925484306f;
+    public const float irradianceConvolutionL2_6 =     0.07884789131313001f;//0.29121293321402086f * 0.3153915652f;
+    public const float irradianceConvolutionL2_8 =     0.1365685538240099f;//0.29121293321402086f * 0.5462742153f;
+
+    // Coefficients used in "Remove ringing" mode
+    public const float rr_irradianceConvolutionL0 =       irradianceConvolutionL0;
+    public const float rr_irradianceConvolutionL1 =       irradianceConvolutionL1;
+    public const float rr_irradianceConvolutionL2_4_5_7 = irradianceConvolutionL2_4_5_7 * 0.6F;
+    public const float rr_irradianceConvolutionL2_6 =     irradianceConvolutionL2_6 * 0.6f;
+    public const float rr_irradianceConvolutionL2_8 =     irradianceConvolutionL2_8 * 0.6f;
+
+    const float CosineA0 = Mathf.PI; // from MJP's "ConvolveWithCosineLobe"
+    const float CosineA1 = (2.0f * Mathf.PI) / 3.0f;
+    const float CosineA2 = (0.25f * Mathf.PI);
+
+    public const float rrd_irradianceConvolutionL0 =       irradianceConvolutionL0 * (CosineA0 / Mathf.PI);
+    public const float rrd_irradianceConvolutionL1 =       irradianceConvolutionL1 * (CosineA1 / Mathf.PI);
+    public const float rrd_irradianceConvolutionL2_4_5_7 = irradianceConvolutionL2_4_5_7 * (CosineA2 / Mathf.PI);
+    public const float rrd_irradianceConvolutionL2_6 =     irradianceConvolutionL2_6 * (CosineA2 / Mathf.PI);
+    public const float rrd_irradianceConvolutionL2_8 =     irradianceConvolutionL2_8 * (CosineA2 / Mathf.PI);
+
+    // Used for L1 light probes and volumes
+    public const float convL0 = 1;
+    public const float convL1 = 0.9f; // approx convolution
+
+    // More properly convolved version
+    const float SqrtPi = 1.7724538509055159f;//Mathf.Sqrt(Mathf.PI);
+    const float BasisL0 = 1.0f / (2.0f * SqrtPi);
+    const float BasisL1 = 1.7320508075688772f / (2.0f * SqrtPi);// Mathf.Sqrt(3.0f) / (2.0f * SqrtPi);
+    public const float convL0b = BasisL0 * (CosineA0 / Mathf.PI);
+    public const float convL1b = BasisL1 * (CosineA1 / Mathf.PI);
+
+    public const bool APVL1ToL2 = false;
+
+    // Calculate multiple point lights in one pass. No reason to disable it, unless there is a bug.
+    public static bool batchPointLights = true;
+
+    public static bool batchAreaLights = true;
+
+#if UNITY_2017_3_OR_NEWER
+    public const int sectorFarSphereResolution = 256;
+#else
+    // older version can't handle 32 bit meshes
+    public const int sectorFarSphereResolution = 64;
+#endif
+
+    public const int volumeSceneLODLevel = -1;
+
+    public const int clampLightmapSize = 32000;
+
+    // Terminate lightmapping jobs immediately, without waiting for them to finish a tile.
+    // Originally during development it was noted that abpruptly terminating it could randomly cause a driver crash, thus it waits for the kernel to finish and quits "gracefully".
+    public const bool terminateImmediately = false;
+
+    // Skip objects with EditorOnly tag?
+    public const bool skipEditorOnly = true;
+
+/*
+    Following settings are moved to Project Settings
+    (on >= 2018.3; you can also edit BakeryProjectSettings.asset directly)
+
+    // Use PNG instead of TGA for shadowmasks, directions and L1 maps
+    public const bool preferPNG = false;
+
+    // Padding values for atlas packers
+    public const int texelPaddingForDefaultAtlasPacker = 3;
+    public const int texelPaddingForXatlasAtlasPacker = 1;
+
+    // Scales resolution for alpha Meta Pass maps
+    public const int alphaMetaPassResolutionMultiplier = 2;
+
+    // Render mode for all volumes in the scene. Defaults to Auto, which uses global scene render mode.
+    public const BakeryLightmapGroup.RenderMode volumeRenderMode = BakeryLightmapGroup.RenderMode.Auto;
+
+    // Should previously rendered Bakery lightmaps be deleted before the new bake?
+    // Turned off by default because I'm scared of deleting anything
+    public const bool deletePreviousLightmapsBeforeBake = false;
+
+    // Print information about the bake process to console?
+    public enum LogLevel
+    {
+        Nothing = 0,
+        Info = 1,   // print to Debug.Log
+        Warning = 2 // print to Debug.LogWarning
+    }
+    public const LogLevel logLevel = LogLevel.Info | LogLevel.Warning;
+
+    // Make it work more similar to original Unity behaviour
+    public const bool alternativeScaleInLightmap = false;
+
+    // Should we adjust sample positions to prevent incorrect shadowing on very low-poly meshes with smooth normals?
+    public const bool generateSmoothPos = true;
+*/
+}

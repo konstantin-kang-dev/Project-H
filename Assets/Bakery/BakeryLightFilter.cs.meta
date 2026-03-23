@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 38130e0ca8915b349b67c7469b746dc1
+timeCreated: 1526382158
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Bakery/BakeryLightFilter.cs
+  uploadId: 838814

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4403836409104258816}
   - component: {fileID: 4331468267522503848}
   - component: {fileID: 6975277446223715759}
+  - component: {fileID: 6737769928909770529}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -45,7 +46,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.7882353, b: 0.3019608, a: 1}
   m_Intensity: 127.32395
-  m_Range: 2
+  m_Range: 1.5
   m_SpotAngle: 90.330505
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -83,7 +84,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -93,7 +94,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0.5
+  m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 0
   m_LuxAtDistance: 1
@@ -121,6 +122,11 @@ MonoBehaviour:
   m_ShapeWidth: -1
   m_ShapeHeight: -1
   m_AspectRatio: -1
+  m_Version: 14
+  m_ObsoleteShadowResolutionTier: 1
+  m_ObsoleteUseShadowQualitySettings: 0
+  m_ObsoleteCustomShadowResolution: 512
+  m_ObsoleteContactShadows: 0
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 2
@@ -129,7 +135,7 @@ MonoBehaviour:
   m_AffectDiffuse: 1
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
-  m_ShapeRadius: 0.5
+  m_ShapeRadius: 0
   m_SoftnessScale: 1
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
@@ -235,11 +241,42 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
-  m_Version: 14
-  m_ObsoleteShadowResolutionTier: 1
-  m_ObsoleteUseShadowQualitySettings: 0
-  m_ObsoleteCustomShadowResolution: 512
-  m_ObsoleteContactShadows: 0
+--- !u!114 &6737769928909770529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2279322157790219152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f24a4aaa0761b45ba25e7e5108e2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
+  UID: 961572495
+  color: {r: 1, g: 0.7712648, b: 0.3017371, a: 1}
+  intensity: 40.528473
+  shadowSpread: 0.05
+  cutoff: 1.5
+  realisticFalloff: 1
+  legacySampling: 1
+  samples: 8
+  projMode: 0
+  cookie: {fileID: 0}
+  angle: 90.330505
+  innerAngle: -1
+  cubemap: {fileID: 0}
+  iesFile: {fileID: 0}
+  bitmask: 1
+  bakeToIndirect: 0
+  shadowmask: 0
+  shadowmaskFalloff: 0
+  indirectIntensity: 1
+  falloffMinRadius: 0.01
+  shadowmaskGroupID: 0
+  correctCookieDistortion: 0
+  directionMode: 0
+  maskChannel: 0
 --- !u!1 &5244292058920935899
 GameObject:
   m_ObjectHideFlags: 0

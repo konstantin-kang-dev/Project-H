@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 51cc3ba6878eeff4092a03c1c7fdea61
+timeCreated: 1766244002
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/lmBatchPointLightRNM.ptx
+  uploadId: 838814

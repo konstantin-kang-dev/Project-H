@@ -313,6 +313,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractiveFurniture_17
       objectReference: {fileID: 0}
+    - target: {fileID: 29928329831972504, guid: 7eadc689c9143f243878fb6e0d57c9f8, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3567658443197597925, guid: 7eadc689c9143f243878fb6e0d57c9f8, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7670056260051871420, guid: 7eadc689c9143f243878fb6e0d57c9f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -352,6 +360,10 @@ PrefabInstance:
     - target: {fileID: 7670056260051871420, guid: 7eadc689c9143f243878fb6e0d57c9f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357330487488276848, guid: 7eadc689c9143f243878fb6e0d57c9f8, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

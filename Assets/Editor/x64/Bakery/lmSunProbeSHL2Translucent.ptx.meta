@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dad9ee66854374d4c86f0662ad9530f3
+timeCreated: 1757454518
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/lmSunProbeSHL2Translucent.ptx
+  uploadId: 838814

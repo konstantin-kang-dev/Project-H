@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0c40eeafbe730ec44b81b21ca55782b4
+timeCreated: 1757510341
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/lambert_arealightTranslucent.ptx
+  uploadId: 838814

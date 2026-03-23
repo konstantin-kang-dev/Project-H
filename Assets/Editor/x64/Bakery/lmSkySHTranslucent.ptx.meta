@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1efdfe8b9e1b91b47934d169b2ec4478
+timeCreated: 1757460580
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/lmSkySHTranslucent.ptx
+  uploadId: 838814

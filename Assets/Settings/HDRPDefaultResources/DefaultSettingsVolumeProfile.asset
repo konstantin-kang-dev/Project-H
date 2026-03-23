@@ -288,6 +288,25 @@ MonoBehaviour:
   m_Name: VolumetricClouds
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.VolumetricClouds
   active: 1
+  m_Version: 3
+  localClouds:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteWindSpeed:
+    m_OverrideState: 1
+    m_Value: 1
+  m_ObsoleteOrientation:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteShapeOffsetX:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteShapeOffsetY:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteShapeOffsetZ:
+    m_OverrideState: 1
+    m_Value: 0
   enable:
     m_OverrideState: 1
     m_Value: 0
@@ -570,25 +589,6 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   shadowOpacityFallback:
-    m_OverrideState: 1
-    m_Value: 0
-  m_Version: 3
-  localClouds:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteWindSpeed:
-    m_OverrideState: 1
-    m_Value: 1
-  m_ObsoleteOrientation:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteShapeOffsetX:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteShapeOffsetY:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteShapeOffsetZ:
     m_OverrideState: 1
     m_Value: 0
 --- !u!114 &-6474959069370733338
@@ -1027,6 +1027,8 @@ MonoBehaviour:
   - {fileID: -7938717740922220540}
   - {fileID: 6521630931971459909}
   - {fileID: 2893381870432575967}
+  - {fileID: 4990445946306825291}
+  - {fileID: 5600294275957210159}
 --- !u!114 &221821803262106455
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1233,6 +1235,19 @@ MonoBehaviour:
   includeSunInBaking:
     m_OverrideState: 1
     m_Value: 0
+  m_SkyVersion: 1
+  enableDistortion:
+    m_OverrideState: 1
+    m_Value: 0
+  procedural:
+    m_OverrideState: 1
+    m_Value: 1
+  scrollDirection:
+    m_OverrideState: 1
+    m_Value: 0
+  m_ObsoleteScrollSpeed:
+    m_OverrideState: 1
+    m_Value: 1
   hdriSky:
     m_OverrideState: 1
     m_Value: {fileID: 0}
@@ -1304,19 +1319,6 @@ MonoBehaviour:
   rectLightShadow:
     m_OverrideState: 1
     m_Value: 0
-  m_SkyVersion: 1
-  enableDistortion:
-    m_OverrideState: 1
-    m_Value: 0
-  procedural:
-    m_OverrideState: 1
-    m_Value: 1
-  scrollDirection:
-    m_OverrideState: 1
-    m_Value: 0
-  m_ObsoleteScrollSpeed:
-    m_OverrideState: 1
-    m_Value: 1
 --- !u!114 &558124134086366301
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1360,6 +1362,16 @@ MonoBehaviour:
   includeSunInBaking:
     m_OverrideState: 1
     m_Value: 0
+  m_SkyVersion: 3
+  m_ObsoleteEarthPreset:
+    m_OverrideState: 1
+    m_Value: 1
+  planetaryRadius:
+    m_OverrideState: 1
+    m_Value: 6378100
+  planetCenterPosition:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: -6378100, z: 0}
   type:
     m_OverrideState: 1
     m_Value: 1
@@ -1450,16 +1462,6 @@ MonoBehaviour:
   horizonZenithShift:
     m_OverrideState: 1
     m_Value: 0
-  m_SkyVersion: 3
-  m_ObsoleteEarthPreset:
-    m_OverrideState: 1
-    m_Value: 1
-  planetaryRadius:
-    m_OverrideState: 1
-    m_Value: 6378100
-  planetCenterPosition:
-    m_OverrideState: 1
-    m_Value: {x: 0, y: -6378100, z: 0}
 --- !u!114 &1501199423866068322
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1547,6 +1549,7 @@ MonoBehaviour:
   m_Name: VisualEnvironment
   m_EditorClassIdentifier: 
   active: 1
+  m_Version: 1
   skyType:
     m_OverrideState: 1
     m_Value: 4
@@ -1577,7 +1580,6 @@ MonoBehaviour:
   fogType:
     m_OverrideState: 1
     m_Value: 0
-  m_Version: 1
 --- !u!114 &2079935287137867456
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1867,6 +1869,22 @@ MonoBehaviour:
   balance:
     m_OverrideState: 1
     m_Value: 0
+--- !u!114 &4990445946306825291
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4ca3f87079ba246a93410400bb24c4, type: 3}
+  m_Name: ChromaKeying
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.Compositor.ChromaKeying
+  active: 1
+  activate:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!114 &5315503232242033309
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -2018,6 +2036,19 @@ MonoBehaviour:
   proceduralSoftness:
     m_OverrideState: 1
     m_Value: 0.5
+--- !u!114 &5600294275957210159
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da907761ad48a684aa45e5dc639d9304, type: 3}
+  m_Name: AlphaInjection
+  m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.Compositor.AlphaInjection
+  active: 1
 --- !u!114 &6030328860816335566
 MonoBehaviour:
   m_ObjectHideFlags: 3
