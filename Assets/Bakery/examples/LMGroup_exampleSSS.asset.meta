@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6ae4c8f1f2578e04385e62102de2869d
+timeCreated: 1637674399
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Bakery/examples/LMGroup_exampleSSS.asset
+  uploadId: 838814

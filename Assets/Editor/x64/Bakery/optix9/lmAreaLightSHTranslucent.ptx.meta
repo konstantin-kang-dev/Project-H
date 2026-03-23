@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 47550908fb09a764499b21164c52fbc6
+timeCreated: 1765627719
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/lmAreaLightSHTranslucent.ptx
+  uploadId: 838814

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c0c1616291c3a134fb51eb9dd789f2fe
+timeCreated: 1734822797
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/attrib_trimeshTexLOD.ptx
+  uploadId: 838814

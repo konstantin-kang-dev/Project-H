@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 91f095ea9d4516a4fbefbc97800750e0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/scripts/ECS/ftECSCompat.cs
+  uploadId: 838814

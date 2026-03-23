@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 35107685297060381}
   - component: {fileID: 606157301636549392}
   - component: {fileID: 6288513455683339724}
-  - component: {fileID: 5147097801321656088}
+  - component: {fileID: 5190226090768625268}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -206,7 +206,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0.025
+  m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 0
   m_LuxAtDistance: 1
@@ -234,6 +234,11 @@ MonoBehaviour:
   m_ShapeWidth: -1
   m_ShapeHeight: -1
   m_AspectRatio: -1
+  m_Version: 14
+  m_ObsoleteShadowResolutionTier: 1
+  m_ObsoleteUseShadowQualitySettings: 0
+  m_ObsoleteCustomShadowResolution: 512
+  m_ObsoleteContactShadows: 0
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
@@ -242,7 +247,7 @@ MonoBehaviour:
   m_AffectDiffuse: 1
   m_AffectSpecular: 1
   m_NonLightmappedOnly: 0
-  m_ShapeRadius: 0.025
+  m_ShapeRadius: 0
   m_SoftnessScale: 1
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
@@ -348,12 +353,7 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
-  m_Version: 14
-  m_ObsoleteShadowResolutionTier: 1
-  m_ObsoleteUseShadowQualitySettings: 0
-  m_ObsoleteCustomShadowResolution: 512
-  m_ObsoleteContactShadows: 0
---- !u!114 &5147097801321656088
+--- !u!114 &5190226090768625268
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,17 +362,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 8674212508952926160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4c3cff293b65184797873ca70d863dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 57f24a4aaa0761b45ba25e7e5108e2c7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LaggingLamp
-  _light: {fileID: 606157301636549392}
-  _enableToggle: 0
-  _minToggleInterval: 0.5
-  _maxToggleInterval: 2
-  _minLagInterval: 0.1
-  _maxLagInterval: 0.1
-  _minLagIntensity: 0.8
-  _maxLagIntensity: 1
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryPointLight
+  UID: 693774688
+  color: {r: 1, g: 0.97847027, b: 0.9992592, a: 1}
+  intensity: 77.41179
+  shadowSpread: 0.05
+  cutoff: 10
+  realisticFalloff: 1
+  legacySampling: 1
+  samples: 8
+  projMode: 4
+  cookie: {fileID: 2800000, guid: 3a66602b8cc7fdd4ab57d07b4176432b, type: 3}
+  angle: 105.20488
+  innerAngle: -1
+  cubemap: {fileID: 0}
+  iesFile: {fileID: 0}
+  bitmask: 1
+  bakeToIndirect: 0
+  shadowmask: 0
+  shadowmaskFalloff: 0
+  indirectIntensity: 1
+  falloffMinRadius: 0.01
+  shadowmaskGroupID: 0
+  correctCookieDistortion: 0
+  directionMode: 0
+  maskChannel: 0
 --- !u!1001 &8830914958403155877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -424,6 +440,10 @@ PrefabInstance:
     - target: {fileID: 1718937846997711595, guid: 587b4b8e6dbf27a45ba3e9dcaa74a83a, type: 3}
       propertyPath: m_Name
       value: TableLamp2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718937846997711595, guid: 587b4b8e6dbf27a45ba3e9dcaa74a83a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1718937846999901227, guid: 587b4b8e6dbf27a45ba3e9dcaa74a83a, type: 3}
       propertyPath: m_RayTracingMode

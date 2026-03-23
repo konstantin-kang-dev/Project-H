@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8cb96458dedade44292e629bd466e9e6
+timeCreated: 1757536766
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/lmTexGIdirTranslucent.ptx
+  uploadId: 838814

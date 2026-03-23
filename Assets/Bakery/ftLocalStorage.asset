@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ca84e725c7c764aa5ed097918d14b7, type: 3}
+  m_Name: ftLocalStorage
+  m_EditorClassIdentifier: BakeryRuntimeAssembly::ftLocalStorage
+  modifiedAssetPathList:
+  - Assets/Bakery/examples/content/sponza/sponza.FBX
+  - Assets/!Project/Third-party-assets/Survival Kit/floor-old.fbx
+  - Assets/!Project/Third-party-assets/Pirate Kit/platform.fbx
+  - Assets/LowPolyInterior/Models/Floor/Floor_01.fbx
+  - Assets/LowPolyInterior/Models/Walls/WallFloor1_01.fbx
+  - Assets/LowPolyInterior/Models/Floor/Floor_06.fbx
+  - Assets/LowPolyInterior/Models/Walls/WallFloor2_10.fbx
+  - Assets/!Project/Third-party-assets/Building Kit/barricade-doorway-b.fbx
+  - Assets/!Project/Third-party-assets/Survival Kit/floor-hole.fbx
+  - Assets/LowPolyInterior/Models/Walls/WallFloor1_04.fbx
+  modifiedAssetPaddingHash: d6a958ff797e93635dc5d89014f33a064adc894b14f33a06af67e2a81b3a80333f3fd3d91b3a8033

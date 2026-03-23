@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 0fc9bcea257a2fc468814ffb8b0f3c9a
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/scripts/APV/ftAPVBaker.cs
+  uploadId: 838814

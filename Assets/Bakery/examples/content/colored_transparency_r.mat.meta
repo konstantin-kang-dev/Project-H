@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a23d46a3b2f69b34180d344974cc9e1d
+timeCreated: 1757360829
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Bakery/examples/content/colored_transparency_r.mat
+  uploadId: 838814

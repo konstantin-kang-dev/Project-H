@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 81eb8822e803fa047aeaa1a0728d6c7a
+timeCreated: 1757284587
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/clip_rtx_translucent.ptx
+  uploadId: 838814

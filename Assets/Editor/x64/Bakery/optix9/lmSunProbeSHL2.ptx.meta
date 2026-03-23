@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fc209b83344327147878b25c52598b49
+timeCreated: 1765543434
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/lmSunProbeSHL2.ptx
+  uploadId: 838814

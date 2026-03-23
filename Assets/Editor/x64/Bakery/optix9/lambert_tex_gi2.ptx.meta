@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 97af1589d70b0cd4f9b5967df5be1a1e
+timeCreated: 1765543434
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/lambert_tex_gi2.ptx
+  uploadId: 838814

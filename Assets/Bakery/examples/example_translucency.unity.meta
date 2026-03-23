@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1ee677dc0dac9ef418f5d4a6383b4ece
+timeCreated: 1758560628
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Bakery/examples/example_translucency.unity
+  uploadId: 838814

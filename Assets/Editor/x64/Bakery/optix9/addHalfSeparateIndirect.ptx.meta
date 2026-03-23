@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: aa19402ba85dcd241ae909161efb299b
+timeCreated: 1765669197
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 122218
+  packageName: Bakery - GPU Lightmapper
+  packageVersion: 1.98
+  assetPath: Assets/Editor/x64/Bakery/optix9/addHalfSeparateIndirect.ptx
+  uploadId: 838814
