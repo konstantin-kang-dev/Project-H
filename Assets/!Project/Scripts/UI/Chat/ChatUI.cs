@@ -30,8 +30,8 @@ public class ChatUI : MonoBehaviour
     {
         ChatManager.Instance.OnChatMessageAdded += HandleChatMessageAdd;
         _chatInput.onSubmit.AddListener(HandleChatInputSend);
-        _chatInput.onSelect.AddListener(HandleOpenChat);
-        _chatInput.onDeselect.AddListener(HandleCloseChat);
+        _chatInput.onSelect.AddListener(HandleInputSelect);
+        _chatInput.onDeselect.AddListener(HandleInputDeselect);
         _chatInput.onValueChanged.AddListener(HandleTextInput);
 
         GlobalInputManager.Input.OnOpenChat += HandleOpenChatPressed;
@@ -48,8 +48,8 @@ public class ChatUI : MonoBehaviour
         }
 
         _chatInput.onSubmit.RemoveListener(HandleChatInputSend);
-        _chatInput.onSelect.RemoveListener(HandleOpenChat);
-        _chatInput.onDeselect.RemoveListener(HandleCloseChat);
+        _chatInput.onSelect.RemoveListener(HandleInputSelect);
+        _chatInput.onDeselect.RemoveListener(HandleInputDeselect);
         _chatInput.onValueChanged.RemoveListener(HandleTextInput);
 
         GlobalInputManager.Input.OnOpenChat -= HandleOpenChatPressed;
@@ -104,12 +104,22 @@ public class ChatUI : MonoBehaviour
         _chatInput.Select();
     }
 
+    void HandleInputSelect(string input)
+    {
+        GlobalInputManager.Input.SetLock(true);
+        HandleOpenChat(input);
+    }
+
+    void HandleInputDeselect(string input)
+    {
+        GlobalInputManager.Input.SetLock(false);
+        HandleCloseChat(input);
+    }
+
     void HandleOpenChatPressed()
     {
         _chatInput.Select();
         _chatInput.ActivateInputField();
-
-        HandleOpenChat();
     }
 
     void HandleOpenChat(string value = "")
@@ -120,7 +130,6 @@ public class ChatUI : MonoBehaviour
         _canvasGroup.DOFade(1f, 0.2f);
         _isChatOpened = true;
 
-        GlobalInputManager.Input.SetLock(true);
     }
 
     void HandleCloseChat(string value = "")
