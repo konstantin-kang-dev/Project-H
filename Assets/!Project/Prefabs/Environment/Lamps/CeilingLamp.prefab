@@ -30,6 +30,7 @@ Transform:
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8228566403505804373}
   - {fileID: 5635418533726154956}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72,7 +73,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5635418533726154956
 Transform:
@@ -196,12 +197,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5762532839696000521}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.3526001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1765128400691184503}
+  m_Father: {fileID: 3813943395813302364}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &1826129556047278122
 Light:
@@ -215,7 +216,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.7526883, b: 0.39757407, a: 1}
   m_Intensity: 223.14021
-  m_Range: 2.5
+  m_Range: 3
   m_SpotAngle: 179
   m_InnerSpotAngle: 55.69005
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -462,7 +463,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &8640656779002838510
 Transform:
@@ -554,7 +555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
       propertyPath: m_RootOrder
@@ -614,9 +615,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8640656779002838510}
-    - targetCorrespondingSourceObject: {fileID: 400000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8228566403505804373}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 3dc10c7486140ff4abd95de85a67abf8, type: 3}
       insertIndex: -1

@@ -447,7 +447,8 @@ MonoBehaviour:
   - Assets/Bakery/examples/content/floor_lamp.FBX
   - Assets/LowPolyInterior/Models/Floor/Floor_01.fbx
   - Assets/!Project/Third-party-assets/Prototype Kit/Models/FBX format/ladder.fbx
-  uvOverlapAssetList: 00000000ffffffff0000000000000000
+  - Assets/!Project/Models/Items/OilLamp/Oil Lamp.fbx
+  uvOverlapAssetList: 00000000ffffffff000000000000000001010000
   xatlasWarningShown: 0
   foundCompatibleSetup: 1
   gpuName_2: NVIDIA GeForce RTX 4070 Ti

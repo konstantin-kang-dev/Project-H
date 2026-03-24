@@ -7,6 +7,7 @@
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.rlabrecque.steamworks.net": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net",
     "com.unity.2d.sprite": "1.0.0",
+    "com.unity.ai.navigation": "2.0.12",
     "com.unity.animation.rigging": "1.4.1",
     "com.unity.cinemachine": "3.1.6",
     "com.unity.collab-proxy": "2.11.4",

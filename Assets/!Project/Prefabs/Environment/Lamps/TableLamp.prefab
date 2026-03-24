@@ -84,7 +84,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -370,6 +370,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1507767883509144192, guid: 7a08586a10edf9e4385df5301209b15b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3566390031902043909, guid: 7a08586a10edf9e4385df5301209b15b, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -377,6 +381,10 @@ PrefabInstance:
     - target: {fileID: 3566390031902043909, guid: 7a08586a10edf9e4385df5301209b15b, type: 3}
       propertyPath: m_RayTracingMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779745573541866595, guid: 7a08586a10edf9e4385df5301209b15b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

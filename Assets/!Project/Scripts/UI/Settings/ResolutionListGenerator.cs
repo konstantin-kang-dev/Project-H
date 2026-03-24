@@ -22,11 +22,11 @@ public class ResolutionListGenerator : MonoBehaviour
         {
             string stringRes = $"{resolution.width}x{resolution.height}";
 
-            Debug.Log($"[ResolutionListGenerator] Added resolution: {stringRes}.");
+            //Debug.Log($"[ResolutionListGenerator] Added resolution: {stringRes}.");
             _selectorValues.Add(stringRes);
         }
 
         _valueSelectorUI.SetValues(_selectorValues);
-        Debug.Log($"[ResolutionListGenerator] Setup resolutions list finished. Total: {_selectorValues.Count}");
+        //Debug.Log($"[ResolutionListGenerator] Setup resolutions list finished. Total: {_selectorValues.Count}");
     }
 }

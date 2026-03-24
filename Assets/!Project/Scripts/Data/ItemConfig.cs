@@ -12,6 +12,7 @@ public enum ItemType
     BedroomKey = 1,
     StorageKey = 2,
     ExitKey = 3,
+    OilLamp = 4,
 }
 
 [CreateAssetMenu(fileName = "ItemConfig", menuName = "GameData/ItemConfig")]
