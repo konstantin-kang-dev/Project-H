@@ -196,4 +196,14 @@ public class GraphicsManager
             };
         }
     }
+
+    public static Resolution GetMaxResolution()
+    {
+        return AvailableResolutions[AvailableResolutions.Length - 1];
+    }
+
+    public static int GetMaxResolutionKey()
+    {
+        return AvailableResolutions.Length - 1;
+    }
 }

@@ -60,7 +60,8 @@ namespace Saves
         {
             ScreenWidth = Screen.width;
             ScreenHeight = Screen.height;
-            ResolutionMode = 0;
+            
+            ResolutionMode = GraphicsManager.GetMaxResolutionKey();
             ShadowsQuality = GraphicsQuality.Medium;
             LightingQuality = GraphicsQuality.Medium;
             AntiAliasingEnabled = true;
