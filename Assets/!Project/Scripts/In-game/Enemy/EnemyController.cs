@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using GameAudio;
 using System;
 using UnityEngine;
@@ -23,7 +24,8 @@ public class EnemyController : NetworkBehaviour
     [SerializeField] float _enemyDetectionHandlerInterval = 5f;
     float _lastTimeEnemyDetected = 0;
 
-    [SerializeField] EnemyState _currentState = EnemyState.None;
+    readonly SyncVar<EnemyState> _currentState = new SyncVar<EnemyState>();
+    public EnemyState CurrentState => _currentState.Value;
 
     public event Action<EnemyState> OnStateChange;
     public event Action<EnemyState> OnStateMachineUpdate;
@@ -33,7 +35,16 @@ public class EnemyController : NetworkBehaviour
     {
         base.OnStartClient();
 
+        _currentState.OnChange += CLIENT_HandleStateChange;
+
         Init(GameManager.Instance.GameDifficultyConfig.EnemyStats);
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        _currentState.Value = EnemyState.None;
     }
 
     public void Init(EnemyStatsConfig enemyStats)
@@ -91,17 +102,45 @@ public class EnemyController : NetworkBehaviour
     [Server]
     public void SERVER_SetState(EnemyState state)
     {
-        if(state == _currentState) return;
+        if(state == CurrentState) return;
 
-        _currentState = state;
+        _currentState.Value = state;
 
-        OnStateChange?.Invoke(_currentState);
+        OnStateChange?.Invoke(CurrentState);
+    }
+
+    [Client]
+    void CLIENT_HandleStateChange(EnemyState prev, EnemyState next, bool asServer)
+    {
+        switch (next)
+        {
+            case EnemyState.None:
+                break;
+            case EnemyState.Idle:
+                _characterAudioService.Play(CharacterAudioType.HeavyBreath);
+
+                break;
+            case EnemyState.Stranding:
+                _characterAudioService.Play(CharacterAudioType.HeavyBreath);
+
+                break;
+            case EnemyState.Following:
+                _characterAudioService.Play(CharacterAudioType.ChasingScream);
+                _characterAudioService.Play(CharacterAudioType.Detection);
+
+                break;
+            case EnemyState.Killing:
+                _characterAudioService.Play(CharacterAudioType.Jumpscare);
+
+                break;
+
+        }
     }
 
     [Server]
     void SERVER_ProcessStateMachine()
     {
-        switch (_currentState)
+        switch (CurrentState)
         {
             case EnemyState.Idle:
                 Vector3 originPos = transform.position;
@@ -128,14 +167,12 @@ public class EnemyController : NetworkBehaviour
                 break;
         }
 
-        OnStateMachineUpdate?.Invoke(_currentState);
+        OnStateMachineUpdate?.Invoke(CurrentState);
     }
 
     [Server]
     public async void SERVER_KillPlayer(Player player)
     {
-        RPC_NotifyPlayerKill(player.PlayerData.ClientId);
-
         _enemyMovementService.HandleKillPlayer(player); 
         _enemyVisuals.HandleKillPlayer(player);
         SERVER_SetState(EnemyState.Killing);
@@ -169,25 +206,12 @@ public class EnemyController : NetworkBehaviour
         _aggroController.ReleaseAggro();
     }
 
-    [ObserversRpc]
-    void RPC_NotifyPlayerKill(int playerClientId)
-    {
-        _characterAudioService.Play(CharacterAudioType.Jumpscare);
-
-    }
-
     void HandleAggro(Player player)
     {
         SERVER_SetState(EnemyState.Following);
         _enemyMovementService.SetTarget(player.transform);
-        RPC_NotifyPlayerAggro(player.PlayerData.ClientId);
     }
-    [ObserversRpc]
-    void RPC_NotifyPlayerAggro(int playerClientId)
-    {
-        _characterAudioService.Play(CharacterAudioType.ChasingScream);
-        _characterAudioService.Play(CharacterAudioType.Detection);
-    }
+
     void HandleAggroRelease()
     {
         SERVER_SetState(EnemyState.Idle);
