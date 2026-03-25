@@ -88,6 +88,11 @@ public class AggroController : MonoBehaviour
 
     void CheckForAggro()
     {
+        if (GameManager.Instance.GameState == GameState.Ended)
+        {
+            return;
+        }
+
         List<Player> allPlayers = GameManager.Instance.SERVER_Players.Values.ToList();
 
         allPlayers = allPlayers
@@ -125,6 +130,12 @@ public class AggroController : MonoBehaviour
 
     void CheckForAggroRelease()
     {
+        if(GameManager.Instance.GameState == GameState.Ended)
+        {
+            ReleaseAggro();
+            return;
+        }
+
         if(_aggroPlayer == null) return;
 
         if (_aggroTimer < _enemyStats.BlindFollowDuration) return;
@@ -134,7 +145,7 @@ public class AggroController : MonoBehaviour
         bool isCloseEnough = distanceAggroPoints >= _enemyStats.RequiredPointsToAggro;
         bool isVisible = IsVisibleForMe(_aggroPlayer.transform.position);
 
-        if ((!isCloseEnough && !isVisible))
+        if ((!isCloseEnough || !isVisible))
         {
             ReleaseAggro();
         }
