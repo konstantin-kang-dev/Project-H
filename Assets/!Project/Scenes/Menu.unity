@@ -11527,13 +11527,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680352765}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.261, y: 0.962, z: -7.67}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.135, y: 0.962, z: -3.639}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1752783515}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!73398921 &680352767
 VFXRenderer:
   serializedVersion: 1
@@ -11599,7 +11599,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 1
+      - m_Value: 2
         m_Name: ParticlesSize
         m_Overridden: 1
       - m_Value: 2
@@ -11608,9 +11608,15 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 4, y: 2, z: 8}
+        m_Name: Shape Size
+        m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1.4980394, y: 0.81801033, z: 0, w: 0}
+        m_Name: Emissive Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -35587,7 +35593,7 @@ MonoBehaviour:
   m_Version: 3
   parameters:
     albedo: {r: 1, g: 0.8323408, b: 0.5700808, a: 1}
-    meanFreePath: 250
+    meanFreePath: 150
     blendingMode: 1
     priority: 0
     anisotropy: 0
@@ -41278,13 +41284,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2040744176}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.057, y: 0.962, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1752783515}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!73398921 &2040744178
 VFXRenderer:
   serializedVersion: 1
@@ -41350,18 +41356,24 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 1
+      - m_Value: 2
         m_Name: ParticlesSize
         m_Overridden: 1
-      - m_Value: 3
+      - m_Value: 2
         m_Name: Alpha
         m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 7, y: 2, z: 6}
+        m_Name: Shape Size
+        m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 2.9960785, y: 1.6360205, z: 0, w: 0}
+        m_Name: Emissive Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:

@@ -63,6 +63,10 @@ public class BasicPickableItem : NetworkBehaviour, IPickable, IHintable, IOutlin
 
         _isPickedUp.Value = false;
 
+        if(_rb == null)
+        {
+            Debug.LogError($"Rb is null, {gameObject.name}", this);
+        }
         _rb.isKinematic = false;
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
         SetColliders(true);
