@@ -217,12 +217,10 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
-    public async void SERVER_EndGame(bool isWin)
+    public void SERVER_EndGame(bool isWin)
     {
         _gameState.Value = GameState.Ended;
         IsWin = isWin;
-
-        await UniTask.WaitForSeconds(2f);
 
         RPC_SendSessionDataToClients(SessionTimer, isWin);
     }
