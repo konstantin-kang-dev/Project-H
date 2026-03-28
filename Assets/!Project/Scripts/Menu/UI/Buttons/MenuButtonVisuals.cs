@@ -13,10 +13,12 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] Image _defaultBg;
 
     [SerializeField] TextMeshProUGUI _tmp;
+    [SerializeField] TextMeshProUGUI _extraTmp;
     [SerializeField] Color _tmpHoverColor;
     [SerializeField] Image _icon;
 
     Color _initialTmpColor;
+    Color _initialExtraTmpColor;
     Color _initialIconColor;
 
     [SerializeField] float _hoverAnimationDuration = 0.15f;
@@ -26,6 +28,11 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if(_tmp != null)
         {
             _initialTmpColor = _tmp.color;
+        }
+
+        if(_extraTmp != null)
+        {
+            _initialExtraTmpColor = _extraTmp.color;
         }
 
         if (_icon != null)
@@ -78,6 +85,12 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
             hoverEnterAnim.Join(tmpColorFade);
         }
 
+        if(_extraTmp != null)
+        {
+            Tween tmpColorFade = _extraTmp.DOColor(_tmpHoverColor, _hoverAnimationDuration);
+            hoverEnterAnim.Join(tmpColorFade);
+        }
+
 
         if(_icon != null)
         {
@@ -102,9 +115,15 @@ public class MenuButtonVisuals : MonoBehaviour, IPointerEnterHandler, IPointerEx
             hoverExitAnim.Join(tmpColorFade);
         }
 
+        if(_extraTmp != null)
+        {
+            Tween tmpColorFade = _extraTmp.DOColor(_initialExtraTmpColor, _hoverAnimationDuration);
+            hoverExitAnim.Join(tmpColorFade);
+        }
+
         if (_icon != null)
         {
-            Tween iconColorFade = _icon.DOColor(_initialTmpColor, _hoverAnimationDuration);
+            Tween iconColorFade = _icon.DOColor(_initialIconColor, _hoverAnimationDuration);
             hoverExitAnim.Join(iconColorFade);
         }
     }
