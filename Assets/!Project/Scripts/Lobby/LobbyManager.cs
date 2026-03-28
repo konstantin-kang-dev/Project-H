@@ -98,12 +98,20 @@ public class LobbyManager : NetworkBehaviour
 
         _lobbySlots.OnChange += HandleLobbySlotsChange;
 
-        NetworkGameManager.Instance.OnLocalClientConnected += HandleLocalClientConnected;
-        NetworkGameManager.Instance.OnLocalClientDisconnected += HandleLocalClientDisconnected;
+        _lobbyData.OnChange += HandleLobbyDataChanged;
 
         RPC_RequestSendPlayerData(SaveManager.GameSave.PlayerSave, ClientManager.Connection);
 
         OnReady?.Invoke();
+    }
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        _lobbySlots.OnChange -= HandleLobbySlotsChange;
+        _lobbyData.OnChange -= HandleLobbyDataChanged;
+
+        OnClear?.Invoke();
     }
 
     private void HandleLobbySlotsChange(SyncDictionaryOperation op, int key, LobbySlot value, bool asServer)
@@ -127,26 +135,6 @@ public class LobbyManager : NetworkBehaviour
         _lobbySlotsPoints[slotKey].gameObject.SetActive(value);
     }
 
-    public override void OnStopClient()
-    {
-        base.OnStopClient();
-
-        _lobbySlots.OnChange -= HandleLobbySlotsChange;
-        NetworkGameManager.Instance.OnLocalClientConnected -= HandleLocalClientConnected;
-        NetworkGameManager.Instance.OnLocalClientDisconnected -= HandleLocalClientDisconnected;
-
-        OnClear?.Invoke();
-    }
-
-    void HandleLocalClientConnected()
-    {
-        _lobbyData.OnChange += HandleLobbyDataChanged;
-    }
-
-    void HandleLocalClientDisconnected()
-    {
-        _lobbyData.OnChange -= HandleLobbyDataChanged;
-    }
 
     [Server]
     void SERVER_HandleClientConnected(NetworkConnection conn)

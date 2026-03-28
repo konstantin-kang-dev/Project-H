@@ -79,6 +79,8 @@ public class LobbyUI : BasicCustomWindow
         {
             _difficultyToggleGroup.SetValue((int)lobbyData.ChosenDifficulty);
         }
+
+
     }
 
     void HandleClickReadyBtn(ToggleButton toggleButton)
