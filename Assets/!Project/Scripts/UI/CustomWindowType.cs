@@ -11,5 +11,5 @@ public enum CustomWindowType
     Settings = 3,
     GameMenu = 4,
     GameplayUI = 5,
-
+    Contacts = 6,
 }

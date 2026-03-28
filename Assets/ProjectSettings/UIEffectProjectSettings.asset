@@ -41,6 +41,24 @@ ShaderVariantCollection:
         passType: 0
       - keywords: DETAIL_ADDITIVE
         passType: 0
+      - keywords: DETAIL_ADDITIVE SAMPLING_BLUR_FAST
+        passType: 0
+      - keywords: DETAIL_ADDITIVE SAMPLING_BLUR_MEDIUM
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_BLAZE
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_BURN
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_CUTOFF
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_DISSOLVE
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_MELT
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_PATTERN
+        passType: 0
+      - keywords: DETAIL_ADDITIVE TRANSITION_SHINY
+        passType: 0
       - keywords: DETAIL_MASKING
         passType: 0
       - keywords: DETAIL_MASKING SAMPLING_BLUR_FAST
@@ -58,6 +76,8 @@ ShaderVariantCollection:
       - keywords: EDGE_PLAIN
         passType: 0
       - keywords: EDGE_SHINY
+        passType: 0
+      - keywords: EDGE_SHINY SAMPLING_BLUR_DETAIL
         passType: 0
       - keywords: GRADATION_COLOR2 SAMPLING_BLUR_FAST
         passType: 0
@@ -78,6 +98,8 @@ ShaderVariantCollection:
       - keywords: SAMPLING_EDGE_ALPHA
         passType: 0
       - keywords: SAMPLING_EDGE_LUMINANCE
+        passType: 0
+      - keywords: SAMPLING_EDGE_LUMINANCE TONE_NEGATIVE
         passType: 0
       - keywords: SAMPLING_PIXELATION
         passType: 0

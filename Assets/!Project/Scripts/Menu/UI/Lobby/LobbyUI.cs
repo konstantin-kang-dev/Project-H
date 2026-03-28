@@ -7,8 +7,6 @@ using Zenject;
 
 public class LobbyUI : BasicCustomWindow
 {
-    [SerializeField] BasicWindowVisuals _visuals;
-
     [SerializeField] ChatUI _lobbyChatUI;
 
     [SerializeField] ToggleGroup _difficultyToggleGroup;

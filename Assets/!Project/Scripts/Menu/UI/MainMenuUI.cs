@@ -34,6 +34,7 @@ public class MainMenuUI : BasicCustomWindow
                     button.onClick.AddListener(HandleJoinLobbyButton);
                     break;
                 case MenuButtonType.Contacts:
+                    button.onClick.AddListener(HandleContactsButton);
                     break;
                 case MenuButtonType.Settings:
                     button.onClick.AddListener(HandleSettingsButton);
@@ -58,6 +59,10 @@ public class MainMenuUI : BasicCustomWindow
     void HandleJoinLobbyButton()
     {
         WindowsNavigator.Instance.OpenWindow(CustomWindowType.LobbiesOverview);
+    }
+    void HandleContactsButton()
+    {
+        WindowsNavigator.Instance.OpenWindow(CustomWindowType.Contacts);
     }
     void HandleSettingsButton()
     {
