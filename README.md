@@ -1,6 +1,6 @@
 # Daylight Dread
 
-![Banner](GitHubAssets/Daylight Dread Banner.jpg)
+![Banner](GitHubAssets/Banner.jpg)
 
 Daylight Dread is a co-op horror game for 1–4 players. You're trapped in a massive wooden house drifting high above the clouds. Scatter across the rooms, find the objectives, and get out — before it finds you.
 
