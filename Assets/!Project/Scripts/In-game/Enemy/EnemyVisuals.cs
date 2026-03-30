@@ -13,7 +13,7 @@ public class EnemyVisuals : NetworkBehaviour
     public CharacterAnimatorController AnimatorController;
 
     float _headRotationTimer = 0f;
-    float _headRotationInterval = 2f;
+    float _headRotationInterval = 1f;
 
     readonly SyncVar<AnimatorState> _currentAnimatorState = new SyncVar<AnimatorState>();
 
@@ -116,7 +116,7 @@ public class EnemyVisuals : NetworkBehaviour
     {
         _headRotationTimer = 0f;
 
-        Vector3 randomPosInCone = ProjectUtils.RandomPositionInRectangle(transform.position, transform.forward, 7f, 13f, 0.5f);
+        Vector3 randomPosInCone = ProjectUtils.RandomPositionInRectangle(transform.position, transform.forward, 8f, 13f, 0.6f);
         SERVER_SetLookPosition(randomPosInCone);
     }
 
