@@ -116,7 +116,7 @@ public class EnemyVisuals : NetworkBehaviour
     {
         _headRotationTimer = 0f;
 
-        Vector3 randomPosInCone = ProjectUtils.RandomPositionInRectangle(transform.position, transform.forward, 8f, 13f, 0.6f);
+        Vector3 randomPosInCone = ProjectUtils.RandomPositionInRectangle(transform.position, transform.forward, 7f, 14f, 0.7f);
         SERVER_SetLookPosition(randomPosInCone);
     }
 
