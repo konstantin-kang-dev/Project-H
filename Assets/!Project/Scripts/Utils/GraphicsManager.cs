@@ -52,6 +52,12 @@ public class GraphicsManager
             }
         }
 
+        LocalVolumetricFog[] localVolumetricFogs = GameObject.FindObjectsByType<LocalVolumetricFog>(FindObjectsSortMode.None);
+        foreach (var localVolumetricFog in localVolumetricFogs)
+        {
+            ApplyLocalVolumetricFogSettings(localVolumetricFog);
+        }
+
         _globalVolume = Object.FindFirstObjectByType<Volume>();
         ApplyPostProcessSettings(RelevantGraphicsSave);
         ApplyShadowSettings(RelevantGraphicsSave);
@@ -88,6 +94,19 @@ public class GraphicsManager
                 break;
         }
         Debug.Log($"[GraphicsManager] Enabled Upscale: {RelevantGraphicsSave.UpscaleType} FSR2 Quality: {hdData.fidelityFX2SuperResolutionQuality} DLSS Quality:{hdData.deepLearningSuperSamplingQuality}");
+    }
+
+    public static void ApplyLocalVolumetricFogSettings(LocalVolumetricFog localVolumetricFog)
+    {
+        localVolumetricFog.parameters.meanFreePath = RelevantGraphicsSave.LightingQuality switch
+        {
+            GraphicsQuality.Low => 400,
+            GraphicsQuality.Medium => 300,
+            GraphicsQuality.High => 250,
+            GraphicsQuality.Ultra => 200,
+            GraphicsQuality.Crazy => 170,
+            _ => 250
+        };
     }
 
     public static void ApplyPostProcessSettings(GraphicsSave save)
@@ -166,33 +185,32 @@ public class GraphicsManager
 
         if (_globalVolume.profile.TryGet<Fog>(out var fog))
         {
+            fog.enableVolumetricFog.value = save.LightingQuality >= GraphicsQuality.Medium;
 
             fog.volumetricFogBudget = save.LightingQuality switch
             {
-                GraphicsQuality.Low => 0.1f,
-                GraphicsQuality.Medium => 0.12f,
-                GraphicsQuality.High => 0.15f,
-                GraphicsQuality.Ultra => 0.2f,
-                GraphicsQuality.Crazy => 0.25f,
-                _ => 0.15f
+                GraphicsQuality.High => 0.12f,
+                GraphicsQuality.Ultra => 0.18f,
+                GraphicsQuality.Crazy => 0.27f,
+                _ => 0.12f
             };
 
         }
 
         if (_globalVolume.profile.TryGet<ScreenSpaceAmbientOcclusion>(out var ao))
         {
-            ao.active = save.LightingQuality != GraphicsQuality.Low;
+            ao.active = save.LightingQuality >= GraphicsQuality.Medium;
             ao.intensity.overrideState = true;
             ao.intensity.value = 1f;
             ao.quality.overrideState = true;
             ao.quality.value = save.LightingQuality switch
             {
                 GraphicsQuality.Low => 0,
-                GraphicsQuality.Medium => 0,
-                GraphicsQuality.High => 0,
-                GraphicsQuality.Ultra => 0,
+                GraphicsQuality.Medium => 1,
+                GraphicsQuality.High => 1,
+                GraphicsQuality.Ultra => 1,
                 GraphicsQuality.Crazy => 1,
-                _ => 0
+                _ => 1
             };
         }
     }

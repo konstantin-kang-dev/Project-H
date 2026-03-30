@@ -12677,6 +12677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 701192407}
   - component: {fileID: 701192406}
+  - component: {fileID: 701192408}
   m_Layer: 0
   m_Name: VolumetricFog
   m_TagString: Untagged
@@ -12736,6 +12737,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1449466734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &701192408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701192405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a3384c2e556794fadb0431527306a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalVolumetricFogGraphicsAdapter
 --- !u!1001 &701980450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36590,6 +36603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1617142824}
   - component: {fileID: 1617142823}
+  - component: {fileID: 1617142825}
   m_Layer: 0
   m_Name: VolumetricFog
   m_TagString: Untagged
@@ -36619,8 +36633,8 @@ MonoBehaviour:
     volumeMask: {fileID: 0}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}
     textureTiling: {x: 1, y: 1, z: 1}
-    positiveFade: {x: 0.35714287, y: 0.5, z: 0.1}
-    negativeFade: {x: 0.35714287, y: 0.5, z: 0.1}
+    positiveFade: {x: 0.23809525, y: 0.33333334, z: 0.05}
+    negativeFade: {x: 0.23809525, y: 0.33333334, z: 0.05}
     m_EditorUniformFade: 1.5
     m_EditorPositiveFade: {x: 0.023809528, y: 0.033333328, z: 0.0066666664}
     m_EditorNegativeFade: {x: 0.023809528, y: 0.033333328, z: 0.0066666664}
@@ -36649,6 +36663,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1449466734}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1617142825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617142822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a3384c2e556794fadb0431527306a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalVolumetricFogGraphicsAdapter
 --- !u!1001 &1626283371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45614,7 +45640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5930342727512099482, guid: 4701b6e80575de944ad10ef0f964756d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 71.89499
+      value: 71.895
       objectReference: {fileID: 0}
     - target: {fileID: 5930342727512099482, guid: 4701b6e80575de944ad10ef0f964756d, type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -8,7 +8,10 @@ public class CameraGraphicsApplier : MonoBehaviour
     private void Start()
     {
         HDAdditionalCameraData hdData = GetComponent<HDAdditionalCameraData>();
-        GraphicsManager.ApplyCameraSettings(hdData);
+        if (hdData != null)
+        {
+            GraphicsManager.ApplyCameraSettings(hdData);
+        }
 
     }
 
