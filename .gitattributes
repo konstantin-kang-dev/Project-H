@@ -5,6 +5,7 @@
 *.hlsl text
 *.compute text
 *.bundle filter=lfs diff=lfs merge=lfs -text
+*.bytes filter=lfs diff=lfs merge=lfs -text
 
 # Unity text assets
 Assets/Resources/Fonts/**/*.asset filter=lfs diff=lfs merge=lfs -text
