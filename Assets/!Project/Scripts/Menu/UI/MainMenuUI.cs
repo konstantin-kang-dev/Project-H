@@ -53,7 +53,6 @@ public class MainMenuUI : BasicCustomWindow
 
     void HandleCreateLobbyButton()
     {
-        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         NetworkGameManager.Instance.CreateLobby();
     }
     void HandleJoinLobbyButton()

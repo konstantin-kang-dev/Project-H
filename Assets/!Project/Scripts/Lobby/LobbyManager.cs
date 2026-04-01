@@ -222,7 +222,10 @@ public class LobbyManager : NetworkBehaviour
 
         FirebaseManager.Instance.UpdateLobbyData(_lobbyData.Value);
     }
-
+    public bool IsLobbyFull()
+    {
+        return _lobbyData.Value.CurrentPlayers >= _lobbyData.Value.MaxPlayers;
+    }
     [Client]
     void HandleLobbyDataChanged(LobbyData prev, LobbyData next, bool asServer)
     {

@@ -28,7 +28,6 @@ public class LobbyCardUI : SerializedMonoBehaviour, IPointerEnterHandler, IPoint
 
         _btn.onClick.AddListener(() =>
         {
-            LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
             NetworkGameManager.Instance.JoinLobby(lobbyData);
         });
     }

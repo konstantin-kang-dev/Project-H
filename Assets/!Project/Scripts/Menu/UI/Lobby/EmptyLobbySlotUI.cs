@@ -18,6 +18,6 @@ public class EmptyLobbySlotUI : MonoBehaviour
 
     void HandleBtnClick() 
     {
-        NetworkGameManager.Instance.OpenInviteDialog();
+
     }
 }

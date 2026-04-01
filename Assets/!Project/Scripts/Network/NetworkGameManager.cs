@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using FishNet.Connection;
 using FishNet.Managing;
+using FishNet.Managing.Server;
 using FishNet.Object;
 using FishNet.Transporting;
 using Saves;
@@ -18,17 +19,15 @@ public class NetworkGameManager : MonoBehaviour
     NetworkObject _networkManagers;
     [SerializeField] private bool _isLocalMode = false;
 
+    private bool _isConnecting = false;
     private int _currentLobbyId;
     private bool _waitingForHost = false;
     private LobbyData _pendingLobby;
-    private CSteamID _steamLobbyId;
-
-    private CallResult<LobbyCreated_t> _lobbyCreated;
-    private Callback<GameLobbyJoinRequested_t> _lobbyJoinRequested;
 
     public event Action OnLocalClientConnected;
     public event Action<NetworkConnection> OnClientConnected;
     public event Action OnLocalClientDisconnected;
+    public event Action OnLocalClientConnectionFailed;
     public event Action<NetworkConnection> OnClientDisconnected;
     public event Action<NetworkConnection, bool> OnClientLoadedStartScene;
 
@@ -40,77 +39,10 @@ public class NetworkGameManager : MonoBehaviour
         NetworkManager.ServerManager.OnServerConnectionState += OnServerConnectionStateChange;
         NetworkManager.ClientManager.OnClientConnectionState += OnClientConnectionStateChange;
         NetworkManager.SceneManager.OnClientLoadedStartScenes += HandleOnClientLoadedStartScene;
-
-        _lobbyCreated = CallResult<LobbyCreated_t>.Create(OnSteamLobbyCreated);
-        _lobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnLobbyJoinRequested);
     }
 
     void OnDestroy() => Cleanup();
     private void OnApplicationQuit() => Cleanup();
-
-    void CreateSteamLobby()
-    {
-        var call = SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, ProjectConstants.LOBBY_MAX_PLAYERS);
-        _lobbyCreated.Set(call);
-    }
-
-    void OnSteamLobbyCreated(LobbyCreated_t result, bool failure)
-    {
-        if (failure || result.m_eResult != EResult.k_EResultOK)
-        {
-            Debug.LogError($"[NetworkGameManager] Steam lobby creation failed: {result.m_eResult}");
-            return;
-        }
-
-        _steamLobbyId = new CSteamID(result.m_ulSteamIDLobby);
-        SteamMatchmaking.SetLobbyData(_steamLobbyId, "hostSteamId", SteamUser.GetSteamID().ToString());
-        Debug.Log($"[NetworkGameManager] Steam lobby created: {_steamLobbyId}");
-    }
-
-    void OnLobbyJoinRequested(GameLobbyJoinRequested_t result)
-    {
-        CSteamID lobbyId = result.m_steamIDLobby;
-        Debug.Log($"[NetworkGameManager] Join requested via Steam invite, lobby: {lobbyId}");
-
-        SteamMatchmaking.RequestLobbyData(lobbyId);
-
-        JoinViaLobbyId(lobbyId).Forget();
-    }
-
-    async UniTaskVoid JoinViaLobbyId(CSteamID lobbyId)
-    {
-        await UniTask.WaitForSeconds(1f);
-
-        string hostSteamId = SteamMatchmaking.GetLobbyData(lobbyId, "hostSteamId");
-        if (string.IsNullOrEmpty(hostSteamId))
-        {
-            Debug.LogError("[NetworkGameManager] Failed to get hostSteamId from lobby data");
-            return;
-        }
-
-        Debug.Log($"[NetworkGameManager] Joining host: {hostSteamId}");
-        NetworkManager.TransportManager.Transport.SetClientAddress(hostSteamId);
-        NetworkManager.ClientManager.StartConnection();
-    }
-
-    public void OpenInviteDialog()
-    {
-        if (_steamLobbyId == CSteamID.Nil)
-        {
-            Debug.LogError("[NetworkGameManager] Steam lobby not created yet");
-            return;
-        }
-        SteamFriends.ActivateGameOverlayInviteDialog(_steamLobbyId);
-    }
-
-    void LeaveSteamLobby()
-    {
-        if (_steamLobbyId != CSteamID.Nil)
-        {
-            SteamMatchmaking.LeaveLobby(_steamLobbyId);
-            _steamLobbyId = CSteamID.Nil;
-        }
-    }
 
     void OnServerConnectionStateChange(ServerConnectionStateArgs args)
     {
@@ -137,6 +69,11 @@ public class NetworkGameManager : MonoBehaviour
                 OnClientDisconnected?.Invoke(conn);
                 break;
             case RemoteConnectionState.Started:
+                if (LobbyManager.Instance.IsLobbyFull())
+                {
+                    NetworkManager.ServerManager.Kick(conn.ClientId, KickReason.UnusualActivity);
+                    return;
+                }
                 OnClientConnected?.Invoke(conn);
                 break;
         }
@@ -147,9 +84,18 @@ public class NetworkGameManager : MonoBehaviour
         switch (args.ConnectionState)
         {
             case LocalConnectionState.Stopped:
+                if (_isConnecting)
+                {
+                    _isConnecting = false;
+                    LoadingManager.Instance.SetLoadingProgress(1f);
+                    PopupsManager.Instance.ShowPopup("Error while creating/joining lobby. Try again.");
+                    OnLocalClientConnectionFailed?.Invoke();
+                }
                 OnLocalClientDisconnected?.Invoke();
                 break;
             case LocalConnectionState.Started:
+                _isConnecting = false;
+                LoadingManager.Instance.SetLoadingProgress(1f);
                 OnLocalClientConnected?.Invoke();
                 break;
         }
@@ -179,13 +125,14 @@ public class NetworkGameManager : MonoBehaviour
 
         _waitingForHost = true;
 
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         NetworkManager.ServerManager.StartConnection();
 
 #if !UNITY_EDITOR
         CreateSteamLobby();
 #endif
+        await UniTask.WaitUntil(() => NetworkManager.ServerManager.Started);
 
-        await UniTask.WaitForSeconds(1.5f);
         NetworkRoomManager.Instance.SERVER_Init();
         NetworkManager.ClientManager.StartConnection();
         LobbyManager.Instance.SERVER_InitLobby(_pendingLobby);
@@ -193,12 +140,19 @@ public class NetworkGameManager : MonoBehaviour
 
     public async void JoinLobby(LobbyData lobby)
     {
+        if(lobby.CurrentPlayers >= lobby.MaxPlayers)
+        {
+            PopupsManager.Instance.ShowPopup($"Lobby is full. {lobby.CurrentPlayers}/{lobby.MaxPlayers}");
+            return;
+        }
         Debug.Log($"[NetworkGameManager] Join attempt. Host SteamID: {lobby.HostSteamId}");
 
         if (!_isLocalMode)
             NetworkManager.TransportManager.Transport.SetClientAddress(lobby.HostSteamId.ToString());
 
+        LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         await UniTask.WaitForSeconds(1.5f);
+        _isConnecting = true;
         NetworkManager.ClientManager.StartConnection();
     }
 
@@ -226,7 +180,6 @@ public class NetworkGameManager : MonoBehaviour
 
     public void StopHost()
     {
-        LeaveSteamLobby();
         NetworkManager.ClientManager.StopConnection();
         NetworkManager.ServerManager.StopConnection(true);
     }
@@ -243,7 +196,11 @@ public class NetworkGameManager : MonoBehaviour
 
         int avatarHandle = SteamFriends.GetLargeFriendAvatar(steamId);
 
-        await UniTask.WaitUntil(() => avatarHandle != -1 && avatarHandle != 0);
+        await UniTask.WaitUntil(() => {
+            int handle = SteamFriends.GetLargeFriendAvatar(steamId);
+            if (handle > 0) { avatarHandle = handle; return true; }
+            return false;
+        });
 
         SteamUtils.GetImageSize(avatarHandle, out uint width, out uint height);
         byte[] imageData = new byte[4 * width * height];
@@ -271,8 +228,6 @@ public class NetworkGameManager : MonoBehaviour
     void Cleanup()
     {
         if (NetworkManager == null) return;
-
-        LeaveSteamLobby();
 
         if (NetworkManager.ServerManager != null)
         {

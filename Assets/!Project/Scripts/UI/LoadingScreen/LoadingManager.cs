@@ -21,15 +21,7 @@ public class LoadingManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         Instance = this;
-
-        DontDestroyOnLoad(gameObject);
     }
 
     public void ShowLoading(LoadingWindowType type, string message = "")
