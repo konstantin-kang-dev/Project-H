@@ -11133,10 +11133,13 @@ MonoBehaviour:
 
     3D Assets - <color=#FFFFFFFF>Kenney, JustCreate</color>
 
-    SFX
-    - <color=#FFFFFFFF>FreeSound</color>
+    Characters
+    and Animations - <color=#FFFFFFFF>Mixamo</color>
 
-    Icons - <color=#FFFFFFFF>FlatIcon</color>
+    SFX - <color=#FFFFFFFF>FreeSound</color>
+
+    Icons
+    - <color=#FFFFFFFF>FlatIcon</color>
 
 '
   m_isRightToLeft: 0
