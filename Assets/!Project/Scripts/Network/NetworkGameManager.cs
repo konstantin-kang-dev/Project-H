@@ -20,6 +20,8 @@ public class NetworkGameManager : MonoBehaviour
     [SerializeField] private bool _isLocalMode = false;
 
     private bool _isConnecting = false;
+    private bool _isDisconnectedManually = false;
+
     private int _currentLobbyId;
     private bool _waitingForHost = false;
     private LobbyData _pendingLobby;
@@ -88,9 +90,14 @@ public class NetworkGameManager : MonoBehaviour
                 {
                     _isConnecting = false;
                     LoadingManager.Instance.SetLoadingProgress(1f);
-                    PopupsManager.Instance.ShowPopup("Error while creating/joining lobby. Try again.");
                     OnLocalClientConnectionFailed?.Invoke();
                 }
+
+                if (!_isDisconnectedManually)
+                {
+                    PopupsManager.Instance.ShowPopup("Connection lost. Try again.");
+                }
+
                 OnLocalClientDisconnected?.Invoke();
                 break;
             case LocalConnectionState.Started:
@@ -124,13 +131,11 @@ public class NetworkGameManager : MonoBehaviour
         };
 
         _waitingForHost = true;
+        _isDisconnectedManually = false;
 
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         NetworkManager.ServerManager.StartConnection();
 
-#if !UNITY_EDITOR
-        CreateSteamLobby();
-#endif
         await UniTask.WaitUntil(() => NetworkManager.ServerManager.Started);
 
         NetworkRoomManager.Instance.SERVER_Init();
@@ -152,7 +157,10 @@ public class NetworkGameManager : MonoBehaviour
 
         LoadingManager.Instance.ShowLoading(LoadingWindowType.Popup);
         await UniTask.WaitForSeconds(1.5f);
+
         _isConnecting = true;
+        _isDisconnectedManually = false;
+
         NetworkManager.ClientManager.StartConnection();
     }
 
@@ -172,6 +180,7 @@ public class NetworkGameManager : MonoBehaviour
 
     public void Disconnect()
     {
+        _isDisconnectedManually = true;
         if (NetworkManager.IsServerStarted && NetworkManager.IsClientStarted)
             StopHost();
         else if (NetworkManager.ClientManager.Started)

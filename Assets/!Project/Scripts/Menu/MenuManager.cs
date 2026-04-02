@@ -60,7 +60,10 @@ public class MenuManager : MonoBehaviour
 
     void HandleLobbyManagerReady()
     {
-        LobbyManager.Instance.OnGameStarted += HandleStartGame;
+        if(LobbyManager.Instance != null)
+        {
+            LobbyManager.Instance.OnGameStarted += HandleStartGame;
+        }
 
     }
 
@@ -77,7 +80,12 @@ public class MenuManager : MonoBehaviour
     {
         NetworkGameManager.Instance.Disconnect();
         WindowsNavigator.Instance.OpenWindow(CustomWindowType.MainMenu);
-        LobbyManager.Instance.OnGameStarted -= HandleStartGame;
+
+        if (LobbyManager.Instance != null)
+        {
+            LobbyManager.Instance.OnGameStarted -= HandleStartGame;
+        }
+
         Debug.Log($"[MenuManager] Quit lobby");
     }
 
