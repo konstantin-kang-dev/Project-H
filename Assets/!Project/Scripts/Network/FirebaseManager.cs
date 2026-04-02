@@ -61,15 +61,15 @@ public class FirebaseManager : MonoBehaviour
         var lobbyRef = _database.Child("lobbies").Child(lobby.LobbyId.ToString());
 
         var lobbyDict = new Dictionary<string, object>
-    {
-        { "lobbyId", lobby.LobbyId },
-        { "maxPlayers", lobby.MaxPlayers },
-        { "currentPlayers", lobby.CurrentPlayers },
-        { "chosenDifficulty", (int)lobby.ChosenDifficulty },
-        { "hostName", lobby.HostName },
-        { "steamId", steamId },
-        { "timestamp", ServerValue.Timestamp }
-    };
+        {
+            { "lobbyId", lobby.LobbyId },
+            { "maxPlayers", lobby.MaxPlayers },
+            { "currentPlayers", lobby.CurrentPlayers },
+            { "chosenDifficulty", (int)lobby.ChosenDifficulty },
+            { "hostName", lobby.HostName },
+            { "steamId", steamId },
+            { "timestamp", ServerValue.Timestamp }
+        };
 
         lobbyRef.OnDisconnect().RemoveValue().ContinueWithOnMainThread(_ =>
         {
@@ -82,6 +82,7 @@ public class FirebaseManager : MonoBehaviour
                 }
             });
         });
+
     }
 
     public void LoadLobbies(Action<List<LobbyData>> callback)
