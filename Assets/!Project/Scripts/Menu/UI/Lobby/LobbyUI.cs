@@ -93,7 +93,7 @@ public class LobbyUI : BasicCustomWindow
     }
     void HandleLobbyStartBtn()
     {
-        LobbyManager.Instance.RPC_RequestStartGame();
+        LobbyManager.Instance.SERVER_StartGame();
     }
 
     public void SetStartBtnInteractable(bool interactable)
