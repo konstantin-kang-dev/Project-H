@@ -73,6 +73,8 @@ public class FirebaseManager : MonoBehaviour
 
         lobbyRef.OnDisconnect().RemoveValue().ContinueWithOnMainThread(_ =>
         {
+            Debug.Log($"[FirebaseManager] OnDisconnect registered: {_.IsCompleted}, error: {_.Exception}");
+
             lobbyRef.SetValueAsync(lobbyDict).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
@@ -151,8 +153,6 @@ public class FirebaseManager : MonoBehaviour
 
     public void RemoveLobby(int lobbyId)
     {
-        if (!_isInitialized) return;
-
         var lobbyRef = _database.Child("lobbies").Child(lobbyId.ToString());
         lobbyRef.OnDisconnect().Cancel();
         lobbyRef.RemoveValueAsync();

@@ -83,6 +83,7 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnStopServer();
 
+        SERVER_CloseLobby();
         NetworkGameManager.Instance.OnClientConnected -= SERVER_HandleClientConnected;
         NetworkGameManager.Instance.OnClientDisconnected -= SERVER_HandleClientDisconnected;
     }
@@ -186,16 +187,17 @@ public class LobbyManager : NetworkBehaviour
         FirebaseManager.Instance.UpdateLobbyData(_lobbyData.Value);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void RPC_RequestStartGame()
+    [Server]
+    public void SERVER_StartGame()
     {
         Debug.Log($"[LobbyManager] Started game.");
-        CLIENTS_HandleStartGame();
+        SERVER_CloseLobby();
+        RPC_HandleStartGame();
         NetworkRoomManager.Instance.SERVER_LoadGameScene(1);
     }
 
     [ObserversRpc]
-    public void CLIENTS_HandleStartGame()
+    public void RPC_HandleStartGame()
     {
         GlobalAudioManager.Instance.Stop(SoundType.MenuAmbient);
 
