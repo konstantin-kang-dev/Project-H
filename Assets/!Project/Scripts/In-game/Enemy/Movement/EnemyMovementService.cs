@@ -58,7 +58,7 @@ public class EnemyMovementService : MonoBehaviour
         {
             OnFollowingPlayer?.Invoke(_targetPlayer);
 
-            if (_navMeshAgent.remainingDistance <= 1f)
+            if (_navMeshAgent.remainingDistance <= 1.5f)
             {
                 OnReachedPlayer?.Invoke(_targetPlayer);
             }
