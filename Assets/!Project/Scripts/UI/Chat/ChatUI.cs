@@ -5,6 +5,7 @@ using Sirenix.Utilities;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -95,13 +96,17 @@ public class ChatUI : MonoBehaviour
         HandleOpenChat();
     }
 
-    void HandleChatInputSend(string input)
+    async void HandleChatInputSend(string input)
     {
         if (input.IsEmpty() || input.IsNullOrWhitespace()) return;
 
         ChatManager.Instance.RPC_RequestSendMessage(input, ChatMessageType.PlayerMessage, NetworkGameManager.Instance.NetworkManager.ClientManager.Connection);
         _chatInput.text = "";
-        _chatInput.Select();
+
+        await UniTask.WaitForEndOfFrame();
+
+        _chatInput.DeactivateInputField();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     void HandleInputSelect(string input)

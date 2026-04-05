@@ -448,7 +448,11 @@ MonoBehaviour:
   - Assets/LowPolyInterior/Models/Floor/Floor_01.fbx
   - Assets/!Project/Third-party-assets/Prototype Kit/Models/FBX format/ladder.fbx
   - Assets/!Project/Models/Items/OilLamp/Oil Lamp.fbx
-  uvOverlapAssetList: 00000000ffffffff000000000000000001010000
+  - Assets/!Project/Models/Others/Untitled.fbx
+  - Assets/!Project/Models/Others/Text.fbx
+  - Assets/!Project/Models/Others/Daylight Dread Text.fbx
+  - Assets/!Project/Models/Others/boy.fbx
+  uvOverlapAssetList: 00000000ffffffff00000000000000000101000000000000000000000000000000000000
   xatlasWarningShown: 0
   foundCompatibleSetup: 1
   gpuName_2: NVIDIA GeForce RTX 4070 Ti
