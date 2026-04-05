@@ -23,5 +23,5 @@ MonoBehaviour:
     SerializationNodes: []
   MoveSpeed: 1.9
   SprintSpeed: 2.8
-  BlindFollowDuration: 6
+  BlindFollowDuration: 8
   RequiredPointsToAggro: 12

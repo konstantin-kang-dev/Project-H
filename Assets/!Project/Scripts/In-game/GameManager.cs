@@ -199,7 +199,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
-    public void HandlePlayerKnockedDown(Player player)
+    public async void HandlePlayerKnockedDown(Player player)
     {
         bool isAllKnockedDown = true;
 
@@ -212,6 +212,8 @@ public class GameManager : NetworkBehaviour
                 break;
             }
         }
+
+        await UniTask.WaitForSeconds(2f);
 
         if (isAllKnockedDown) SERVER_EndGame(false);
     }
