@@ -59,7 +59,6 @@ MonoBehaviour:
   _enemyInteractionServicePrefab: {fileID: 2751377866791040245, guid: 673ba7b7b6b5d5d4888a31434c9ac8af, type: 3}
   _characterAudioService: {fileID: 1057712194597855950}
   _enemyDetectionHandlerInterval: 10
-  _currentState: -1
 --- !u!195 &875226639419031044
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -366,7 +365,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 24881635946700408, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: MaxDistance
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2763280993705852396, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: '_audioList.Array.data[0]'
@@ -422,7 +421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6184102425460898414, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: _cameraShakePower
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6184102425460898414, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: _audioList.Array.size
@@ -444,9 +443,13 @@ PrefabInstance:
       propertyPath: '_audioList.Array.data[3]'
       value: 
       objectReference: {fileID: 8300000, guid: b4e4aaad9b665fe41be127bae9c1e936, type: 3}
+    - target: {fileID: 6225433208570412694, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
+      propertyPath: MaxDistance
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7298169171961217357, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: m_Volume
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7802427059282665570, guid: 186b9eec949d2cf4fa70ce20fa42c9d2, type: 3}
       propertyPath: _audioList.Array.size

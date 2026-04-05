@@ -117,11 +117,12 @@ public class EnemyController : NetworkBehaviour
             case EnemyState.None:
                 break;
             case EnemyState.Idle:
-                _characterAudioService.Play(CharacterAudioType.HeavyBreath);
-
                 break;
             case EnemyState.Stranding:
-                _characterAudioService.Play(CharacterAudioType.HeavyBreath);
+                if(_characterAudioService.CurrentAudioPlaying != CharacterAudioType.HeavyBreath)
+                {
+                    _characterAudioService.Play(CharacterAudioType.HeavyBreath);
+                }
 
                 break;
             case EnemyState.Following:
