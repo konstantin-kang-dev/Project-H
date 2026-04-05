@@ -101,7 +101,6 @@ GameObject:
   - component: {fileID: 1004623529667080531}
   - component: {fileID: 3777348999397856040}
   - component: {fileID: 2835129044729284803}
-  - component: {fileID: 6035661651832447284}
   m_Layer: 0
   m_Name: Bush_02_LOD0
   m_TagString: Untagged
@@ -181,27 +180,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6035661651832447284
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2734492028559244920}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.30420214
-  m_Center: {x: -0.003984183, y: 0.23171104, z: -0.0059119463}
 --- !u!1 &6239969156481229051
 GameObject:
   m_ObjectHideFlags: 0
