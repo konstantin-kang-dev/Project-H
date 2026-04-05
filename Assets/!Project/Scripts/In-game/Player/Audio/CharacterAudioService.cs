@@ -33,14 +33,16 @@ public class CharacterAudioService : NetworkBehaviour
 {
     [SerializeField] List<CharacterSound> _audios = new List<CharacterSound>();
 
+    public CharacterAudioType CurrentAudioPlaying {  get; private set; }
     public void Play(CharacterAudioType audioType, bool isNetworked = false)
     {
         CharacterSound characterSound = _audios.FirstOrDefault((x)=> x.Type == audioType);
         if (characterSound == null) throw new Exception($"[CharacterAudioService] Audio with type: {audioType} not found in audios list.");
 
         characterSound.Audio.Play();
+        CurrentAudioPlaying = audioType;
 
-        if(isNetworked)
+        if (isNetworked)
         {
             RPC_RequestPlaySound(characterSound.Type);
         }
