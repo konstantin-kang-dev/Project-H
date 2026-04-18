@@ -23,10 +23,6 @@ Daylight Dread is a co-op horror game for 1–4 players. You're trapped in a mas
 ## Once it sees you — run.
 -----------------------------------------------------------
 
-![Gif5](GitHubAssets/friend-slop.gif)
-## Your friends might not be as helpful as you hoped.
------------------------------------------------------------
-
 Features:
 
 - 1–4 player co-op
