@@ -11,6 +11,12 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
+/Assets/BakeryLightmaps/*.hdr
+/Assets/BakeryLightmaps/*.bin
+/Assets/BakeryLightmaps/L0/
+/Assets/BakeryLightmaps/L1/
+/Assets/BakeryLightmaps/L2/
+/Assets/BakeryLightmaps/L3/
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1

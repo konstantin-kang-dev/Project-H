@@ -10,10 +10,8 @@
   <Project Path="GameKit.Dependencies.csproj" />
   <Project Path="Zenject-IntegrationTests.csproj" />
   <Project Path="BakeryEditorAssembly.csproj" />
-  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
   <Project Path="Unity.FishNet.Codegen.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
-  <Project Path="FishNet.Demos.csproj" />
   <Project Path="Zenject-TestFramework.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Zenject-PoolMonitor-Editor.csproj" />

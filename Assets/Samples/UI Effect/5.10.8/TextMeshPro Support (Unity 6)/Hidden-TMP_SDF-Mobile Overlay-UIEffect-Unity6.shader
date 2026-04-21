@@ -110,7 +110,7 @@ SubShader {
 
 		#include "UnityCG.cginc"
 		#include "UnityUI.cginc"
-		#include "Assets/Free Slash VFX/Demo/TextMesh Pro/Shaders/TMPro_Properties.cginc"
+		#include "Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc"
 
 		struct vertex_t
 		{
